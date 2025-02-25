@@ -17,10 +17,11 @@ function init() {
 
     registerComponents();
 
-    pageManager.registerPage('index', new IndexPage(), '/');
-    pageManager.registerPage('register', new RegisterPage(), '/register');
+    pageManager.registerPage('index', new IndexPage());
+    pageManager.registerPage('register', new RegisterPage());
 
-    pageManager.renderPageByUrl();
+    window.addEventListener('popstate', () => pageManager.navigateToPageByCurrentURL());
+    pageManager.navigateToPageByCurrentURL();
 }
 
 if (document.readyState === 'loading') {

@@ -7,12 +7,12 @@ import template from "./index.precompiled.js";
 export default class IndexPage extends Page {
 
     _switchButtonHandler() {
-        pageManager.renderPage('register');
+        pageManager.navigateTo('register');
     }
 
     _switchButton = null;
 
-    render(root) {
+    render(root, path) {
         root.innerHTML = template();
         this._switchButton = document.getElementById('switchButton');
         this._switchButton.addEventListener('click', () => this._switchButtonHandler());
