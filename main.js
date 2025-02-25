@@ -1,21 +1,20 @@
-/*
-    Точка входа программы.
-    Инициализация сервера, подключение маршрутизатора и статических файлов.
-*/
-
-'use strict';
-
 import express from 'express';
-import {router} from './router.js';
-import {getAbsolutePathForDir} from "./util/pathUtil.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
-const SERVER_PORT = 3000;
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', router);
-app.use(express.static(getAbsolutePathForDir('public')));
+// Отдаём index.html для всех маршрутов
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-app.listen(SERVER_PORT, () => {
-  console.log(`Server is running on port ${SERVER_PORT}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
