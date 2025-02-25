@@ -5,7 +5,7 @@
 
 'use strict';
 
-import {PageManager} from "./managers/PageManager.js";
+import { PageManager } from "./managers/PageManager.js";
 import IndexPage from "./pages/index/index.js";
 import RegisterPage from "./pages/register/register.js";
 import registerComponents from "./util/ComponentUtil.js";
@@ -20,8 +20,10 @@ function init() {
     pageManager.registerPage('index', new IndexPage());
     pageManager.registerPage('register', new RegisterPage());
 
-    pageManager.renderPage('index')
+    window.addEventListener('popstate', () => pageManager.navigateToPageByCurrentURL());
+    pageManager.navigateToPageByCurrentURL();
 }
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {
