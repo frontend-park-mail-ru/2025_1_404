@@ -12,13 +12,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
+    height: 5em;
 }
 
 .header__logo {
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+    gap: 1em;
 }
 
 .header__logo-href {
@@ -28,7 +28,7 @@
 }
 
 .header__title {
-    font-size: 28px;
+    font-size: 1.75em;
     font-weight: 500;
     align-content: center;
 }
@@ -37,14 +37,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    gap: 1em;
 }
 
 .header__icons {
-    height: 30px;
+    height: 2em;
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+    gap: 1em;
 }
 
 .header__icons a {
@@ -61,7 +61,7 @@
 .header__auth {
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+    gap: 1em;
 }
 
 /**************************************************************/
@@ -69,7 +69,7 @@
 /**************************************************************/
 
 .primary-btn {
-    padding: 5px 10px;
+    padding: 0.325em 0.625em;
     background-color: var(--bluish);
     color: var(--darker-blue);
 }
@@ -84,8 +84,8 @@
 /**************************************************************/
 
 .select-button select {
-    padding: 12px 35px;
-    height: 40px;
+    padding: 0.75em 2.2em;
+    height: 3em;
     border-radius: 7px;
 }
 
@@ -98,25 +98,25 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    height: 280px;
+    height: 18em;
     width: 100%;
-    margin-top: 70px;
-    padding: 56px 0;
+    margin-top: 4.375em;
+    padding: 3.5em 0;
 }
 
 .filter__title {
-    font-size: 38px;
+    font-size: 2.4em;
     font-weight: 700;
     color: var(--white);
     filter: drop-shadow(5px 5px 4px rgba(0, 0, 0, 0.5));
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
 }
 
 .filter__settings {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
     display: flex;
     justify-content: flex-start;
-    gap: 20px;
+    gap: 1.25em;
 }
 
 .radio-button {
@@ -125,7 +125,7 @@
     background-color: var(--white);
     z-index: 5;
     border-radius: 7px;
-    width: 300px;
+    width: 18.75em;
 }
 
 .radio-button input {
@@ -169,8 +169,8 @@
 }
 
 .filter__submit {
-    padding: 12px 35px;
-    font-size: 16px;
+    padding: 0.75em 2.2em;
+    font-size: 1em;
     border-radius: 8px;
 }
 
@@ -179,19 +179,19 @@
 /**************************************************************/
 
 .cards {
-    margin-bottom: 50px;
+    margin-bottom: 3.125rem;
 }
 
 .cards__title {
-    font-size: 28px;
+    font-size: 1.75em;
     font-weight: 700;
-    margin: 25px 0;
+    margin: 1.563rem 0;
 }
 
 .cards__list {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 1.25em;
     flex-wrap: wrap;
 }
 
@@ -239,7 +239,7 @@
 .card__photo {
     position: relative;
     height: 0;
-    padding-bottom: 62.181818%;
+    padding-bottom: 75%;
     background-color: #fff;
     border-radius: 8px 8px 0 0;
 }
@@ -256,20 +256,20 @@
 }
 
 .card__content {
-    padding: 15px;
+    padding: 1em;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0.35em;
 }
 
 .card__price {
-    font-size: 22px;
+    font-size: 1.375em;
     font-weight: 700;
 }
 
 .card__info ul {
     display: flex;
-    gap: 5px;
+    gap: 0.35em;
 }
 
 .card__address {
