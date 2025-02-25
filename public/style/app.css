@@ -1,11 +1,50 @@
-html, body {
-    width: 100%;
-    font-family: Calibri, serif;
-    font-size: 18px;
-    padding: 2px 5px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+
+:root{
+    --blue: #0468FF;
+    --grey: #737A8E;
+    --white: #FFFFFF;
+    --black-text: #152242;
+    --bluish: #E6F0FF;
+    --darker-blue: #0661EC;
+    --light-grey: #C9D1E5;
+    --milk: #FFE9EB;
+    --black: #131313;
+    --red: #D1152C;
 }
 
-#root {
-    display: flex;
-    justify-content: center;
+*, *::after, *::before {
+    box-sizing: border-box;
+    outline: none; border: none;
+    text-decoration: none;
+    transition: .2s linear;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0; padding: 0;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--black-text);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 125px;
 }

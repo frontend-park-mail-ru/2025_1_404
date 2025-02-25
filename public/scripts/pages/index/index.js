@@ -16,6 +16,7 @@ export default class IndexPage extends Page {
         root.innerHTML = template();
         this._switchButton = document.getElementById('switchButton');
         this._switchButton.addEventListener('click', () => this._switchButtonHandler());
+
     }
 
     destroy() {
