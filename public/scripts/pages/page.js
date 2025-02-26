@@ -1,10 +1,21 @@
 'use strict';
 
-// Базовый класс для всех страниц
+/**
+ * @class Page
+ * @description Базовый класс страницы
+ */
 export default class Page {
-    // Рендер содержимого страницы
-    render() {}
+    /**
+     * @method render
+     * @description Метод, который вызывается при рендере страницы.
+     * @param root
+     * @param path
+     */
+    render(root, path={}) {}
 
-    // Своего рода деструктор. Щас используется для очистки event listener-ов
+    /**
+     * @method destroy
+     * @description Метод, который вызывается при уничтожении страницы.
+     */
     destroy() {}
 }

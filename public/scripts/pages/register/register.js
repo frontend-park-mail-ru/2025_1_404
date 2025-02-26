@@ -3,15 +3,25 @@
 import Page from '../page.js';
 import template from './register.precompiled.js';
 
-// Страница регистрации
+/**
+ * @class RegisterPage
+ * @description Страница регистрации
+ * @extends Page
+ */
 export default class RegisterPage extends Page {
+
+    /**
+     * @method _switchButtonHandler
+     * @description Обработчик события перехода на главную страницу
+     * @private
+     */
     _switchButtonHandler() {
-        pageManager.renderPage('index');
+        routeManager.navigateTo('/');
     }
 
     _switchButton = null;
 
-    render(root) {
+    render(root, path) {
         root.innerHTML = template();
         this._switchButton = document.getElementById('switchButton');
         this._switchButton.addEventListener('click', () => this._switchButtonHandler(event));

@@ -3,11 +3,19 @@
 import Page from '../page.js';
 import template from "./index.precompiled.js";
 
-// Главная страница
+/**
+ * @class IndexPage
+ * @description Страница входа
+ * @extends Page
+ */
 export default class IndexPage extends Page {
-
+    /**
+     * @method _registerButtonHandler
+     * @description Обработчик события перехода на страницу регистрации
+     * @private
+     */
     _registerButtonHandler() {
-        pageManager.renderPage('register');
+        routeManager.navigateTo('/register');
     }
 
     _loginButtonHandler() {
@@ -24,7 +32,7 @@ export default class IndexPage extends Page {
     _loginButton = null;
     _loginCloseButton = null;
 
-    render(root) {
+    render(root, path) {
         root.innerHTML = template();
         this._registerButton = document.getElementById('registerButton');
         this._registerButton.addEventListener('click', () => this._registerButtonHandler());
