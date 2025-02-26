@@ -13,6 +13,10 @@ import {fileURLToPath} from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * @description Компиляция всех hbs файлов в директории
+ * @param dir
+ */
 function compile(dir) {
     for (let file of fs.readdirSync(dir)) {
         const filePath = path.join(dir, file);
