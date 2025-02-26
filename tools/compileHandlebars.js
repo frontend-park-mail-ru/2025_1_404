@@ -1,15 +1,17 @@
-/*
-    Сборщик handlebars темплейтов.
-    Использование: npm run compile (также автоматически запускается при npm start)
-*/
-
 'use strict';
 
 import fs from 'fs';
 import path from 'path';
 import Handlebars from 'handlebars';
-import {getAbsolutePathForDir} from "../util/pathUtil.js";
+import {fileURLToPath} from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/**
+ * @description Компиляция всех hbs файлов в директории
+ * @param dir
+ */
 function compile(dir) {
     for (let file of fs.readdirSync(dir)) {
         const filePath = path.join(dir, file);
@@ -29,6 +31,6 @@ function compile(dir) {
     }
 }
 
-const dir = getAbsolutePathForDir('');
-compile(path.join(dir, 'public/scripts/pages'));
-compile(path.join(dir, 'public/scripts/components'));
+const rootDir = path.dirname(__dirname);
+compile(path.join(rootDir, 'public', 'scripts', 'pages'));
+compile(path.join(rootDir, 'public', 'scripts', 'components'));

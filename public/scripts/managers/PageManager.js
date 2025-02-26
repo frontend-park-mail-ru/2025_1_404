@@ -1,54 +1,51 @@
-/*
-    Менеджер страниц.
-    Отвечает за регистрацию страниц, хранение их в памяти и отображение на экране + уничтожение предыдущей страницы.
-*/
-
 'use strict';
 
+/**
+ * @class PageManager
+ * @description Класс для управления страницами
+ */
 export class PageManager {
+    /**
+     * @constructor
+     * @description Конструктор класса
+     */
     constructor() {
         this.pages = {};
         this.activePage = null;
     }
 
+    /**
+     * @method registerPage
+     * @description Регистрация страницы
+     * @param pageName
+     * @param page
+     */
     registerPage(pageName, page) {
         this.pages[pageName] = page;
     }
 
+    /**
+     * @method getPage
+     * @description Получение страницы по имени
+     * @param pageName
+     * @returns {Page}
+     */
     getPage(pageName) {
         return this.pages[pageName];
     }
 
-    renderPage(pageName, path={}) {
+    /**
+     * @method renderPage
+     * @description Рендер страницы
+     * @param pageName
+     * @param props
+     */
+    renderPage(pageName, props={}) {
         if (this.activePage) {
             this.activePage.destroy();
         }
 
         this.activePage = this.pages[pageName];
-        this.activePage.render(window.root, path);
-    }
-
-    navigateTo(pathStr) {
-        // Это конечно треш, в идеале сделать эти проверки на index адекватными.
-        if (pathStr === 'index')
-            pathStr = '/';
-        let path = pathStr.split('/').slice(1);
-        if (path.length === 0)
-            path = [pathStr];
-        let route = path[0];
-        if (route === '')
-            route = 'index';
-        path = path.slice(1);
-        if (this.pages[route]) {
-            history.pushState(null, null, pathStr);
-            this.renderPage(route, path);
-        } else {
-            this.renderPage('404'); // TODO: Сделать страницу 404
-        }
-    }
-
-    navigateToPageByCurrentURL() {
-        const path = window.location.pathname;
-        this.navigateTo(path);
+        this.activePage.render(window.root, props);
     }
 }

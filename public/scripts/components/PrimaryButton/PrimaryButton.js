@@ -1,7 +1,13 @@
+'use strict';
+
 import BaseComponent from "../BaseComponent.js";
 import template from './PrimaryButton.precompiled.js';
 
-// Компонент тестовой кнопки
+/**
+ * @class PrimaryButton
+ * @description Компонент кнопки.
+ * @extends BaseComponent
+ */
 export default class PrimaryButton extends BaseComponent {
     render() {
         return template();
