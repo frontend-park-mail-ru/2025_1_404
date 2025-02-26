@@ -1,0 +1,9 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 25%;
+    justify-content: center;
+    text-align: center;
+    background-color: cyan;
+}

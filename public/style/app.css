@@ -1,0 +1,11 @@
+html, body {
+    width: 100%;
+    font-family: Calibri, serif;
+    font-size: 18px;
+    padding: 2px 5px;
+}
+
+#root {
+    display: flex;
+    justify-content: center;
+}
