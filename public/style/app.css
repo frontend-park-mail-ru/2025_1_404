@@ -307,16 +307,12 @@ button {
     padding: 3.125em;
     background-color: var(--white);
     border-radius: 5px;
-    transition: top 0ms ease-in-out 200ms,
-                transform 200ms ease-in-out 0ms;
 }
 
 .login.active {
     top: 50%;
     display: block;
     transform: translate(-50%, -50%) scale(1);
-    transition: top 0ms ease-in-out 0ms,
-                transform 200ms ease-in-out 0ms;
 }
 
 .login__close {
