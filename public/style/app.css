@@ -82,7 +82,7 @@ button {
     background-color: var(--white);
     position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .header__inner {
@@ -161,6 +161,7 @@ button {
     padding: 0.75em 2.2em;
     height: 3em;
     border-radius: 7px;
+    background-color: var(--white);
 }
 
 /**************************************************************/
@@ -274,4 +275,86 @@ button {
 
 .input input:focus {
     border-color: var(--darker-blue);
+}
+
+/**************************************************************/
+/* Login */
+/**************************************************************/
+
+.overlay {
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.login {
+    z-index: 1001;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: none;
+    transform: translate(-50%, -50%) scale(1.25);
+    width: 22.5em;
+    padding: 3.125em;
+    background-color: var(--white);
+    border-radius: 5px;
+    transition: top 0ms ease-in-out 200ms,
+                transform 200ms ease-in-out 0ms;
+}
+
+.login.active {
+    top: 50%;
+    display: block;
+    transform: translate(-50%, -50%) scale(1);
+    transition: top 0ms ease-in-out 0ms,
+                transform 200ms ease-in-out 0ms;
+}
+
+.login__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.login__title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.375em;
+}
+
+.login__inner, .login__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.login__form {
+    width: 100%;
+}
+
+.login__logo-img {
+    height: 80px;
+    width: 80px;
+}
+
+.login__submit, .register__href {
+    width: 100%;
+    padding: 0.8em;
+    border-radius: 8px;
+    font-weight: 500;
 }
