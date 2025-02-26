@@ -1,12 +1,7 @@
 <header class="header">
     <div class="container">
         <div class="header__inner">
-            <div class="header__logo">
-                <a class="header__logo-href" href="/">
-                    <img class="header__logo-img" src="../../../resources/img/header/logo.svg" alt="" >
-                </a>
-                <h3 class="header__title">квартирум</h3>
-            </div>
+            {{> Logo }}
             <div class="header__right">
                 <div class="header__icons">
                     <a class="header__favour-href" href="/">
@@ -17,8 +12,8 @@
                     </a>
                 </div>
                 <div class="header__auth">
-                    {{> PrimaryButton name="Регистрация" id="registerButton"}}
-                    {{> PrimaryButton name="Войти" id="loginButton"}}
+                    {{> LightButton name="Регистрация" id="registerButton"}}
+                    {{> LightButton name="Войти" id="loginButton"}}
                 </div>
             </div>
         </div>

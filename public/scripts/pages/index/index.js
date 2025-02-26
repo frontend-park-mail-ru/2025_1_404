@@ -6,16 +6,16 @@ import template from "./index.precompiled.js";
 // Главная страница
 export default class IndexPage extends Page {
 
-    _switchButtonHandler() {
+    _registerButtonHandler() {
         pageManager.renderPage('register');
     }
 
-    _switchButton = null;
+    _registerButton = null;
 
     render(root) {
         root.innerHTML = template();
-        this._switchButton = document.getElementById('switchButton');
-        this._switchButton.addEventListener('click', () => this._switchButtonHandler());
+        this._registerButton = document.getElementById('registerButton');
+        this._registerButton.addEventListener('click', () => this._registerButtonHandler());
 
     }
 
