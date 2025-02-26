@@ -1,8 +1,3 @@
-/*
-    Сборщик handlebars темплейтов.
-    Использование: npm run compile (также автоматически запускается при npm start)
-*/
-
 'use strict';
 
 import fs from 'fs';

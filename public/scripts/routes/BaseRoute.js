@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @class BaseRoute
  * @description Базовый класс маршрута.

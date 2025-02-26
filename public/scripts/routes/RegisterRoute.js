@@ -1,3 +1,5 @@
+'use strict';
+
 import BaseRoute from "./BaseRoute.js";
 
 /**

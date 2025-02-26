@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @class BaseComponent
  * @description Базовый класс компонента.

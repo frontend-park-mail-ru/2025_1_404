@@ -1,3 +1,5 @@
+'use strict';
+
 import BaseComponent from "../BaseComponent.js";
 import template from './PrimaryButton.precompiled.js';
 
