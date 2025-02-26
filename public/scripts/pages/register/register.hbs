@@ -1,5 +1,34 @@
 <link rel="stylesheet" href="/style/pages/register.css">
-<div class="main">
-    <span>А это страница регистрации</span>
-    {{> PrimaryButton name="На главную!" id="switchButton"}}
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            {{> Logo }}
+        </div>
+    </div>
+</header>
+<div class="register">
+    <div class="container">
+        <div class="register__inner">
+            <h2 class="register__title">
+                Регистрация
+            </h2>
+            <form class="register__form" method="post" enctype="multipart/form-data" novalidate>
+                <div class="register__nickname">
+                    {{> Input id="nameInput" type="text" name="name" placeholder="Имя"}}
+                    {{> Input id="surnameInput" type="text" name="surname" placeholder="Фамилия"}}
+                </div>
+                {{> Input id="emailInput" type="email" name="email" placeholder="Email"}}
+                {{> Input id="passwordInput" type="password" name="password" placeholder="Пароль"}}
+                {{> Input id="confirmPasswordInput" type="password" name="confirmPassword" placeholder="Подтвердите пароль"}}
+
+                <div class="register__already">
+                    <a href="/">У вас уже есть профиль?</a>
+                </div>
+                {{> PrimaryButton name="Зарегистрироваться" class="register__submit" id="registerSubmitButton"}}
+            </form>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <img class="right-img" src="../../../resources/img/register/right.jpg" alt="">
 </div>

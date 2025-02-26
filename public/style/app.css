@@ -1,11 +1,356 @@
-html, body {
-    width: 100%;
-    font-family: Calibri, serif;
-    font-size: 18px;
-    padding: 2px 5px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+
+:root{
+    --blue: #0468FF;
+    --grey: #737A8E;
+    --white: #FFFFFF;
+    --black-text: #152242;
+    --bluish: #E6F0FF;
+    --darker-blue: #0661EC;
+    --light-grey: #C9D1E5;
+    --milk: #FFE9EB;
+    --black: #131313;
+    --red: #D1152C;
 }
 
-#root {
+*, *::after, *::before {
+    box-sizing: border-box;
+    outline: none; border: none;
+    text-decoration: none;
+    transition: .2s linear;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0; padding: 0;
+    font-weight: 400;
+    font-size: 1em;
+    color: var(--black-text);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+input {
+    outline: none;
+}
+
+button {
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 125px;
+}
+
+/**************************************************************/
+/* Logo */
+/**************************************************************/
+
+.logo {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.logo-href {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo__title {
+    font-size: 1.75em;
+    font-weight: 500;
+    align-content: center;
+}
+
+/**************************************************************/
+/* Header */
+/**************************************************************/
+.header {
+    background-color: var(--white);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4.375em;
+}
+
+.header__right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+.header__icons {
+    height: 2em;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.header__icons a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header__icons img {
+    width: 20px;
+    height: 20px;
+}
+
+.header__auth {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+/**************************************************************/
+/* PrimaryButton */
+/**************************************************************/
+
+.primary-btn {
+    padding: 0.325em 0.625em;
+    background-color: var(--darker-blue);
+    color: var(--bluish);
+}
+
+.primary-btn:hover {
+    background-color: var(--bluish);
+    color: var(--darker-blue);
+}
+
+/**************************************************************/
+/* LightButton */
+/**************************************************************/
+
+.light-btn {
+    padding: 0.325em 0.625em;
+    background-color: var(--bluish);
+    color: var(--darker-blue);
+}
+
+.light-btn:hover {
+    background-color: var(--darker-blue);
+    color: var(--bluish);
+}
+
+/**************************************************************/
+/* SelectButton */
+/**************************************************************/
+
+.select-button select {
+    padding: 0.75em 2.2em;
+    height: 3em;
+    border-radius: 7px;
+    background-color: var(--white);
+}
+
+/**************************************************************/
+/* Card */
+/**************************************************************/
+
+.card {
+    width: calc(100% / 4 - 20px);
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    border: 3px var(--bluish) solid;
+    position: relative;
+}
+
+.card:hover {
+    border: 3px solid var(--darker-blue);
+}
+
+.card__favor {
+
+}
+
+.card__favor {
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    right: 8px;
+    top: 8px;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.card__favor:hover {
+    background-color: rgba(209, 21, 44, 1);
+}
+
+.card__favor img {
+    color: var(--white);
+    height: 22px;
+    width: 22px;
+}
+
+.card__photo {
+    position: relative;
+    height: 0;
+    padding-bottom: 75%;
+    background-color: #fff;
+    border-radius: 8px 8px 0 0;
+}
+
+.card__photo-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card__content {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+}
+
+.card__price {
+    font-size: 1.375em;
+    font-weight: 700;
+}
+
+.card__info ul {
+    display: flex;
+    gap: 0.35em;
+}
+
+.card__address {
+    color: var(--grey);
+}
+
+/**************************************************************/
+/* Input */
+/**************************************************************/
+
+.input {
+    width: 100%;
+}
+
+.input input {
+    width: 100%;
+    color: var(--black-text);
+    font-size: 1em;
+    height: 2.5em;
+    padding: 1em 0.625em;
+    border: 1px solid var(--light-grey);
+    border-radius: 5px;
+    transition: border-color 0.5s ease;
+}
+
+.input input::placeholder {
+    color: var(--grey);
+    font-weight: 500;
+}
+
+.input input:focus {
+    border-color: var(--darker-blue);
+}
+
+/**************************************************************/
+/* Login */
+/**************************************************************/
+
+.overlay {
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.login {
+    z-index: 1001;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: none;
+    transform: translate(-50%, -50%) scale(1.25);
+    width: 22.5em;
+    padding: 3.125em;
+    background-color: var(--white);
+    border-radius: 5px;
+}
+
+.login.active {
+    top: 50%;
+    display: block;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.login__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.login__title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.375em;
+}
+
+.login__inner, .login__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.login__form {
+    width: 100%;
+}
+
+.login__logo-img {
+    height: 80px;
+    width: 80px;
+}
+
+.login__submit, .register__href {
+    width: 100%;
+    padding: 0.8em;
+    border-radius: 8px;
+    font-weight: 500;
 }

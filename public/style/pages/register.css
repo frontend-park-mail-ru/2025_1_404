@@ -1,9 +1,56 @@
-.main {
+/**************************************************************/
+/* Register */
+/**************************************************************/
+
+.register {
+    margin-top: 4.375rem;
+}
+
+.register__inner {
+    padding-top: 5em;
+}
+
+.register__title {
+    font-size: 1.75em;;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+}
+
+.register__form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 25%;
+    align-items: start;
     justify-content: center;
-    text-align: center;
-    background-color: cyan;
+    gap: 1.25em;
+}
+
+.register__nickname {
+    width: 100%;
+    display: flex;
+    gap: 1em;
+}
+
+.register__form {
+    max-width: 30%;
+}
+
+.register__submit {
+    width: 100%;
+    font-size: 1em;
+    border-radius: 8px;
+    padding: 0.75em 0;
+}
+
+/**************************************************************/
+/* Right */
+/**************************************************************/
+
+.right-img {
+    z-index: 1001;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 35vw;
 }

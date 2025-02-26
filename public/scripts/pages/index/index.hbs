@@ -1,5 +1,98 @@
 <link rel="stylesheet" href="/style/pages/index.css">
+{{> Header }}
+{{> Login }}
 <div class="main">
-    <span>Это главная страница</span>
-    {{> PrimaryButton name="Нажми!" id="switchButton"}}
+    <div class="filter">
+        <div class="container">
+            <div class="filter__inner">
+                <h2 class="filter__title">Крутой лозунг для заполнения пространства</h2>
+                <div class="filter__settings">
+                    <div class="select-button">
+                        <select>
+                            <option value="">Купить</option>
+                            <option value="">Аренда</option>
+                        </select>
+                    </div>
+                    <div class="radio-button">
+                        <input id="rad1" type="radio" name="radioBtn" checked>
+                        <label for="rad1"><span>Новостройки</span></label>
+                        <input id="rad2" type="radio" name="radioBtn">
+                        <label for="rad2"><span>Вторичка</span></label>
+                        <div class="radio-bg"></div>
+                    </div>
+                    <div class="select-button">
+                        <select>
+                            <option value="">Цена</option>
+                            <option value="">А как?...</option>
+                        </select>
+                    </div>
+                    <div class="select-button">
+                        <select>
+                            <option value="">Фильтры</option>
+                            <option value="">А как?...</option>
+                        </select>
+                    </div>
+
+                </div>
+                {{> LightButton name="Показать объявления" class="filter__submit" id="filterSubmitButton"}}
+            </div>
+
+        </div>
+    </div>
+    <div class="cards">
+        <div class="container">
+            <div class="cards__inner">
+                <h2 class="cards__title">
+                    Могут подойти
+                </h2>
+                <div class="cards__list">
+                    {{>
+                            Card
+                            price="52000"
+                            rooms="1"
+                            square="30"
+                            floor="5/5"
+                            metro="Славянский бульвар"
+                            address="Славянский бул., 13К1"
+                    }}
+                    {{>
+                            Card
+                            price="52000"
+                            rooms="1"
+                            square="30"
+                            floor="5/5"
+                            metro="Славянский бульвар"
+                            address="Славянский бул., 13К1"
+                    }}
+                    {{>
+                            Card
+                            price="52000"
+                            rooms="1"
+                            square="30"
+                            floor="5/5"
+                            metro="Славянский бульвар"
+                            address="Славянский бул., 13К1"
+                    }}
+                    {{>
+                            Card
+                            price="52000"
+                            rooms="1"
+                            square="30"
+                            floor="5/5"
+                            metro="Славянский бульвар"
+                            address="Славянский бул., 13К1"
+                    }}
+                    {{>
+                            Card
+                            price="52000"
+                            rooms="1"
+                            square="30"
+                            floor="5/5"
+                            metro="Славянский бульвар"
+                            address="Славянский бул., 13К1"
+                    }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

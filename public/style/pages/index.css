@@ -1,9 +1,105 @@
-.main {
+/**************************************************************/
+/* Filter */
+/**************************************************************/
+
+.filter {
+    background-image: url("../../resources/img/filter/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 18em;
+    width: 100%;
+    margin-top: 4.375rem;
+    padding: 3.5em 0;
+}
+
+.filter__title {
+    font-size: 2.4em;
+    font-weight: 700;
+    color: var(--white);
+    filter: drop-shadow(5px 5px 4px rgba(0, 0, 0, 0.5));
+    margin-bottom: 1.875rem;
+}
+
+.filter__settings {
+    margin-bottom: 1rem;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 25%;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 1.25em;
+}
+
+.radio-button {
+    position: relative;
+    display: flex;
+    background-color: var(--white);
+    z-index: 5;
+    border-radius: 7px;
+    width: 18.75em;
+}
+
+.radio-button input {
+    display: none;
+}
+
+.radio-bg, .radio-button label {
     text-align: center;
-    background-color: greenyellow;
+    display: inline-block;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.radio-button label {
+    width: 150px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radio-bg {
+    width: 146px;
+    height: 36px;
+    background-color: var(--bluish);
+    filter: drop-shadow(0px 3px 1px rgba(0, 0, 0, 0.12));
+    border-radius: 7px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    z-index: -1;
+}
+
+#rad1:checked ~ .radio-bg {
+    transform: translateX(0);
+    transition: transform 0.5s ease-in-out;
+}
+#rad2:checked ~ .radio-bg {
+    transform: translateX(150px);
+    transition: transform 0.5s ease-in-out;
+}
+
+.filter__submit {
+    padding: 0.75em 2.2em;
+    font-size: 1em;
+    border-radius: 8px;
+}
+
+/**************************************************************/
+/* Cards */
+/**************************************************************/
+
+.cards {
+    margin-bottom: 3.125rem;
+}
+
+.cards__title {
+    font-size: 1.75em;
+    font-weight: 700;
+    margin: 1.563rem 0;
+}
+
+.cards__list {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.25em;
+    flex-wrap: wrap;
 }

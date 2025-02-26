@@ -1,0 +1,21 @@
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            {{> Logo }}
+            <div class="header__right">
+                <div class="header__icons">
+                    <a class="header__favour-href" href="/">
+                        <img class="header__favour-img" src="../../../resources/img/header/favour.svg" alt="">
+                    </a>
+                    <a class="header__notice-href" href="/">
+                        <img class="header__notice-img" src="../../../resources/img/header/notice.svg" alt="">
+                    </a>
+                </div>
+                <div class="header__auth">
+                    {{> LightButton name="Регистрация" id="registerButton"}}
+                    {{> LightButton name="Войти" id="loginButton"}}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
