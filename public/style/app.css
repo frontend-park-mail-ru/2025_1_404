@@ -17,7 +17,7 @@
     box-sizing: border-box;
     outline: none; border: none;
     text-decoration: none;
-    transition: .2s linear;
+    /*transition: .2s linear;*/
 }
 
 body {

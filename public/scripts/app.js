@@ -16,6 +16,7 @@ if (document.readyState === 'loading') {
 }
 
 /**
+ * @function init
  * @description Инициализация приложения
  */
 function init() {

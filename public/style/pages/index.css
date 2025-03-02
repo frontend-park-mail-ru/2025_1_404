@@ -99,7 +99,7 @@
 
 .cards__list {
     display: flex;
-    justify-content: space-between;
-    gap: 1.25em;
+    /*justify-content: space-between;*/
+    gap: 1.6em;
     flex-wrap: wrap;
 }

@@ -1,7 +1,11 @@
 import BaseComponent from "../BaseComponent.js";
 import template from './Card.precompiled.js';
 
-// Компонент тестовой кнопки
+/**
+ * @class Card
+ * @description Компонент карточки.
+ * @extends BaseComponent
+ */
 export default class Card extends BaseComponent {
     render() {
         return template();

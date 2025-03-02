@@ -10,6 +10,7 @@ import Login from '../components/Login/Login.precompiled.js';
 import LightButton from '../components/LightButton/LightButton.precompiled.js';
 
 /**
+ * @function registerComponents
  * @description Регистрация компонентов
  */
 export default function registerComponents() {

@@ -4,6 +4,7 @@ import {IndexRoute} from "../routes/IndexRoute.js";
 import {RegisterRoute} from "../routes/RegisterRoute.js";
 
 /**
+ * @function registerRoutes
  * @description Регистрация маршрутов
  */
 export default function registerRoutes() {
