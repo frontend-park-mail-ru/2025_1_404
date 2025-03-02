@@ -10,7 +10,7 @@ import template from './register.precompiled.js';
  */
 export default class RegisterPage extends Page {
 
-    render(root, path) {
+    render(root) {
         root.innerHTML = template();
         // TODO: Логика страницы регистрации
     }

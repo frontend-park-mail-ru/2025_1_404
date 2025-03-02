@@ -8,7 +8,7 @@ import BaseRoute from "./BaseRoute.js";
  * @extends BaseRoute
  */
 export class IndexRoute extends BaseRoute {
-    process(path) {
-        pageManager.renderPage('index', {});
+    process() {
+        window.pageManager.renderPage('index', {});
     }
 }

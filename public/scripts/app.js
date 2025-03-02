@@ -26,6 +26,6 @@ function init() {
     registerPages();
     registerRoutes();
 
-    window.addEventListener('popstate', () => routeManager.navigateToPageByCurrentURL());
-    routeManager.navigateToPageByCurrentURL();
+    window.addEventListener('popstate', () => window.routeManager.navigateToPageByCurrentURL());
+    window.routeManager.navigateToPageByCurrentURL();
 }

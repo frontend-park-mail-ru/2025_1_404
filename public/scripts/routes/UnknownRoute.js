@@ -8,7 +8,7 @@ import BaseRoute from "./BaseRoute.js";
  * @extends BaseRoute
  */
 export class UnknownRoute extends BaseRoute {
-    process(path) {
-        pageManager.renderPage('404', {});
+    process() {
+        window.pageManager.renderPage('404', {});
     }
 }

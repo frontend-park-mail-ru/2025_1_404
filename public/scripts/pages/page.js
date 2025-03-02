@@ -8,10 +8,9 @@ export default class Page {
     /**
      * @method render
      * @description Метод, который вызывается при рендере страницы.
-     * @param root
-     * @param path
+     * @param _root {HTMLElement} - корневой элемент страницы
      */
-    render(root, path={}) {}
+    render(_root) {}
 
     /**
      * @method destroy

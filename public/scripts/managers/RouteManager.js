@@ -16,8 +16,8 @@ export class RouteManager {
     /**
      * @method registerRoute
      * @description Регистрация маршрута.
-     * @param routeName
-     * @param route
+     * @param routeName ключевое имя маршрута
+     * @param route объект маршрута
      */
     registerRoute(routeName, route) {
         this.routes[routeName] = route;
@@ -25,7 +25,8 @@ export class RouteManager {
 
     /**
      * @method getRoute
-     * @param routeName
+     * @description Получение маршрута по имени.
+     * @param routeName ключевое имя маршрута
      * @returns {BaseRoute}
      */
     getRoute(routeName) {
@@ -35,7 +36,7 @@ export class RouteManager {
     /**
      * @method navigateTo
      * @description Переход на маршрут.
-     * @param pathStr
+     * @param pathStr путь URL
      */
     navigateTo(pathStr) {
         let path = pathStr.split('/').slice(1);

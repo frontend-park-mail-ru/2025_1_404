@@ -47,11 +47,11 @@ export async function getOffers() {
 /**
  * @function registerAccount
  * @description Функция для регистрации аккаунта.
- * @param email
- * @param password
- * @param first_name
- * @param last_name
- * @param is_realtor
+ * @param email почта
+ * @param password пароль
+ * @param first_name имя
+ * @param last_name фамилия
+ * @param is_realtor является ли риэлтором
  * @returns {Promise<*>}
  */
 export async function registerAccount({ email, password, firstName: first_name, lastName: last_name, isRealtor: is_realtor }) {

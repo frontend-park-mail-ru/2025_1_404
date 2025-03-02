@@ -8,6 +8,6 @@ import IndexPage from "../pages/index/index.js";
  * @description Регистрация страниц
  */
 export default function registerPages() {
-    pageManager.registerPage('index', new IndexPage());
-    pageManager.registerPage('register', new RegisterPage());
+    window.pageManager.registerPage('index', new IndexPage());
+    window.pageManager.registerPage('register', new RegisterPage());
 }

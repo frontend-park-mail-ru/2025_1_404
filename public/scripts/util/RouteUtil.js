@@ -8,6 +8,6 @@ import {RegisterRoute} from "../routes/RegisterRoute.js";
  * @description Регистрация маршрутов
  */
 export default function registerRoutes() {
-    routeManager.registerRoute('', new IndexRoute());
-    routeManager.registerRoute('register', new RegisterRoute());
+    window.routeManager.registerRoute('', new IndexRoute());
+    window.routeManager.registerRoute('register', new RegisterRoute());
 }

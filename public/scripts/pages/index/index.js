@@ -22,7 +22,7 @@ export default class IndexPage extends Page {
      * @private
      */
     _registerButtonHandler() {
-        routeManager.navigateTo('/register');
+        window.routeManager.navigateTo('/register');
     }
 
     /**
@@ -48,12 +48,12 @@ export default class IndexPage extends Page {
     /**
      * @method _addCard
      * @description Добавление карточки
-     * @param price
-     * @param address
-     * @param rooms
-     * @param floor
-     * @param square
-     * @param metro
+     * @param price цена объявления
+     * @param address адрес
+     * @param rooms количество комнат
+     * @param floor этаж
+     * @param square площадь
+     * @param metro станция метро
      * @private
      */
     _addCard({price, address, rooms, floor, area: square, metro}) {
@@ -78,7 +78,7 @@ export default class IndexPage extends Page {
         })
     }
 
-    render(root, path) {
+    render(root) {
         root.innerHTML = template();
         this._registerButton = document.getElementById('registerButton');
         this._registerButton.addEventListener('click', () => this._registerButtonHandler());

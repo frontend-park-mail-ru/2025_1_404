@@ -17,8 +17,8 @@ export class PageManager {
     /**
      * @method registerPage
      * @description Регистрация страницы
-     * @param pageName
-     * @param page
+     * @param pageName ключевое имя страницы
+     * @param page объект страницы
      */
     registerPage(pageName, page) {
         this.pages[pageName] = page;
@@ -27,7 +27,7 @@ export class PageManager {
     /**
      * @method getPage
      * @description Получение страницы по имени
-     * @param pageName
+     * @param pageName ключевое имя страницы
      * @returns {Page}
      */
     getPage(pageName) {
@@ -37,8 +37,8 @@ export class PageManager {
     /**
      * @method renderPage
      * @description Рендер страницы
-     * @param pageName
-     * @param props
+     * @param pageName ключевое имя страницы
+     * @param props параметры для страницы
      */
     renderPage(pageName, props={}) {
         if (this.activePage) {
