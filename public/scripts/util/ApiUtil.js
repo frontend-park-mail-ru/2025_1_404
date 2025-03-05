@@ -16,6 +16,8 @@ const HTTP_METHOD_POST = 'POST';
 async function makeRequest(method=HTTP_METHOD_GET, endpoint, body={}) {
     const options = {
         method,
+        mode: 'cors',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -51,9 +53,8 @@ export async function getOffers() {
  * @param password пароль
  * @param first_name имя
  * @param last_name фамилия
- * @param is_realtor является ли риэлтором
  * @returns {Promise<*>}
  */
-export async function registerAccount({ email, password, firstName: first_name, lastName: last_name, isRealtor: is_realtor }) {
-    return makeRequest(HTTP_METHOD_POST, '/auth/register', { email, password, first_name, last_name, is_realtor });
+export async function registerAccount({firstName: first_name, lastName: last_name, email, password}) {
+    return makeRequest(HTTP_METHOD_POST, '/auth/register', {first_name, last_name, email, password});
 }

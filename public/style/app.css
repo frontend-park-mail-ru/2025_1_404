@@ -277,6 +277,16 @@ button {
     border-color: var(--darker-blue);
 }
 
+.error {
+    color: var(--red);
+    margin-top: 5px;
+    opacity: 0;
+}
+
+.error__visible {
+    opacity: 1;
+}
+
 /**************************************************************/
 /* Login */
 /**************************************************************/
