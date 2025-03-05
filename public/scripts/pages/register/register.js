@@ -15,7 +15,7 @@ export default class RegisterPage extends Page {
     _registerFormHandler(event) {
         event.preventDefault();
 
-        const [isValid, data] = validateForm(event.target)
+        const [isValid, data] = validateForm(event.target, true)
         const errorFields = event.target
             .getElementsByClassName('error');
         data.forEach((field, index) => {

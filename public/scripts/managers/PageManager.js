@@ -48,4 +48,10 @@ export class PageManager {
         this.activePage = this.pages[pageName];
         this.activePage.render(window.root, props);
     }
+
+    setHeaderStatus(isAuthorized) {
+        if (this.activePage) {
+            this.activePage.setHeaderStatus(isAuthorized);
+        }
+    }
 }

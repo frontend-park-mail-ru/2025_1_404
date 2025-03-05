@@ -1,6 +1,6 @@
 'use strict';
 
-export function validateForm(form) {
+export function validateForm(form, additionalDetails=false) {
     const data = parseForm(form)
 
     let password = ""
@@ -21,11 +21,12 @@ export function validateForm(form) {
 
         } else if (field.name === "password") {
             password = field.value;
-            if (!validatePassword(password)) {
+            if (!validatePassword(password, additionalDetails)) {
                 isValid = false;
                 if (password.length === 0) {
                     field.error = 'Это поле обязательное';
-                } else if (password.length < 8) {
+                }
+                else if (password.length < 8) {
                     field.error = 'Пароль должен быть не меньше 8 символов';
                 } else {
                     field.error = 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
@@ -99,10 +100,15 @@ function validateNickname(name) {
         );
 }
 
-function validatePassword(password) {
-    return String(password)
-        .match(
-            /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/
-        );
+function validatePassword(password, additionalChecks=false) {
+    if (additionalChecks) {
+        return String(password)
+            .match(
+                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/
+            );
+    }
+    else {
+        return String(password).length > 0;
+    }
 
 }
