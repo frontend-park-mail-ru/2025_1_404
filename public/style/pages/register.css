@@ -3,54 +3,64 @@
 /**************************************************************/
 
 .register {
-    margin-top: 4.375rem;
+    display: flex;
+    width: 100%;
+    height: 100%;
 }
 
-.register__inner {
-    padding-top: 5em;
+.register__img {
+    flex: 0 0 30%;
+    position: relative;
 }
 
-.register__title {
-    font-size: 1.75em;;
-    font-weight: 700;
-    margin-bottom: 1.25rem;
+.register__img:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.register img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.register__img img {
+    filter: blur(2px);
 }
 
 .register__form {
+    flex: 0 0 40%;
+    padding: 0 50px 0 50px;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    gap: 60px;
+    align-items: center;
     justify-content: center;
-    gap: 1.25em;
+}
+
+.register__form__header, .register__form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.register__form__logo{
+    width: 80px;
+    height: 80px;
 }
 
 .register__nickname {
-    width: 100%;
     display: flex;
-    gap: 1em;
-}
-
-.register__form {
-    max-width: 30%;
+    gap: 20px;
 }
 
 .register__submit {
     width: 100%;
-    font-size: 1em;
-    border-radius: 8px;
-    padding: 0.75em 0;
-}
-
-/**************************************************************/
-/* Right */
-/**************************************************************/
-
-.right-img {
-    z-index: 1001;
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    height: 100vh;
-    width: 35vw;
 }
