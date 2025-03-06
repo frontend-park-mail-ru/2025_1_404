@@ -9,6 +9,8 @@ import BaseRoute from "./BaseRoute.js";
  */
 export class IndexRoute extends BaseRoute {
     process() {
+        if (window.currentUser !== null)
+            return window.routeManager.navigateTo('/');
         window.pageManager.renderPage('index', {});
     }
 }

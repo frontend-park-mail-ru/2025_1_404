@@ -10,7 +10,7 @@
                 <img class="login__logo-img" src="../../../resources/img/logo/logo.svg" alt="">
             </div>
             <h3 class="login__title">Войти или зарегистрироваться</h3>
-            <form class="login__form" method="post" enctype="multipart/form-data" novalidate>
+            <form id="login-form" class="login__form" method="post" enctype="multipart/form-data" novalidate>
                 {{> Input id="emailInput" type="email" name="email" placeholder="Email"}}
                 {{> Input id="passwordInput" type="password" name="password" placeholder="Пароль"}}
                 {{> PrimaryButton name="Войти" class="login__submit" id="loginSubmitButton"}}

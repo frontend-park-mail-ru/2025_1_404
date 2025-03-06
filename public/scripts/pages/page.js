@@ -17,4 +17,18 @@ export default class Page {
      * @description Метод, который вызывается при уничтожении страницы.
      */
     destroy() {}
+
+    setHeaderStatus(isAuthorized) {
+        let header = document.getElementById('header');
+        let authorizedHeader = document.getElementById('header-authorized');
+        if (header && authorizedHeader) {
+            if (isAuthorized) {
+                header.style.display = 'none';
+                authorizedHeader.style.display = 'block';
+            } else {
+                header.style.display = 'block';
+                authorizedHeader.style.display = 'none';
+            }
+        }
+    }
 }
