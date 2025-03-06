@@ -10,6 +10,8 @@ import Login from '../components/Login/Login.precompiled.js';
 import LightButton from '../components/LightButton/LightButton.precompiled.js';
 import HeaderAuthorized from "../components/Header/HeaderAuthorized.precompiled.js";
 import UserImage from "../components/UserImage/UserImage.precompiled.js";
+import BackgroundlessButton from '../components/BackgroundlessButton/BackgroundlessButton.precompiled.js';
+import HeartButton from '../components/HeartButton/HeartButton.precompiled.js';
 
 /**
  * @function registerComponents
@@ -26,4 +28,6 @@ export default function registerComponents() {
     Handlebars.registerPartial('Input', Input);
     Handlebars.registerPartial('Login', Login);
     Handlebars.registerPartial('LightButton', LightButton);
+    Handlebars.registerPartial('BackgroundlessButton', BackgroundlessButton)
+    Handlebars.registerPartial('HeartButton', HeartButton)
 }
