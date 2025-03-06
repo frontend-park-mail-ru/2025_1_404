@@ -136,7 +136,7 @@ button {
     flex-direction: column;
     justify-content: center;
     fill: var(--grey);
-    transition: fill 0.5s ease;
+    transition: fill 0.2s ease;
 }
 
 .header__icons a:hover {
@@ -170,7 +170,7 @@ button {
     background-color: var(--darker-blue);
     color: var(--white);
     border-radius: 6px;
-    transition: background-color 0.5s ease;
+    transition: background-color 0.2s ease;
 }
 
 .primary-btn:hover {
@@ -187,7 +187,7 @@ button {
     background-color: var(--bluish);
     color: var(--darker-blue);
     border-radius: 6px;
-    transition: background-color 0.5s ease;
+    transition: background-color 0.2s ease;
 }
 
 .light-btn:hover {
@@ -201,7 +201,7 @@ button {
 .backgroundless-button {
     color: var(--blue-link);
     font-size: 1em;
-    transition: color 0.5s ease;
+    transition: color 0.2s ease;
 }
 
 .backgroundless-button:hover {
@@ -234,7 +234,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.5s ease;
+    transition: background-color 0.2s ease;
 }
 
 .heart:hover {
@@ -324,8 +324,8 @@ button {
     border: 1px solid var(--light-grey);
     border-radius: 6px;
     transition:
-        border-color 0.5s ease,
-        box-shadow 0.5s ease;
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .input input::placeholder {
@@ -413,7 +413,7 @@ button {
     text-align: center;
     cursor: pointer;
     stroke: var(--grey);
-    transition: stroke 0.5s ease;
+    transition: stroke 0.2s ease;
 }
 
 .login__close:hover {

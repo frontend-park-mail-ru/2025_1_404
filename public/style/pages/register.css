@@ -29,9 +29,6 @@
     object-fit: cover;
     display: block;
 }
-.register__img img {
-    filter: blur(2px);
-}
 
 .register__form {
     flex: 0 0 40%;
