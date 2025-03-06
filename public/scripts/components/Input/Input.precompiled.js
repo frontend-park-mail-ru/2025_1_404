@@ -6,7 +6,7 @@ export default Handlebars.template({"compiler":[8,">= 4.3.0"],"main":function(co
         return undefined
     };
 
-  return "<div class=\"input\">\r\n    <input id=\""
+  return "<div class=\"input\">\n    <input id=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":2,"column":15},"end":{"line":2,"column":21}}}) : helper)))
     + "\" type=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"type") || (depth0 != null ? lookupProperty(depth0,"type") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"type","hash":{},"data":data,"loc":{"start":{"line":2,"column":29},"end":{"line":2,"column":37}}}) : helper)))
