@@ -1,34 +1,34 @@
 <link rel="stylesheet" href="/style/pages/register.css">
-<header class="header">
-    <div class="container">
-        <div class="header__inner">
-            {{> Logo }}
-        </div>
-    </div>
-</header>
 <div class="register">
-    <div class="container">
-        <div class="register__inner">
-            <h2 class="register__title">
+    <div class="register__img">
+        <img src="../../../resources/img/register/left.jpg" alt="Картинка квартиры">
+    </div>
+    <div class="register__form">
+        <div class = "register__form__header">
+            <div class="register__form__logo">
+                <img class="logo-img" src="../../../resources/img/logo/logo.svg" alt="Логотип">
+            </div>
+            <h2>
                 Регистрация
             </h2>
-            <form class="register__form" method="post" enctype="multipart/form-data" novalidate>
+        </div>
+        <div>
+            <form  class = "register__form__fields">
                 <div class="register__nickname">
-                    {{> Input id="nameInput" type="text" name="name" placeholder="Имя"}}
-                    {{> Input id="surnameInput" type="text" name="surname" placeholder="Фамилия"}}
+                    {{> Input id="registerFirstName" type="text" name="firstName" placeholder="Имя"}}
+                    {{> Input id="registerSecondName" type="text" name="lastName" placeholder="Фамилия"}}
                 </div>
-                {{> Input id="emailInput" type="email" name="email" placeholder="Email"}}
-                {{> Input id="passwordInput" type="password" name="password" placeholder="Пароль"}}
-                {{> Input id="confirmPasswordInput" type="password" name="confirmPassword" placeholder="Подтвердите пароль"}}
+                {{> Input id="registerEmail" type="email" name="email" placeholder="Email"}}
+                {{> Input id="registerPassword" type="password" name="password" placeholder="Пароль"}}
+                {{> Input id="registerConfirmPassword" type="password" name="confirmPassword" placeholder="Подтвердите пароль"}}
 
-                <div class="register__already">
-                    <a href="/">У вас уже есть профиль?</a>
-                </div>
-                {{> PrimaryButton name="Зарегистрироваться" class="register__submit" id="registerSubmitButton"}}
+                {{> PrimaryButton name="Зарегистрироваться" class="register__submit" id="registerSubmitButton"}}                
+                {{> BackgroundlessButton name="Уже есть аккаунт?" id="redirectJoinButton" }}
             </form>
+
         </div>
     </div>
-</div>
-<div class="right">
-    <img class="right-img" src="../../../resources/img/register/right.jpg" alt="">
+    <div class="register__img">
+        <img src="../../../resources/img/register/right.jpg" alt="Картинка дома">
+    </div>
 </div>
