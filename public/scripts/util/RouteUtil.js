@@ -4,9 +4,10 @@ import {IndexRoute} from "../routes/IndexRoute.js";
 import {RegisterRoute} from "../routes/RegisterRoute.js";
 
 /**
+ * @function registerRoutes
  * @description Регистрация маршрутов
  */
 export default function registerRoutes() {
-    routeManager.registerRoute('', new IndexRoute());
-    routeManager.registerRoute('register', new RegisterRoute());
+    window.routeManager.registerRoute('', new IndexRoute());
+    window.routeManager.registerRoute('register', new RegisterRoute());
 }

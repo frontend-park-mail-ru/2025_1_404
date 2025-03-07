@@ -9,8 +9,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
+ * @function compile
  * @description Компиляция всех hbs файлов в директории
- * @param dir
+ * @param dir директория
  */
 function compile(dir) {
     for (let file of fs.readdirSync(dir)) {

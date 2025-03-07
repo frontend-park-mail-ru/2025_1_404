@@ -1,31 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root{
     --blue: #0468FF;
+    --blue-hover:#055DE1;
     --grey: #737A8E;
     --white: #FFFFFF;
     --black-text: #152242;
     --bluish: #E6F0FF;
+    --bluish-hover: #D9E8FF;
     --darker-blue: #0661EC;
+    --blue-shadow: #68A4FF;
     --light-grey: #C9D1E5;
     --milk: #FFE9EB;
     --black: #131313;
     --red: #D1152C;
+    --red-darker: #DB1F36;
+    --blue-link: #2B87DB;
+    --blue-link-hover: #1A62A6;
 }
 
 *, *::after, *::before {
     box-sizing: border-box;
     outline: none; border: none;
     text-decoration: none;
-    transition: .2s linear;
+    /*transition: .2s linear;*/
+}
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
 }
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: "Lato", sans-serif;
     margin: 0; padding: 0;
     font-weight: 400;
     font-size: 1em;
     color: var(--black-text);
+}
+
+h1 {
+    font-size: 38px;
+}
+
+h2 {
+    font-size: 1.75em;
 }
 
 a {
@@ -39,6 +58,11 @@ ul {
 
 input {
     outline: none;
+}
+
+select, button {
+    font-family: inherit;
+    font-size: inherit;
 }
 
 button {
@@ -104,15 +128,22 @@ button {
     display: flex;
     justify-content: space-between;
     gap: 1em;
+    align-items: center;
 }
 
 .header__icons a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    fill: var(--grey);
+    transition: fill 0.2s ease;
 }
 
-.header__icons img {
+.header__icons a:hover {
+    fill: var(--black-text)
+}
+
+.header__favour-href, .header__notice-href {
     width: 20px;
     height: 20px;
 }
@@ -123,19 +154,27 @@ button {
     gap: 1em;
 }
 
+.user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
 /**************************************************************/
 /* PrimaryButton */
 /**************************************************************/
 
 .primary-btn {
-    padding: 0.325em 0.625em;
+    padding: 0.5em 1em;
+    font-size: 1em;
     background-color: var(--darker-blue);
-    color: var(--bluish);
+    color: var(--white);
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
 }
 
 .primary-btn:hover {
-    background-color: var(--bluish);
-    color: var(--darker-blue);
+    background-color: var(--blue-hover);
 }
 
 /**************************************************************/
@@ -143,14 +182,30 @@ button {
 /**************************************************************/
 
 .light-btn {
-    padding: 0.325em 0.625em;
+    padding: 0.5em 1em;
+    font-size: 1em;
     background-color: var(--bluish);
     color: var(--darker-blue);
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
 }
 
 .light-btn:hover {
-    background-color: var(--darker-blue);
-    color: var(--bluish);
+    background-color: var(--bluish-hover);
+}
+
+/**************************************************************/
+/* BackgroundlessButton */
+/**************************************************************/
+
+.backgroundless-button {
+    color: var(--blue-link);
+    font-size: 1em;
+    transition: color 0.2s ease;
+}
+
+.backgroundless-button:hover {
+    color: var(--blue-link-hover);
 }
 
 /**************************************************************/
@@ -160,8 +215,34 @@ button {
 .select-button select {
     padding: 0.75em 2.2em;
     height: 3em;
-    border-radius: 7px;
+    border-radius: 6px;
     background-color: var(--white);
+}
+
+/**************************************************************/
+/* HeartButton */
+/**************************************************************/
+
+.heart {
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.35);
+    stroke: var(--white);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.heart:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.heart-active{ 
+    stroke: var(--red);
 }
 
 /**************************************************************/
@@ -173,40 +254,17 @@ button {
     display: flex;
     flex-direction: column;
     border-radius: 12px;
-    border: 3px var(--bluish) solid;
     position: relative;
+    border: 1px solid var(--light-grey) ;
 }
 
-.card:hover {
-    border: 3px solid var(--darker-blue);
-}
-
-.card__favor {
-
-}
-
-.card__favor {
+.card__heart {
     position: absolute;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
     right: 8px;
     top: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card__favor:hover {
-    background-color: rgba(209, 21, 44, 1);
-}
-
-.card__favor img {
-    color: var(--white);
-    height: 22px;
-    width: 22px;
+    width: fit-content;
+    height: fit-content;
 }
 
 .card__photo {
@@ -264,8 +322,10 @@ button {
     height: 2.5em;
     padding: 1em 0.625em;
     border: 1px solid var(--light-grey);
-    border-radius: 5px;
-    transition: border-color 0.5s ease;
+    border-radius: 6px;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .input input::placeholder {
@@ -273,8 +333,32 @@ button {
     font-weight: 500;
 }
 
+.input input:hover{
+    border-color: var(--black-text) ;
+}
+
 .input input:focus {
     border-color: var(--darker-blue);
+    box-shadow: 0 0 4px var(--blue-shadow);
+}
+
+.input input:invalid {
+    border-color: var(--red-darker);
+    box-shadow: 0 0 4px var(--red-darker);
+}
+
+.input .alert {
+    color: var(--red)
+}
+
+.error {
+    color: var(--red);
+    margin-top: 5px;
+    opacity: 0;
+}
+
+.error__visible {
+    opacity: 1;
 }
 
 /**************************************************************/
@@ -285,15 +369,18 @@ button {
     z-index: 1000;
     height: 100%;
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .overlay.active {
-    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 .login {
@@ -301,28 +388,36 @@ button {
     position: absolute;
     top: 50%;
     left: 50%;
-    display: none;
-    transform: translate(-50%, -50%) scale(1.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transform: translate(-50%, -50%) scale(1);
     width: 22.5em;
     padding: 3.125em;
     background-color: var(--white);
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 .login.active {
     top: 50%;
-    display: block;
-    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    visibility: visible;
 }
 
 .login__close {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 15px;
-    height: 15px;
+    top: 14px;
+    right: 14px;
+    width: 14px;
+    height: 14px;
     text-align: center;
     cursor: pointer;
+    stroke: var(--grey);
+    transition: stroke 0.2s ease;
+}
+
+.login__close:hover {
+    stroke: var(--black-text);
 }
 
 .login__title {
@@ -350,7 +445,4 @@ button {
 
 .login__submit, .register__href {
     width: 100%;
-    padding: 0.8em;
-    border-radius: 8px;
-    font-weight: 500;
 }

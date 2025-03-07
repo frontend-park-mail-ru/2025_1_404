@@ -1,14 +1,16 @@
 <div class="overlay">
     <div class="login">
         <div id="loginCloseButton" class="login__close">
-            &times;
+            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0L24 24M24 0L0 24"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </div>
         <div class="login__inner">
             <div class="login__logo">
                 <img class="login__logo-img" src="../../../resources/img/logo/logo.svg" alt="">
             </div>
             <h3 class="login__title">Войти или зарегистрироваться</h3>
-            <form class="login__form" method="post" enctype="multipart/form-data" novalidate>
+            <form id="login-form" class="login__form" method="post" enctype="multipart/form-data" novalidate>
                 {{> Input id="emailInput" type="email" name="email" placeholder="Email"}}
                 {{> Input id="passwordInput" type="password" name="password" placeholder="Пароль"}}
                 {{> PrimaryButton name="Войти" class="login__submit" id="loginSubmitButton"}}

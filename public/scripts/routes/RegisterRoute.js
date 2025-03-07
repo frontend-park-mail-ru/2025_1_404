@@ -8,7 +8,9 @@ import BaseRoute from "./BaseRoute.js";
  * @extends BaseRoute
  */
 export class RegisterRoute extends BaseRoute {
-    process(path) {
-        pageManager.renderPage('register', {});
+    process() {
+        if (window.currentUser !== null)
+            return window.routeManager.navigateTo('/');
+        window.pageManager.renderPage('register', {});
     }
 }
