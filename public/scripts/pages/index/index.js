@@ -18,6 +18,32 @@ export default class IndexPage extends Page {
     _cardsList = null;
     _logoutButton = null;
     _loginForm = null;
+    _loginFormRegisterButton = null;
+
+    _metroColor = {
+        'Сокольническая': '#EF161E',
+        'Замоскворецкая': '#007D3C',
+        'Арбатско-Покровская': '#0033A0',
+        'Филёвская': '#0078BE',
+        'Кольцевая': '#894E35',
+        'Калужско-Рижская': '#FFA300',
+        'Таганско-Краснопресненская': '#97005E',
+        'Калининская': '#FFD702',
+        'Серпуховско-Тимирязевская': '#A1A2A3',
+        'Люблинско-Дмитровская': '#9EC862',
+        'Каховская': '#A1A2A3',
+        'Бутовская': '#A1A2A3',
+        'МЦК': '#FF8642',
+        'Некрасовская': '#DE64A1',
+        'Большая кольцевая': '#82C0C0',
+        'Троицкая': '#009A49',
+        'Рублёво-Архангельская': '#78C596',
+        'МЦД-2': '#0078BE',
+        'МЦД-3': '#DEA62C',
+        'МЦД-4': '#AD1D33',
+        'МЦД-5': '#ADB3B8',
+        'Нет': '#999999'
+    };
 
     /**
      * @method _registerButtonHandler
@@ -69,13 +95,20 @@ export default class IndexPage extends Page {
         })
 
         if (isValid) {
-            const values = data.map(field => field.value);
-            login(...values).then((user) => {
+            const values = data.reduce((acc, field) => {
+                acc[field.name] = field.value;
+                return acc;
+            }, {});
+            login(values).then((user) => {
                 window.currentUser = user;
                 this.setHeaderStatus(true);
                 this._loginCloseButtonHandler();
+                let apiError = document.getElementById('api-error');
+                apiError.classList.remove('error__visible');
             }).catch((error) => {
-                console.error(error)
+                let apiError = document.getElementById('api-error');
+                apiError.textContent = error.message;
+                apiError.classList.add('error__visible');
             })
         }
     }
@@ -87,15 +120,28 @@ export default class IndexPage extends Page {
      * @param address адрес
      * @param rooms количество комнат
      * @param floor этаж
+     * @param totalFloors максимальное число этажей
      * @param square площадь
      * @param metro станция метро
+     * @param images картинки объявления
+     * @param metroStation стацния метро
+     * @param metroLine ветка метро
      * @private
      */
-    _addCard({price, address, rooms, floor, area: square, metro}) {
-        price = 52000;
-        metro = 'Славянский бульвар';
-        floor = `${floor}/${floor}`;
-        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({price, address, rooms, floor, square, metro}));
+    _addCard({price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, photos: images, offer_type: offerType, rent_type: rentType}) {
+        let cardTitle = `${price} ₽`;
+        if (offerType === 'аренда') {
+            cardTitle = 'Аренда: ' + cardTitle;
+            cardTitle += `/${rentType === 'долгосрок' ? 'мес.' : 'сут.'}`
+        }
+        else {
+            cardTitle = 'Продажа: ' + cardTitle;
+        }
+        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({cardTitle, address, rooms, floor, totalFloors, square, metroColor: this._metroColor[metroLine], metroStation, image: images[0]}));
+    }
+
+    _loginFormRegisterButtonHandler() {
+        window.routeManager.navigateTo('/register');
     }
 
     /**
@@ -113,6 +159,12 @@ export default class IndexPage extends Page {
         })
     }
 
+    _overlayHandler(event) {
+        if (event.target === this._overlay) {
+            this._loginCloseButtonHandler();
+        }
+    }
+
     render(root) {
         root.innerHTML = template();
         this._registerButton = document.getElementById('registerButton');
@@ -127,11 +179,19 @@ export default class IndexPage extends Page {
         this._loginCloseButton = document.getElementById('loginCloseButton');
         this._loginCloseButton.addEventListener('click', () => this._loginCloseButtonHandler())
 
+        this._loginFormRegisterButton = document.getElementById('registerHrefButton');
+        this._loginFormRegisterButton.addEventListener('click', () => this._loginFormRegisterButtonHandler())
+
         this._loginForm = document.getElementById('login-form');
         this._loginForm.addEventListener('submit', (event) => this._loginFormHandler(event))
 
+        this._overlay = document.getElementsByClassName('overlay')[0];
+        this._overlay.addEventListener('click', (event) => this._overlayHandler(event))
+
         this._cardsList = document.querySelector('.cards__list');
         this._getOffers();
+
+        super.render(root);
     }
 
     destroy() {
@@ -150,5 +210,13 @@ export default class IndexPage extends Page {
         if (this._loginForm) {
             this._loginForm.removeEventListener('submit', this._loginFormHandler);
         }
+        if (this._loginFormRegisterButton) {
+            this._loginFormRegisterButton.removeEventListener('click', this._loginFormRegisterButtonHandler);
+        }
+        if (this._overlay) {
+            this._overlay.removeEventListener('click', this._loginCloseButtonHandler);
+        }
+
+        super.destroy();
     }
 }

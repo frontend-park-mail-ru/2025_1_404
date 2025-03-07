@@ -1,6 +1,6 @@
 'use strict';
 
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = 'http://localhost:8000/api/v1';
 
 const HTTP_METHOD_GET = 'GET';
 const HTTP_METHOD_POST = 'POST';
@@ -25,16 +25,12 @@ async function makeRequest(method=HTTP_METHOD_GET, endpoint, body={}) {
     if (method === HTTP_METHOD_POST) {
         options.body = JSON.stringify(body);
     }
-    try {
-        const response = await fetch(`${BACKEND_URL}${endpoint}`, options);
-        if (!response.ok) {
-            throw new Error(`Ошибка при выполнении запроса: ${response.status}`);
-        }
-        return await response.json();
+    const response = await fetch(`${BACKEND_URL}${endpoint}`, options);
+    if (!response.ok) {
+        let json = await response.json();
+        throw new Error(json['error']);
     }
-    catch (error) {
-        throw new Error(`Ошибка при выполнении запроса: ${error.message}`);
-    }
+    return await response.json();
 }
 
 /**
@@ -65,12 +61,7 @@ export async function registerAccount({firstName: first_name, lastName: last_nam
  * @returns {Promise<null>}
  */
 export async function getProfile() {
-    return null;
-    // return {
-    //     'first_name': 'Иван',
-    //     'last_name': 'Петров'
-    // }
-    //return makeRequest(HTTP_METHOD_GET, '/me');
+    return makeRequest(HTTP_METHOD_POST, '/auth/me');
 }
 
 /**
@@ -81,11 +72,7 @@ export async function getProfile() {
  * @returns {Promise<{first_name: string, last_name: string}>}
  */
 export async function login({email, password}) {
-    return {
-        'first_name': 'Иван',
-        'last_name': 'Петров'
-    }
-    // return makeRequest(HTTP_METHOD_POST, '/auth/login', {email, password});
+    return makeRequest(HTTP_METHOD_POST, '/auth/login', {email, password});
 }
 
 /**
@@ -94,6 +81,5 @@ export async function login({email, password}) {
  * @returns {Promise<boolean>}
  */
 export async function logout() {
-    return true;
-    // return makeRequest(HTTP_METHOD_POST, '/auth/logout');
+    return makeRequest(HTTP_METHOD_POST, '/auth/logout');
 }
