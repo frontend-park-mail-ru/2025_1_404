@@ -29,11 +29,11 @@ function init() {
     registerRoutes();
 
     window.addEventListener('popstate', () => window.routeManager.navigateToPageByCurrentURL());
-    window.routeManager.navigateToPageByCurrentURL();
 
     getProfile().then((response) => {
         window.currentUser = response;
     }).finally(() => {
         window.pageManager.setHeaderStatus(window.currentUser !== null);
+        window.routeManager.navigateToPageByCurrentURL();
     })
 }

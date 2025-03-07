@@ -11,6 +11,7 @@ export class RouteManager {
      */
     constructor() {
         this.routes = {};
+        this.lastPath = null;
     }
 
     /**
@@ -39,6 +40,11 @@ export class RouteManager {
      * @param pathStr путь URL
      */
     navigateTo(pathStr) {
+        console.log(pathStr + ' | ' + this.lastPath)
+        if (pathStr === this.lastPath)
+            return;
+        this.lastPath = pathStr;
+
         let path = pathStr.split('/').slice(1);
         if (path.length === 0)
             path = [pathStr];

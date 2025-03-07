@@ -10,6 +10,7 @@
                 <img class="login__logo-img" src="../../../resources/img/logo/logo.svg" alt="">
             </div>
             <h3 class="login__title">Войти или зарегистрироваться</h3>
+            <div id="api-error" class="error"></div>
             <form id="login-form" class="login__form" method="post" enctype="multipart/form-data" novalidate>
                 {{> Input id="emailInput" type="email" name="email" placeholder="Email"}}
                 {{> Input id="passwordInput" type="password" name="password" placeholder="Пароль"}}
