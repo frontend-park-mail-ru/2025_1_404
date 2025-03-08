@@ -160,8 +160,15 @@ export default class IndexPage extends Page {
     }
 
     _overlayHandler(event) {
+        console.log(event.target);
         if (event.target === this._overlay) {
             this._loginCloseButtonHandler();
+        }
+    }
+
+    _heartButtonHandler(event, heartButton) {
+        if (event.target === heartButton) {
+            heartButton.classList.add('active');
         }
     }
 
@@ -191,6 +198,13 @@ export default class IndexPage extends Page {
         this._cardsList = document.querySelector('.cards__list');
         this._getOffers();
 
+        /*
+        this._heartButtons = document.getElementsByClassName('heart');
+        Array.from(this._heartButtons).forEach(function (heartButton) {
+            heartButton.addEventListener('click', (event) => this._heartButtonHandler(event, heartButton));
+        })
+         */
+
         super.render(root);
     }
 
@@ -216,6 +230,13 @@ export default class IndexPage extends Page {
         if (this._overlay) {
             this._overlay.removeEventListener('click', this._loginCloseButtonHandler);
         }
+        /*
+        Array.from(this._heartButtons).forEach(function (heartButton) {
+            if (heartButton) {
+                heartButton.removeEventListener('click', this._heartButtonHandler);
+            }
+        })
+         */
 
         super.destroy();
     }

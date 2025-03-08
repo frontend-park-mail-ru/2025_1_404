@@ -120,6 +120,7 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 2.5em;
     gap: 1em;
 }
 
@@ -149,14 +150,26 @@ button {
 }
 
 .header__auth {
+    height: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 1em;
 }
 
-.user-image {
+.header__auth button {
+    padding: 0 0.625em;
+    height: 2em;
+}
+
+.user-href {
     width: 40px;
     height: 40px;
+}
+
+.user-image {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
 }
 
@@ -213,8 +226,9 @@ button {
 /**************************************************************/
 
 .select-button select {
-    padding: 0.75em 2.2em;
-    height: 3em;
+    min-width: 240px;
+    padding: 0.625em 1em;
+    height: 2.5em;
     border-radius: 6px;
     background-color: var(--white);
 }
@@ -230,7 +244,7 @@ button {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    padding: 6px;
+    padding: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -255,7 +269,12 @@ button {
     flex-direction: column;
     border-radius: 12px;
     position: relative;
-    border: 1px solid var(--light-grey) ;
+    border: 1px solid var(--light-grey);
+    transition: .2s linear;
+}
+
+.card:hover {
+    border-color: var(--blue-hover);
 }
 
 .card__heart {
@@ -272,7 +291,8 @@ button {
     height: 0;
     padding-bottom: 75%;
     background-color: #fff;
-    border-radius: 8px 8px 0 0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
 .card__photo-img {
@@ -282,8 +302,8 @@ button {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
 }
 
 .card__content {

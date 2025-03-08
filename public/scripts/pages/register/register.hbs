@@ -4,25 +4,23 @@
         <img src="../../../resources/img/register/left.jpg" alt="Картинка квартиры">
     </div>
     <div class="register__form">
-        <a id="register-form-header-clickable" href="#">
-            <div class = "register__form__header">
-                <div class="register__form__logo">
-                    <img class="logo-img" src="../../../resources/img/logo/logo.svg" alt="Логотип">
-                </div>
-                <h2>
-                    Регистрация
-                </h2>
-            </div>
-        </a>
+        <div class = "register__form__header">
+            <a class="register__form__logo" id="register-form-header-clickable" href="#">
+                <img class="logo-img" src="../../../resources/img/logo/logo.svg" alt="Логотип">
+            </a>
+            <h2>
+                Регистрация
+            </h2>
+        </div>
       <form id="register-form" class="register__form__fields">
             <div id="api-error" class="error"></div>
             <div class="register__nickname">
-                {{> Input id="registerFirstName" type="text" name="firstName" placeholder="Имя"}}
-                {{> Input id="registerSecondName" type="text" name="lastName" placeholder="Фамилия"}}
+                {{> Input id="registerFirstName" type="text" name="firstName" placeholder="Имя" maxlength="16"}}
+                {{> Input id="registerSecondName" type="text" name="lastName" placeholder="Фамилия" maxlength="16"}}
             </div>
-            {{> Input id="registerEmail" type="email" name="email" placeholder="Email"}}
-            {{> Input id="registerPassword" type="password" name="password" placeholder="Пароль"}}
-            {{> Input id="registerConfirmPassword" type="password" name="confirmPassword" placeholder="Подтвердите пароль"}}
+            {{> Input id="registerEmail" type="email" name="email" placeholder="Email" maxlength="32"}}
+            {{> Input id="registerPassword" type="password" name="password" placeholder="Пароль" maxlength="32"}}
+            {{> Input id="registerConfirmPassword" type="password" name="confirmPassword" placeholder="Подтвердите пароль" maxlength="32"}}
 
             {{> PrimaryButton name="Зарегистрироваться" class="register__submit" id="registerSubmitButton"}}
             {{> BackgroundlessButton name="Уже есть аккаунт?" id="redirectJoinButton" }}

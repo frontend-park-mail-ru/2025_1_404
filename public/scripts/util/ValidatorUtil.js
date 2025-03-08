@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * @function validateForm
+ * @description Функция для валидации форм.
+ * @param form
+ * @param additionalDetails
+ * @returns [isValid, data]
+ */
 export function validateForm(form, additionalDetails=false) {
     const data = parseForm(form)
 
@@ -73,6 +80,12 @@ export function validateForm(form, additionalDetails=false) {
 
 }
 
+/**
+ * @function parseForm
+ * @description Функция для парсинга форм.
+ * @param form
+ * @returns {{name: *, value: *, error: string}[]}
+ */
 function parseForm(form) {
     const {elements} = form;
     return Array.from(elements)
@@ -85,6 +98,12 @@ function parseForm(form) {
         });
 }
 
+/**
+ * @function validateEmail
+ * @description Функция для валидации почты.
+ * @param email
+ * @returns RegExpMatchArray
+ */
 function validateEmail(email) {
     return String(email)
         .toLowerCase()
@@ -93,13 +112,26 @@ function validateEmail(email) {
         );
 }
 
+/**
+ * @function validateNickname
+ * @description Функция для валидации имени/фамилии.
+ * @param name
+ * @returns RegExpMatchArray
+ */
 function validateNickname(name) {
     return String(name)
         .match(
-            /^([A-Z])[a-z]+$/
+            /^([А-ЯЁ])[а-яё]+$/
         );
 }
 
+/**
+ * @function validatePassword
+ * @description Функция для валидации пароля.
+ * @param password
+ * @param additionalChecks
+ * @returns boolean
+ */
 function validatePassword(password, additionalChecks=false) {
     if (additionalChecks) {
         return String(password)

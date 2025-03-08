@@ -18,7 +18,7 @@ export default class RegisterPage extends Page {
         const [isValid, data] = validateForm(event.target, true)
         console.log(data)
         const errorFields = event.target
-            .getElementsByClassName('error');
+            .getElementsByClassName('input-error');
         data.forEach((field, index) => {
             errorFields[index].textContent = field.error;
             if (field.error !== "")
