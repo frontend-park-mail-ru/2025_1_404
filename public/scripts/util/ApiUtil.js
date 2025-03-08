@@ -1,6 +1,6 @@
 'use strict';
 
-const BACKEND_URL = 'http://localhost:8000/api/v1';
+const BACKEND_URL = 'http://localhost:8001/api/v1';
 
 const HTTP_METHOD_GET = 'GET';
 const HTTP_METHOD_POST = 'POST';
