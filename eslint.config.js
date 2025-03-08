@@ -20,6 +20,7 @@ export default [
       globals: {
         ...globals.browser,
         Handlebars: "readonly",
+        process: "readonly",
       },
     },
   },
