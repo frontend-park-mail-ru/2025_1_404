@@ -36,7 +36,7 @@ export default class RegisterPage extends Page {
             }, {});
             registerAccount(values).then((user) => {
                 window.currentUser = user;
-                routeManager.navigateTo('/');
+                window.routeManager.navigateTo('/');
                 let apiError = document.getElementById('api-error');
                 apiError.classList.remove('error__visible');
             }).catch((error) => {
@@ -50,7 +50,7 @@ export default class RegisterPage extends Page {
 
     _registerHeaderHandler(event) {
         event.preventDefault();
-        routeManager.navigateTo('/');
+        window.routeManager.navigateTo('/');
     }
 
     render(root) {
