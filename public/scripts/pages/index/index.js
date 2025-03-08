@@ -166,9 +166,15 @@ export default class IndexPage extends Page {
         }
     }
 
-    _heartButtonHandler(event, heartButton) {
-        if (event.target === heartButton) {
-            heartButton.classList.add('active');
+    _cardClickHandler(event) {
+        let target = event.target;
+        while (target.tagName === 'path' || target.tagName === 'svg') {
+            target = target.parentElement;
+        }
+        if (target.classList.contains('heart')) {
+            event.preventDefault();
+            target.querySelector('#heart').style.display = target.querySelector('#heart').style.display === 'none' ? 'block' : 'none';
+            target.querySelector('#heart-active').style.display = target.querySelector('#heart-active').style.display === 'none' ? 'block' : 'none';
         }
     }
 
@@ -196,14 +202,9 @@ export default class IndexPage extends Page {
         this._overlay.addEventListener('click', (event) => this._overlayHandler(event))
 
         this._cardsList = document.querySelector('.cards__list');
-        this._getOffers();
+        this._cardsList.addEventListener('click', (event) => this._cardClickHandler(event));
 
-        /*
-        this._heartButtons = document.getElementsByClassName('heart');
-        Array.from(this._heartButtons).forEach(function (heartButton) {
-            heartButton.addEventListener('click', (event) => this._heartButtonHandler(event, heartButton));
-        })
-         */
+        this._getOffers();
 
         super.render(root);
     }
@@ -230,13 +231,9 @@ export default class IndexPage extends Page {
         if (this._overlay) {
             this._overlay.removeEventListener('click', this._loginCloseButtonHandler);
         }
-        /*
-        Array.from(this._heartButtons).forEach(function (heartButton) {
-            if (heartButton) {
-                heartButton.removeEventListener('click', this._heartButtonHandler);
-            }
-        })
-         */
+        if (this._cardsList) {
+            this._cardsList.removeEventListener('click', this._cardClickHandler);
+        }
 
         super.destroy();
     }
