@@ -129,6 +129,7 @@ button {
     display: flex;
     justify-content: space-between;
     gap: 1em;
+    font-size: 20px;
     align-items: center;
 }
 
@@ -136,12 +137,12 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    fill: var(--grey);
-    transition: fill 0.2s ease;
+    color: var(--grey);
+    transition: color 0.2s ease;
 }
 
 .header__icons a:hover {
-    fill: var(--black-text)
+    color: var(--black-text)
 }
 
 .header__favour-href, .header__notice-href {
@@ -246,23 +247,24 @@ button {
 .heart {
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.35);
-    stroke: var(--white);
+    color: var(--white);
     border-radius: 50%;
+    font-size: 24px;
     width: 40px;
     height: 40px;
     padding: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .heart:hover {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.heart-active{ 
-    stroke: var(--red);
+.heart.active{ 
+    color: var(--red);
 }
 
 /**************************************************************/
@@ -360,7 +362,8 @@ button {
 }
 
 .input input:hover{
-    border-color: var(--black-text) ;
+    border-color: var(--black-text);
+    box-shadow: 0 0 0px;
 }
 
 .input input:focus {
@@ -368,7 +371,7 @@ button {
     box-shadow: 0 0 4px var(--blue-shadow);
 }
 
-.input__invalid {
+input.input__invalid {
     border-color: var(--red-darker);
     box-shadow: 0 0 4px var(--red-darker);
 }
@@ -486,16 +489,7 @@ button {
 .register__img {
     flex: 0 0 30%;
     position: relative;
-}
-
-.register__img:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
+    filter: brightness(0.5);
 }
 
 .register img{
@@ -531,6 +525,7 @@ button {
 .register__nickname {
     display: flex;
     gap: 20px;
+    width: 100%;
 }
 
 .register__submit {

@@ -120,7 +120,7 @@ function validateEmail(email) {
 function validateNickname(name) {
     return String(name)
         .match(
-            /^([А-ЯЁ])[а-яё]+$/
+            /^[A-Za-zА-Яа-яЁё-]+$/
         );
 }
 

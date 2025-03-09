@@ -84,6 +84,14 @@ export default class RegisterPage extends Page {
         window.routeManager.navigateTo('/');
     }
 
+    _redirectJoinHandler(event) {
+        event.preventDefault();
+        window.routeManager.navigateTo('/');
+        document.querySelector('#passwordInput').value = '';
+        document.querySelector(".login").classList.add('active');
+        document.querySelector(".overlay").classList.add('active');
+    }
+
     render(root) {
         root.innerHTML = template();
 
@@ -94,7 +102,7 @@ export default class RegisterPage extends Page {
         this._registerHeader.addEventListener('click', (event) => this._registerHeaderHandler(event));
 
         this._redirectJoinButton = document.getElementById('redirectJoinButton');
-        this._redirectJoinButton.addEventListener('click', (event) => this._registerHeaderHandler(event));
+        this._redirectJoinButton.addEventListener('click', (event) => this._redirectJoinHandler(event));
 
         super.render(root);
     }
@@ -109,7 +117,7 @@ export default class RegisterPage extends Page {
         }
 
         if (this._redirectJoinButton) {
-            this._redirectJoinButton.removeEventListener('click', this._registerHeaderHandler);
+            this._redirectJoinButton.removeEventListener('click', this._redirectJoinHandler);
         }
 
         super.destroy();

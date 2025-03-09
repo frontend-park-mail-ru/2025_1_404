@@ -216,13 +216,12 @@ export default class IndexPage extends Page {
      */
     _cardClickHandler(event) {
         let target = event.target;
-        while (target.tagName === 'path' || target.tagName === 'svg') {
+        while (target.tagName === 'path' || target.tagName === 'I') {
             target = target.parentElement;
         }
         if (target.classList.contains('heart')) {
             event.preventDefault();
-            target.querySelector('#heart').style.display = target.querySelector('#heart').style.display === 'none' ? 'block' : 'none';
-            target.querySelector('#heart-active').style.display = target.querySelector('#heart-active').style.display === 'none' ? 'block' : 'none';
+            target.classList.toggle('active');
         }
     }
 

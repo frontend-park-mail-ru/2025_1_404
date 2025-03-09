@@ -53,6 +53,7 @@ export default class Page {
             if (isAuthorized) {
                 header.style.display = 'none';
                 authorizedHeader.style.display = 'block';
+                authorizedHeader.querySelector('.header__name').textContent = `${window.currentUser.first_name}`;
             } else {
                 header.style.display = 'block';
                 authorizedHeader.style.display = 'none';
