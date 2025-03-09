@@ -6,6 +6,12 @@
  */
 export default class Page {
 
+    /**
+     * @method _logoHrefHandler
+     * @description Обработчик клика по логотипу в шапке
+     * @param event
+     * @private
+     */
     _logoHrefHandler(event) {
         event.preventDefault();
         window.routeManager.navigateTo('/');
@@ -35,6 +41,11 @@ export default class Page {
         }
     }
 
+    /**
+     * @method setHeaderStatus
+     * @description Установка статуса шапки (для авторизованного пользователя или нет)
+     * @param isAuthorized
+     */
     setHeaderStatus(isAuthorized) {
         let header = document.getElementById('header');
         let authorizedHeader = document.getElementById('header-authorized');

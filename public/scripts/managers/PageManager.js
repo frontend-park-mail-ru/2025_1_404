@@ -49,6 +49,11 @@ export class PageManager {
         this.activePage.render(window.root, props);
     }
 
+    /**
+     * @method setHeaderStatus
+     * @description Установка статуса шапки (для авторизованного пользователя или нет)
+     * @param isAuthorized
+     */
     setHeaderStatus(isAuthorized) {
         if (this.activePage) {
             this.activePage.setHeaderStatus(isAuthorized);

@@ -12,6 +12,12 @@ import {registerAccount} from "../../util/ApiUtil.js";
  */
 export default class RegisterPage extends Page {
 
+    /**
+     * @method _registerFormHandler
+     * @description Обработчик отправки формы регистрации
+     * @param event
+     * @private
+     */
     _registerFormHandler(event) {
         event.preventDefault();
 
@@ -48,6 +54,12 @@ export default class RegisterPage extends Page {
 
     }
 
+    /**
+     * @method _registerHeaderHandler
+     * @description Обработчик нажатия на заголовок формы регистрации
+     * @param event
+     * @private
+     */
     _registerHeaderHandler(event) {
         event.preventDefault();
         window.routeManager.navigateTo('/');

@@ -74,6 +74,11 @@ export default class IndexPage extends Page {
         document.querySelector(".overlay").classList.remove('active');
     }
 
+    /**
+     * @method _logoutButtonHandler
+     * @description Обработчик события кнопки выхода из аккаунта
+     * @private
+     */
     _logoutButtonHandler() {
         logout().then(() => {
             window.currentUser = null;
@@ -81,6 +86,12 @@ export default class IndexPage extends Page {
         })
     }
 
+    /**
+     * @method _loginFormHandler
+     * @description Обработчик события формы входа
+     * @param event
+     * @private
+     */
     _loginFormHandler(event) {
         event.preventDefault();
         const [isValid, data] = validateForm(event.target)
@@ -140,6 +151,11 @@ export default class IndexPage extends Page {
         this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({cardTitle, address, rooms, floor, totalFloors, square, metroColor: this._metroColor[metroLine], metroStation, image: images[0]}));
     }
 
+    /**
+     * @method _loginFormRegisterButtonHandler
+     * @description Обработчик события перехода на страницу регистрации
+     * @private
+     */
     _loginFormRegisterButtonHandler() {
         window.routeManager.navigateTo('/register');
     }
@@ -159,6 +175,12 @@ export default class IndexPage extends Page {
         })
     }
 
+    /**
+     * @method _overlayHandler
+     * @description Обработчик события клика на затемненное пространство
+     * @param event
+     * @private
+     */
     _overlayHandler(event) {
         console.log(event.target);
         if (event.target === this._overlay) {
@@ -166,6 +188,12 @@ export default class IndexPage extends Page {
         }
     }
 
+    /**
+     * @method _cardClickHandler
+     * @description Обработчик события клика на карточку
+     * @param event
+     * @private
+     */
     _cardClickHandler(event) {
         let target = event.target;
         while (target.tagName === 'path' || target.tagName === 'svg') {
