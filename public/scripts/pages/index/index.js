@@ -60,6 +60,7 @@ export default class IndexPage extends Page {
      * @private
      */
     _loginButtonHandler() {
+        document.querySelector('#passwordInput').value = '';
         document.querySelector(".login").classList.add('active');
         document.querySelector(".overlay").classList.add('active');
     }
