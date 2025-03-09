@@ -77,7 +77,6 @@ export function validateForm(form, additionalDetails=false) {
     });
 
     return [isValid, data];
-
 }
 
 /**
@@ -86,7 +85,7 @@ export function validateForm(form, additionalDetails=false) {
  * @param form
  * @returns {{name: *, value: *, error: string}[]}
  */
-function parseForm(form) {
+export function parseForm(form) {
     const {elements} = form;
     return Array.from(elements)
         .filter((item) => !!item.name)

@@ -4,7 +4,7 @@ import Page from '../page.js';
 import template from "./index.precompiled.js";
 import cardTemplate from "../../components/Card/Card.precompiled.js";
 import {getOffers, login, logout} from "../../util/ApiUtil.js";
-import {validateForm} from "../../util/ValidatorUtil.js";
+import {validateForm, parseForm} from "../../util/ValidatorUtil.js";
 
 /**
  * @class IndexPage
@@ -94,34 +94,48 @@ export default class IndexPage extends Page {
      */
     _loginFormHandler(event) {
         event.preventDefault();
-        const [isValid, data] = validateForm(event.target)
+
+        const apiError = document.getElementById('api-error');
+        apiError.classList.remove('error__visible');
+
+        const loginButton = event.target.querySelector('#loginSubmitButton');
+        loginButton.disabled = true;
         const errorFields = event.target
             .getElementsByClassName('error');
-        data.forEach((field, index) => {
-            errorFields[index].textContent = field.error;
-            if (field.error !== "")
-                errorFields[index].classList.add('error__visible');
-            else
-                errorFields[index].classList.remove('error__visible');
-        })
+        parseForm(event.target).forEach((field, index) => {
+            errorFields[index].classList.remove('error__visible');
+        });
 
-        if (isValid) {
-            const values = data.reduce((acc, field) => {
-                acc[field.name] = field.value;
-                return acc;
-            }, {});
-            login(values).then((user) => {
-                window.currentUser = user;
-                this.setHeaderStatus(true);
-                this._loginCloseButtonHandler();
-                let apiError = document.getElementById('api-error');
-                apiError.classList.remove('error__visible');
-            }).catch((error) => {
-                let apiError = document.getElementById('api-error');
-                apiError.textContent = error.message;
-                apiError.classList.add('error__visible');
+        setTimeout(() => {
+            const [isValid, data] = validateForm(event.target)
+            data.forEach((field, index) => {
+                errorFields[index].textContent = field.error;
+                if (field.error !== "")
+                    errorFields[index].classList.add('error__visible');
+                else
+                    errorFields[index].classList.remove('error__visible');
             })
-        }
+
+            if (isValid) {
+                const values = data.reduce((acc, field) => {
+                    acc[field.name] = field.value;
+                    return acc;
+                }, {});
+                login(values).then((user) => {
+                    window.currentUser = user;
+                    this.setHeaderStatus(true);
+                    this._loginCloseButtonHandler();
+                }).catch((error) => {
+                    apiError.textContent = error.message;
+                    apiError.classList.add('error__visible');
+                }).finally(() => {
+                    loginButton.disabled = false;
+                })
+            }
+            else {
+                loginButton.disabled = false;
+            }
+        }, 50);
     }
 
     /**
@@ -140,7 +154,7 @@ export default class IndexPage extends Page {
      * @private
      */
     _addCard({price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, photos: images, offer_type: offerType, rent_type: rentType}) {
-        let cardTitle = `${price} ₽`;
+        let cardTitle = `${price.toLocaleString('ru-RU')} ₽`;
         if (offerType === 'аренда') {
             cardTitle = 'Аренда: ' + cardTitle;
             cardTitle += `/${rentType === 'долгосрок' ? 'мес.' : 'сут.'}`
@@ -182,7 +196,6 @@ export default class IndexPage extends Page {
      * @private
      */
     _overlayHandler(event) {
-        console.log(event.target);
         if (event.target === this._overlay) {
             this._loginCloseButtonHandler();
         }
