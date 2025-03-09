@@ -368,7 +368,7 @@ button {
     box-shadow: 0 0 4px var(--blue-shadow);
 }
 
-.input input:invalid {
+.input__invalid {
     border-color: var(--red-darker);
     box-shadow: 0 0 4px var(--red-darker);
 }

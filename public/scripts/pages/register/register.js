@@ -29,18 +29,24 @@ export default class RegisterPage extends Page {
 
         const errorFields = event.target
             .getElementsByClassName('error');
+        const inputFields = event.target
+            .getElementsByTagName('input');
         parseForm(event.target).forEach((field, index) => {
             errorFields[index].classList.remove('error__visible');
+            inputFields[index].classList.remove('input__invalid');
         });
 
         setTimeout(() => {
             const [isValid, data] = validateForm(event.target, true);
             data.forEach((field, index) => {
                 errorFields[index].textContent = field.error;
-                if (field.error !== "")
+                if (field.error !== "") {
                     errorFields[index].classList.add('error__visible');
-                else
+                    inputFields[index].classList.add('input__invalid');
+                } else {
                     errorFields[index].classList.remove('error__visible');
+                    inputFields[index].classList.remove('input__invalid');
+                }
             })
 
             if (isValid) {
