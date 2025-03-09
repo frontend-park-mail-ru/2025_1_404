@@ -1,0 +1,4 @@
+/node_modules/
+.idea
+/public/scripts/components/**/*.precompiled.js
+/public/scripts/pages/**/*.precompiled.js
