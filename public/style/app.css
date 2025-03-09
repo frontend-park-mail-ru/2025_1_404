@@ -232,12 +232,24 @@ button {
 /* SelectButton */
 /**************************************************************/
 
+.select-button {
+    position: relative;
+}
+
 .select-button select {
     min-width: 240px;
     padding: 0.625em 1em;
     height: 2.5em;
     border-radius: 6px;
     background-color: var(--white);
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('../resources/img/filter/chevron.svg');
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
 }
 
 /**************************************************************/
@@ -437,16 +449,14 @@ input.input__invalid {
     position: absolute;
     top: 14px;
     right: 14px;
-    width: 14px;
-    height: 14px;
     text-align: center;
     cursor: pointer;
-    stroke: var(--grey);
-    transition: stroke 0.2s ease;
+    color: var(--grey);
+    transition: color 0.2s ease;
 }
 
 .login__close:hover {
-    stroke: var(--black-text);
+    color: var(--black-text);
 }
 
 .login__title {
@@ -606,7 +616,7 @@ input.input__invalid {
     transition: transform 0.5s ease-in-out;
 }
 #rad2:checked ~ .radio-bg {
-    transform: translateX(150px);
+    transform: translateX(100%);
     transition: transform 0.5s ease-in-out;
 }
 
