@@ -7,76 +7,48 @@
  * @param additionalDetails
  * @returns [isValid, data]
  */
-export function validateForm(form, additionalDetails=false) {
-    const data = parseForm(form)
+export const validateFormInput = function (input, additionalDetails=false) {
+    const value = input.value;
 
-    let password = ""
-    let isValid = true;
-    data.forEach((field) => {
-        if (field.name === "email") {
+    if (value.length === 0) {
+        return 'Это поле обязательное';
+    }
 
-            if (!validateEmail(field.value)) {
-                isValid = false;
-                if (field.value.length === 0) {
-                    field.error = 'Это поле обязательное';
-                } else {
-                    field.error = 'Неправильный email';
-                }
-            } else {
-                field.error = "";
-            }
-
-        } else if (field.name === "password") {
-            password = field.value;
-            if (!validatePassword(password, additionalDetails)) {
-                isValid = false;
-                if (password.length === 0) {
-                    field.error = 'Это поле обязательное';
-                }
-                else if (password.length < 8) {
-                    field.error = 'Пароль должен быть не меньше 8 символов';
-                } else {
-                    field.error = 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
-                }
-            } else {
-                field.error = "";
-            }
-
-        } else if (field.name === "confirmPassword") {
-
-            if (field.value !== password || field.value === "") {
-                isValid = false;
-                field.error = 'Пароли должны совпадать';
-            } else {
-                field.error = "";
-            }
-
-        } else if (field.name === "firstName") {
-            if (!validateNickname(field.value)) {
-                isValid = false;
-                if (field.value.length === 0) {
-                    field.error = 'Это поле обязательное';
-                } else {
-                    field.error = 'Неправильно введено имя';
-                }
-            } else {
-                field.error = "";
-            }
-        } else if (field.name === "lastName") {
-            if (!validateNickname(field.value)) {
-                isValid = false;
-                if (field.value.length === 0) {
-                    field.error = 'Это поле обязательное';
-                } else {
-                    field.error = 'Неправильно введена фамилия';
-                }
-            } else {
-                field.error = "";
-            }
+    switch(input.name) {
+        // Валидация имени и фамилии
+        case 'firstName':
+        if (validateNickname(value)) {
+            return '';
         }
-    });
-
-    return [isValid, data];
+        return 'Неправильно введено имя';
+        case 'lastName':
+        if (validateNickname(value)) {
+            return '';
+        }
+        return 'Неправильно введена фамилия';
+        // Валидация email
+        case 'email':
+        if (validateEmail(value)) {
+            return '';
+        }
+        return 'Неправильный email';
+        // Валидация пароля
+        case 'password':
+        if (validatePassword(value, additionalDetails)) {
+            return '';
+        }
+        if (value.length < 8) {
+            return 'Пароль должен быть не меньше 8 символов';
+        }
+        return 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
+        // Валидация подтверждения пароля
+        case 'confirmPassword':
+        const password = document.getElementById('registerPassword')?.value
+        if (password !== value) {
+            return 'Пароли должны совпадать';
+        }
+        return '';
+    }
 }
 
 /**

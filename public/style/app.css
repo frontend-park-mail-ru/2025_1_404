@@ -396,6 +396,7 @@ input.input__invalid {
     color: var(--red);
     margin-top: 5px;
     opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .error__visible {

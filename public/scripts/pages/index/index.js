@@ -4,7 +4,7 @@ import Page from '../page.js';
 import template from "./index.precompiled.js";
 import cardTemplate from "../../components/Card/Card.precompiled.js";
 import {getOffers, login, logout} from "../../util/ApiUtil.js";
-import {validateForm, parseForm} from "../../util/ValidatorUtil.js";
+import {validateFormInput} from "../../util/ValidatorUtil.js";
 
 /**
  * @class IndexPage
@@ -87,6 +87,27 @@ export default class IndexPage extends Page {
         })
     }
 
+    _loginFormInputHandler(event) {
+        event.preventDefault();
+
+        let target = event.target;
+        if (target.tagName !== 'INPUT') {
+            return;
+        }
+
+        let errorText = validateFormInput(target);
+        let errorField = target.nextElementSibling;
+        if (errorText === "") {
+            target.classList.remove('input__invalid');
+            errorField.classList.remove('error__visible');
+            errorField.textContent = errorText;
+            return;
+        }
+        target.classList.add('input__invalid');
+        errorField.classList.add('error__visible');
+        errorField.textContent = errorText;
+    }
+
     /**
      * @method _loginFormHandler
      * @description Обработчик события формы входа
@@ -101,48 +122,42 @@ export default class IndexPage extends Page {
 
         const loginButton = event.target.querySelector('#loginSubmitButton');
         loginButton.disabled = true;
-        const errorFields = event.target
-            .getElementsByClassName('error');
+
+        let isValid = true;
         const inputFields = event.target
-            .getElementsByTagName('input');
-        parseForm(event.target).forEach((field, index) => {
-            errorFields[index].classList.remove('error__visible');
-            inputFields[index].classList.remove('input__invalid');
-        });
-
-        setTimeout(() => {
-            const [isValid, data] = validateForm(event.target)
-            data.forEach((field, index) => {
-                errorFields[index].textContent = field.error;
-                if (field.error !== "") {
-                    errorFields[index].classList.add('error__visible');
-                    inputFields[index].classList.add('input__invalid');
-                } else {
-                    errorFields[index].classList.remove('error__visible');
-                    inputFields[index].classList.remove('input__invalid');
-                }
-            })
-
-            if (isValid) {
-                const values = data.reduce((acc, field) => {
-                    acc[field.name] = field.value;
-                    return acc;
-                }, {});
-                login(values).then((user) => {
-                    window.currentUser = user;
-                    this.setHeaderStatus(true);
-                    this._loginCloseButtonHandler();
-                }).catch((error) => {
-                    apiError.textContent = error.message;
-                    apiError.classList.add('error__visible');
-                }).finally(() => {
-                    loginButton.disabled = false;
-                })
+            .querySelectorAll('input');
+        
+        inputFields.forEach((input) => {
+            let errorText = validateFormInput(input, false);
+            let errorField = input.nextElementSibling;
+            if (errorText !== "") {
+                isValid = false;
+                input.classList.add('input__invalid');
+                errorField.classList.add('error__visible');
+                errorField.textContent = errorText;
             }
-            else {
-                loginButton.disabled = false;
+        })
+        if (!isValid) {
+            loginButton.disabled = false;
+            return;
+        }
+        const values = Array.from(inputFields).reduce((acc, field) => {
+            if (field.name !== 'confirmPassword') {
+                acc[field.name] = field.value;
             }
-        }, 50);
+            return acc;
+        }, {});
+
+        login(values).then((user) => {
+            window.currentUser = user;
+            this.setHeaderStatus(true);
+            this._loginCloseButtonHandler();
+        }).catch((error) => {
+            apiError.textContent = error.message;
+            apiError.classList.add('error__visible');
+        }).finally(() => {
+            loginButton.disabled = false;
+        })
     }
 
     /**
@@ -243,7 +258,8 @@ export default class IndexPage extends Page {
         this._loginFormRegisterButton.addEventListener('click', () => this._loginFormRegisterButtonHandler())
 
         this._loginForm = document.getElementById('login-form');
-        this._loginForm.addEventListener('submit', (event) => this._loginFormHandler(event))
+        this._loginForm.addEventListener('submit', (event) => this._loginFormHandler(event));
+        this._loginForm.addEventListener('blur', (event) => this._loginFormInputHandler(event), true);
 
         this._overlay = document.getElementsByClassName('overlay')[0];
         this._overlay.addEventListener('click', (event) => this._overlayHandler(event))
@@ -271,6 +287,7 @@ export default class IndexPage extends Page {
         }
         if (this._loginForm) {
             this._loginForm.removeEventListener('submit', this._loginFormHandler);
+            this._loginForm.removeEventListener('blur', this._loginFormInputHandler);
         }
         if (this._loginFormRegisterButton) {
             this._loginFormRegisterButton.removeEventListener('click', this._loginFormRegisterButtonHandler);

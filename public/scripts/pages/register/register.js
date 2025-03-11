@@ -2,7 +2,7 @@
 
 import Page from '../page.js';
 import template from './register.precompiled.js';
-import {parseForm, validateForm} from "../../util/ValidatorUtil.js";
+import {validateFormInput} from "../../util/ValidatorUtil.js";
 import {registerAccount} from "../../util/ApiUtil.js";
 
 /**
@@ -27,50 +27,61 @@ export default class RegisterPage extends Page {
         const registerButton = event.target.querySelector('#registerSubmitButton');
         registerButton.disabled = true;
 
-        const errorFields = event.target
-            .getElementsByClassName('error');
+        let isValid = true;
         const inputFields = event.target
-            .getElementsByTagName('input');
-        parseForm(event.target).forEach((field, index) => {
-            errorFields[index].classList.remove('error__visible');
-            inputFields[index].classList.remove('input__invalid');
-        });
+            .querySelectorAll('input');
 
-        setTimeout(() => {
-            const [isValid, data] = validateForm(event.target, true);
-            data.forEach((field, index) => {
-                errorFields[index].textContent = field.error;
-                if (field.error !== "") {
-                    errorFields[index].classList.add('error__visible');
-                    inputFields[index].classList.add('input__invalid');
-                } else {
-                    errorFields[index].classList.remove('error__visible');
-                    inputFields[index].classList.remove('input__invalid');
-                }
-            })
-
-            if (isValid) {
-                const values = data.reduce((acc, field) => {
-                    if (field.name !== 'confirmPassword') {
-                        acc[field.name] = field.value;
-                    }
-                    return acc;
-                }, {});
-                registerAccount(values).then((user) => {
-                    window.currentUser = user;
-                    window.routeManager.navigateTo('/');
-                }).catch((error) => {
-                    apiError.textContent = error.message;
-                    apiError.classList.add('error__visible');
-                }).finally(() => {
-                    registerButton.disabled = false;
-                })
+        inputFields.forEach((input) => {
+            let errorText = validateFormInput(input, true);
+            let errorField = input.nextElementSibling;
+            if (errorText !== "") {
+                isValid = false;
+                input.classList.add('input__invalid');
+                errorField.classList.add('error__visible');
+                errorField.textContent = errorText;
             }
-            else {
-                registerButton.disabled = false;
-            }
-        }, 50);
+        })
 
+        if (!isValid) {
+            registerButton.disabled = false;
+            return;
+        }
+        const values = Array.from(inputFields).reduce((acc, field) => {
+            if (field.name !== 'confirmPassword') {
+                acc[field.name] = field.value;
+            }
+            return acc;
+        }, {});
+        registerAccount(values).then((user) => {
+            window.currentUser = user;
+            window.routeManager.navigateTo('/');
+        }).catch((error) => {
+            apiError.textContent = error.message;
+            apiError.classList.add('error__visible');
+        }).finally(() => {
+            registerButton.disabled = false;
+        })
+    }
+
+    _registerFormInputHandler(event) {
+        event.preventDefault();
+
+        let target = event.target;
+        if (target.tagName !== 'INPUT') {
+            return;
+        }
+
+        let errorText = validateFormInput(target, true);
+        let errorField = target.nextElementSibling;
+        if (errorText === "") {
+            target.classList.remove('input__invalid');
+            errorField.classList.remove('error__visible');
+            errorField.textContent = errorText;
+            return;
+        }
+        target.classList.add('input__invalid');
+        errorField.classList.add('error__visible');
+        errorField.textContent = errorText;
     }
 
     /**
@@ -97,6 +108,7 @@ export default class RegisterPage extends Page {
 
         this._registerForm = document.getElementById('register-form');
         this._registerForm.addEventListener('submit',  (event) => this._registerFormHandler(event));
+        this._registerForm.addEventListener('blur', (event) => this._registerFormInputHandler(event), true);
 
         this._registerHeader = document.getElementById('register-form-header-clickable')
         this._registerHeader.addEventListener('click', (event) => this._registerHeaderHandler(event));
@@ -110,6 +122,7 @@ export default class RegisterPage extends Page {
     destroy() {
         if (this._registerForm) {
             this._registerForm.removeEventListener('submit', this._registerFormHandler);
+            this._registerForm.removeEventListener('blur', this._registerFormInputHandler);
         }
 
         if (this._registerHeader) {
