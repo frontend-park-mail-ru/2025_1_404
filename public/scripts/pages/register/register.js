@@ -65,6 +65,12 @@ export default class RegisterPage extends Page {
         })
     }
 
+    /**
+     * @method _registerFormInputHandler
+     * @description Обработчик события отпускания input
+     * @param event
+     * @private
+     */
     _registerFormInputHandler(event, {target} = event) {
         event.preventDefault();
 
