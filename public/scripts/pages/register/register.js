@@ -48,8 +48,10 @@ export default class RegisterPage extends Page {
             return;
         }
         const values = Array.from(inputFields).reduce((acc, field) => {
-            if (field.name !== 'confirmPassword') acc[field.name] = field.value;
 
+            if (field.name !== 'confirmPassword') { 
+                acc[field.name] = field.value;
+            }
             return acc;
         }, {});
         registerAccount(values).then((user) => {
