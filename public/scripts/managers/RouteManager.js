@@ -12,6 +12,7 @@ export class RouteManager {
     constructor() {
         this.routes = {};
         this.lastPath = null;
+        this.PATH_START_INDEX = 1;
     }
 
     /**
@@ -40,20 +41,22 @@ export class RouteManager {
      * @param pathStr путь URL
      */
     navigateTo(pathStr) {
-        if (pathStr === this.lastPath)
+        if (pathStr === this.lastPath) {
             return;
+        }
         this.lastPath = pathStr;
 
-        let path = pathStr.split('/').slice(1);
-        if (path.length === 0)
-            path = [pathStr];
-        let route = path[0];
-        path = path.slice(1);
+        let path = pathStr.split('/').slice(this.PATH_START_INDEX);
+        path = path.length ? path : [pathStr]
+
+        const [route] = path;
+        path = path.slice(this.PATH_START_INDEX);
         history.pushState(null, null, pathStr);
         if (this.routes[route]) {
             this.routes[route].process(path);
         } else {
-            this.routes['404'].process(path); // TODO: Сделать страницу 404
+             //Сделать страницу 404
+            this.routes['404'].process(path);
         }
     }
 

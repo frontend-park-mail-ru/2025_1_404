@@ -1,27 +1,75 @@
 'use strict';
 
+const   EMPTY_LENGTH = 0,
+        MIN_PASSWORD_LENGTH = 8;
+      
 /**
- * @function validateForm
- * @description Функция для валидации форм.
- * @param form
- * @param additionalDetails
- * @returns [isValid, data]
+ * @function validateEmail
+ * @description Функция для валидации почты.
+ * @param email
+ * @returns RegExpMatchArray
  */
-export const validateFormInput = function (input, additionalDetails=false) {
-    const value = input.value;
+const validateEmail = function(email) {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/u
+        );
+}
 
-    if (value.length === 0) {
+/**
+ * @function validateNickname
+ * @description Функция для валидации имени/фамилии.
+ * @param name
+ * @returns RegExpMatchArray
+ */
+const validateNickname = function(name) {
+    return String(name)
+        .match(
+            /^[A-Za-zА-Яа-яЁё-]+$/u
+        );
+}
+
+/**
+ * @function validatePassword
+ * @description Функция для валидации пароля.
+ * @param password
+ * @param additionalChecks
+ * @returns boolean
+ */
+const validatePassword = function(password, additionalChecks=false) {
+    if (additionalChecks) {
+        return String(password)
+            .match(
+                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/u
+            );
+    }
+    return String(password).length > EMPTY_LENGTH;
+}
+
+/**
+ * @function validateFormInput
+ * @description Функция для валидации input.
+ * @param input
+ * @param additionalDetails
+ * @returns error
+ */
+/* eslint-disable complexity */
+export const validateFormInput = function ({value, name:valueName}, additionalDetails=false) {
+    const valueLength = value.length;
+    if (valueLength === EMPTY_LENGTH) {
         return 'Это поле обязательное';
     }
 
-    switch(input.name) {
+    const password = document.getElementById('registerPassword')?.value
+    switch(valueName) {
         // Валидация имени и фамилии
-        case 'firstName':
+        case 'first_name':
         if (validateNickname(value)) {
             return '';
         }
         return 'Неправильно введено имя';
-        case 'lastName':
+        case 'last_name':
         if (validateNickname(value)) {
             return '';
         }
@@ -37,16 +85,17 @@ export const validateFormInput = function (input, additionalDetails=false) {
         if (validatePassword(value, additionalDetails)) {
             return '';
         }
-        if (value.length < 8) {
+        if (value.length < MIN_PASSWORD_LENGTH) {
             return 'Пароль должен быть не меньше 8 символов';
         }
         return 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
         // Валидация подтверждения пароля
         case 'confirmPassword':
-        const password = document.getElementById('registerPassword')?.value
         if (password !== value) {
             return 'Пароли должны совпадать';
         }
+        return '';
+        default:
         return '';
     }
 }
@@ -57,61 +106,15 @@ export const validateFormInput = function (input, additionalDetails=false) {
  * @param form
  * @returns {{name: *, value: *, error: string}[]}
  */
-export function parseForm(form) {
+export const parseForm = function(form) {
     const {elements} = form;
     return Array.from(elements)
-        .filter((item) => !!item.name)
+        .filter((item) => Boolean(item.name))
         .map((element) => {
             const {name, value} = element;
             const error = "";
 
-            return {name, value, error};
+            return {error, name, value};
         });
 }
 
-/**
- * @function validateEmail
- * @description Функция для валидации почты.
- * @param email
- * @returns RegExpMatchArray
- */
-function validateEmail(email) {
-    return String(email)
-        .toLowerCase()
-        .match(
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        );
-}
-
-/**
- * @function validateNickname
- * @description Функция для валидации имени/фамилии.
- * @param name
- * @returns RegExpMatchArray
- */
-function validateNickname(name) {
-    return String(name)
-        .match(
-            /^[A-Za-zА-Яа-яЁё-]+$/
-        );
-}
-
-/**
- * @function validatePassword
- * @description Функция для валидации пароля.
- * @param password
- * @param additionalChecks
- * @returns boolean
- */
-function validatePassword(password, additionalChecks=false) {
-    if (additionalChecks) {
-        return String(password)
-            .match(
-                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/
-            );
-    }
-    else {
-        return String(password).length > 0;
-    }
-
-}

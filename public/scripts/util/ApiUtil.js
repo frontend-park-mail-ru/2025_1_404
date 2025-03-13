@@ -13,22 +13,22 @@ const HTTP_METHOD_POST = 'POST';
  * @param body
  * @returns {Promise<any>}
  */
-async function makeRequest(method=HTTP_METHOD_GET, endpoint, body={}) {
+const makeRequest = async (endpoint, method=HTTP_METHOD_GET, body={}) => {
     const options = {
-        method,
-        mode: 'cors',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
+        method,
+        mode: 'cors',
     };
     if (method === HTTP_METHOD_POST) {
         options.body = JSON.stringify(body);
     }
     const response = await fetch(`${BACKEND_URL}${endpoint}`, options);
     if (!response.ok) {
-        let json = await response.json();
-        throw new Error(json['error']);
+        const json = await response.json();
+        throw new Error(json.error);
     }
     return await response.json();
 }
@@ -38,9 +38,7 @@ async function makeRequest(method=HTTP_METHOD_GET, endpoint, body={}) {
  * @description Функция для получения списка предложений.
  * @returns {Promise<*>}
  */
-export async function getOffers() {
-    return makeRequest(HTTP_METHOD_GET, '/offers');
-}
+export const getOffers =  async () => await makeRequest('/offers', HTTP_METHOD_GET);
 
 /**
  * @function registerAccount
@@ -51,18 +49,16 @@ export async function getOffers() {
  * @param last_name фамилия
  * @returns {Promise<*>}
  */
-export async function registerAccount({firstName: first_name, lastName: last_name, email, password}) {
-    return makeRequest(HTTP_METHOD_POST, '/auth/register', {first_name, last_name, email, password});
-}
+export const registerAccount = async ({email, first_name, last_name,  password}) => await makeRequest('/auth/register', HTTP_METHOD_POST, {email, first_name, last_name, password});
+
 
 /**
  * @function getProfile
  * @description Функция для получения профиля.
  * @returns {Promise<null>}
  */
-export async function getProfile() {
-    return makeRequest(HTTP_METHOD_POST, '/auth/me');
-}
+export const getProfile = async () => await makeRequest('/auth/me', HTTP_METHOD_POST);
+
 
 /**
  * @function login
@@ -71,15 +67,12 @@ export async function getProfile() {
  * @param password
  * @returns {Promise<{first_name: string, last_name: string}>}
  */
-export async function login({email, password}) {
-    return makeRequest(HTTP_METHOD_POST, '/auth/login', {email, password});
-}
+export const login = async ({email, password}) => await makeRequest('/auth/login', HTTP_METHOD_POST,  {email, password});
+
 
 /**
  * @function logout
  * @description Функция для выхода из аккаунта.
  * @returns {Promise<boolean>}
  */
-export async function logout() {
-    return makeRequest(HTTP_METHOD_POST, '/auth/logout');
-}
+export const logout = async () => await makeRequest('/auth/logout', HTTP_METHOD_POST);

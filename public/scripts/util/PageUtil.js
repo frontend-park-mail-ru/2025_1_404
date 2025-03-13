@@ -1,7 +1,7 @@
 'use strict';
 
-import RegisterPage from "../pages/register/register.js";
 import IndexPage from "../pages/index/index.js";
+import RegisterPage from "../pages/register/register.js";
 
 /**
  * @function registerPages

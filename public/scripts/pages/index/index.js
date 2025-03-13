@@ -1,9 +1,9 @@
 'use strict'
 
-import Page from '../page.js';
-import template from "./index.precompiled.js";
-import cardTemplate from "../../components/Card/Card.precompiled.js";
 import {getOffers, login, logout} from "../../util/ApiUtil.js";
+import Page from '../page.js';
+import cardTemplate from "../../components/Card/Card.precompiled.js";
+import template from "./index.precompiled.js";
 import {validateFormInput} from "../../util/ValidatorUtil.js";
 
 /**
@@ -19,32 +19,30 @@ export default class IndexPage extends Page {
     _logoutButton = null;
     _loginForm = null;
     _loginFormRegisterButton = null;
-
     _metroColor = {
-        'Сокольническая': '#EF161E',
-        'Замоскворецкая': '#007D3C',
         'Арбатско-Покровская': '#0033A0',
-        'Филёвская': '#0078BE',
-        'Кольцевая': '#894E35',
-        'Калужско-Рижская': '#FFA300',
-        'Таганско-Краснопресненская': '#97005E',
-        'Калининская': '#FFD702',
-        'Серпуховско-Тимирязевская': '#A1A2A3',
-        'Люблинско-Дмитровская': '#9EC862',
-        'Каховская': '#A1A2A3',
-        'Бутовская': '#A1A2A3',
-        'МЦК': '#FF8642',
-        'Некрасовская': '#DE64A1',
         'Большая кольцевая': '#82C0C0',
-        'Троицкая': '#009A49',
-        'Рублёво-Архангельская': '#78C596',
+        'Бутовская': '#A1A2A3',
+        'Замоскворецкая': '#007D3C',
+        'Калининская': '#FFD702',
+        'Калужско-Рижская': '#FFA300',
+        'Каховская': '#A1A2A3',
+        'Кольцевая': '#894E35',
+        'Люблинско-Дмитровская': '#9EC862',
         'МЦД-2': '#0078BE',
         'МЦД-3': '#DEA62C',
         'МЦД-4': '#AD1D33',
         'МЦД-5': '#ADB3B8',
-        'Нет': '#999999'
+        'МЦК': '#FF8642',
+        'Некрасовская': '#DE64A1',
+        'Нет': '#999999',
+        'Рублёво-Архангельская': '#78C596',
+        'Серпуховско-Тимирязевская': '#A1A2A3',
+        'Сокольническая': '#EF161E',
+        'Таганско-Краснопресненская': '#97005E',
+        'Троицкая': '#009A49',
+        'Филёвская': '#0078BE',
     };
-
     /**
      * @method _registerButtonHandler
      * @description Обработчик события перехода на страницу регистрации
@@ -53,7 +51,6 @@ export default class IndexPage extends Page {
     _registerButtonHandler() {
         window.routeManager.navigateTo('/register');
     }
-
     /**
      * @method _loginButtonHandler
      * @description Обработчик события открытия окна входа
@@ -64,7 +61,6 @@ export default class IndexPage extends Page {
         document.querySelector(".login").classList.add('active');
         document.querySelector(".overlay").classList.add('active');
     }
-
     /**
      * @method _loginCloseButtonHandler
      * @description Обработчик события закрытия окна входа
@@ -74,7 +70,6 @@ export default class IndexPage extends Page {
         document.querySelector(".login").classList.remove('active');
         document.querySelector(".overlay").classList.remove('active');
     }
-
     /**
      * @method _logoutButtonHandler
      * @description Обработчик события кнопки выхода из аккаунта
@@ -86,17 +81,21 @@ export default class IndexPage extends Page {
             this.setHeaderStatus(false);
         })
     }
-
-    _loginFormInputHandler(event) {
+    /**
+     * @method _loginFormInputHandler
+     * @description Обработчик события отпускания input
+     * @param event
+     * @private
+     */
+    _loginFormInputHandler(event, {target} = event) {
         event.preventDefault();
 
-        let target = event.target;
         if (target.tagName !== 'INPUT') {
             return;
         }
 
-        let errorText = validateFormInput(target);
-        let errorField = target.nextElementSibling;
+        const errorText = validateFormInput(target);
+        const errorField = target.nextElementSibling;
         if (errorText === "") {
             target.classList.remove('input__invalid');
             errorField.classList.remove('error__visible');
@@ -107,7 +106,6 @@ export default class IndexPage extends Page {
         errorField.classList.add('error__visible');
         errorField.textContent = errorText;
     }
-
     /**
      * @method _loginFormHandler
      * @description Обработчик события формы входа
@@ -119,17 +117,15 @@ export default class IndexPage extends Page {
 
         const apiError = document.getElementById('api-error');
         apiError.classList.remove('error__visible');
-
         const loginButton = event.target.querySelector('#loginSubmitButton');
         loginButton.disabled = true;
 
         let isValid = true;
         const inputFields = event.target
             .querySelectorAll('input');
-        
         inputFields.forEach((input) => {
-            let errorText = validateFormInput(input, false);
-            let errorField = input.nextElementSibling;
+            const errorText = validateFormInput(input, false);
+            const errorField = input.nextElementSibling;
             if (errorText !== "") {
                 isValid = false;
                 input.classList.add('input__invalid');
@@ -184,7 +180,8 @@ export default class IndexPage extends Page {
         else {
             cardTitle = 'Продажа: ' + cardTitle;
         }
-        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({cardTitle, address, rooms, floor, totalFloors, square, metroColor: this._metroColor[metroLine], metroStation, image: images[0]}));
+        const [image] = images
+        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({address, cardTitle, floor, image, metroColor: this._metroColor[metroLine],   metroStation, rooms, square,  totalFloors}));
     }
 
     /**
@@ -203,7 +200,7 @@ export default class IndexPage extends Page {
      */
     _getOffers() {
         getOffers().then((offers) => {
-            for (let offer of offers) {
+            for (const offer of offers) {
                 this._addCard(offer);
             }
         }).catch((error) => {
@@ -229,17 +226,17 @@ export default class IndexPage extends Page {
      * @param event
      * @private
      */
-    _cardClickHandler(event) {
-        let target = event.target;
-        while (target.tagName === 'path' || target.tagName === 'I') {
-            target = target.parentElement;
+    _cardClickHandler(event, {target} = event) {
+        let currentTarget = target;
+        while (currentTarget.tagName === 'path' || currentTarget.tagName === 'I') {
+            currentTarget = currentTarget.parentElement;
         }
-        if (target.classList.contains('heart')) {
+        if (currentTarget.classList.contains('heart')) {
             event.preventDefault();
-            target.classList.toggle('active');
+            currentTarget.classList.toggle('active');
         }
     }
-
+    /* eslint-disable max-statements */
     render(root) {
         root.innerHTML = template();
         this._registerButton = document.getElementById('registerButton');
@@ -261,7 +258,7 @@ export default class IndexPage extends Page {
         this._loginForm.addEventListener('submit', (event) => this._loginFormHandler(event));
         this._loginForm.addEventListener('blur', (event) => this._loginFormInputHandler(event), true);
 
-        this._overlay = document.getElementsByClassName('overlay')[0];
+        [this._overlay] = document.getElementsByClassName('overlay');
         this._overlay.addEventListener('click', (event) => this._overlayHandler(event))
 
         this._cardsList = document.querySelector('.cards__list');
@@ -271,7 +268,7 @@ export default class IndexPage extends Page {
 
         super.render(root);
     }
-
+    /* eslint-disable complexity, max-statements */
     destroy() {
         if (this._registerButton) {
             this._registerButton.removeEventListener('click', this._registerButtonHandler);
@@ -298,7 +295,6 @@ export default class IndexPage extends Page {
         if (this._cardsList) {
             this._cardsList.removeEventListener('click', this._cardClickHandler);
         }
-
         super.destroy();
     }
 }

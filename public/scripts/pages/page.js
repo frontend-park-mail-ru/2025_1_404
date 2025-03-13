@@ -26,7 +26,7 @@ export default class Page {
         this.setHeaderStatus(window.currentUser !== null);
 
         this._logoHrefs = document.getElementsByClassName('logo-href');
-        for (let logoHref of this._logoHrefs) {
+        for (const logoHref of this._logoHrefs) {
             logoHref.addEventListener('click', (event) => this._logoHrefHandler(event))
         }
     }
@@ -36,7 +36,7 @@ export default class Page {
      * @description Метод, который вызывается при уничтожении страницы.
      */
     destroy() {
-        for (let logoHref of this._logoHrefs) {
+        for (const logoHref of this._logoHrefs) {
             logoHref.removeEventListener('click', this._logoHrefHandler)
         }
     }
@@ -47,8 +47,8 @@ export default class Page {
      * @param isAuthorized
      */
     setHeaderStatus(isAuthorized) {
-        let header = document.getElementById('header');
-        let authorizedHeader = document.getElementById('header-authorized');
+        const header = document.getElementById('header');
+        const authorizedHeader = document.getElementById('header-authorized');
         if (header && authorizedHeader) {
             if (isAuthorized) {
                 header.style.display = 'none';

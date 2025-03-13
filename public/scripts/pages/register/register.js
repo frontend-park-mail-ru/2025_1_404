@@ -1,9 +1,10 @@
 'use strict'
 
 import Page from '../page.js';
+import {registerAccount} from "../../util/ApiUtil.js";
 import template from './register.precompiled.js';
 import {validateFormInput} from "../../util/ValidatorUtil.js";
-import {registerAccount} from "../../util/ApiUtil.js";
+
 
 /**
  * @class RegisterPage
@@ -32,8 +33,8 @@ export default class RegisterPage extends Page {
             .querySelectorAll('input');
 
         inputFields.forEach((input) => {
-            let errorText = validateFormInput(input, true);
-            let errorField = input.nextElementSibling;
+            const errorText = validateFormInput(input, true);
+            const errorField = input.nextElementSibling;
             if (errorText !== "") {
                 isValid = false;
                 input.classList.add('input__invalid');
@@ -47,9 +48,8 @@ export default class RegisterPage extends Page {
             return;
         }
         const values = Array.from(inputFields).reduce((acc, field) => {
-            if (field.name !== 'confirmPassword') {
-                acc[field.name] = field.value;
-            }
+            if (field.name !== 'confirmPassword') acc[field.name] = field.value;
+
             return acc;
         }, {});
         registerAccount(values).then((user) => {
@@ -63,16 +63,15 @@ export default class RegisterPage extends Page {
         })
     }
 
-    _registerFormInputHandler(event) {
+    _registerFormInputHandler(event, {target} = event) {
         event.preventDefault();
 
-        let target = event.target;
         if (target.tagName !== 'INPUT') {
             return;
         }
 
-        let errorText = validateFormInput(target, true);
-        let errorField = target.nextElementSibling;
+        const errorText = validateFormInput(target, true);
+        const errorField = target.nextElementSibling;
         if (errorText === "") {
             target.classList.remove('input__invalid');
             errorField.classList.remove('error__visible');

@@ -1,15 +1,15 @@
 'use strict';
 
 import express from 'express';
-import path from 'path';
 import { fileURLToPath } from 'url';
+import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
-const SERVER_PORT = process.env.PORT || 8000;
+const DEFAULT_PORT = 8000;
+const SERVER_PORT = process.env.PORT || DEFAULT_PORT;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
