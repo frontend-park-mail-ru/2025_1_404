@@ -4,7 +4,7 @@
 
 ### Состав команды:
 
-- [Кошаков Герман](https://github.com/besttwinkever)
+- [Слкуни Герман](https://github.com/besttwinkever)
 
 - [Романов Никита](https://github.com/bigronimax)
 
