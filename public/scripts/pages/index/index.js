@@ -1,10 +1,11 @@
 'use strict'
 
-import {getOffers, login, logout} from "../../util/ApiUtil.js";
+import Header from "../../components/Header/Header.js";
+import Login from "../../components/Login/Login.js";
 import Page from '../page.js';
 import cardTemplate from "../../components/Card/Card.precompiled.js";
+import {getOffers} from "../../util/ApiUtil.js";
 import template from "./index.precompiled.js";
-import {validateFormInput} from "../../util/ValidatorUtil.js";
 
 /**
  * @class IndexPage
@@ -12,13 +13,6 @@ import {validateFormInput} from "../../util/ValidatorUtil.js";
  * @extends Page
  */
 export default class IndexPage extends Page {
-    _registerButton = null;
-    _loginButton = null;
-    _loginCloseButton = null;
-    _cardsList = null;
-    _logoutButton = null;
-    _loginForm = null;
-    _loginFormRegisterButton = null;
     _metroColor = {
         'Арбатско-Покровская': '#0033A0',
         'Большая кольцевая': '#82C0C0',
@@ -43,117 +37,34 @@ export default class IndexPage extends Page {
         'Троицкая': '#009A49',
         'Филёвская': '#0078BE',
     };
-    /**
-     * @method _registerButtonHandler
-     * @description Обработчик события перехода на страницу регистрации
-     * @private
-     */
-    _registerButtonHandler() {
-        window.routeManager.navigateTo('/register');
-    }
-    /**
-     * @method _loginButtonHandler
-     * @description Обработчик события открытия окна входа
-     * @private
-     */
-    _loginButtonHandler() {
-        document.querySelector('#passwordInput').value = '';
-        document.querySelector(".login").classList.add('active');
-        document.querySelector(".overlay").classList.add('active');
-    }
-    /**
-     * @method _loginCloseButtonHandler
-     * @description Обработчик события закрытия окна входа
-     * @private
-     */
-    _loginCloseButtonHandler() {
-        document.querySelector(".login").classList.remove('active');
-        document.querySelector(".overlay").classList.remove('active');
-    }
-    /**
-     * @method _logoutButtonHandler
-     * @description Обработчик события кнопки выхода из аккаунта
-     * @private
-     */
-    _logoutButtonHandler() {
-        logout().then(() => {
-            window.currentUser = null;
-            this.setHeaderStatus(false);
-        })
-    }
-    /**
-     * @method _loginFormInputHandler
-     * @description Обработчик события отпускания input
-     * @param event
-     * @private
-     */
-    _loginFormInputHandler(event, {target} = event) {
-        event.preventDefault();
 
-        if (target.tagName !== 'INPUT') {
-            return;
+    render(root) {
+        root.innerHTML = template();
+
+        this._header = new Header();
+        this._loginForm = new Login();
+
+        this._cardsList = document.querySelector('.cards__list');
+        this._cardsList.addEventListener('click', (event) => this._cardClickHandler(event));
+
+        this._getOffers();
+
+        super.render(root);
+    }
+
+    destroy() {
+        if (this._header) {
+            this._header.destroy();
         }
 
-        const errorText = validateFormInput(target);
-        const errorField = target.nextElementSibling;
-        if (errorText === "") {
-            target.classList.remove('input__invalid');
-            errorField.classList.remove('error__visible');
-            errorField.textContent = errorText;
-            return;
+        if (this._loginForm) {
+            this._loginForm.destroy();
         }
-        target.classList.add('input__invalid');
-        errorField.classList.add('error__visible');
-        errorField.textContent = errorText;
-    }
-    /**
-     * @method _loginFormHandler
-     * @description Обработчик события формы входа
-     * @param event
-     * @private
-     */
-    _loginFormHandler(event) {
-        event.preventDefault();
 
-        const apiError = document.getElementById('api-error');
-        apiError.classList.remove('error__visible');
-        const loginButton = event.target.querySelector('#loginSubmitButton');
-        loginButton.disabled = true;
-
-        let isValid = true;
-        const inputFields = event.target
-            .querySelectorAll('input');
-        inputFields.forEach((input) => {
-            const errorText = validateFormInput(input, false);
-            const errorField = input.nextElementSibling;
-            if (errorText !== "") {
-                isValid = false;
-                input.classList.add('input__invalid');
-                errorField.classList.add('error__visible');
-                errorField.textContent = errorText;
-            }
-        })
-        if (!isValid) {
-            loginButton.disabled = false;
-            return;
+        if (this._cardsList) {
+            this._cardsList.removeEventListener('click', this._cardClickHandler);
         }
-        const values = Array.from(inputFields).reduce((acc, field) => {
-            if (field.name !== 'confirmPassword') {
-                acc[field.name] = field.value;
-            }
-            return acc;
-        }, {});
-
-        login(values).then((user) => {
-            window.currentUser = user;
-            this.setHeaderStatus(true);
-            this._loginCloseButtonHandler();
-        }).catch((error) => {
-            apiError.textContent = error.message;
-            apiError.classList.add('error__visible');
-        }).finally(() => {
-            loginButton.disabled = false;
-        })
+        super.destroy();
     }
 
     /**
@@ -185,15 +96,6 @@ export default class IndexPage extends Page {
     }
 
     /**
-     * @method _loginFormRegisterButtonHandler
-     * @description Обработчик события перехода на страницу регистрации
-     * @private
-     */
-    _loginFormRegisterButtonHandler() {
-        window.routeManager.navigateTo('/register');
-    }
-
-    /**
      * @method _getOffers
      * @description Получение предложений
      * @private
@@ -206,18 +108,6 @@ export default class IndexPage extends Page {
         }).catch((error) => {
             console.error(error)
         })
-    }
-
-    /**
-     * @method _overlayHandler
-     * @description Обработчик события клика на затемненное пространство
-     * @param event
-     * @private
-     */
-    _overlayHandler(event) {
-        if (event.target === this._overlay) {
-            this._loginCloseButtonHandler();
-        }
     }
 
     /**
@@ -235,66 +125,5 @@ export default class IndexPage extends Page {
             event.preventDefault();
             currentTarget.classList.toggle('active');
         }
-    }
-    /* eslint-disable max-statements */
-    render(root) {
-        root.innerHTML = template();
-        this._registerButton = document.getElementById('registerButton');
-        this._registerButton.addEventListener('click', () => this._registerButtonHandler());
-
-        this._loginButton = document.getElementById('loginButton');
-        this._loginButton.addEventListener('click', () => this._loginButtonHandler())
-
-        this._logoutButton = document.getElementById('logoutButton');
-        this._logoutButton.addEventListener('click', () => this._logoutButtonHandler())
-
-        this._loginCloseButton = document.getElementById('loginCloseButton');
-        this._loginCloseButton.addEventListener('click', () => this._loginCloseButtonHandler())
-
-        this._loginFormRegisterButton = document.getElementById('registerHrefButton');
-        this._loginFormRegisterButton.addEventListener('click', () => this._loginFormRegisterButtonHandler())
-
-        this._loginForm = document.getElementById('login-form');
-        this._loginForm.addEventListener('submit', (event) => this._loginFormHandler(event));
-        this._loginForm.addEventListener('blur', (event) => this._loginFormInputHandler(event), true);
-
-        [this._overlay] = document.getElementsByClassName('overlay');
-        this._overlay.addEventListener('click', (event) => this._overlayHandler(event))
-
-        this._cardsList = document.querySelector('.cards__list');
-        this._cardsList.addEventListener('click', (event) => this._cardClickHandler(event));
-
-        this._getOffers();
-
-        super.render(root);
-    }
-    /* eslint-disable complexity, max-statements */
-    destroy() {
-        if (this._registerButton) {
-            this._registerButton.removeEventListener('click', this._registerButtonHandler);
-        }
-        if (this._loginButton) {
-            this._loginButton.removeEventListener('click', this._loginButtonHandler);
-        }
-        if (this._loginCloseButton) {
-            this._loginCloseButton.removeEventListener('click', this._loginCloseButtonHandler);
-        }
-        if (this._logoutButton) {
-            this._logoutButton.removeEventListener('click', this._logoutButtonHandler);
-        }
-        if (this._loginForm) {
-            this._loginForm.removeEventListener('submit', this._loginFormHandler);
-            this._loginForm.removeEventListener('blur', this._loginFormInputHandler);
-        }
-        if (this._loginFormRegisterButton) {
-            this._loginFormRegisterButton.removeEventListener('click', this._loginFormRegisterButtonHandler);
-        }
-        if (this._overlay) {
-            this._overlay.removeEventListener('click', this._loginCloseButtonHandler);
-        }
-        if (this._cardsList) {
-            this._cardsList.removeEventListener('click', this._cardClickHandler);
-        }
-        super.destroy();
     }
 }
