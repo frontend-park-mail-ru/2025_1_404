@@ -17,6 +17,11 @@ export default class Page {
         window.routeManager.navigateTo('/');
     }
 
+    _profileHrefHandler(event) {
+        event.preventDefault();
+        window.routeManager.navigateTo('/profile/main');
+    }
+
     /**
      * @method render
      * @description Метод, который вызывается при рендере страницы.
@@ -39,6 +44,7 @@ export default class Page {
         for (const logoHref of this._logoHrefs) {
             logoHref.removeEventListener('click', this._logoHrefHandler)
         }
+
     }
 
     /**
@@ -54,6 +60,10 @@ export default class Page {
                 header.style.display = 'none';
                 authorizedHeader.style.display = 'block';
                 authorizedHeader.querySelector('.header__name').textContent = `${window.currentUser.first_name}`;
+
+                const profileHref = document.getElementById('profile-href');
+                profileHref.addEventListener('click', (event) => this._profileHrefHandler(event))
+                // TODO добавить деструктор
             } else {
                 header.style.display = 'block';
                 authorizedHeader.style.display = 'none';

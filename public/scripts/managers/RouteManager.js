@@ -45,10 +45,8 @@ export class RouteManager {
             return;
         }
         this.lastPath = pathStr;
-
         let path = pathStr.split('/').slice(this.PATH_START_INDEX);
         path = path.length ? path : [pathStr]
-
         const [route] = path;
         path = path.slice(this.PATH_START_INDEX);
         history.pushState(null, null, pathStr);

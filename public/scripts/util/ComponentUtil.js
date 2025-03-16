@@ -11,7 +11,11 @@ import Login from '../components/Login/Login.precompiled.js';
 import Logo from '../components/Logo/Logo.precompiled.js';
 import PrimaryButton from '../components/PrimaryButton/PrimaryButton.precompiled.js';
 import SelectButton from "../components/SelectButton/SelectButton.precompiled.js";
-import UserImage from "../components/UserImage/UserImage.precompiled.js";
+import UserAvatar from "../components/UserAvatar/UserAvatar.precompiled.js";
+import ProfileLeft from '../components/ProfileLeft/ProfileLeft.precompiled.js';
+import ProfilePreview from "../components/ProfilePreview/ProfilePreview.precompiled.js";
+import RedButton from "../components/RedButton/RedButton.precompiled.js";
+import ProfileOffer from "../components/ProfileOffer/ProfileOffer.precompiled.js";
 
 /**
  * @function registerComponents
@@ -22,7 +26,7 @@ export default function registerComponents() {
         [PrimaryButton, 'PrimaryButton'],
         [Header, 'Header'],
         [HeaderAuthorized, 'HeaderAuthorized'],
-        [UserImage, 'UserImage'],
+        [UserAvatar, 'UserAvatar'],
         [SelectButton, 'SelectButton'],
         [Card, 'Card'],
         [Logo, 'Logo'],
@@ -30,7 +34,11 @@ export default function registerComponents() {
         [Login, 'Login'],
         [LightButton, 'LightButton'],
         [BackgroundlessButton, 'BackgroundlessButton'],
-        [HeartButton, 'HeartButton']
+        [HeartButton, 'HeartButton'],
+        [ProfileLeft, 'ProfileLeft'],
+        [ProfilePreview, 'ProfilePreview'],
+        [RedButton, 'RedButton'],
+        [ProfileOffer, 'ProfileOffer'],
     ];
 
     components.forEach(([component, name]) => {

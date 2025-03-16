@@ -4,7 +4,9 @@
     --blue: #0468FF;
     --blue-hover:#055DE1;
     --grey: #737A8E;
+    --grey2: #E9E9E9;
     --white: #FFFFFF;
+    --profile-bg: #F4F4F4;
     --black-text: #152242;
     --bluish: #E6F0FF;
     --bluish-hover: #D9E8FF;
@@ -17,6 +19,7 @@
     --red-darker: #DB1F36;
     --blue-link: #2B87DB;
     --blue-link-hover: #1A62A6;
+    --profile-color-text: #121212;
 }
 
 *, *::after, *::before {
@@ -163,12 +166,16 @@ button {
     height: 2em;
 }
 
-.user-href {
+.header__avatar {
     width: 40px;
     height: 40px;
 }
 
-.user-image {
+/**************************************************************/
+/* UserImage */
+/**************************************************************/
+
+.user__avatar-img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -213,6 +220,23 @@ button {
 .light-btn:hover {
     background-color: var(--bluish-hover);
 }
+
+/**************************************************************/
+/* RedButton */
+/**************************************************************/
+
+.red-btn {
+    padding: 0.5em 1em;
+    font-size: 1em;
+    background-color: var(--milk);
+    color: var(--red);
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+/*.red-btn:hover {*/
+/*    background-color: var(--);*/
+/*}*/
 
 /**************************************************************/
 /* BackgroundlessButton */
@@ -647,4 +671,227 @@ input.input__invalid {
     /*justify-content: space-between;*/
     gap: 1.6em;
     flex-wrap: wrap;
+}
+
+/**************************************************************/
+/* Profile */
+/**************************************************************/
+
+.profile {
+    margin-top: 4.375rem;
+    padding-top: 1.25rem;
+    height: 100vh;
+    background-color: var(--profile-bg);
+}
+
+.profile__avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.profile__inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/**************************************************************/
+/* ProfileLeft */
+/**************************************************************/
+
+.profile__left {
+    min-width: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-right: 1px solid var(--grey);
+    padding-right: 10px;
+}
+
+.profile__info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-bottom: 1px solid var(--grey);
+    padding: 10px;
+}
+
+.profile__data {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile__data-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile__data-change {
+    color: var(--blue-link);
+    font-weight: 700;
+}
+
+.profile__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.profile__nav-btn {
+    background-color: var(--white);
+    color: var(--profile-color-text);
+    border-radius: 6px;
+    width: 100%;
+    text-align: start;
+    padding: 8px;
+    transition: .2s linear;
+}
+
+.profile__nav-btn:hover, .profile__nav-btn.active {
+    background-color: var(--grey2);
+}
+
+/**************************************************************/
+/* ProfileMain */
+/**************************************************************/
+
+.profile__right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.profile__blocks {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.profile__block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 10px 15px;
+}
+
+.profile__block-title {
+    margin-bottom: 15px;
+}
+
+.profile__previews {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.profile__preview {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--light-grey);
+    padding: 10px;
+    gap: 10px;
+}
+
+.profile__preview img {
+    width: 68px;
+    height: 52px;
+}
+
+.profile__preview-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile__preview-address {
+    color: var(--grey);
+}
+
+.profile__promotion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 10px 15px;
+    width: 100%;
+}
+
+.profile__promotion-text {
+    line-height: 25px;
+}
+
+.profile__promotion-btn {
+    width: 25%;
+}
+
+/**************************************************************/
+/* ProfileMyOffers */
+/**************************************************************/
+
+.profile__right-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.profile__right-href {
+    color: var(--blue-link);
+    font-weight: 700;
+}
+
+.profile__right-href.active {
+    color: var(--black)
+}
+
+.profile__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile__offer {
+    width: 100%;
+    display: flex;
+    gap: 25px;
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.profile__offer-left {
+    width: 200px;
+}
+
+.profile__offer-left img {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
+.profile__offer-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile__offer-info ul {
+    display: flex;
+    gap: 0.35em;
+}
+
+.profile__offer-address {
+    color: var(--grey);
+}
+
+.profile__offer-btns {
+    display: flex;
+    gap: 12px;
 }
