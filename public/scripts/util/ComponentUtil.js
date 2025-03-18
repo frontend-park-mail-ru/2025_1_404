@@ -16,6 +16,9 @@ import ProfileLeft from '../components/ProfileLeft/ProfileLeft.precompiled.js';
 import ProfilePreview from "../components/ProfilePreview/ProfilePreview.precompiled.js";
 import RedButton from "../components/RedButton/RedButton.precompiled.js";
 import ProfileOffer from "../components/ProfileOffer/ProfileOffer.precompiled.js";
+import OfferCreateNav from "../components/OfferCreateNav/OfferCreateNav.precompiled.js";
+import OfferCreateBtns from "../components/OfferCreateBtns/OfferCreateBtns.precompiled.js";
+import OfferCreateTitle from "../components/OfferCreateTitle/OfferCreateTitle.precompiled.js";
 
 /**
  * @function registerComponents
@@ -39,6 +42,9 @@ export default function registerComponents() {
         [ProfilePreview, 'ProfilePreview'],
         [RedButton, 'RedButton'],
         [ProfileOffer, 'ProfileOffer'],
+        [OfferCreateNav, 'OfferCreateNav'],
+        [OfferCreateBtns, 'OfferCreateBtns'],
+        [OfferCreateTitle, 'OfferCreateTitle'],
     ];
 
     components.forEach(([component, name]) => {

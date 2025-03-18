@@ -20,6 +20,7 @@
     --blue-link: #2B87DB;
     --blue-link-hover: #1A62A6;
     --profile-color-text: #121212;
+    --btn-bg-2: #E6F0FF;
 }
 
 *, *::after, *::before {
@@ -107,7 +108,7 @@ button {
 /**************************************************************/
 .header {
     background-color: var(--white);
-    position: fixed;
+    position: sticky;
     top: 0; left: 0; right: 0;
     z-index: 100;
 }
@@ -579,7 +580,6 @@ input.input__invalid {
     background-position: center;
     height: 18em;
     width: 100%;
-    margin-top: 4.375rem;
     padding: 3.5em 0;
 }
 
@@ -678,9 +678,8 @@ input.input__invalid {
 /**************************************************************/
 
 .profile {
-    margin-top: 4.375rem;
-    padding-top: 1.25rem;
-    height: 100vh;
+    padding-top: 1.25em;
+    height: calc(100vh - 4.375em);
     background-color: var(--profile-bg);
 }
 
@@ -894,4 +893,161 @@ input.input__invalid {
 .profile__offer-btns {
     display: flex;
     gap: 12px;
+}
+
+/**************************************************************/
+/* OfferCreate */
+/**************************************************************/
+
+.offerCreate {
+    background-color: var(--profile-bg);
+}
+
+.offerCreate__inner {
+    padding: 3.5em 0;
+    height: calc(100vh - 4.375em);
+
+    display: grid;
+    row-gap: 40px;
+    column-gap: 75px;
+    grid-template-columns: 9fr 2fr;
+    grid-template-rows: 1fr 7fr;
+    grid-template-areas:
+    'title nav'
+    'main nav';
+}
+
+.offerCreate__nav {
+    grid-area: nav;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid var(--blue);
+}
+
+.offerCreate__title {
+    grid-area: title;
+}
+
+.offerCreate__main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.offerCreate__title, .offerCreate__main {
+    background-color: var(--white);
+    padding: 25px 35px;
+    border-radius: 10px;
+}
+
+.offerCreate__title-start {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+
+/**************************************************************/
+/* OfferCreateType */
+/**************************************************************/
+
+.offerCreate__type-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.offerCreate__choices {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.offerCreate__choice {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.offerCreate__choice-label {
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.offerCreate__choice-btns {
+    display: flex;
+    gap: 30px;
+}
+
+/**************************************************************/
+/* ChoiceButton */
+/**************************************************************/
+
+.choice-button {
+    display: none;
+}
+
+.choice-label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 8px 15px;
+    border: 1px solid var(--light-grey);
+    border-radius: 6px;
+    user-select: none;
+}
+
+.choice-button:checked + .choice-label {
+    background-color: var(--btn-bg-2);
+    border: 1px solid var(--darker-blue);
+    color: var(--darker-blue);
+}
+
+/**************************************************************/
+/* OfferCreateBtns */
+/**************************************************************/
+
+.offerCreate__btns {
+    border-top: 1px solid var(--grey);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.offerCreate__btns-section {
+    display: flex;
+    gap: 25px;
+}
+
+.offerCreate__btns-section button {
+    font-weight: 600;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+/**************************************************************/
+/* OfferCreateNav */
+/**************************************************************/
+
+.offerCreate__nav {
+    background-color: var(--white);
+    padding: 42px 60px;
+    border-radius: 10px;
+}
+
+.offerCreate__stage {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.fa-regular, .fa-solid {
+    color: var(--blue)
+}
+
+.offerCreate__rect {
+    border: 1px solid var(--light-grey);
+    height: 100%;
+    margin-right: 107px;
 }

@@ -1,0 +1,64 @@
+{{> Header }}
+<div class="offerCreate">
+    <div class="container">
+        <div class="offerCreate__inner">
+            {{> OfferCreateTitle }}
+            <div class="offerCreate__main">
+                <div class="offerCreate__type">
+                    <h2 class="offerCreate__type-title">
+                        Тип сделки
+                    </h2>
+                    <div class="offerCreate__choices">
+                        <div class="offerCreate__choice">
+                            <h4 class="offerCreate__choice-label">Вид недвижимости</h4>
+                            <div class="offerCreate__choice-btns">
+                                <div class="offerCreate__choice-btn">
+                                    <input class="choice-button" id="radio-1" type="radio" name="section-1" checked>
+                                    <label class="choice-label" for="radio-1">Вторичка</label>
+                                </div>
+                                <div class="offerCreate__choice-btn">
+                                    <input class="choice-button" id="radio-2" type="radio" name="section-1">
+                                    <label class="choice-label" for="radio-2">Новостройка</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="offerCreate__choice">
+                            <h4 class="offerCreate__choice-label">Тип объявления</h4>
+                            <div class="offerCreate__choice-btns">
+                                <div class="offerCreate__choice-btn">
+                                    <input class="choice-button" id="radio-3" type="radio" name="section-2" checked>
+                                    <label class="choice-label" for="radio-3">Продажа</label>
+                                </div>
+                                <div class="offerCreate__choice-btn">
+                                    <input class="choice-button" id="radio-4" type="radio" name="section-2">
+                                    <label class="choice-label" for="radio-4">Аренда</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="offerCreate__choice">
+                            <h4 class="offerCreate__choice-label">Тип недвижимости</h4>
+                            <div class="offerCreate__choice-btns">
+                                <div class="offerCreate__choice-btn">
+                                    <input class="choice-button" id="radio-5" type="radio" name="radio" checked>
+                                    <label class="choice-label" for="radio-5">Квартира</label>
+                                </div>
+                                <div class="offerCreate__choice-btn">
+                                    <input class="choice-button" id="radio-6" type="radio" name="radio">
+                                    <label class="choice-label" for="radio-6">Дом</label>
+                                </div>
+                                <div class="offerCreate__choice-btn">
+                                    <input class="choice-button" id="radio-7" type="radio" name="radio">
+                                    <label class="choice-label" for="radio-7">Апартаменты</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{> OfferCreateBtns }}
+            </div>
+            {{> OfferCreateNav }}
+        </div>
+    </div>
+</div>

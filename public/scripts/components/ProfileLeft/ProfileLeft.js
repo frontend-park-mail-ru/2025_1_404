@@ -17,6 +17,9 @@ export default class ProfileLeft extends BaseComponent {
         this._mainPageButton = document.getElementById("profileMainButton");
         this._mainPageButton.addEventListener('click', () => this._mainPageButtonHandler());
 
+        this._offerCreatePageButton = document.getElementById("offerCreateButton");
+        this._offerCreatePageButton.addEventListener('click', () => this._offerCreatePageButtonHandler());
+
         this._myOffersButton = document.getElementById('profileMyOffersButton');
         this._myOffersButton.addEventListener('click', () => this._myOffersButtonHandler());
 
@@ -26,6 +29,7 @@ export default class ProfileLeft extends BaseComponent {
 
     destroy() {
         this._mainPageButton.removeEventListener('click', () => this._mainPageButtonHandler());
+        this._offerCreatePageButton.removeEventListener('click',() => this._offerCreatePageButtonHandler());
         this._myOffersButton.removeEventListener('click', () => this._myOffersButtonHandler());
         this._logoutButton.removeEventListener('click', () => this._logoutButtonHandler());
         super.destroy();
@@ -38,6 +42,15 @@ export default class ProfileLeft extends BaseComponent {
      */
     _mainPageButtonHandler() {
         window.routeManager.navigateTo('/profile/main');
+    }
+
+    /**
+     * @method _offerCreatePageButtonHandler
+     * @description Обработчик события перехода на страницу создания объявления
+     * @private
+     */
+    _offerCreatePageButtonHandler() {
+        window.routeManager.navigateTo('/offerCreate/type');
     }
 
     /**
