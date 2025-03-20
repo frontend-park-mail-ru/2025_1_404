@@ -1,6 +1,7 @@
 'use strict';
 
 import BaseRoute from "./BaseRoute.js";
+import PageManager from "../managers/PageManager.js";
 
 /**
  * @class IndexRoute
@@ -9,6 +10,6 @@ import BaseRoute from "./BaseRoute.js";
  */
 export class IndexRoute extends BaseRoute {
     process() {
-        window.pageManager.renderPage('index', {});
+        PageManager.renderPage('index', {});
     }
 }

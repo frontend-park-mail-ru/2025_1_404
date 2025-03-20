@@ -3,6 +3,9 @@
 import BaseComponent from "../BaseComponent.js";
 import template from './ProfileLeft.precompiled.js';
 import {logout} from "../../util/ApiUtil.js";
+import RouteManager from "../../managers/RouteManager.js";
+import PageManager from "../../managers/PageManager.js";
+import MainLayout from "../../layouts/main/MainLayout.js";
 
 /**
  * @class ProfileLeft
@@ -11,27 +14,31 @@ import {logout} from "../../util/ApiUtil.js";
  */
 export default class ProfileLeft extends BaseComponent {
     constructor() {
-        super();
+        super({});
         this.currentProfilePage = null;
 
         this._mainPageButton = document.getElementById("profileMainButton");
-        this._mainPageButton.addEventListener('click', () => this._mainPageButtonHandler());
+        this._mainPageButtonHandler = this._mainPageButtonHandler.bind(this);
+        this._mainPageButton.addEventListener('click', this._mainPageButtonHandler);
 
         this._offerCreatePageButton = document.getElementById("offerCreateButton");
-        this._offerCreatePageButton.addEventListener('click', () => this._offerCreatePageButtonHandler());
+        this._offerCreatePageButtonHandler = this._offerCreatePageButtonHandler.bind(this);
+        this._offerCreatePageButton.addEventListener('click', this._offerCreatePageButtonHandler);
 
         this._myOffersButton = document.getElementById('profileMyOffersButton');
-        this._myOffersButton.addEventListener('click', () => this._myOffersButtonHandler());
+        this._myOffersButtonHandler = this._myOffersButtonHandler.bind(this);
+        this._myOffersButton.addEventListener('click', this._myOffersButtonHandler);
 
         this._logoutButton = document.getElementById('profileLogoutButton');
-        this._logoutButton.addEventListener('click', () => this._logoutButtonHandler());
+        this._logoutButtonHandler = this._logoutButtonHandler.bind(this);
+        this._logoutButton.addEventListener('click', this._logoutButtonHandler);
     }
 
     destroy() {
-        this._mainPageButton.removeEventListener('click', () => this._mainPageButtonHandler());
-        this._offerCreatePageButton.removeEventListener('click',() => this._offerCreatePageButtonHandler());
-        this._myOffersButton.removeEventListener('click', () => this._myOffersButtonHandler());
-        this._logoutButton.removeEventListener('click', () => this._logoutButtonHandler());
+        this._mainPageButton.removeEventListener('click', this._mainPageButtonHandler);
+        this._offerCreatePageButton.removeEventListener('click',this._offerCreatePageButtonHandler);
+        this._myOffersButton.removeEventListener('click', this._myOffersButtonHandler);
+        this._logoutButton.removeEventListener('click', this._logoutButtonHandler);
         super.destroy();
     }
 
@@ -41,7 +48,7 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _mainPageButtonHandler() {
-        window.routeManager.navigateTo('/profile/main');
+        RouteManager.navigateTo('/profile');
     }
 
     /**
@@ -50,7 +57,7 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _offerCreatePageButtonHandler() {
-        window.routeManager.navigateTo('/offerCreate/type');
+        RouteManager.navigateTo('/offer/create/type');
     }
 
     /**
@@ -59,7 +66,7 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _myOffersButtonHandler() {
-        window.routeManager.navigateTo('/profile/myOffers');
+        RouteManager.navigateTo('/profile/offers');
     }
 
     /**
@@ -70,7 +77,7 @@ export default class ProfileLeft extends BaseComponent {
     _logoutButtonHandler() {
         logout().then(() => {
             window.currentUser = null;
-            window.pageManager.setHeaderStatus(false);
+            MainLayout.setHeaderStatus(false);
         })
     }
 }

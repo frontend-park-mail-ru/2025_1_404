@@ -5,7 +5,11 @@
  * @description Базовый класс компонента.
  */
 export default class BaseComponent {
-    destroy() {
+    constructor({page, layout}) {
+        this.page = page;
+        this.layout = layout;
+    }
 
+    destroy() {
     }
 }

@@ -10,7 +10,7 @@ import template from './OfferCreateBtns.precompiled.js';
  */
 export default class OfferCreateBtns extends BaseComponent {
     constructor() {
-        super();
+        super({});
 
         return template();
     }

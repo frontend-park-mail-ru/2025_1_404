@@ -1051,3 +1051,11 @@ input.input__invalid {
     height: 100%;
     margin-right: 107px;
 }
+
+.block-404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    font-size: 2em;
+}

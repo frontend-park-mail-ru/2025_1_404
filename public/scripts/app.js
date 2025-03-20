@@ -1,14 +1,13 @@
 'use strict';
 
-import { PageManager } from "./managers/PageManager.js";
-import { RouteManager } from "./managers/RouteManager.js";
+import PageManager from "./managers/PageManager.js";
+import RouteManager from "./managers/RouteManager.js";
 import { getProfile } from "./util/ApiUtil.js";
 import registerComponents from "./util/ComponentUtil.js";
 import registerPages from "./util/PageUtil.js";
 import registerRoutes from "./util/RouteUtil.js";
+import registerLayouts from "./util/LayoutUtil.js";
 
-window.pageManager = new PageManager();
-window.routeManager = new RouteManager();
 window.currentUser = null;
 
 /**
@@ -16,20 +15,18 @@ window.currentUser = null;
  * @description Инициализация приложения
  */
 const init = function() {
-    window.root = document.getElementById('root');
-
     registerComponents();
     registerPages();
     registerRoutes();
-
-    window.addEventListener('popstate', () => window.routeManager.navigateToPageByCurrentURL());
+    registerLayouts();
 
     getProfile().then((response) => {
         window.currentUser = response;
     }).finally(() => {
-        window.pageManager.setHeaderStatus(window.currentUser !== null);
-        window.routeManager.navigateToPageByCurrentURL();
+        RouteManager.navigateToPageByCurrentURL();
     })
+
+    PageManager.emit('init');
 }
 
 if (document.readyState === 'loading') {

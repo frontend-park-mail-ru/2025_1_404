@@ -9,7 +9,7 @@ import template from "./index.precompiled.js";
 
 /**
  * @class IndexPage
- * @description Страница входа
+ * @description Главная страница
  * @extends Page
  */
 export default class IndexPage extends Page {
@@ -38,14 +38,12 @@ export default class IndexPage extends Page {
         'Филёвская': '#0078BE',
     };
 
-    render(root) {
+    render({root, props, layout}) {
         root.innerHTML = template();
 
-        this._header = new Header();
-        this._loginForm = new Login();
-
         this._cardsList = document.querySelector('.cards__list');
-        this._cardsList.addEventListener('click', (event) => this._cardClickHandler(event));
+        this._cardClickHandler = this._cardClickHandler.bind(this);
+        this._cardsList.addEventListener('click', this._cardClickHandler);
 
         this._getOffers();
 
@@ -53,14 +51,6 @@ export default class IndexPage extends Page {
     }
 
     destroy() {
-        if (this._header) {
-            this._header.destroy();
-        }
-
-        if (this._loginForm) {
-            this._loginForm.destroy();
-        }
-
         if (this._cardsList) {
             this._cardsList.removeEventListener('click', this._cardClickHandler);
         }

@@ -1,40 +1,41 @@
-{{> Header }}
-<div class="profile">
-    <div class="container">
-        <div class="profile__inner">
-            {{> ProfileLeft }}
-            <div class="profile__right">
-                <div class="profile__blocks">
-                    <div class="profile__block">
-                        <h2 class="profile__block-title">Мои объявления</h2>
-                        <div class="profile__previews">
-                            {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-                            {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-                            {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-                        </div>
+{{#> MainLayout}}
+    <div class="profile">
+        <div class="container">
+            <div class="profile__inner">
+                {{> ProfileLeft }}
+                <div class="profile__right">
+                    <div class="profile__blocks">
+                        <div class="profile__block">
+                            <h2 class="profile__block-title">Мои объявления</h2>
+                            <div class="profile__previews">
+                                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                            </div>
 
-                        {{> PrimaryButton name="Показать все объявления" }}
-                    </div>
-                    <div class="profile__block">
-                        <h2 class="profile__block-title">Избранное</h2>
-                        <div class="profile__previews">
-                            {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-                            {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-                            {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                            {{> PrimaryButton name="Показать все объявления" }}
                         </div>
-                        {{> PrimaryButton name="Показать все объявления" }}
+                        <div class="profile__block">
+                            <h2 class="profile__block-title">Избранное</h2>
+                            <div class="profile__previews">
+                                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                            </div>
+                            {{> PrimaryButton name="Показать все объявления" }}
+                        </div>
                     </div>
-                </div>
-                <div class="profile__promotion">
-                    <h2 class="profile__promotion-titel">
-                        Платное продвижение
-                    </h2>
-                    <span class="profile__promotion-text">
+                    <div class="profile__promotion">
+                        <h2 class="profile__promotion-titel">
+                            Платное продвижение
+                        </h2>
+                        <span class="profile__promotion-text">
                          Подключите платное продвижение, чтобы ваше объявление стало заметнее для потенциальных покупателей или арендаторов. Услуга увеличивает просмотры, повышает количество звонков и помогает быстрее закрыть сделку. Ваше объявление будет выделяться в поиске и на главной странице, привлекая больше внимания. Воспользоваться продвижением может любой пользователь, разместивший объявление.
                     </span>
-                    {{> PrimaryButton class="profile__promotion-btn" name="Выбрать объявление" }}
+                        {{> PrimaryButton class="profile__promotion-btn" name="Выбрать объявление" }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+{{/MainLayout}}

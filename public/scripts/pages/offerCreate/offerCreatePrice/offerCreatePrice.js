@@ -10,7 +10,7 @@ import OfferCreateNav from "../../../components/OfferCreateNav/OfferCreateNav.js
  * @extends Page
  */
 export default class OfferCreatePricePage extends Page {
-    render(root) {
+    render({root}) {
         root.innerHTML = template();
 
         this._offerCreateNav = new OfferCreateNav()

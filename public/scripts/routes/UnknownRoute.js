@@ -1,6 +1,7 @@
 'use strict';
 
 import BaseRoute from "./BaseRoute.js";
+import PageManager from "../managers/PageManager.js";
 
 /**
  * @class UnknownRoute
@@ -9,6 +10,6 @@ import BaseRoute from "./BaseRoute.js";
  */
 export class UnknownRoute extends BaseRoute {
     process() {
-        window.pageManager.renderPage('404', {});
+        PageManager.renderPage('404', {});
     }
 }

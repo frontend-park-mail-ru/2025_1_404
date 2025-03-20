@@ -1,5 +1,8 @@
 import BaseComponent from "../BaseComponent.js";
 import {logout} from "../../util/ApiUtil.js";
+import RouteManager from "../../managers/RouteManager.js";
+import PageManager from "../../managers/PageManager.js";
+import MainLayout from "../../layouts/main/MainLayout.js";
 
 /**
  * @class Header
@@ -7,23 +10,31 @@ import {logout} from "../../util/ApiUtil.js";
  * @extends BaseComponent
  */
 export default class Header extends BaseComponent {
-    constructor() {
-        super();
+    constructor({page, layout}) {
+        super({page, layout});
         this._registerButton = document.getElementById('registerButton');
-        this._registerButton.addEventListener('click', () => this._registerButtonHandler());
+        this._registerButtonHandler = this._registerButtonHandler.bind(this);
+        this._registerButton.addEventListener('click', this._registerButtonHandler);
 
         this._loginButton = document.getElementById('loginButton');
-        this._loginButton.addEventListener('click', () => this._loginButtonHandler());
+        this._loginButtonHandler = this._loginButtonHandler.bind(this);
+        this._loginButton.addEventListener('click', this._loginButtonHandler);
 
         this._logoutButton = document.getElementById('logoutButton');
-        this._logoutButton.addEventListener('click', () => this._logoutButtonHandler());
+        this._logoutButtonHandler = this._logoutButtonHandler.bind(this);
+        this._logoutButton.addEventListener('click', this._logoutButtonHandler);
     }
 
     destroy() {
-        this._registerButton.removeEventListener('click', () => this._registerButtonHandler());
-        this._loginButton.removeEventListener('click', () => this._loginButtonHandler());
-        this._logoutButton.removeEventListener('click', () => this._logoutButtonHandler());
+        this._registerButton.removeEventListener('click', this._registerButtonHandler);
+        this._loginButton.removeEventListener('click', this._loginButtonHandler);
+        this._logoutButton.removeEventListener('click', this._logoutButtonHandler);
         super.destroy();
+    }
+
+    _profileHrefHandler(event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/profile');
     }
 
     /**
@@ -32,7 +43,7 @@ export default class Header extends BaseComponent {
      * @private
      */
     _registerButtonHandler() {
-        window.routeManager.navigateTo('/register');
+        RouteManager.navigateTo('/register');
     }
 
     /**
@@ -41,9 +52,7 @@ export default class Header extends BaseComponent {
      * @private
      */
     _loginButtonHandler() {
-        document.querySelector('#passwordInput').value = '';
-        document.querySelector(".login").classList.add('active');
-        document.querySelector(".overlay").classList.add('active');
+        this.layout.emit('showLogin');
     }
 
     /**
@@ -53,8 +62,7 @@ export default class Header extends BaseComponent {
      */
     _logoutButtonHandler() {
         logout().then(() => {
-            window.currentUser = null;
-            window.pageManager.setHeaderStatus(false);
+            this.layout.emit('logout');
         })
     }
 }

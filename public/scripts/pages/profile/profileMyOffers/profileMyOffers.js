@@ -10,7 +10,7 @@ import ProfileLeft from "../../../components/ProfileLeft/ProfileLeft.js";
  * @extends Page
  */
 export default class ProfileMyOffersPage extends Page {
-    render(root) {
+    render({root}) {
         root.innerHTML = template();
 
         this._profileLeft = new ProfileLeft()

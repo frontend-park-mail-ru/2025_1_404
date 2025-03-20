@@ -10,7 +10,7 @@ import template from './OfferCreateTitle.precompiled.js';
  */
 export default class OfferCreateTitle extends BaseComponent {
     constructor() {
-        super();
+        super({});
 
         return template();
     }

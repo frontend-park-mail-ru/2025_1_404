@@ -1,6 +1,9 @@
 import BaseComponent from "../BaseComponent.js";
 import {login} from "../../util/ApiUtil.js";
 import {validateFormInput} from "../../util/ValidatorUtil.js";
+import RouteManager from "../../managers/RouteManager.js";
+import PageManager from "../../managers/PageManager.js";
+import MainLayout from "../../layouts/main/MainLayout.js";
 
 /**
  * @class Login
@@ -8,22 +11,27 @@ import {validateFormInput} from "../../util/ValidatorUtil.js";
  * @extends BaseComponent
  */
 export default class Login extends BaseComponent {
-    constructor() {
-        super();
+    constructor({page, layout}) {
+        super({page, layout});
 
         this._loginCloseButton = document.getElementById('loginCloseButton');
-        this._loginCloseButton.addEventListener('click', () => this._loginCloseButtonHandler());
+        this._loginCloseButtonHandler = this._loginCloseButtonHandler.bind(this);
+        this._loginCloseButton.addEventListener('click',  this._loginCloseButtonHandler);
 
         this._loginFormRegisterButton = document.getElementById('registerHrefButton');
-        this._loginFormRegisterButton.addEventListener('click', () => this._loginFormRegisterButtonHandler());
+        this._loginFormRegisterButtonHandler = this._loginFormRegisterButtonHandler.bind(this);
+        this._loginFormRegisterButton.addEventListener('click', this._loginFormRegisterButtonHandler);
 
         this._loginForm = document.getElementById('login-form');
-        this._loginForm.addEventListener('submit', (event) => this._loginFormHandler(event));
-        this._loginForm.addEventListener('blur', (event) => this._loginFormInputHandler(event), true);
+        this._loginFormHandler = this._loginFormHandler.bind(this);
+        this._loginForm.addEventListener('submit', this._loginFormHandler);
+        this._loginFormInputHandler = this._loginFormInputHandler.bind(this);
+        this._loginForm.addEventListener('blur', this._loginFormInputHandler, true);
 
         this._overlay = null;
         [this._overlay] = document.getElementsByClassName('overlay');
-        this._overlay.addEventListener('click', (event) => this._overlayHandler(event));
+        this._overlayHandler = this._overlayHandler.bind(this);
+        this._overlay.addEventListener('click', this._overlayHandler);
     }
 
     destroy() {
@@ -35,14 +43,24 @@ export default class Login extends BaseComponent {
         super.destroy();
     }
 
+    setShowLogin(isShow) {
+        if (isShow) {
+            document.querySelector('#passwordInput').value = '';
+            document.querySelector(".login").classList.add('active');
+            document.querySelector(".overlay").classList.add('active');
+            return;
+        }
+        document.querySelector(".login").classList.remove('active');
+        document.querySelector(".overlay").classList.remove('active');
+    }
+
     /**
      * @method _loginCloseButtonHandler
      * @description Обработчик события закрытия окна входа
      * @private
      */
     _loginCloseButtonHandler() {
-        document.querySelector(".login").classList.remove('active');
-        document.querySelector(".overlay").classList.remove('active');
+        this.setShowLogin(false);
     }
 
     /**
@@ -51,7 +69,7 @@ export default class Login extends BaseComponent {
      * @private
      */
     _loginFormRegisterButtonHandler() {
-        window.routeManager.navigateTo('/register');
+        RouteManager.navigateTo('/register');
     }
 
     /**
@@ -93,8 +111,10 @@ export default class Login extends BaseComponent {
         }, {});
 
         login(values).then((user) => {
+            // TODO: Выделить логику аутентификации и компонента. Компоненту должно быть плевать, что там с юзером
             window.currentUser = user;
-            window.pageManager.setHeaderStatus(true);
+            this.layout.emit('login');
+
             this._loginCloseButtonHandler();
         }).catch((error) => {
             apiError.textContent = error.message;

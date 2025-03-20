@@ -33,3 +33,4 @@ const compile = function(dir) {
 const rootDir = path.dirname(__dirname);
 compile(path.join(rootDir, 'public', 'scripts', 'pages'));
 compile(path.join(rootDir, 'public', 'scripts', 'components'));
+compile(path.join(rootDir, 'public', 'scripts', 'layouts'));

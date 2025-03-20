@@ -2,6 +2,7 @@
 
 import BaseComponent from "../BaseComponent.js";
 import template from './OfferCreateNav.precompiled.js';
+import RouteManager from "../../managers/RouteManager.js";
 
 /**
  * @class OfferCreateNav
@@ -10,35 +11,41 @@ import template from './OfferCreateNav.precompiled.js';
  */
 export default class OfferCreateNav extends BaseComponent {
     constructor() {
-        super();
+        super({});
         this.currentOfferCreatePage = null;
 
         this._typePageButton = document.getElementById("typePageButton");
-        this._typePageButton.addEventListener('click', () => this._typePageButtonHandler());
+        this._typePageButtonHandler = this._typePageButtonHandler.bind(this);
+        this._typePageButton.addEventListener('click', this._typePageButtonHandler);
 
         this._addressPageButton = document.getElementById("addressPageButton");
-        this._addressPageButton.addEventListener('click', () => this._addressPageButtonHandler());
+        this._addressPageButtonHandler = this._addressPageButtonHandler.bind(this);
+        this._addressPageButton.addEventListener('click', this._addressPageButtonHandler);
 
         this._paramsPageButton = document.getElementById('paramsPageButton');
-        this._paramsPageButton.addEventListener('click', () => this._paramsPageButtonHandler());
+        this._paramsPageButtonHandler = this._paramsPageButtonHandler.bind(this);
+        this._paramsPageButton.addEventListener('click', this._paramsPageButtonHandler);
 
         this._pricePageButton = document.getElementById('pricePageButton');
-        this._pricePageButton.addEventListener('click', () => this._pricePageButtonHandler());
+        this._pricePageButtonHandler = this._pricePageButtonHandler.bind(this);
+        this._pricePageButton.addEventListener('click', this._pricePageButtonHandler);
 
         this._photosPageButton = document.getElementById("photosPageButton");
-        this._photosPageButton.addEventListener('click', () => this._photosPageButtonHandler());
+        this._photosPageButtonHandler = this._photosPageButtonHandler.bind(this);
+        this._photosPageButton.addEventListener('click', this._photosPageButtonHandler);
 
         this._descriptionPageButton = document.getElementById("descriptionPageButton");
-        this._descriptionPageButton.addEventListener('click', () => this._descriptionPageButtonHandler());
+        this._descriptionPageButtonHandler = this._descriptionPageButtonHandler.bind(this);
+        this._descriptionPageButton.addEventListener('click', this._descriptionPageButtonHandler);
     }
 
     destroy() {
-        this._typePageButton.removeEventListener('click', () => this._typePageButtonHandler());
-        this._addressPageButton.removeEventListener('click', () => this._addressPageButtonHandler());
-        this._paramsPageButton.removeEventListener('click', () => this._paramsPageButtonHandler());
-        this._pricePageButton.removeEventListener('click', () => this._pricePageButtonHandler());
-        this._photosPageButton.removeEventListener('click', () => this._photosPageButtonHandler());
-        this._descriptionPageButton.removeEventListener('click', () => this._descriptionPageButtonHandler());
+        this._typePageButton.removeEventListener('click', this._typePageButtonHandler);
+        this._addressPageButton.removeEventListener('click', this._addressPageButtonHandler);
+        this._paramsPageButton.removeEventListener('click', this._paramsPageButtonHandler);
+        this._pricePageButton.removeEventListener('click', this._pricePageButtonHandler);
+        this._photosPageButton.removeEventListener('click', this._photosPageButtonHandler);
+        this._descriptionPageButton.removeEventListener('click', this._descriptionPageButtonHandler);
         super.destroy();
     }
 
@@ -48,7 +55,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _typePageButtonHandler() {
-        window.routeManager.navigateTo('/offerCreate/type');
+        RouteManager.navigateTo('/offer/create/type');
     }
 
     /**
@@ -57,7 +64,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _addressPageButtonHandler() {
-        window.routeManager.navigateTo('/offerCreate/address');
+        RouteManager.navigateTo('/offer/create/address');
     }
 
     /**
@@ -66,7 +73,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _paramsPageButtonHandler() {
-        window.routeManager.navigateTo('/offerCreate/params');
+        RouteManager.navigateTo('/offer/create/params');
     }
 
     /**
@@ -75,7 +82,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _pricePageButtonHandler() {
-        window.routeManager.navigateTo('/offerCreate/price');
+        RouteManager.navigateTo('/offer/create/price');
     }
 
     /**
@@ -84,7 +91,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _photosPageButtonHandler() {
-        window.routeManager.navigateTo('/offerCreate/photos');
+        RouteManager.navigateTo('/offer/create/photos');
     }
 
     /**
@@ -93,6 +100,6 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _descriptionPageButtonHandler() {
-        window.routeManager.navigateTo('/offerCreate/description');
+        RouteManager.navigateTo('/offer/create/description');
     }
 }

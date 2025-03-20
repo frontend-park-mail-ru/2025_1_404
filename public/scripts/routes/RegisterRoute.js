@@ -1,6 +1,8 @@
 'use strict';
 
 import BaseRoute from "./BaseRoute.js";
+import RouteManager from "../managers/RouteManager.js";
+import PageManager from "../managers/PageManager.js";
 
 /**
  * @class RegisterRoute
@@ -10,8 +12,8 @@ import BaseRoute from "./BaseRoute.js";
 export class RegisterRoute extends BaseRoute {
     process() {
         if (window.currentUser !== null) {
-            return window.routeManager.navigateTo('/');
+            return RouteManager.navigateTo('/');
         }
-        return window.pageManager.renderPage('register', {});
+        return PageManager.renderPage('register', {});
     }
 }

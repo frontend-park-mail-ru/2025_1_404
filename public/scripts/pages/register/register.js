@@ -4,6 +4,7 @@ import Page from '../page.js';
 import {registerAccount} from "../../util/ApiUtil.js";
 import template from './register.precompiled.js';
 import {validateFormInput} from "../../util/ValidatorUtil.js";
+import RouteManager from "../../managers/RouteManager.js";
 
 
 /**
@@ -12,6 +13,42 @@ import {validateFormInput} from "../../util/ValidatorUtil.js";
  * @extends Page
  */
 export default class RegisterPage extends Page {
+    render({root}) {
+        root.innerHTML = template();
+
+        this._registerForm = document.getElementById('register-form');
+        this._registerFormHandler = this._registerFormHandler.bind(this);
+        this._registerForm.addEventListener('submit',  this._registerFormHandler);
+        this._registerFormInputHandler = this._registerFormInputHandler.bind(this);
+        this._registerForm.addEventListener('blur', this._registerFormInputHandler, true);
+
+        this._registerHeader = document.getElementById('register-form-header-clickable')
+        this._registerHeaderHandler = this._registerHeaderHandler.bind(this);
+        this._registerHeader.addEventListener('click', this._registerHeaderHandler);
+
+        this._redirectJoinButton = document.getElementById('redirectJoinButton');
+        this._redirectJoinHandler = this._redirectJoinHandler.bind(this);
+        this._redirectJoinButton.addEventListener('click', this._redirectJoinHandler);
+
+        super.render(root);
+    }
+
+    destroy() {
+        if (this._registerForm) {
+            this._registerForm.removeEventListener('submit', this._registerFormHandler);
+            this._registerForm.removeEventListener('blur', this._registerFormInputHandler);
+        }
+
+        if (this._registerHeader) {
+            this._registerHeader.removeEventListener('click', this._registerHeaderHandler);
+        }
+
+        if (this._redirectJoinButton) {
+            this._redirectJoinButton.removeEventListener('click', this._redirectJoinHandler);
+        }
+
+        super.destroy();
+    }
 
     /**
      * @method _registerFormHandler
@@ -49,14 +86,14 @@ export default class RegisterPage extends Page {
         }
         const values = Array.from(inputFields).reduce((acc, field) => {
 
-            if (field.name !== 'confirmPassword') { 
+            if (field.name !== 'confirmPassword') {
                 acc[field.name] = field.value;
             }
             return acc;
         }, {});
         registerAccount(values).then((user) => {
             window.currentUser = user;
-            window.routeManager.navigateTo('/');
+            RouteManager.navigateTo('/');
         }).catch((error) => {
             apiError.textContent = error.message;
             apiError.classList.add('error__visible');
@@ -99,47 +136,11 @@ export default class RegisterPage extends Page {
      */
     _registerHeaderHandler(event) {
         event.preventDefault();
-        window.routeManager.navigateTo('/');
+        RouteManager.navigateTo('/');
     }
 
     _redirectJoinHandler(event) {
         event.preventDefault();
-        window.routeManager.navigateTo('/');
-        document.querySelector('#passwordInput').value = '';
-        document.querySelector(".login").classList.add('active');
-        document.querySelector(".overlay").classList.add('active');
-    }
-
-    render(root) {
-        root.innerHTML = template();
-
-        this._registerForm = document.getElementById('register-form');
-        this._registerForm.addEventListener('submit',  (event) => this._registerFormHandler(event));
-        this._registerForm.addEventListener('blur', (event) => this._registerFormInputHandler(event), true);
-
-        this._registerHeader = document.getElementById('register-form-header-clickable')
-        this._registerHeader.addEventListener('click', (event) => this._registerHeaderHandler(event));
-
-        this._redirectJoinButton = document.getElementById('redirectJoinButton');
-        this._redirectJoinButton.addEventListener('click', (event) => this._redirectJoinHandler(event));
-
-        super.render(root);
-    }
-
-    destroy() {
-        if (this._registerForm) {
-            this._registerForm.removeEventListener('submit', this._registerFormHandler);
-            this._registerForm.removeEventListener('blur', this._registerFormInputHandler);
-        }
-
-        if (this._registerHeader) {
-            this._registerHeader.removeEventListener('click', this._registerHeaderHandler);
-        }
-
-        if (this._redirectJoinButton) {
-            this._redirectJoinButton.removeEventListener('click', this._redirectJoinHandler);
-        }
-
-        super.destroy();
+        RouteManager.navigateTo('/login');
     }
 }
