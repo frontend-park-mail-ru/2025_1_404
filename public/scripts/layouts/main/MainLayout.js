@@ -25,9 +25,6 @@ class MainLayout extends BaseLayout {
     process(page) {
         return {
             destroy: () => {
-                for (const logoHref of this._logoHrefs) {
-                    logoHref.removeEventListener('click', this._logoHrefHandler)
-                }
                 this._header.destroy();
                 this._loginForm.destroy();
 
@@ -36,12 +33,6 @@ class MainLayout extends BaseLayout {
             render: ({root, props}) => {
                 super.process(page).render({props, root});
                 this.setHeaderStatus(User.isAuthenticated());
-
-                this._logoHrefs = document.getElementsByClassName('logo-href');
-                this._logoHrefHandler = this._logoHrefHandler.bind(this);
-                for (const logoHref of this._logoHrefs) {
-                    logoHref.addEventListener('click', this._logoHrefHandler)
-                }
 
                 this._header = new Header({layout: this, page});
                 this._loginForm = new Login({layout: this, page});
@@ -73,22 +64,6 @@ class MainLayout extends BaseLayout {
                 authorizedHeader.style.display = 'none';
             }
         }
-    }
-
-    /**
-     * @method _logoHrefHandler
-     * @description Обработчик клика по логотипу в шапке
-     * @param event
-     * @private
-     */
-    _logoHrefHandler(event) {
-        event.preventDefault();
-        RouteManager.navigateTo('/');
-    }
-
-    _profileHrefHandler(event) {
-        event.preventDefault();
-        RouteManager.navigateTo('/profile');
     }
 }
 

@@ -1,14 +1,17 @@
 export default class BaseLayout {
     constructor() {
-        this.events = {}
+        this.events = {};
+        this.handlers = [];
     }
 
     process(page) {
         return {
-            destroy() {
+            destroy: () => {
+                this.removeListeners();
                 page.destroy();
             },
-            render({root, props}) {
+            render: ({root, props}) => {
+                this.initListeners();
                 page.render({
                     layout: this,
                     props,
@@ -31,4 +34,20 @@ export default class BaseLayout {
             this.events[event]();
         }
     }
+
+    initListeners() {}
+
+    initListener(elementId, type, handler) {
+        const element = document.getElementById(elementId);
+        const boundedHandler = handler.bind(this);
+        element.addEventListener(type, boundedHandler);
+        this.handlers.push({element, handler: boundedHandler, type});
+    }
+
+    removeListeners() {
+        this.handlers.forEach(({element, handler, type}) => {
+            element.removeEventListener(type, handler);
+        });
+    }
+
 }

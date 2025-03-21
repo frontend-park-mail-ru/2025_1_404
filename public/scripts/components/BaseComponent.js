@@ -26,6 +26,15 @@ export default class BaseComponent {
         this.handlers.push({element, handler: boundedHandler, type});
     }
 
+    initListenerForClass(classId, type, handler) {
+        const elements = document.getElementsByClassName(classId);
+        const boundedHandler = handler.bind(this);
+        for (const element of elements) {
+            element.addEventListener(type, boundedHandler);
+            this.handlers.push({element, handler: boundedHandler, type});
+        }
+    }
+
     removeListeners() {
         this.handlers.forEach(({element, handler, type}) => {
             element.removeEventListener(type, handler);

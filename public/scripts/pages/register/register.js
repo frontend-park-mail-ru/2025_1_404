@@ -14,38 +14,17 @@ import {validateFormInput} from "../../util/ValidatorUtil.js";
 export default class RegisterPage extends Page {
     render({root}) {
         root.innerHTML = template();
-
-        this._registerForm = document.getElementById('register-form');
-        this._registerFormHandler = this._registerFormHandler.bind(this);
-        this._registerForm.addEventListener('submit',  this._registerFormHandler);
-        this._registerFormInputHandler = this._registerFormInputHandler.bind(this);
-        this._registerForm.addEventListener('blur', this._registerFormInputHandler, true);
-
-        this._registerHeader = document.getElementById('register-form-header-clickable')
-        this._registerHeaderHandler = this._registerHeaderHandler.bind(this);
-        this._registerHeader.addEventListener('click', this._registerHeaderHandler);
-
-        this._redirectJoinButton = document.getElementById('redirectJoinButton');
-        this._redirectJoinHandler = this._redirectJoinHandler.bind(this);
-        this._redirectJoinButton.addEventListener('click', this._redirectJoinHandler);
-
         super.render(root);
     }
 
+    initListeners() {
+        this.initListener('register-form', 'submit', this._registerFormHandler);
+        this.initListener('register-form', 'blur', this._registerFormInputHandler);
+        this.initListener('register-form-header-clickable', 'click', this._registerHeaderHandler);
+        this.initListener('redirectJoinButton', 'click', this._redirectJoinHandler);
+    }
+
     destroy() {
-        if (this._registerForm) {
-            this._registerForm.removeEventListener('submit', this._registerFormHandler);
-            this._registerForm.removeEventListener('blur', this._registerFormInputHandler);
-        }
-
-        if (this._registerHeader) {
-            this._registerHeader.removeEventListener('click', this._registerHeaderHandler);
-        }
-
-        if (this._redirectJoinButton) {
-            this._redirectJoinButton.removeEventListener('click', this._redirectJoinHandler);
-        }
-
         super.destroy();
     }
 
