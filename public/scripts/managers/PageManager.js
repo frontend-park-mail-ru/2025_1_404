@@ -56,8 +56,8 @@ class PageManager {
 
         this.activePage = this.pages[pageName];
         this.activePage.render({
-            root: this.root,
-            props: props
+            props,
+            root: this.root
         });
     }
 }

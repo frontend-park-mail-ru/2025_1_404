@@ -1,19 +1,18 @@
 'use strict';
 
 import IndexPage from "../pages/index/index.js";
-import RegisterPage from "../pages/register/register.js";
-import ProfilePage from "../pages/profile/profileMain/profileMain.js";
+import MainLayout from "../layouts/main/MainLayout.js";
+import OfferCreateAddressPage from "../pages/offerCreate/offerCreateAddress/offerCreateAddress.js";
+import OfferCreateDescriptionPage from "../pages/offerCreate/offerCreateDescription/offerCreateDescription.js";
+import OfferCreateParamsPage from "../pages/offerCreate/offerCreateParams/offerCreateParams.js";
+import OfferCreatePhotosPage from "../pages/offerCreate/offerCreatePhotos/offerCreatePhotos.js";
+import OfferCreatePricePage from "../pages/offerCreate/offerCreatePrice/offerCreatePrice.js";
+import OfferCreateTypePage from "../pages/offerCreate/offerCreateType/offerCreateType.js";
+import PageManager from "../managers/PageManager.js";
 import ProfileMainPage from "../pages/profile/profileMain/profileMain.js";
 import ProfileMyOffersPage from "../pages/profile/profileMyOffers/profileMyOffers.js";
-import OfferCreateTypePage from "../pages/offerCreate/offerCreateType/offerCreateType.js";
-import OfferCreateAddressPage from "../pages/offerCreate/offerCreateAddress/offerCreateAddress.js";
-import OfferCreateParamsPage from "../pages/offerCreate/offerCreateParams/offerCreateParams.js";
-import OfferCreatePricePage from "../pages/offerCreate/offerCreatePrice/offerCreatePrice.js";
-import OfferCreatePhotosPage from "../pages/offerCreate/offerCreatePhotos/offerCreatePhotos.js";
-import OfferCreateDescriptionPage from "../pages/offerCreate/offerCreateDescription/offerCreateDescription.js";
-import PageManager from "../managers/PageManager.js";
+import RegisterPage from "../pages/register/register.js";
 import UnknownPage from "../pages/404/unknown.js";
-import MainLayout from "../layouts/main/MainLayout.js";
 
 /**
  * @function registerPages

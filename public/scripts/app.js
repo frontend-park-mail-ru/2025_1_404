@@ -1,14 +1,12 @@
 'use strict';
 
 import PageManager from "./managers/PageManager.js";
-import RouteManager from "./managers/RouteManager.js";
-import { getProfile } from "./util/ApiUtil.js";
+import RouteManager from "./managers/RouteManager/RouteManager.js";
+import User from "./models/User.js";
 import registerComponents from "./util/ComponentUtil.js";
+import registerLayouts from "./util/LayoutUtil.js";
 import registerPages from "./util/PageUtil.js";
 import registerRoutes from "./util/RouteUtil.js";
-import registerLayouts from "./util/LayoutUtil.js";
-
-window.currentUser = null;
 
 /**
  * @function init
@@ -20,13 +18,10 @@ const init = function() {
     registerRoutes();
     registerLayouts();
 
-    getProfile().then((response) => {
-        window.currentUser = response;
-    }).finally(() => {
+    User.update().finally(() => {
+        PageManager.emit('init');
         RouteManager.navigateToPageByCurrentURL();
     })
-
-    PageManager.emit('init');
 }
 
 if (document.readyState === 'loading') {

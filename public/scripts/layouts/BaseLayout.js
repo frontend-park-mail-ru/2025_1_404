@@ -5,15 +5,15 @@ export default class BaseLayout {
 
     process(page) {
         return {
-            render({root, props}) {
-                page.render({
-                    root: root,
-                    props: props,
-                    layout: this
-                });
-            },
             destroy() {
                 page.destroy();
+            },
+            render({root, props}) {
+                page.render({
+                    layout: this,
+                    props,
+                    root
+                });
             }
         }
     }

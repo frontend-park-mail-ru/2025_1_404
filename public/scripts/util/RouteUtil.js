@@ -1,18 +1,18 @@
 'use strict';
 
-import {IndexRoute} from "../routes/IndexRoute.js";
-import {RegisterRoute} from "../routes/RegisterRoute.js";
-import {ProfileOffersRoute} from "../routes/profile/ProfileOffersRoute.js";
-import {OfferCreateTypeRoute} from "../routes/offers/OfferCreateTypeRoute.js";
-import RouteManager from "../managers/RouteManager.js";
-import {ProfileMainRoute} from "../routes/profile/ProfileMainRoute.js";
-import {OfferCreateAddressRoute} from "../routes/offers/OfferCreateAddressRoute.js";
-import {OfferCreateParamsRoute} from "../routes/offers/OfferCreateParamsRoute.js";
-import {OfferCreatePriceRoute} from "../routes/offers/OfferCreatePriceRoute.js";
-import {OfferCreatePhotosRoute} from "../routes/offers/OfferCreatePhotosRoute.js";
-import {OfferCreateDescriptionRoute} from "../routes/offers/OfferCreateDescriptionRoute.js";
 import AuthMiddleware from "../middlewares/AuthMiddleware.js";
+import {IndexRoute} from "../routes/IndexRoute.js";
 import {LoginRoute} from "../routes/LoginRoute.js";
+import {OfferCreateAddressRoute} from "../routes/offers/OfferCreateAddressRoute.js";
+import {OfferCreateDescriptionRoute} from "../routes/offers/OfferCreateDescriptionRoute.js";
+import {OfferCreateParamsRoute} from "../routes/offers/OfferCreateParamsRoute.js";
+import {OfferCreatePhotosRoute} from "../routes/offers/OfferCreatePhotosRoute.js";
+import {OfferCreatePriceRoute} from "../routes/offers/OfferCreatePriceRoute.js";
+import {OfferCreateTypeRoute} from "../routes/offers/OfferCreateTypeRoute.js";
+import {ProfileMainRoute} from "../routes/profile/ProfileMainRoute.js";
+import {ProfileOffersRoute} from "../routes/profile/ProfileOffersRoute.js";
+import {RegisterRoute} from "../routes/RegisterRoute.js";
+import RouteManager from "../managers/RouteManager/RouteManager.js";
 
 /**
  * @function registerRoutes

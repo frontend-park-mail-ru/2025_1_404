@@ -1,8 +1,8 @@
 'use strict'
 
 import Page from '../../page.js';
-import template from "./profileMain.precompiled.js";
 import ProfileLeft from "../../../components/ProfileLeft/ProfileLeft.js";
+import template from "./profileMain.precompiled.js";
 
 /**
  * @class ProfileMainPage

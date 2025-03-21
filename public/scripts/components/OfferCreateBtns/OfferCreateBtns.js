@@ -1,7 +1,6 @@
 'use strict';
 
 import BaseComponent from "../BaseComponent.js";
-import template from './OfferCreateBtns.precompiled.js';
 
 /**
  * @class OfferCreateBtns
@@ -11,8 +10,6 @@ import template from './OfferCreateBtns.precompiled.js';
 export default class OfferCreateBtns extends BaseComponent {
     constructor() {
         super({});
-
-        return template();
     }
 
     destroy() {

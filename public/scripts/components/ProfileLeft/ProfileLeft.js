@@ -1,11 +1,9 @@
 'use strict';
 
 import BaseComponent from "../BaseComponent.js";
-import template from './ProfileLeft.precompiled.js';
-import {logout} from "../../util/ApiUtil.js";
-import RouteManager from "../../managers/RouteManager.js";
-import PageManager from "../../managers/PageManager.js";
 import MainLayout from "../../layouts/main/MainLayout.js";
+import RouteManager from "../../managers/RouteManager/RouteManager.js";
+import User from "../../models/User.js";
 
 /**
  * @class ProfileLeft
@@ -15,30 +13,16 @@ import MainLayout from "../../layouts/main/MainLayout.js";
 export default class ProfileLeft extends BaseComponent {
     constructor() {
         super({});
-        this.currentProfilePage = null;
+    }
 
-        this._mainPageButton = document.getElementById("profileMainButton");
-        this._mainPageButtonHandler = this._mainPageButtonHandler.bind(this);
-        this._mainPageButton.addEventListener('click', this._mainPageButtonHandler);
-
-        this._offerCreatePageButton = document.getElementById("offerCreateButton");
-        this._offerCreatePageButtonHandler = this._offerCreatePageButtonHandler.bind(this);
-        this._offerCreatePageButton.addEventListener('click', this._offerCreatePageButtonHandler);
-
-        this._myOffersButton = document.getElementById('profileMyOffersButton');
-        this._myOffersButtonHandler = this._myOffersButtonHandler.bind(this);
-        this._myOffersButton.addEventListener('click', this._myOffersButtonHandler);
-
-        this._logoutButton = document.getElementById('profileLogoutButton');
-        this._logoutButtonHandler = this._logoutButtonHandler.bind(this);
-        this._logoutButton.addEventListener('click', this._logoutButtonHandler);
+    initListeners() {
+        this.initListener('profileMainButton', 'click', this._mainPageButtonHandler);
+        this.initListener('offerCreateButton', 'click', this._offerCreatePageButtonHandler);
+        this.initListener('profileMyOffersButton', 'click', this._myOffersButtonHandler);
+        this.initListener('profileLogoutButton', 'click', this._logoutButtonHandler);
     }
 
     destroy() {
-        this._mainPageButton.removeEventListener('click', this._mainPageButtonHandler);
-        this._offerCreatePageButton.removeEventListener('click',this._offerCreatePageButtonHandler);
-        this._myOffersButton.removeEventListener('click', this._myOffersButtonHandler);
-        this._logoutButton.removeEventListener('click', this._logoutButtonHandler);
         super.destroy();
     }
 
@@ -75,9 +59,8 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _logoutButtonHandler() {
-        logout().then(() => {
-            window.currentUser = null;
+        User.logout().finally(() => {
             MainLayout.setHeaderStatus(false);
-        })
+        });
     }
 }

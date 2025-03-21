@@ -1,7 +1,5 @@
 'use strict'
 
-import Header from "../../components/Header/Header.js";
-import Login from "../../components/Login/Login.js";
 import Page from '../page.js';
 import cardTemplate from "../../components/Card/Card.precompiled.js";
 import {getOffers} from "../../util/ApiUtil.js";
@@ -38,7 +36,7 @@ export default class IndexPage extends Page {
         'Филёвская': '#0078BE',
     };
 
-    render({root, props, layout}) {
+    render({root}) {
         root.innerHTML = template();
 
         this._cardsList = document.querySelector('.cards__list');

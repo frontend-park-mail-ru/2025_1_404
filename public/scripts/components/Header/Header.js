@@ -1,8 +1,6 @@
 import BaseComponent from "../BaseComponent.js";
-import {logout} from "../../util/ApiUtil.js";
-import RouteManager from "../../managers/RouteManager.js";
-import PageManager from "../../managers/PageManager.js";
-import MainLayout from "../../layouts/main/MainLayout.js";
+import RouteManager from "../../managers/RouteManager/RouteManager.js";
+import User from "../../models/User.js";
 
 /**
  * @class Header
@@ -11,24 +9,17 @@ import MainLayout from "../../layouts/main/MainLayout.js";
  */
 export default class Header extends BaseComponent {
     constructor({page, layout}) {
-        super({page, layout});
-        this._registerButton = document.getElementById('registerButton');
-        this._registerButtonHandler = this._registerButtonHandler.bind(this);
-        this._registerButton.addEventListener('click', this._registerButtonHandler);
+        super({layout, page});
+    }
 
-        this._loginButton = document.getElementById('loginButton');
-        this._loginButtonHandler = this._loginButtonHandler.bind(this);
-        this._loginButton.addEventListener('click', this._loginButtonHandler);
-
-        this._logoutButton = document.getElementById('logoutButton');
-        this._logoutButtonHandler = this._logoutButtonHandler.bind(this);
-        this._logoutButton.addEventListener('click', this._logoutButtonHandler);
+    initListeners() {
+        this.initListener('profile-href', 'click', this._profileHrefHandler);
+        this.initListener('registerButton', 'click', this._registerButtonHandler);
+        this.initListener('loginButton', 'click', this._loginButtonHandler);
+        this.initListener('logoutButton', 'click', this._logoutButtonHandler);
     }
 
     destroy() {
-        this._registerButton.removeEventListener('click', this._registerButtonHandler);
-        this._loginButton.removeEventListener('click', this._loginButtonHandler);
-        this._logoutButton.removeEventListener('click', this._logoutButtonHandler);
         super.destroy();
     }
 
@@ -61,8 +52,8 @@ export default class Header extends BaseComponent {
      * @private
      */
     _logoutButtonHandler() {
-        logout().then(() => {
+        User.logout().finally(() => {
             this.layout.emit('logout');
-        })
+        });
     }
 }

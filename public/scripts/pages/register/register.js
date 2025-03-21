@@ -1,11 +1,10 @@
 'use strict'
 
 import Page from '../page.js';
-import {registerAccount} from "../../util/ApiUtil.js";
+import RouteManager from "../../managers/RouteManager/RouteManager.js";
+import User from "../../models/User.js";
 import template from './register.precompiled.js';
 import {validateFormInput} from "../../util/ValidatorUtil.js";
-import RouteManager from "../../managers/RouteManager.js";
-
 
 /**
  * @class RegisterPage
@@ -91,8 +90,8 @@ export default class RegisterPage extends Page {
             }
             return acc;
         }, {});
-        registerAccount(values).then((user) => {
-            window.currentUser = user;
+
+        User.register(values).then(() => {
             RouteManager.navigateTo('/');
         }).catch((error) => {
             apiError.textContent = error.message;

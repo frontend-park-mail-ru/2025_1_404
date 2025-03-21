@@ -9,7 +9,7 @@ import PageManager from "../../managers/PageManager.js";
  * @extends BaseRoute
  */
 export class OfferCreatePhotosRoute extends BaseRoute {
-    process(params) {
+    process() {
         PageManager.renderPage('offerCreatePhotos', {});
     }
 }

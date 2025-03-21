@@ -1,8 +1,8 @@
 'use strict'
 
+import OfferCreateNav from "../../../components/OfferCreateNav/OfferCreateNav.js";
 import Page from '../../page.js';
 import template from "./offerCreateType.precompiled.js";
-import OfferCreateNav from "../../../components/OfferCreateNav/OfferCreateNav.js";
 
 /**
  * @class OfferCreateTypePage

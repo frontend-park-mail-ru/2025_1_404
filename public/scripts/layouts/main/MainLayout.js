@@ -1,7 +1,8 @@
 import BaseLayout from "../BaseLayout.js";
-import RouteManager from "../../managers/RouteManager.js";
 import Header from "../../components/Header/Header.js";
 import Login from "../../components/Login/Login.js";
+import RouteManager from "../../managers/RouteManager/RouteManager.js";
+import User from "../../models/User.js";
 
 class MainLayout extends BaseLayout {
     constructor() {
@@ -12,7 +13,6 @@ class MainLayout extends BaseLayout {
         })
 
         this.on('logout', () => {
-            window.currentUser = null;
             this.setHeaderStatus(false);
             RouteManager.navigateTo('/');
         })
@@ -24,9 +24,18 @@ class MainLayout extends BaseLayout {
 
     process(page) {
         return {
+            destroy: () => {
+                for (const logoHref of this._logoHrefs) {
+                    logoHref.removeEventListener('click', this._logoHrefHandler)
+                }
+                this._header.destroy();
+                this._loginForm.destroy();
+
+                super.process(page).destroy();
+            },
             render: ({root, props}) => {
-                super.process(page).render({root, props});
-                this.setHeaderStatus(window.currentUser !== null);
+                super.process(page).render({props, root});
+                this.setHeaderStatus(User.isAuthenticated());
 
                 this._logoHrefs = document.getElementsByClassName('logo-href');
                 this._logoHrefHandler = this._logoHrefHandler.bind(this);
@@ -34,24 +43,14 @@ class MainLayout extends BaseLayout {
                     logoHref.addEventListener('click', this._logoHrefHandler)
                 }
 
-                this._header = new Header({page, layout: this});
-                this._loginForm = new Login({page, layout: this});
+                this._header = new Header({layout: this, page});
+                this._loginForm = new Login({layout: this, page});
 
                 if (props.showLogin) {
                     document.querySelector('#passwordInput').value = '';
                     document.querySelector(".login").classList.add('active');
                     document.querySelector(".overlay").classList.add('active');
                 }
-            },
-            destroy: () => {
-                for (const logoHref of this._logoHrefs) {
-                    logoHref.removeEventListener('click', this._logoHrefHandler)
-                }
-                this._profileHref.removeEventListener('click', this._profileHrefHandler)
-                this._header.destroy();
-                this._loginForm.destroy();
-
-                super.process(page).destroy();
             }
         }
     }
@@ -68,11 +67,7 @@ class MainLayout extends BaseLayout {
             if (isAuthorized) {
                 header.style.display = 'none';
                 authorizedHeader.style.display = 'block';
-                authorizedHeader.querySelector('.header__name').textContent = `${window.currentUser.first_name}`;
-
-                this._profileHref = document.getElementById('profile-href');
-                this._profileHref.addEventListener('click', this._profileHrefHandler)
-                // TODO добавить деструктор
+                authorizedHeader.querySelector('.header__name').textContent = `${User.getData().firstName}`;
             } else {
                 header.style.display = 'block';
                 authorizedHeader.style.display = 'none';

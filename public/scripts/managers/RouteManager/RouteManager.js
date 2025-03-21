@@ -1,18 +1,7 @@
 'use strict';
 
-import {UnknownRoute} from "../routes/UnknownRoute.js";
-
-/**
- * @class RouteManager
- * @classdesc Менеджер маршрутов.
- */
-class RouteNode {
-    constructor() {
-        this.children = {};
-        this.route = null;
-        this.paramName = null;
-    }
-}
+import {RouteNode} from "./RouteNode.js";
+import {UnknownRoute} from "../../routes/UnknownRoute.js";
 
 class RouteManager {
     /**
@@ -45,12 +34,56 @@ class RouteManager {
             if (!current.children[key]) {
                 current.children[key] = new RouteNode();
                 if (isParam) {
-                    current.children[key].paramName = segment.slice(1);
+                    current.children[key].paramName = segment.slice(this.PATH_START_INDEX);
                 }
             }
             current = current.children[key];
         }
         current.route = route;
+    }
+
+    _preparePathStr(pathStr) {
+        const minimumPathLength = 1;
+        const pathStartIndex = 0;
+        const pathEndIndex = -1;
+
+        let preparedPath = pathStr;
+        if (pathStr.length > minimumPathLength && pathStr.endsWith('/')) {
+            preparedPath = preparedPath.slice(pathStartIndex, pathEndIndex);
+        }
+
+        return preparedPath;
+    }
+
+    _isSamePath(pathStr) {
+        return this.lastPath === pathStr;
+    }
+
+    _updateHistory(pathStr) {
+        history.pushState(null, null, pathStr);
+        this.lastPath = pathStr;
+    }
+
+    _getSegmentsAndParams(pathStr) {
+        const segments = pathStr.split('/').slice(this.PATH_START_INDEX);
+        const params = {};
+        return {params, segments}
+    }
+
+    _processRoute(pathStr) {
+        const {params, segments} = this._getSegmentsAndParams(pathStr);
+        let current = this.root;
+        for (const segment of segments) {
+            if (current.children[segment]) {
+                current = current.children[segment];
+            } else if (current.children[':param']) {
+                current = current.children[':param'];
+                params[current.paramName] = segment;
+            } else {
+                return {params, route: this.unknownRoute}
+            }
+        }
+        return {params, route: current.route};
     }
 
     /**
@@ -59,35 +92,12 @@ class RouteManager {
      * @param pathStr путь URL
      */
     navigateTo(pathStr) {
-        if (pathStr.length > 1 && pathStr.endsWith('/')) {
-            pathStr = pathStr.slice(0, -1);
-        }
-        if (pathStr === this.lastPath) {
+        const preparedPathStr = this._preparePathStr(pathStr);
+        if (this._isSamePath(preparedPathStr)) {
             return;
         }
-        this.lastPath = pathStr;
-        history.pushState(null, null, pathStr);
-
-        const segments = pathStr.split('/').slice(this.PATH_START_INDEX);
-        const params = {};
-        let current = this.root;
-
-        for (const segment of segments) {
-            if (current.children[segment]) {
-                current = current.children[segment];
-                continue;
-            }
-            if (current.children[':param']) {
-                current = current.children[':param'];
-                params[current.paramName] = segment;
-                continue;
-            }
-
-            this.unknownRoute.process(params);
-            return;
-        }
-
-        const route = current.route || this.unknownRoute;
+        this._updateHistory(pathStr);
+        const {route, params} = this._processRoute(preparedPathStr);
         route.process(params);
     }
 

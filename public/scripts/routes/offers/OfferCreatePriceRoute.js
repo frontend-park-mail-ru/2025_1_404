@@ -9,7 +9,7 @@ import PageManager from "../../managers/PageManager.js";
  * @extends BaseRoute
  */
 export class OfferCreatePriceRoute extends BaseRoute {
-    process(params) {
+    process() {
         PageManager.renderPage('offerCreatePrice', {});
     }
 }

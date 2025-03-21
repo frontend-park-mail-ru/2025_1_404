@@ -1,16 +1,17 @@
 'use strict'
 
-import RouteManager from "../managers/RouteManager.js";
 import BaseMiddleware from "./BaseMiddleware.js";
+import RouteManager from "../managers/RouteManager/RouteManager.js";
+import User from "../models/User.js";
 
 class AuthMiddleware extends BaseMiddleware {
     check(route) {
         return {
             process: (params) => {
-                if (window.currentUser === null) {
+                if (!User.isAuthenticated()) {
                     return RouteManager.navigateTo('/login');
                 }
-                super.check(route).process(params);
+                return super.check(route).process(params);
             }
         }
     }
