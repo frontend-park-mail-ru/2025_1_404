@@ -3,6 +3,8 @@
 import OfferCreateNav from "../../../components/OfferCreateNav/OfferCreateNav.js";
 import Page from '../../page.js';
 import template from "./offerCreateType.precompiled.js";
+import OfferCreateBtns from "../../../components/OfferCreateBtns/OfferCreateBtns.js";
+import OfferCreate from "../../../models/OfferCreate.js";
 
 /**
  * @class OfferCreateTypePage
@@ -13,16 +15,11 @@ export default class OfferCreateTypePage extends Page {
     render({root}) {
         root.innerHTML = template();
 
-        this._offerCreateNav = new OfferCreateNav()
-
+        this._selects = document.querySelector('input[name = gender]:checked');
         super.render(root);
     }
 
     destroy() {
-        if (this._offerCreateNav) {
-            this._offerCreateNav.destroy();
-        }
-
         super.destroy();
     }
 }

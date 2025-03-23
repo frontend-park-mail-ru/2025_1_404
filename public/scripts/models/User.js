@@ -1,3 +1,5 @@
+'use strict';
+
 import {getProfile, login, logout, registerAccount} from "../util/ApiUtil.js";
 
 class User {

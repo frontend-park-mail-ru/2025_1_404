@@ -4,7 +4,7 @@ import Login from "../../components/Login/Login.js";
 import RouteManager from "../../managers/RouteManager/RouteManager.js";
 import User from "../../models/User.js";
 
-class MainLayout extends BaseLayout {
+export default class MainLayout extends BaseLayout {
     constructor() {
         super();
 
@@ -66,5 +66,3 @@ class MainLayout extends BaseLayout {
         }
     }
 }
-
-export default new MainLayout();

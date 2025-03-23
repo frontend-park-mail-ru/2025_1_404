@@ -81,6 +81,14 @@ button {
     padding: 0 125px;
 }
 
+.block-404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    font-size: 2em;
+}
+
 /**************************************************************/
 /* Logo */
 /**************************************************************/
@@ -977,6 +985,7 @@ input.input__invalid {
 
 .offerCreate__choice-btns {
     display: flex;
+    flex-wrap: wrap;
     gap: 30px;
 }
 
@@ -1042,8 +1051,20 @@ input.input__invalid {
     gap: 15px;
 }
 
-.fa-regular, .fa-solid {
+.offerCreate__stage-point-disabled {
+    cursor: inherit;
+}
+
+.offerCreate__stage-title-disabled {
+    color: var(--grey);
+}
+
+.fa-regular.fa-circle-dot, .fa-solid.fa-circle-check {
     color: var(--blue)
+}
+
+.fa-regular.fa-circle{
+    color: var(--light-grey);
 }
 
 .offerCreate__rect {
@@ -1052,10 +1073,228 @@ input.input__invalid {
     margin-right: 107px;
 }
 
-.block-404 {
+.offerCreate__rect-fill {
+    border-color: var(--blue);
+}
+
+/**************************************************************/
+/* OfferCreateAddress */
+/**************************************************************/
+
+.offerCreate__address-inputs {
+    display: grid;
+    grid-template-columns: 45% 15% 15%;
+    justify-content: space-between;
+}
+
+.offerCreate__input {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.offerCreate__input .input {
+    width: inherit;
+}
+
+.offerCreate__input-label {
+    font-size: 22px;
+    /*font-weight: 600;*/
+}
+
+/**************************************************************/
+/* OfferCreateParams */
+/**************************************************************/
+
+.offerCreate__params {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.offerCreate__params-row {
+    display: flex;
+    gap: 75px;
+}
+
+.offerCreate__params-square {
+    max-width: 30%;
+}
+
+/**************************************************************/
+/* OfferCreatePrice */
+/**************************************************************/
+
+.offerCreate__price {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.offerCreate__price-calculation {
+    background-color: var(--profile-bg);
+    padding: 22px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.offerCreate__calculation-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.offerCreate__calculation-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.offerCreate__calculation-block {
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    padding: 15px 15px;
+    display: flex;
+    gap: 225px;
+}
+
+.offerCreate__calculation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.offerCreate__calculation-price {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.offerCreate__calculation-label {
+    display: flex;
+    flex-direction: column;
+}
+
+.offerCreate__price-input {
+    max-width: 40%;
+}
+
+/**************************************************************/
+/* OfferCreatePhotos */
+/**************************************************************/
+
+.offerCreate__photos {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-bottom: 40px;
+}
+
+.offerCreate__photos-input {
+    background-color: var(--profile-bg);
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30vh;
-    font-size: 2em;
+    gap: 10px;
+}
+
+.offerCreate__photos-hover {
+    background-color: var(--grey);
+}
+
+.offerCreate__photos-input input {
+    display: none;
+}
+
+.offerCreate__photos-previews {
+    display: flex;
+    gap: 15px;
+}
+
+.offerCreate__photos-preview {
+    position: relative;
+    height: 80px;
+}
+
+.offerCreate__photos-preview img {
+    height: 100%;
+    width: 100%;
+}
+
+.offerCreate__photos-delete {
+    position: absolute;
+    z-index: 1;
+    right: 6px;
+    top: 6px;
+    width: fit-content;
+    height: fit-content;
+
+}
+
+/**************************************************************/
+/* DeleteCrossButton */
+/**************************************************************/
+
+.delete__cross {
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    color: var(--grey);
+    transition: color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+}
+
+.delete__cross:hover {
+    color: var(--red);
+}
+
+.delete__cross i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/**************************************************************/
+/* OfferCreateDescription */
+/**************************************************************/
+
+.offerCreate__description {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 40px;
+}
+
+.offerCreate__description-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.offerCreate__description-textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    color: var(--black-text);
+    font-size: 1em;
+    padding: 1em;
+    border: 1px solid var(--light-grey);
+    border-radius: 6px;
+    transition:
+            border-color 0.3s ease,
+            box-shadow 0.3s ease;
+}
+
+.offerCreate__description-textarea:hover{
+    border-color: var(--black-text);
+    box-shadow: 0 0 0px;
+}
+
+.offerCreate__description-textarea:focus {
+    border-color: var(--darker-blue);
+    box-shadow: 0 0 4px var(--blue-shadow);
 }

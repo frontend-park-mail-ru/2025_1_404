@@ -1,7 +1,7 @@
 'use strict';
 
 import BaseComponent from "../BaseComponent.js";
-import RouteManager from "../../managers/RouteManager/RouteManager.js";
+import OfferCreate from "../../models/OfferCreate.js";
 
 /**
  * @class OfferCreateNav
@@ -9,8 +9,13 @@ import RouteManager from "../../managers/RouteManager/RouteManager.js";
  * @extends BaseComponent
  */
 export default class OfferCreateNav extends BaseComponent {
-    constructor() {
-        super({});
+
+    _emptyStageClass = "fa-regular fa-circle"
+    _currentStageClass = "fa-regular fa-circle-dot";
+    _filledStageClass = "fa-solid fa-circle-check";
+
+    constructor({page, layout}) {
+        super({layout, page});
     }
 
     initListeners() {
@@ -32,7 +37,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _typePageButtonHandler() {
-        RouteManager.navigateTo('/offer/create/type');
+        this.layout.emit('goToPage', 'type');
     }
 
     /**
@@ -41,7 +46,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _addressPageButtonHandler() {
-        RouteManager.navigateTo('/offer/create/address');
+        this.layout.emit('goToPage', 'address');
     }
 
     /**
@@ -50,7 +55,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _paramsPageButtonHandler() {
-        RouteManager.navigateTo('/offer/create/params');
+        this.layout.emit('goToPage', 'params');
     }
 
     /**
@@ -59,7 +64,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _pricePageButtonHandler() {
-        RouteManager.navigateTo('/offer/create/price');
+        this.layout.emit('goToPage', 'price');
     }
 
     /**
@@ -68,7 +73,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _photosPageButtonHandler() {
-        RouteManager.navigateTo('/offer/create/photos');
+        this.layout.emit('goToPage', 'photos');
     }
 
     /**
@@ -77,6 +82,56 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     _descriptionPageButtonHandler() {
-        RouteManager.navigateTo('/offer/create/description');
+        this.layout.emit('goToPage', 'description');
+    }
+
+    addCurrentStageClass(id) {
+        const stage = document.getElementById(id).firstElementChild;
+        this._emptyStageClass.split(" ").forEach(stageClass => {
+            stage.classList.remove(stageClass);
+        })
+        this._filledStageClass.split(" ").forEach(stageClass => {
+            stage.classList.remove(stageClass);
+        })
+        this._currentStageClass.split(" ").forEach(stageClass => {
+            stage.classList.add(stageClass);
+        })
+    }
+
+    addFilledStageClass(ids) {
+        this._fillRectangles(ids.length);
+        ids.forEach(id => {
+            const stage = document.getElementById(id).firstElementChild;
+            this._currentStageClass.split(" ").forEach(stageClass => {
+                stage.classList.remove(stageClass);
+            })
+            this._emptyStageClass.split(" ").forEach(stageClass => {
+                stage.classList.remove(stageClass);
+            })
+            this._filledStageClass.split(" ").forEach(stageClass => {
+                stage.classList.add(stageClass);
+            })
+        })
+    }
+
+    addEmptyStageClass(id) {
+        const stage = document.getElementById(id).firstElementChild;
+        this._filledStageClass.split(" ").forEach(stageClass => {
+            stage.classList.remove(stageClass);
+        })
+        this._currentStageClass.split(" ").forEach(stageClass => {
+            stage.classList.remove(stageClass);
+        })
+        this._emptyStageClass.split(" ").forEach(stageClass => {
+            stage.classList.add(stageClass);
+        })
+    }
+
+    _fillRectangles(amount) {
+        amount = Math.min(amount, 5);
+        const rectangles = document.getElementsByClassName("offerCreate__rect");
+        for (let i = 0; i < amount; i++) {
+            rectangles[i].classList.add("offerCreate__rect-fill");
+        }
     }
 }

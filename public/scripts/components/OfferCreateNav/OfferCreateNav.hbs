@@ -1,53 +1,23 @@
 <div class="offerCreate__nav">
-    <div class="offerCreate__stage">
-        <button class="offerCreate__point" id="typePageButton">
-            <i class="fa-solid fa-circle-check fa-2x"></i>
-        </button>
-        <span class="offerCreate__stage-title">Тип сделки</span>
-    </div>
+    {{> OfferCreateStage id="typePage" class="fa-regular fa-circle" name="Тип сделки"}}
 
     <div class="offerCreate__rect"></div>
 
-    <div class="offerCreate__stage">
-        <button class="offerCreate__point" id="addressPageButton">
-            <i class="fa-regular fa-circle-dot fa-2x"></i>
-        </button>
-        <span class="offerCreate__stage-title">Адрес</span>
-    </div>
+    {{> OfferCreateStage id="addressPage" class="fa-regular fa-circle" name="Адрес"}}
 
     <div class="offerCreate__rect"></div>
 
-    <div class="offerCreate__stage">
-        <button class="offerCreate__point" id="paramsPageButton">
-            <i class="fa-regular fa-circle fa-2x"></i>
-        </button>
-        <span class="offerCreate__stage-title">Параметры</span>
-    </div>
+    {{> OfferCreateStage id="paramsPage" class="fa-regular fa-circle" name="Параметры"}}
 
     <div class="offerCreate__rect"></div>
 
-    <div class="offerCreate__stage">
-        <button class="offerCreate__point" id="pricePageButton">
-            <i class="fa-regular fa-circle fa-2x"></i>
-        </button>
-        <span class="offerCreate__stage-title">Цена</span>
-    </div>
+    {{> OfferCreateStage id="pricePage" class="fa-regular fa-circle" name="Цена"}}
 
     <div class="offerCreate__rect"></div>
 
-    <div class="offerCreate__stage">
-        <button class="offerCreate__point" id="photosPageButton">
-            <i class="fa-regular fa-circle fa-2x"></i>
-        </button>
-        <span class="offerCreate__stage-title">Фотографии</span>
-    </div>
+    {{> OfferCreateStage id="photosPage" class="fa-regular fa-circle" name="Фотографии"}}
 
     <div class="offerCreate__rect"></div>
 
-    <div class="offerCreate__stage">
-        <button class="offerCreate__point" id="descriptionPageButton">
-            <i class="fa-regular fa-circle fa-2x"></i>
-        </button>
-        <span class="offerCreate__stage-title">Описание</span>
-    </div>
+    {{> OfferCreateStage id="descriptionPage" class="fa-regular fa-circle" name="Описание"}}
 </div>

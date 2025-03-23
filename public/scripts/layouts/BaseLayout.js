@@ -29,9 +29,9 @@ export default class BaseLayout {
         this.events[event] = null;
     }
 
-    emit(event) {
+    emit(event, ...args) {
         if (this.events[event]) {
-            this.events[event]();
+            this.events[event](...args);
         }
     }
 

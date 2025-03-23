@@ -1,16 +1,20 @@
-{{#> MainLayout}}
-    <div class="offerCreate">
-        <div class="container">
-            <div class="offerCreate__inner">
-                {{> OfferCreateTitle }}
-                <div class="offerCreate__main">
-                    <div class="offerCreate__address">
-
-                    </div>
-                    {{> OfferCreateBtns }}
-                </div>
-                {{> OfferCreateNav }}
-            </div>
+{{#> OfferCreateLayout }}
+<div class="offerCreate__address">
+    <div class="offerCreate__address-inputs">
+        <div class="offerCreate__input offerCreate__address-address">
+            <label for="input-address" class="offerCreate__input-label">Адрес</label>
+            {{> Input id="input-address" type="text"}}
+        </div>
+        <div class="offerCreate__input offerCreate__address-floor">
+            <label for="input-floor" class="offerCreate__input-label">Этаж</label>
+            {{> Input id="input-floor" type="text"}}
+        </div>
+        <div class="offerCreate__input offerCreate__address-flat">
+            <label for="input-flat" class="offerCreate__input-label">Квартира</label>
+            {{> Input id="input-flat" type="text"}}
         </div>
     </div>
-{{/MainLayout}}
+</div>
+<div id="map" style="width: 600px; height: 200px"></div>
+<script src="https://api-maps.yandex.ru/v3/?apikey=f09a4e45-b4b0-46f9-9fa7-84165a883c5e&lang=ru_RU"></script>
+{{/ OfferCreateLayout }}
