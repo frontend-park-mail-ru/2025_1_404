@@ -4,6 +4,7 @@ import PageManager from "./managers/PageManager.js";
 import RouteManager from "./managers/RouteManager/RouteManager.js";
 import User from "./models/User.js";
 import registerComponents from "./util/ComponentUtil.js";
+import registerHandlebarsHelper from './util/HandlebarsHelper.js'
 import registerLayouts from "./util/LayoutUtil.js";
 import registerPages from "./util/PageUtil.js";
 import registerRoutes from "./util/RouteUtil.js";
@@ -17,6 +18,7 @@ const init = function() {
     registerPages();
     registerRoutes();
     registerLayouts();
+    registerHandlebarsHelper();
 
     User.update().finally(() => {
         PageManager.emit('init');
@@ -29,4 +31,3 @@ if (document.readyState === 'loading') {
 } else {
     init();
 }
-

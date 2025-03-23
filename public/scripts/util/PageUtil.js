@@ -1,5 +1,6 @@
 'use strict';
 
+import HousingComlpexPage from "../pages/housing-complex/housing-complex.js";
 import IndexPage from "../pages/index/index.js";
 import MainLayout from "../layouts/main/MainLayout.js";
 import OfferCreateAddressPage from "../pages/offerCreate/offerCreateAddress/offerCreateAddress.js";
@@ -34,5 +35,5 @@ export default function registerPages() {
     PageManager.registerPage('offerCreatePhotos', OfferCreateLayout.process(new OfferCreatePhotosPage()));
     PageManager.registerPage('offerCreateDescription', OfferCreateLayout.process(new OfferCreateDescriptionPage()));
 
-
+    PageManager.registerPage('zhk', MainLayout.process(new HousingComlpexPage()));
 }

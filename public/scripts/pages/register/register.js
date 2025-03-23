@@ -19,7 +19,7 @@ export default class RegisterPage extends Page {
 
     initListeners() {
         this.initListener('register-form', 'submit', this._registerFormHandler);
-        this.initListener('register-form', 'blur', this._registerFormInputHandler);
+        this.initListener('register-form', 'focusout', this._registerFormInputHandler);
         this.initListener('register-form-header-clickable', 'click', this._registerHeaderHandler);
         this.initListener('redirectJoinButton', 'click', this._redirectJoinHandler);
     }

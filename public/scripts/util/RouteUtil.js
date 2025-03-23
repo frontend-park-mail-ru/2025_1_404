@@ -13,6 +13,7 @@ import {ProfileMainRoute} from "../routes/profile/ProfileMainRoute.js";
 import {ProfileOffersRoute} from "../routes/profile/ProfileOffersRoute.js";
 import {RegisterRoute} from "../routes/RegisterRoute.js";
 import RouteManager from "../managers/RouteManager/RouteManager.js";
+import { HousingComplexRoute } from "../routes/HousingComplexRoute.js";
 
 /**
  * @function registerRoutes
@@ -32,4 +33,6 @@ export default function registerRoutes() {
     RouteManager.registerRoute('offer/create/price', AuthMiddleware.check(new OfferCreatePriceRoute()));
     RouteManager.registerRoute('offer/create/photos', AuthMiddleware.check(new OfferCreatePhotosRoute()));
     RouteManager.registerRoute('offer/create/description', AuthMiddleware.check(new OfferCreateDescriptionRoute()));
+
+    RouteManager.registerRoute('zhk/:id', new HousingComplexRoute());
 }

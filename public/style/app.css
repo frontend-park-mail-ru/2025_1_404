@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import './components/HousingComplex.css';
+@import './components/Chevron.css';
+@import './components/PicturesCarousel.css';
 
 :root{
     --blue: #0468FF;
@@ -21,6 +24,7 @@
     --blue-link-hover: #1A62A6;
     --profile-color-text: #121212;
     --btn-bg-2: #E6F0FF;
+    --orange: #FFA800;
 }
 
 *, *::after, *::before {
@@ -33,6 +37,12 @@
 html, body, #root {
     width: 100%;
     height: 100%;
+}
+
+#root {
+    display: block;
+    position: relative;
+    z-index: 1;
 }
 
 body {
@@ -209,7 +219,7 @@ button {
 
 .primary-btn:disabled {
     background-color: var(--light-grey);
-    color: var(--grey);
+    color: var(--black-text);
     cursor: default;
 }
 
@@ -374,6 +384,13 @@ button {
 .card__info ul {
     display: flex;
     gap: 0.35em;
+}
+
+.card__metro{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 .card__address {
@@ -679,6 +696,20 @@ input.input__invalid {
     /*justify-content: space-between;*/
     gap: 1.6em;
     flex-wrap: wrap;
+}
+
+/**************************************************************/
+/* Metro */
+/**************************************************************/
+
+
+.icon_subway{
+    width: 17px;
+    height: 12px;
+    -webkit-mask-image: url('../resources/img/card/metro.svg');
+    mask-image: url('../resources/img/card/metro.svg');
+    -webkit-mask-size: cover;
+    mask-size: cover;
 }
 
 /**************************************************************/
