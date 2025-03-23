@@ -4,6 +4,7 @@ import { PageManager } from "./managers/PageManager.js";
 import { RouteManager } from "./managers/RouteManager.js";
 import { getProfile } from "./util/ApiUtil.js";
 import registerComponents from "./util/ComponentUtil.js";
+import registerHandlebarsHelpers from "./util/HandlebarsHelper.js"
 import registerPages from "./util/PageUtil.js";
 import registerRoutes from "./util/RouteUtil.js";
 
@@ -21,6 +22,7 @@ const init = function() {
     registerComponents();
     registerPages();
     registerRoutes();
+    registerHandlebarsHelpers();
 
     window.addEventListener('popstate', () => window.routeManager.navigateToPageByCurrentURL());
 

@@ -1,5 +1,6 @@
 'use strict';
 
+import { HousingComplexRoute } from "../routes/HousingComplexRoute.js";
 import {IndexRoute} from "../routes/IndexRoute.js";
 import {RegisterRoute} from "../routes/RegisterRoute.js";
 
@@ -10,4 +11,5 @@ import {RegisterRoute} from "../routes/RegisterRoute.js";
 export default function registerRoutes() {
     window.routeManager.registerRoute('', new IndexRoute());
     window.routeManager.registerRoute('register', new RegisterRoute());
+    window.routeManager.registerRoute('zhk', new HousingComplexRoute());
 }
