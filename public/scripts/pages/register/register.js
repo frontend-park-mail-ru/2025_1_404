@@ -1,10 +1,10 @@
 'use strict'
 
 import Page from '../page.js';
-import {registerAccount} from "../../util/ApiUtil.js";
+import RouteManager from "../../managers/RouteManager/RouteManager.js";
+import User from "../../models/User.js";
 import template from './register.precompiled.js';
 import {validateFormInput} from "../../util/ValidatorUtil.js";
-
 
 /**
  * @class RegisterPage
@@ -12,6 +12,21 @@ import {validateFormInput} from "../../util/ValidatorUtil.js";
  * @extends Page
  */
 export default class RegisterPage extends Page {
+    render({root}) {
+        root.innerHTML = template();
+        super.render(root);
+    }
+
+    initListeners() {
+        this.initListener('register-form', 'submit', this._registerFormHandler);
+        this.initListener('register-form', 'focusout', this._registerFormInputHandler);
+        this.initListener('register-form-header-clickable', 'click', this._registerHeaderHandler);
+        this.initListener('redirectJoinButton', 'click', this._redirectJoinHandler);
+    }
+
+    destroy() {
+        super.destroy();
+    }
 
     /**
      * @method _registerFormHandler
@@ -49,14 +64,14 @@ export default class RegisterPage extends Page {
         }
         const values = Array.from(inputFields).reduce((acc, field) => {
 
-            if (field.name !== 'confirmPassword') { 
+            if (field.name !== 'confirmPassword') {
                 acc[field.name] = field.value;
             }
             return acc;
         }, {});
-        registerAccount(values).then((user) => {
-            window.currentUser = user;
-            window.routeManager.navigateTo('/');
+
+        User.register(values).then(() => {
+            RouteManager.navigateTo('/');
         }).catch((error) => {
             apiError.textContent = error.message;
             apiError.classList.add('error__visible');
@@ -99,47 +114,11 @@ export default class RegisterPage extends Page {
      */
     _registerHeaderHandler(event) {
         event.preventDefault();
-        window.routeManager.navigateTo('/');
+        RouteManager.navigateTo('/');
     }
 
     _redirectJoinHandler(event) {
         event.preventDefault();
-        window.routeManager.navigateTo('/');
-        document.querySelector('#passwordInput').value = '';
-        document.querySelector(".login").classList.add('active');
-        document.querySelector(".overlay").classList.add('active');
-    }
-
-    render(root) {
-        root.innerHTML = template();
-
-        this._registerForm = document.getElementById('register-form');
-        this._registerForm.addEventListener('submit',  (event) => this._registerFormHandler(event));
-        this._registerForm.addEventListener('blur', (event) => this._registerFormInputHandler(event), true);
-
-        this._registerHeader = document.getElementById('register-form-header-clickable')
-        this._registerHeader.addEventListener('click', (event) => this._registerHeaderHandler(event));
-
-        this._redirectJoinButton = document.getElementById('redirectJoinButton');
-        this._redirectJoinButton.addEventListener('click', (event) => this._redirectJoinHandler(event));
-
-        super.render(root);
-    }
-
-    destroy() {
-        if (this._registerForm) {
-            this._registerForm.removeEventListener('submit', this._registerFormHandler);
-            this._registerForm.removeEventListener('blur', this._registerFormInputHandler);
-        }
-
-        if (this._registerHeader) {
-            this._registerHeader.removeEventListener('click', this._registerHeaderHandler);
-        }
-
-        if (this._redirectJoinButton) {
-            this._redirectJoinButton.removeEventListener('click', this._redirectJoinHandler);
-        }
-
-        super.destroy();
+        RouteManager.navigateTo('/login');
     }
 }

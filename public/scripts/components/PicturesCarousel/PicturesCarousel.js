@@ -9,21 +9,18 @@ import BaseComponent from "../BaseComponent.js";
  */
 export default class PicturesCarousel extends BaseComponent {
     constructor() {
-        super();
+        super({});
         this._carousel = document.querySelector('.carousel__pictures');
         this._images = document.querySelectorAll('.carousel img');
         this._index = 0;
         this._imagePerClick = 1;
-
-        this._chevronRight = document.getElementById('chevronRight');
-        this._chevronRight.addEventListener('click', () => this._slideToRight());
-
-        this._chevronLeft = document.getElementById('chevronLeft');
-        this._chevronLeft.addEventListener('click', () => this._slideToLeft());
     }
+    initListeners() {
+        this.initListener('chevronRight', 'click', this._slideToRight);
+        this.initListener('chevronLeft', 'click', this._slideToLeft);
+    }
+
     destroy() {
-        this._chevronLeft.removeEventListener('click', () => this._slideToLeft());
-        this._chevronRight.removeEventListener('click', () => this._slideToRight());
         super.destroy();
     }
 

@@ -1,7 +1,5 @@
 'use strict'
 
-import Header from "../../components/Header/Header.js";
-import Login from "../../components/Login/Login.js";
 import Page from '../page.js';
 import cardTemplate from "../../components/Card/Card.precompiled.js";
 import {getOffers} from "../../util/ApiUtil.js";
@@ -10,20 +8,18 @@ import template from "./index.precompiled.js";
 
 /**
  * @class IndexPage
- * @description Страница входа
+ * @description Главная страница
  * @extends Page
  */
 export default class IndexPage extends Page {
     _metroColor = metroColours;
 
-    render(root) {
+    render({root}) {
         root.innerHTML = template();
 
-        this._header = new Header();
-        this._loginForm = new Login();
-
         this._cardsList = document.querySelector('.cards__list');
-        this._cardsList.addEventListener('click', (event) => this._cardClickHandler(event));
+        this._cardClickHandler = this._cardClickHandler.bind(this);
+        this._cardsList.addEventListener('click', this._cardClickHandler);
 
         this._getOffers();
 
@@ -31,14 +27,6 @@ export default class IndexPage extends Page {
     }
 
     destroy() {
-        if (this._header) {
-            this._header.destroy();
-        }
-
-        if (this._loginForm) {
-            this._loginForm.destroy();
-        }
-
         if (this._cardsList) {
             this._cardsList.removeEventListener('click', this._cardClickHandler);
         }

@@ -4,7 +4,7 @@
  * @class PageManager
  * @description Класс для управления страницами
  */
-export class PageManager {
+class PageManager {
     /**
      * @constructor
      * @description Конструктор класса
@@ -12,6 +12,25 @@ export class PageManager {
     constructor() {
         this.pages = {};
         this.activePage = null;
+        this.events = {};
+
+        this.on('init', () => {
+            this.root = document.getElementById('root');
+        })
+    }
+
+    on(event, callback) {
+        this.events[event] = callback;
+    }
+
+    off(event) {
+        this.events[event] = null;
+    }
+
+    emit(event) {
+        if (this.events[event]) {
+            this.events[event]();
+        }
     }
 
     /**
@@ -22,16 +41,6 @@ export class PageManager {
      */
     registerPage(pageName, page) {
         this.pages[pageName] = page;
-    }
-
-    /**
-     * @method getPage
-     * @description Получение страницы по имени
-     * @param pageName ключевое имя страницы
-     * @returns {Page}
-     */
-    getPage(pageName) {
-        return this.pages[pageName];
     }
 
     /**
@@ -46,17 +55,11 @@ export class PageManager {
         }
 
         this.activePage = this.pages[pageName];
-        this.activePage.render(window.root, props);
-    }
-
-    /**
-     * @method setHeaderStatus
-     * @description Установка статуса шапки (для авторизованного пользователя или нет)
-     * @param isAuthorized
-     */
-    setHeaderStatus(isAuthorized) {
-        if (this.activePage) {
-            this.activePage.setHeaderStatus(isAuthorized);
-        }
+        this.activePage.render({
+            props,
+            root: this.root
+        });
     }
 }
+
+export default new PageManager();

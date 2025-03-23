@@ -1,36 +1,28 @@
 'use strict';
 
-import { PageManager } from "./managers/PageManager.js";
-import { RouteManager } from "./managers/RouteManager.js";
-import { getProfile } from "./util/ApiUtil.js";
+import PageManager from "./managers/PageManager.js";
+import RouteManager from "./managers/RouteManager/RouteManager.js";
+import User from "./models/User.js";
 import registerComponents from "./util/ComponentUtil.js";
-import registerHandlebarsHelpers from "./util/HandlebarsHelper.js"
+import registerHandlebarsHelper from './util/HandlebarsHelper.js'
+import registerLayouts from "./util/LayoutUtil.js";
 import registerPages from "./util/PageUtil.js";
 import registerRoutes from "./util/RouteUtil.js";
-
-window.pageManager = new PageManager();
-window.routeManager = new RouteManager();
-window.currentUser = null;
 
 /**
  * @function init
  * @description Инициализация приложения
  */
 const init = function() {
-    window.root = document.getElementById('root');
-
     registerComponents();
     registerPages();
     registerRoutes();
-    registerHandlebarsHelpers();
+    registerLayouts();
+    registerHandlebarsHelper();
 
-    window.addEventListener('popstate', () => window.routeManager.navigateToPageByCurrentURL());
-
-    getProfile().then((response) => {
-        window.currentUser = response;
-    }).finally(() => {
-        window.pageManager.setHeaderStatus(window.currentUser !== null);
-        window.routeManager.navigateToPageByCurrentURL();
+    User.update().finally(() => {
+        PageManager.emit('init');
+        RouteManager.navigateToPageByCurrentURL();
     })
 }
 
@@ -39,4 +31,3 @@ if (document.readyState === 'loading') {
 } else {
     init();
 }
-

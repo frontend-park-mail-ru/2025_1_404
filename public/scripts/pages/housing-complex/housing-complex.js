@@ -14,13 +14,12 @@ import template from "./housing-complex.precompiled.js";
  * @extends Page
  */
 export default class HousingComlpexPage extends Page {
-    render (root, {id}) {
-
-        this._getInformation(id)
+    render ({root, props: {id}}) {
+        this._getInformation()
         .then ((data) => {
             root.innerHTML = template(data);
             this._carousel = new HousingComplexCarousel();
-            this._information = new HousingComplexInformation(id);
+            this._information = new HousingComplexInformation();
             this._reviews = new HousingComplexReviews();
             super.render(root);
         })
@@ -31,12 +30,18 @@ export default class HousingComlpexPage extends Page {
         if (this._carousel) {
             this._carousel.destroy();
         }
+        if (this._information) {
+            this._information.destroy();
+        }
+        if (this._reviews) {
+            this._reviews.destroy();
+        }
 
         super.destroy();
     }
 
-    _getInformation(id) {
-        return getHousingComplex(id)
+    _getInformation() {
+        return getHousingComplex()
         .then((data) => data)
         .catch ((error) => {
             console.log(error);

@@ -1,5 +1,6 @@
 import BaseComponent from "../BaseComponent.js";
-import {login} from "../../util/ApiUtil.js";
+import RouteManager from "../../managers/RouteManager/RouteManager.js";
+import User from "../../models/User.js";
 import {validateFormInput} from "../../util/ValidatorUtil.js";
 
 /**
@@ -8,31 +9,31 @@ import {validateFormInput} from "../../util/ValidatorUtil.js";
  * @extends BaseComponent
  */
 export default class Login extends BaseComponent {
-    constructor() {
-        super();
+    constructor({layout, page}) {
+        super({layout, page});
+    }
 
-        this._loginCloseButton = document.getElementById('loginCloseButton');
-        this._loginCloseButton.addEventListener('click', () => this._loginCloseButtonHandler());
-
-        this._loginFormRegisterButton = document.getElementById('registerHrefButton');
-        this._loginFormRegisterButton.addEventListener('click', () => this._loginFormRegisterButtonHandler());
-
-        this._loginForm = document.getElementById('login-form');
-        this._loginForm.addEventListener('submit', (event) => this._loginFormHandler(event));
-        this._loginForm.addEventListener('blur', (event) => this._loginFormInputHandler(event), true);
-
-        this._overlay = null;
-        [this._overlay] = document.getElementsByClassName('overlay');
-        this._overlay.addEventListener('click', (event) => this._overlayHandler(event));
+    initListeners() {
+        this.initListener('loginCloseButton', 'click', this._loginCloseButtonHandler);
+        this.initListener('login-form', 'submit', this._loginFormHandler);
+        this.initListener('login-form', 'focusout', this._loginFormInputHandler, true);
+        this.initListener('registerHrefButton', 'click', this._loginFormRegisterButtonHandler);
+        this.initListener('overlay', 'click', this._overlayHandler);
     }
 
     destroy() {
-        this._loginCloseButton.removeEventListener('click', this._loginCloseButtonHandler);
-        this._loginForm.removeEventListener('submit', this._loginFormHandler);
-        this._loginForm.removeEventListener('blur', this._loginFormInputHandler);
-        this._loginFormRegisterButton.removeEventListener('click', this._loginFormRegisterButtonHandler);
-        this._overlay.removeEventListener('click', this._loginCloseButtonHandler);
         super.destroy();
+    }
+
+    setShowLogin(isShow) {
+        if (isShow) {
+            document.querySelector('#passwordInput').value = '';
+            document.querySelector(".login").classList.add('active');
+            document.querySelector(".overlay").classList.add('active');
+            return;
+        }
+        document.querySelector(".login").classList.remove('active');
+        document.querySelector(".overlay").classList.remove('active');
     }
 
     /**
@@ -41,8 +42,7 @@ export default class Login extends BaseComponent {
      * @private
      */
     _loginCloseButtonHandler() {
-        document.querySelector(".login").classList.remove('active');
-        document.querySelector(".overlay").classList.remove('active');
+        this.setShowLogin(false);
     }
 
     /**
@@ -51,7 +51,7 @@ export default class Login extends BaseComponent {
      * @private
      */
     _loginFormRegisterButtonHandler() {
-        window.routeManager.navigateTo('/register');
+        RouteManager.navigateTo('/register');
     }
 
     /**
@@ -92,9 +92,8 @@ export default class Login extends BaseComponent {
             return acc;
         }, {});
 
-        login(values).then((user) => {
-            window.currentUser = user;
-            window.pageManager.setHeaderStatus(true);
+        User.login(values).then(() => {
+            this.layout.emit('login');
             this._loginCloseButtonHandler();
         }).catch((error) => {
             apiError.textContent = error.message;

@@ -9,16 +9,14 @@ import BaseComponent from "../../BaseComponent.js";
  */
 export default class HousingComplexReviews extends BaseComponent {
     constructor() {
-        super();
-
+        super({});
         this._setupReviews();
+    }
+    initListeners() {
+        this.initListener('loadReviews', 'click', this._showMoreReviews);
     }
 
     destroy() {
-        document.removeEventListener('DOMContentLoaded', () => this._setupReviews());
-        if (this._loadReviewsButton) {
-            this._loadReviewsButton.removeEventListener('click', () => this._showMoreReviews());
-        }
         super.destroy();
     }
 
@@ -32,8 +30,6 @@ export default class HousingComplexReviews extends BaseComponent {
         if (this._reviews.length <= this._visibleReviews) {
             this._loadReviewsButton.classList.add('hidden');
         }
-
-        this._loadReviewsButton.addEventListener('click', () => this._showMoreReviews());
     }
 
     _showMoreReviews() {

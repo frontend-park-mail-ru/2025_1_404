@@ -1,6 +1,7 @@
 'use strict';
 
 import BaseRoute from "./BaseRoute.js";
+import PageManager from "../managers/PageManager.js";
 
 /**
  * @class HousingComplexRoute
@@ -8,13 +9,7 @@ import BaseRoute from "./BaseRoute.js";
  * @extends BaseRoute
  */
 export class HousingComplexRoute extends BaseRoute {
-    process(path) {
-        const queryParamsNumber = 1;
-        if (path.length !== queryParamsNumber) {
-            window.routeManager.navigateTo('/404');
-            return;
-        }
-        const [id] = path;
-        window.pageManager.renderPage('zhk', {id});
+    process({id}) {
+        PageManager.renderPage('zhk', {id});
     }
 }

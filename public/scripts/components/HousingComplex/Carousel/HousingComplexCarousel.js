@@ -10,7 +10,7 @@ import PicturesCarousel from "../../PicturesCarousel/PicturesCarousel.js";
  */
 export default class HousingComplexCarousel extends BaseComponent {
     constructor() {
-        super();
+        super({});
         this._carousel = new PicturesCarousel();
     }
     destroy() {

@@ -11,31 +11,32 @@ import metroStationTemplate from "../../MetroStation/MetroStation.precompiled.js
  * @extends BaseComponent
  */
 export default class HousingComplexInformation extends BaseComponent {
-    constructor(id) {
-        super();
-        this._zhkId = id;
-
+    constructor() {
+        super({});
         this._phoneButton = document.getElementById('asideDeveloperPhone');
-        this._phoneButton.addEventListener('click', () => this._getPhone());
         
         this._metroColours = metroColours;
         this._addSubway();
     }
 
+    initListeners() {
+        this.initListener('asideDeveloperPhone', 'click', this._getPhone);
+    }
+
     destroy() {
-        this._phoneButton.removeEventListener('click', () => this._getPhone());
+        super.destroy();
     }
 
     _addSubway() {
         const station = document.querySelector('.zhk-information__block__station');
-        getZhkLine(this._zhkId)
+        getZhkLine()
         .then ((data) => {
             station.innerHTML = metroStationTemplate({metroColor: this._metroColours[data.metroLine], metroStation: data.metroLine});
         })
     }
 
     _getPhone() {
-        getZhkPhone(this._zhkId)
+        getZhkPhone()
         .then((data) => {
             this._phoneButton.textContent = data.phone;
             this._phoneButton.disabled=true;
