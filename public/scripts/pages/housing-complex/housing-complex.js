@@ -13,7 +13,7 @@ import template from "./housing-complex.precompiled.js";
  * @description Страница ЖК
  * @extends Page
  */
-export default class HousingComlpexPage extends Page {
+export default class HousingComplexPage extends Page {
     render ({root, props: {id}}) {
         this._getInformation()
         .then ((data) => {
