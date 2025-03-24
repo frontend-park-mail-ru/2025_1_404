@@ -6,7 +6,7 @@ export default class Map {
     }
 
     addHouse({coords}) {
-        YandexUtil.addPlacemark({
+        this.addPlacemark({
             map: this._yandexMap,
             image: '/resources/img/map/housePlacemark.svg',
             coords,
