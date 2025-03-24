@@ -5,7 +5,11 @@ import HousingComplexInformation from "../../components/HousingComplex/Informati
 import HousingComplexReviews from "../../components/HousingComplex/Reviews/HousingComplexReviews.js";
 import Page from "../page.js";
 import {getHousingComplex} from "../../util/ApiUtil.js";
+import housingComplexCarouselTemplate from "../../components/HousingComplex/Carousel/HousingComplexCarousel.precompiled.js";
+import housingComplexInformationTemplate from "../../components/HousingComplex/Information/HousingComplexInformation.precompiled.js";
 import template from "./housing-complex.precompiled.js";
+import YandexUtil from "../../util/YandexUtil.js";
+import Map from "../../models/Map.js";
 
 
 /**
@@ -15,13 +19,18 @@ import template from "./housing-complex.precompiled.js";
  */
 export default class HousingComplexPage extends Page {
     render ({root, props: {id}}) {
+        root.innerHTML = template();
+        super.render({root});
         this._getInformation()
         .then ((data) => {
-            root.innerHTML = template(data);
+            document.getElementById('housingComplexInformation').innerHTML = housingComplexInformationTemplate(data);
+            document.getElementById('housingComplexCarousel').innerHTML = housingComplexCarouselTemplate(data);
             this._carousel = new HousingComplexCarousel();
             this._information = new HousingComplexInformation();
             this._reviews = new HousingComplexReviews();
-            super.render(root);
+
+            this.map = new Map({id: 'housing-complex-map', center: [55.557729, 37.313484], zoom: 15})
+            this.map.addHouse({coords: [55.557729, 37.313484]});
         })
         
     }

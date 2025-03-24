@@ -1,6 +1,5 @@
 'use strict';
 
-import HousingComlpexPage from "../pages/housing-complex/housing-complex.js";
 import IndexPage from "../pages/index/index.js";
 import MainLayout from "../layouts/main/MainLayout.js";
 import OfferCreateAddressPage from "../pages/offerCreate/offerCreateAddress/offerCreateAddress.js";

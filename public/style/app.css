@@ -289,7 +289,7 @@ button {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url('../resources/img/filter/chevron.svg');
+    background-image: url('/resources/img/filter/chevron.svg');
     background-size: 16px 16px;
     background-repeat: no-repeat;
     background-position: right 12px top 50%;

@@ -9,7 +9,7 @@ export default Handlebars.template({"compiler":[8,">= 4.3.0"],"main":function(co
   return ((stack1 = container.invokePartial(lookupProperty(partials,"Header"),depth0,{"name":"Header","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + ((stack1 = container.invokePartial(lookupProperty(partials,"HeaderAuthorized"),depth0,{"name":"HeaderAuthorized","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + ((stack1 = container.invokePartial(lookupProperty(partials,"Login"),depth0,{"name":"Login","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "<div class=\"main\">\r\n"
+    + "<div class=\"main\">\n"
     + ((stack1 = container.invokePartial(lookupProperty(partials,"@partial-block"),depth0,{"name":"@partial-block","data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "</div>";
 },"usePartial":true,"useData":true});

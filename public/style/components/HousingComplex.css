@@ -7,3 +7,6 @@
     margin: 0 auto;
 }
 
+#housing-complex-map {
+    width: 100%; height: 30em; padding: 0; margin: 0;
+}

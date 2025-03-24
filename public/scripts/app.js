@@ -3,6 +3,7 @@
 import PageManager from "./managers/PageManager.js";
 import RouteManager from "./managers/RouteManager/RouteManager.js";
 import User from "./models/User.js";
+import YandexUtil from "./util/YandexUtil.js";
 import registerComponents from "./util/ComponentUtil.js";
 import registerHandlebarsHelper from './util/HandlebarsHelper.js'
 import registerLayouts from "./util/LayoutUtil.js";
@@ -20,9 +21,11 @@ const init = function() {
     registerLayouts();
     registerHandlebarsHelper();
 
-    User.update().finally(() => {
-        PageManager.emit('init');
-        RouteManager.navigateToPageByCurrentURL();
+    YandexUtil.on('init', () => {
+        User.update().finally(() => {
+            PageManager.emit('init');
+            RouteManager.navigateToPageByCurrentURL();
+        })
     })
 }
 

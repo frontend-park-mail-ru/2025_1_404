@@ -16,6 +16,7 @@ export default [
         ...globals.browser,
         Handlebars: "readonly",
         process: "readonly",
+        ymaps: "readonly",
       },
     },
     rules: {

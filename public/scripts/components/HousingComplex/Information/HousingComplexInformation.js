@@ -2,7 +2,7 @@
 
 import { getZhkLine, getZhkPhone} from "../../../util/ApiUtil.js";
 import BaseComponent from "../../BaseComponent.js";
-import metroColours from "../../../../resources/img/metroColours/metroColours.js";
+import metroColours from "/resources/img/metroColours/metroColours.js";
 import metroStationTemplate from "../../MetroStation/MetroStation.precompiled.js";
 
 /**
