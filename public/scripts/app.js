@@ -15,6 +15,8 @@ import registerRoutes from "./util/RouteUtil.js";
  * @description Инициализация приложения
  */
 const init = function() {
+    navigator.serviceWorker.register('/scripts/serviceWorker.js', {scope: '/'});
+
     registerComponents();
     registerPages();
     registerRoutes();
