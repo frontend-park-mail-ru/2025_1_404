@@ -15,6 +15,7 @@ import RegisterPage from "../pages/register/register.js";
 import UnknownPage from "../pages/404/unknown.js";
 import OfferCreateLayout from "../layouts/offerCreate/OfferCreateLayout.js";
 import HousingComplexPage from "../pages/housing-complex/housing-complex.js";
+import OfferDetailsPage from "../pages/offerDetails/offerDetails.js";
 
 /**
  * @function registerPages
@@ -36,4 +37,6 @@ export default function registerPages() {
     PageManager.registerPage('offerCreateDescription', OfferCreateLayout.process(new OfferCreateDescriptionPage()));
 
     PageManager.registerPage('zhk', new MainLayout().process(new HousingComplexPage()));
+
+    PageManager.registerPage('offerDetails', new MainLayout().process(new OfferDetailsPage()));
 }

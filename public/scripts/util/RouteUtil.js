@@ -3,17 +3,18 @@
 import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 import {IndexRoute} from "../routes/IndexRoute.js";
 import {LoginRoute} from "../routes/LoginRoute.js";
-import {OfferCreateAddressRoute} from "../routes/offers/OfferCreateAddressRoute.js";
-import {OfferCreateDescriptionRoute} from "../routes/offers/OfferCreateDescriptionRoute.js";
-import {OfferCreateParamsRoute} from "../routes/offers/OfferCreateParamsRoute.js";
-import {OfferCreatePhotosRoute} from "../routes/offers/OfferCreatePhotosRoute.js";
-import {OfferCreatePriceRoute} from "../routes/offers/OfferCreatePriceRoute.js";
-import {OfferCreateTypeRoute} from "../routes/offers/OfferCreateTypeRoute.js";
+import {OfferCreateAddressRoute} from "../routes/offer/OfferCreateAddressRoute.js";
+import {OfferCreateDescriptionRoute} from "../routes/offer/OfferCreateDescriptionRoute.js";
+import {OfferCreateParamsRoute} from "../routes/offer/OfferCreateParamsRoute.js";
+import {OfferCreatePhotosRoute} from "../routes/offer/OfferCreatePhotosRoute.js";
+import {OfferCreatePriceRoute} from "../routes/offer/OfferCreatePriceRoute.js";
+import {OfferCreateTypeRoute} from "../routes/offer/OfferCreateTypeRoute.js";
 import {ProfileMainRoute} from "../routes/profile/ProfileMainRoute.js";
 import {ProfileOffersRoute} from "../routes/profile/ProfileOffersRoute.js";
 import {RegisterRoute} from "../routes/RegisterRoute.js";
 import RouteManager from "../managers/RouteManager/RouteManager.js";
 import { HousingComplexRoute } from "../routes/HousingComplexRoute.js";
+import {OfferDetailsRoute} from "../routes/OfferDetailsRoute.js";
 
 /**
  * @function registerRoutes
@@ -35,4 +36,6 @@ export default function registerRoutes() {
     RouteManager.registerRoute('offer/create/description', AuthMiddleware.check(new OfferCreateDescriptionRoute()));
 
     RouteManager.registerRoute('zhk/:id', new HousingComplexRoute());
+
+    RouteManager.registerRoute('offer/details/:id', new OfferDetailsRoute());
 }

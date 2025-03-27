@@ -28,6 +28,7 @@ import SelectButton from "../components/SelectButton/SelectButton.precompiled.js
 import UserAvatar from "../components/UserAvatar/UserAvatar.precompiled.js";
 import OfferCreatePhotosPreview from "../components/OfferCreatePhotosPreview/OfferCreatePhotosPreview.precompiled.js";
 import OfferCreateStage from "../components/OfferCreateStage/OfferCreateStage.precompiled.js";
+import CharacteristicPart from "../components/CharacteristicPart/CharacteristicPart.precompiled.js";
 
 /**
  * @function registerComponents
@@ -63,7 +64,8 @@ export default function registerComponents() {
         [ChevronLeft, 'ChevronLeft'],
         [ChevronRight, 'ChevronRight'],
         [PicturesCarousel, 'PicturesCarousel'],
-        [MetroStation, 'MetroStation']
+        [MetroStation, 'MetroStation'],
+        [CharacteristicPart, 'CharacteristicPart'],
     ];
 
     components.forEach(([component, name]) => {

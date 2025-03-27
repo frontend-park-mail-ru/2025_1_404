@@ -58,7 +58,7 @@ export default class IndexPage extends Page {
             cardTitle = 'Продажа: ' + cardTitle;
         }
         const [image] = images
-        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({address, cardTitle, floor, image, metroColor: this._metroColor[metroLine],   metroStation, rooms, square,  totalFloors}));
+        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({address, cardTitle, floor, image, metroColor: this._metroColor[metroLine], metroStation, rooms, square, totalFloors}));
     }
 
     /**
