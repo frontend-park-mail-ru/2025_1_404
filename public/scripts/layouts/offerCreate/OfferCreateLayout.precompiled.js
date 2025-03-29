@@ -10,8 +10,9 @@ export default Handlebars.template({"1":function(container,depth0,helpers,partia
     + ((stack1 = container.invokePartial(lookupProperty(partials,"OfferCreateTitle"),depth0,{"name":"OfferCreateTitle","data":data,"indent":"            ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "            <div class=\"offerCreate__main\">\r\n"
     + ((stack1 = container.invokePartial(lookupProperty(partials,"@partial-block"),depth0,{"name":"@partial-block","data":data,"indent":"                ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "                <div id=\"offerCreateBtns\" class=\"offerCreate__btns\">\r\n"
     + ((stack1 = container.invokePartial(lookupProperty(partials,"OfferCreateBtns"),depth0,{"name":"OfferCreateBtns","data":data,"indent":"                ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "            </div>\r\n"
+    + "                </div>\r\n            </div>\r\n"
     + ((stack1 = container.invokePartial(lookupProperty(partials,"OfferCreateNav"),depth0,{"name":"OfferCreateNav","data":data,"indent":"            ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "        </div>\r\n    </div>\r\n</div>\r\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {

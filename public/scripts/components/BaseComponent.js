@@ -21,17 +21,21 @@ export default class BaseComponent {
 
     initListener(elementId, type, handler) {
         const element = document.getElementById(elementId);
-        const boundedHandler = handler.bind(this);
-        element.addEventListener(type, boundedHandler);
-        this.handlers.push({element, handler: boundedHandler, type});
+        if (element) {
+            const boundedHandler = handler.bind(this);
+            element.addEventListener(type, boundedHandler);
+            this.handlers.push({element, handler: boundedHandler, type});
+        }
     }
 
     initListenerForClass(classId, type, handler) {
         const elements = document.getElementsByClassName(classId);
-        const boundedHandler = handler.bind(this);
-        for (const element of elements) {
-            element.addEventListener(type, boundedHandler);
-            this.handlers.push({element, handler: boundedHandler, type});
+        if (elements) {
+            const boundedHandler = handler.bind(this);
+            for (const element of elements) {
+                element.addEventListener(type, boundedHandler);
+                this.handlers.push({element, handler: boundedHandler, type});
+            }
         }
     }
 

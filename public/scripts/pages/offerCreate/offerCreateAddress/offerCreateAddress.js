@@ -1,10 +1,10 @@
 'use strict'
 
-import OfferCreateNav from "../../../components/OfferCreateNav/OfferCreateNav.js";
 import Page from '../../page.js';
 import template from "./offerCreateAddress.precompiled.js";
-import OfferCreateBtns from "../../../components/OfferCreateBtns/OfferCreateBtns.js";
-//import { YMap, YMapDefaultSchemeLayer } from '../../ymaps.js'
+import Map from "../../../models/Map.js";
+import OfferCreate from "../../../models/OfferCreate.js";
+import offerCreateBtnsTemplate from "../../../components/OfferCreateBtns/OfferCreateBtns.precompiled.js";
 
 /**
  * @class OfferCreateAddressPage
@@ -12,37 +12,63 @@ import OfferCreateBtns from "../../../components/OfferCreateBtns/OfferCreateBtns
  * @extends Page
  */
 export default class OfferCreateAddressPage extends Page {
-    render({root}) {
+    render({layout, root}) {
         root.innerHTML = template();
-
-        //this.initMap()
-
         super.render(root);
+
+        this._layout = layout;
+
+        document.getElementById("offerCreateBtns").innerHTML = offerCreateBtnsTemplate({firstPage: false, lastPage: false});
+        this._offerAddressData = {};
+        this._getDataFromModel();
+        if (Object.keys(this._offerAddressData).length !== 0) {
+            this._setDataFromModel();
+        }
+
+        this.map = new Map({id: 'offerCreateMap', center: [55.557729, 37.313484], zoom: 15})
+        this.map.addHouse({coords: [55.557729, 37.313484]});
     }
 
-    async initMap() {
-        // Иницилиазируем карту
-        const map = new YMap(
-            // Передаём ссылку на HTMLElement контейнера
-            document.getElementById('map'),
-
-            // Передаём параметры инициализации карты
-            {
-                location: {
-                    // Координаты центра карты
-                    center: [37.588144, 55.733842],
-
-                    // Уровень масштабирования
-                    zoom: 10
-                }
-            }
-        );
-
-        // Добавляем слой для отображения схематической карты
-        map.addChild(new YMapDefaultSchemeLayer());
+    initListeners() {
+        this.initListener('offerCreateAddressInputs', 'focusout', this._offerAddressDataChange);
     }
 
     destroy() {
         super.destroy();
+    }
+
+    _getDataFromModel() {
+        if (OfferCreate.getOfferData()["address"]) {
+            this._offerAddressData = OfferCreate.getOfferData()["address"];
+        }
+    }
+
+    _setDataFromModel() {
+        const inputs = document
+            .getElementById('offerCreateAddressInputs')
+            .querySelectorAll('input');
+        inputs.forEach(input => {
+            input.value = this._offerAddressData[input.id];
+        })
+    }
+
+    _isInputsFilled() {
+        let isFilled = true;
+        for (let key in this._offerAddressData) {
+            if (this._offerAddressData[key] === '') {isFilled = false; return isFilled;}
+        }
+        return isFilled;
+    }
+
+    _offerAddressDataChange(event, {target} = event) {
+        event.preventDefault();
+
+        if (target.tagName !== 'INPUT') {
+            return;
+        }
+
+        this._offerAddressData[target.id] = target.value;
+        OfferCreate.setData("address", this._offerAddressData);
+        OfferCreate.setPageFilled("address", this._isInputsFilled());
     }
 }

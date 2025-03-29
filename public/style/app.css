@@ -944,13 +944,13 @@ input.input__invalid {
 
 .offerCreate__inner {
     padding: 3.5em 0;
-    height: calc(100vh - 4.375em);
+    height: 100%;
 
     display: grid;
     row-gap: 40px;
     column-gap: 75px;
     grid-template-columns: 9fr 2fr;
-    grid-template-rows: 1fr 7fr;
+    grid-template-rows: 1fr 6fr;
     grid-template-areas:
     'title nav'
     'main nav';
@@ -1112,6 +1112,13 @@ input.input__invalid {
 /* OfferCreateAddress */
 /**************************************************************/
 
+.offerCreate__address {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .offerCreate__address-inputs {
     display: grid;
     grid-template-columns: 45% 15% 15%;
@@ -1131,6 +1138,11 @@ input.input__invalid {
 .offerCreate__input-label {
     font-size: 22px;
     /*font-weight: 600;*/
+}
+
+.offerCreate__map {
+    width: 100%;
+    height: 100%;
 }
 
 /**************************************************************/

@@ -1,10 +1,10 @@
 'use strict'
 
-import OfferCreateNav from "../../../components/OfferCreateNav/OfferCreateNav.js";
 import Page from '../../page.js';
 import template from "./offerCreatePhotos.precompiled.js";
 import offerCreatePhotosPreviewTemplate from "../../../components/OfferCreatePhotosPreview/OfferCreatePhotosPreview.precompiled.js";
-import OfferCreateBtns from "../../../components/OfferCreateBtns/OfferCreateBtns.js";
+import OfferCreate from "../../../models/OfferCreate.js";
+import offerCreateBtnsTemplate from "../../../components/OfferCreateBtns/OfferCreateBtns.precompiled.js";
 
 /**
  * @class OfferCreatePhotosPage
@@ -12,10 +12,14 @@ import OfferCreateBtns from "../../../components/OfferCreateBtns/OfferCreateBtns
  * @extends Page
  */
 export default class OfferCreatePhotosPage extends Page {
-    render({root}) {
+    render({layout, root}) {
         root.innerHTML = template();
+        super.render(root);
 
-        this._photos = new Map();
+        this._layout = layout;
+
+        document.getElementById("offerCreateBtns").innerHTML = offerCreateBtnsTemplate({firstPage: false, lastPage: false});
+        this._offerPhotosData = {};
         this._photosPreviewsCounter = 0;
 
         this._dropArea = document.getElementById('offerCreatePhotosInputBlock');
@@ -23,7 +27,11 @@ export default class OfferCreatePhotosPage extends Page {
 
         this._photoPreviewClickHandler = this._photoPreviewClickHandler.bind(this);
         this._photosPreviewsList.addEventListener('click', this._photoPreviewClickHandler);
-        super.render(root);
+
+        this._getDataFromModel();
+        if (Object.keys(this._offerPhotosData).length !== 0) {
+            this._setDataFromModel();
+        }
     }
 
     initListeners() {
@@ -37,7 +45,7 @@ export default class OfferCreatePhotosPage extends Page {
 
     _addPhotoPreview(source) {
         this._photosPreviewsCounter += 1;
-        this._photos.set(this._photosPreviewsCounter, source);
+        this._offerPhotosData[this._photosPreviewsCounter] = source;
         this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));
     }
 
@@ -61,12 +69,13 @@ export default class OfferCreatePhotosPage extends Page {
 
     _uploadFiles(files) {
         files.forEach((file) => {
-            console.log(file.type)
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
 
                 reader.onload = (event) => {
                     this._addPhotoPreview(event.target.result.toString());
+                    OfferCreate.setData("photos", this._offerPhotosData);
+                    OfferCreate.setPageFilled("photos", Object.keys(this._offerPhotosData).length > 0);
                 };
                 reader.readAsDataURL(file);
             }
@@ -83,8 +92,8 @@ export default class OfferCreatePhotosPage extends Page {
     }
 
     /**
-    * @method _cardClickHandler
-    * @description Обработчик события клика на карточку
+    * @method _photoPreviewClickHandler
+    * @description Обработчик события клика на превью фото
     * @param event
     * @private
     */
@@ -94,11 +103,28 @@ export default class OfferCreatePhotosPage extends Page {
             currentTarget = currentTarget.parentElement;
         }
         if (currentTarget.classList.contains('delete__cross')) {
+            currentTarget = currentTarget.parentElement.parentElement;
             event.preventDefault();
+
             const photoPreview = currentTarget.id
-            this._photos.delete(photoPreview);
-            currentTarget.parentElement.parentElement.remove();
+            delete this._offerPhotosData[photoPreview];
+
+            OfferCreate.setData("photos", this._offerPhotosData);
+            OfferCreate.setPageFilled("photos", Object.keys(this._offerPhotosData).length > 0);
+            currentTarget.remove();
         }
+    }
+
+    _getDataFromModel() {
+        if (OfferCreate.getOfferData()["photos"]) {
+            this._offerPhotosData = OfferCreate.getOfferData()["photos"];
+        }
+    }
+
+    _setDataFromModel() {
+        Object.keys(this._offerPhotosData).forEach(photo => {
+            this._addPhotoPreview(photo);
+        })
     }
 
     destroy() {

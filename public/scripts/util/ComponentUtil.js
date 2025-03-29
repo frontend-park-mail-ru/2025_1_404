@@ -29,6 +29,9 @@ import UserAvatar from "../components/UserAvatar/UserAvatar.precompiled.js";
 import OfferCreatePhotosPreview from "../components/OfferCreatePhotosPreview/OfferCreatePhotosPreview.precompiled.js";
 import OfferCreateStage from "../components/OfferCreateStage/OfferCreateStage.precompiled.js";
 import CharacteristicPart from "../components/CharacteristicPart/CharacteristicPart.precompiled.js";
+import OfferDetailsHeader from "../components/OfferDetailsHeader/OfferDetailsHeader.precompiled.js";
+import OfferDetailsSlider from "../components/OfferDetailsSlider/OfferDetailsSlider.precompiled.js";
+import OfferDetailsInfo from "../components/OfferDetailsInfo/OfferDetailsInfo.precompiled.js";
 
 /**
  * @function registerComponents
@@ -66,6 +69,9 @@ export default function registerComponents() {
         [PicturesCarousel, 'PicturesCarousel'],
         [MetroStation, 'MetroStation'],
         [CharacteristicPart, 'CharacteristicPart'],
+        [OfferDetailsHeader, 'OfferDetailsHeader'],
+        [OfferDetailsSlider, 'OfferDetailsSlider'],
+        [OfferDetailsInfo, 'OfferDetailsInfo'],
     ];
 
     components.forEach(([component, name]) => {

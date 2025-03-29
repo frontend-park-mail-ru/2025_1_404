@@ -2,76 +2,15 @@
     <div class="offerDetails">
         <div class="container">
             <div class="offerDetails__inner">
-                <div class="offerDetails__header">
-                    <h2 class="offerDetails__header-title">
-                        Продаётся 1-комн. квартира, 30 м²
-                    </h2>
-                    <div class="offerDetails__header-info">
-                        <ul>
-                            <!--                <li>{{rooms}}-комн. кв.</li>-->
-                            <!--                <li>{{square}} м²</li>-->
-                            <!--                <li>{{floor}}/{{totalFloors}} этаж</li>-->
-                            <li>1-комн. кв.</li>
-                            <li>30 м²</li>
-                            <li>5/5 этаж</li>
-                        </ul>
-                        <div class="offerDetails__header-metro">
-                            <svg width="17" height="12" viewBox="0 0 17 12" fill="black" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.6135 9.69889L11.8759 0.239685L8.71426 5.76928L5.56546 0.239685L1.81506 9.69889H0.714264V11.1325H6.37187V9.69889H5.52706L6.34626 7.34368L8.71426 11.2349L11.0823 7.34368L11.9015 9.69889H11.0567V11.1325H16.7143V9.69889H15.6135Z" fill="{{metroColor}}"/>
-                            </svg>
-                            <!--                <span>{{metroStation}}</span>-->
-                            <span>Славянский бульвар</span>
-                        </div>
-                        <span class="offerDetails__header-address">
-                    Бульвар Рябикова 5/2
-                </span>
-                    </div>
+                <div id="offerDetailsHeader" class="offerDetails__header">
+                    {{> OfferDetailsHeader data=data }}
                 </div>
                 <div class="offerDetails__main">
-                    <div class="offerDetails__left">
-                        <div class="offerDetails__left-slider">
-                            <img src="../../../resources/img/card/photo.jpg" alt="">
-                        </div>
-                        <div class="offerDetails__left-previews">
-                            <img src="../../../resources/img/card/photo.jpg" alt="">
-                            <img src="../../../resources/img/card/photo.jpg" alt="">
-                            <img src="../../../resources/img/card/photo.jpg" alt="">
-                        </div>
+                    <div id="offerDetailsLeft" class="offerDetails__left">
+                        {{> OfferDetailsSlider data=data }}
                     </div>
-                    <div class="offerDetails__right">
-                        <h2 class="offerDetails__right-price">
-                            52 000 000 ₽
-                        </h2>
-                        <div class="offerDetails__right-info">
-                            {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-door-open" label="Комнат" content="1"}}
-                            {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-layer-group" label="Площадь" content="36,9 м^2"}}
-                            {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-stairs" label="Этаж" content="1"}}
-                            {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-key" label="Тип сделки" content="Свободная продажа"}}
-                            {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-paint-roller" label="Ремонт" content="Классический"}}
-                            {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-house" label="Тип жилья" content="Апартаменты"}}
-                        </div>
-                        <div class="offerDetails__right-btns">
-                            {{> PrimaryButton class="offerDetails__right-btn" name="Позвонить"}}
-                            {{> LightButton class="offerDetails__right-btn" name="Написать"}}
-                        </div>
-                        <div class="offerDetails__seller">
-                            {{> UserAvatar class="offerDetails__seller-avatar" avatar="../../resources/img/userAvatar/unknown.svg" }}
-                            <div class="offerDetails__seller-info">
-                                <span class="offerDetails__seller-name">
-                                    А.П. Чехов
-                                </span>
-                                <div class="offerDetails__seller-rating">
-                                    <div class="offerDetails__seller-rating-icon">
-                                        <i class="fa-regular fa-star"></i>
-                                    </div>
-                                    <span>4.7</span>
-                                </div>
-                            </div>
-                            <div class="offerDetails__seller-info">
-                                <span class="offerDetails__seller-info-small">На квартируме с 01.01.2017</span>
-                                <span class="offerDetails__seller-info-small">(42 успешных объявлений)</span>
-                            </div>
-                        </div>
+                    <div id="offerDetailsInfo" class="offerDetails__right">
+                        {{> OfferDetailsInfo data=data }}
                     </div>
                 </div>
             </div>

@@ -3,18 +3,24 @@
 class OfferCreate {
     constructor() {
         this._offerData = {};
+        this._filledPages = {};
     }
 
-    getData() {
-        if (!this._submit) {
-            return null;
-        }
+    getOfferData() {
         return this._offerData;
     }
 
-    setPhotos(files) {
-        this._offerData.photos = files;
+    setData(currentPage, data) {
+        this._offerData[currentPage] = data;
+        console.log(this._offerData);
     }
+
+    setPageFilled(currentPage, currentPageFilled) {
+        this._filledPages[currentPage] = currentPageFilled;
+        console.log(currentPageFilled);
+    }
+
+    getCurrentPageFilled(currentPage) {return this._filledPages[currentPage];}
 
 }
 

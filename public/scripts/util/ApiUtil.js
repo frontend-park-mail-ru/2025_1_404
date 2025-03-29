@@ -64,6 +64,32 @@ export const getZhkPhone = async () => await ({"phone": '+7(123)456-78-90'})
 
 export const getZhkLine = async () => await ({"metroLine": 'Некрасовская'})
 
+const offer = {
+    ID:           1,
+    Seller:       "Иван Петров",
+    PropertyType: "квартира",
+    OfferType:    "продажа",
+    PurchaseType: "вторичка",
+    RentType:     "",
+    Address:      "ул. Ленина, д.10",
+    MetroLine:    "Сокольническая",
+    MetroStation: "Охотный ряд",
+    Floor:        3,
+    TotalFloors:  10,
+    Area:         60.5,
+    Rooms:        2,
+    Price:        10000000,
+    Photos:       "https://images.cdn-cian.ru/images/kvartira-moskva-shmitovskiy-proezd-2239195740-1.jpg",
+    Description:  "Просторная квартира в центре города.",
+}
+
+/**
+ * @function getOfferById
+ * @description Функция для получения объявления по id.
+ * @returns {Promise<null>}
+ */
+export const getOfferById =  async (id) => await offer;
+
 const zhk = {
     "contacts": {
         "developer": "ООО 'Строитель'",
@@ -172,7 +198,7 @@ const zhk = {
  * @description Функция для получения информации о ЖК.
  * @returns {Promise<null>}
  */
-export  const getHousingComplex = async () => await zhk;
+export const getHousingComplex = async () => await zhk;
 
 
 

@@ -1,6 +1,6 @@
 {{#> OfferCreateLayout }}
 <div class="offerCreate__address">
-    <div class="offerCreate__address-inputs">
+    <div id="offerCreateAddressInputs" class="offerCreate__address-inputs">
         <div class="offerCreate__input offerCreate__address-address">
             <label for="input-address" class="offerCreate__input-label">Адрес</label>
             {{> Input id="input-address" type="text"}}
@@ -14,7 +14,6 @@
             {{> Input id="input-flat" type="text"}}
         </div>
     </div>
+    <div id="offerCreateMap" class="offerCreate__map"></div>
 </div>
-<div id="map" style="width: 600px; height: 200px"></div>
-<script src="https://api-maps.yandex.ru/v3/?apikey=API_KEYe&lang=ru_RU"></script>
 {{/ OfferCreateLayout }}

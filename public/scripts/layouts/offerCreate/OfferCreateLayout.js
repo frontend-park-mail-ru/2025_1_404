@@ -2,6 +2,7 @@ import MainLayout from "../main/MainLayout.js";
 import RouteManager from "../../managers/RouteManager/RouteManager.js";
 import OfferCreateNav from "../../components/OfferCreateNav/OfferCreateNav.js";
 import OfferCreateBtns from "../../components/OfferCreateBtns/OfferCreateBtns.js";
+import OfferCreate from "../../models/OfferCreate.js";
 
 class OfferCreateLayout extends MainLayout {
     constructor() {
@@ -10,8 +11,6 @@ class OfferCreateLayout extends MainLayout {
         this._unlockedPages = ["type", "address"];
         this._filledPagesId = [];
         this._allPages = ["type", "address", "params", "price", "photos", "description"];
-        this._submit = false;
-        this._filled = false;
 
         this.on('goToPage', (page) => {
             if (page === this._currentPage) {
@@ -24,6 +23,9 @@ class OfferCreateLayout extends MainLayout {
                 this._offerCreateNav.addFilledStageClass(this._filledPagesId);
                 this._offerCreateNav.addCurrentStageClass(this._currentPage + "PageButton");
             } else {
+                if (!OfferCreate.getCurrentPageFilled(this._currentPage)) {
+                    return;
+                }
                 if (!this._filledPagesId.includes(this._currentPage + "PageButton")) {
                     this._filledPagesId.push(this._currentPage + "PageButton");
                 }
@@ -34,6 +36,9 @@ class OfferCreateLayout extends MainLayout {
         })
 
         this.on('nextPage', () => {
+            if (!OfferCreate.getCurrentPageFilled(this._currentPage)) {
+                return;
+            }
             if (!this._filledPagesId.includes(this._currentPage + "PageButton")) {
                 this._filledPagesId.push(this._currentPage + "PageButton");
             }
@@ -105,7 +110,6 @@ class OfferCreateLayout extends MainLayout {
     }
 
     _unlockPages() {
-        console.log(this._unlockedPages);
         this._unlockedPages.forEach((page) => {
             document.getElementById(page + "PageButton").classList.remove("offerCreate__stage-point-disabled");
             document.getElementById(page + "PageTitle").classList.remove("offerCreate__stage-title-disabled");
