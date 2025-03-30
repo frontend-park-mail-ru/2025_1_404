@@ -1,10 +1,10 @@
 'use strict'
 
 import Page from '../page.js';
-import cardTemplate from "../../components/Card/Card.precompiled.js";
-import {getOffers} from "../../util/ApiUtil.js";
-import metroColours from "../../../resources/img/metroColours/metroColours.js";
-import template from "./index.precompiled.js";
+import cardTemplate from "../../components/card/template.precompiled.js";
+import {getOffers} from "../../util/apiUtil.js";
+import template from "./template.precompiled.js";
+import getMetroColorByLineName from "../../util/metroUtil.js";
 
 /**
  * @class IndexPage
@@ -12,8 +12,6 @@ import template from "./index.precompiled.js";
  * @extends Page
  */
 export default class IndexPage extends Page {
-    _metroColor = metroColours;
-
     render({root}) {
         root.innerHTML = template();
 
@@ -58,7 +56,7 @@ export default class IndexPage extends Page {
             cardTitle = 'Продажа: ' + cardTitle;
         }
         const [image] = images
-        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({address, cardTitle, floor, image, metroColor: this._metroColor[metroLine], metroStation, rooms, square, totalFloors}));
+        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({address, cardTitle, floor, image, metroColor: getMetroColorByLineName([metroLine]), metroStation, rooms, square, totalFloors}));
     }
 
     /**

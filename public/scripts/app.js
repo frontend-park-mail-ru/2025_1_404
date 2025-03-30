@@ -1,14 +1,14 @@
 'use strict';
 
-import PageManager from "./managers/PageManager.js";
-import RouteManager from "./managers/RouteManager/RouteManager.js";
-import User from "./models/User.js";
-import YandexUtil from "./util/YandexUtil.js";
-import registerComponents from "./util/ComponentUtil.js";
-import registerHandlebarsHelper from './util/HandlebarsHelper.js'
-import registerLayouts from "./util/LayoutUtil.js";
-import registerPages from "./util/PageUtil.js";
-import registerRoutes from "./util/RouteUtil.js";
+import PageManager from "./managers/pageManager.js";
+import RouteManager from "./managers/routeManager/routeManager.js";
+import User from "./models/user.js";
+import YandexUtil from "./util/yandexUtil.js";
+import registerComponents from "./util/componentUtil.js";
+import registerHandlebarsHelper from './util/handlebarsHelper.js'
+import registerLayouts from "./util/layoutUtil.js";
+import registerPages from "./util/pageUtil.js";
+import registerRoutes from "./util/routeUtil.js";
 
 /**
  * @function init
@@ -24,6 +24,7 @@ const init = function() {
     registerHandlebarsHelper();
 
     YandexUtil.on('init', () => {
+        // TODO: Если бэкенд не поднят - белый экран секунд 5. Надо поправить.
         User.update().finally(() => {
             PageManager.emit('init');
             RouteManager.navigateToPageByCurrentURL();
