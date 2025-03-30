@@ -10,11 +10,11 @@ class OfferCreateMiddleware extends AuthMiddleware {
     check(route) {
         return {
             process: (params) => {
-                // const currentStep = route._pageName;
-                //
-                // if (!OfferCreate.isPreviousPageFilled(currentStep)) {
-                //     return RouteManager.navigateTo('/offer/create/'.concat(OfferCreate.getLastFilledPage()));
-                // }
+                const currentStep = route._pageName;
+
+                if (!OfferCreate.isPreviousPageFilled(currentStep)) {
+                    return RouteManager.navigateTo('/offer/create/'.concat(OfferCreate.getLastFilledPage()));
+                }
                 return super.check(route).process(params);
             }
         }
