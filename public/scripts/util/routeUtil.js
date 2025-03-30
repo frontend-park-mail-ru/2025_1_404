@@ -31,7 +31,6 @@ export default function registerRoutes() {
     RouteManager.registerRoute('profile', authMiddleware.check(new ProfileMainRoute()));
     RouteManager.registerRoute('profile/offers', authMiddleware.check(new ProfileOffersRoute()));
 
-    RouteManager.registerRoute('offer/create/', authMiddleware.check(new OfferCreateRoute()));
     RouteManager.registerRoute('offer/create/type', OfferCreateMiddleware.check(new OfferCreateTypeRoute()));
     RouteManager.registerRoute('offer/create/address', OfferCreateMiddleware.check(new OfferCreateAddressRoute()));
     RouteManager.registerRoute('offer/create/params', OfferCreateMiddleware.check(new OfferCreateParamsRoute()));

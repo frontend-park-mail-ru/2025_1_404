@@ -23,7 +23,13 @@ export default class OfferCreateAddressPage extends OfferPage {
         const coords = [55.557729, 37.313484]; // TODO: replace to data from API
 
         this.map = new Map({id: 'offerCreateMap', center: coords, zoom: 15})
-        this.map.addHouse({coords: coords});
+        window.map = this.map;
+        this.house = this.map.addHouse({coords: coords});
+    }
+
+    changeHousePos(coords) {
+        this.map.removePlacemark({placemark: this.house});
+        this.house = this.map.addHouse({coords});
     }
 
     initListeners() {
@@ -52,6 +58,12 @@ export default class OfferCreateAddressPage extends OfferPage {
 
         if (target.tagName !== 'INPUT') {
             return;
+        }
+
+        if (target.id === 'input-address') {
+            this.map.geoCode(target.value).then(() => {
+                this.changeHousePos(this.map.center);
+            });
         }
 
         this._offerData[target.id] = target.value;

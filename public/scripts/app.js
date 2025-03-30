@@ -3,7 +3,6 @@
 import PageManager from "./managers/pageManager.js";
 import RouteManager from "./managers/routeManager/routeManager.js";
 import User from "./models/user.js";
-import YandexUtil from "./util/yandexUtil.js";
 import registerComponents from "./util/componentUtil.js";
 import registerHandlebarsHelper from './util/handlebarsHelper.js'
 import registerLayouts from "./util/layoutUtil.js";
@@ -23,12 +22,9 @@ const init = function() {
     registerLayouts();
     registerHandlebarsHelper();
 
-    YandexUtil.on('init', () => {
-        // TODO: Если бэкенд не поднят - белый экран секунд 5. Надо поправить.
-        User.update().finally(() => {
-            PageManager.emit('init');
-            RouteManager.navigateToPageByCurrentURL();
-        })
+    User.update().finally(() => {
+        PageManager.emit('init');
+        RouteManager.navigateToPageByCurrentURL();
     })
 }
 
