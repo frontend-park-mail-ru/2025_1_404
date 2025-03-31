@@ -1,0 +1,19 @@
+{{#> OfferCreateLayout }}
+<div class="offerCreate__address">
+    <div id="offerCreateAddressInputs" class="offerCreate__address-inputs">
+        <div class="offerCreate__input offerCreate__address-address">
+            <label for="input-address" class="offerCreate__input-label">Адрес</label>
+            {{> Input id="input-address" type="text"}}
+        </div>
+        <div class="offerCreate__input offerCreate__address-floor">
+            <label for="input-floor" class="offerCreate__input-label">Этаж</label>
+            {{> Input id="input-floor" type="text"}}
+        </div>
+        <div class="offerCreate__input offerCreate__address-flat">
+            <label for="input-flat" class="offerCreate__input-label">Квартира</label>
+            {{> Input id="input-flat" type="text"}}
+        </div>
+    </div>
+    <div id="offerCreateMap" class="offerCreate__map"></div>
+</div>
+{{/ OfferCreateLayout }}

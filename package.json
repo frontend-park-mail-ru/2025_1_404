@@ -2,12 +2,15 @@
   "name": "kvartirum-frontend",
   "version": "1.0.0",
   "description": "Проект CIAN",
-  "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js",
-    "prestart": "npm run compile",
+    "predev": "npm run compile",
+    "dev": "vite",
+    "prebuild": "npm run compile",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prestart": "npm run build",
+    "start": "node deploy/main.js",
     "compile": "node tools/compileHandlebars.js"
   },
   "repository": {
@@ -22,11 +25,14 @@
   "homepage": "https://github.com/frontend-park-mail-ru/2025_1_404#readme",
   "dependencies": {
     "express": "^4.21.2",
-    "handlebars": "^4.7.8"
+    "handlebars": "^4.7.8",
+    "leaflet": "^1.9.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "eslint": "^9.21.0",
-    "globals": "^16.0.0"
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "vite": "^6.2.0"
   }
 }

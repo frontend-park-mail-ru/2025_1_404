@@ -1,0 +1,30 @@
+<div class = "carousel">
+    {{>PicturesCarousel images=header.images alt="Фото ЖК"}}
+    <div class = "carousel__information">
+        <div class = "carousel__comfort">
+            <div class = "carousel__rating">
+                {{reviews.totalRating}}
+                <div class = "rating-star">
+                    <i class = "fa-regular fa-star"></i>
+                </div>
+                Отзывов: {{reviews.quantity}}
+            </div>
+            <div class = "carousel__class">
+                {{general.characteristics.class}}
+            </div>
+        </div>
+        <div class = "carousel__name">
+            {{header.name}}
+        </div>
+        <div class = "carousel__prices">
+            от <span id = 'lowestPrice'>{{header.lowestPrice}} </span> до <span id = 'highestPrice'>{{header.highestPrice}}</span> ₽
+        </div>
+    </div>
+
+    <div class = "carousel__slider">
+        {{> ChevronLeft}}
+        <span class = "carousel__counter" data-length="{{header.imagesSize}}">1/{{header.imagesSize}}</span>
+        {{> ChevronRight}}
+    </div>
+
+</div>

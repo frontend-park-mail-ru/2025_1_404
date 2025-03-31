@@ -1,0 +1,33 @@
+<h2 class="offerDetails__right-price">
+    {{Price}}
+</h2>
+<div class="offerDetails__right-info">
+    {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-door-open" label="Комнат" content=Rooms}}
+    {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-layer-group" label="Площадь" content=Area}}
+    {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-stairs" label="Этаж" content=Floor}}
+    {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-key" label="Тип сделки" content=OfferType}}
+    {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-paint-roller" label="Ремонт" content="!Какой-то ремонт!"}}
+    {{> CharacteristicPart class="offerDetails__right-characteristic" icon-class="fa-solid fa-house" label="Тип жилья" content=PropertyType}}
+</div>
+<div class="offerDetails__right-btns">
+    {{> PrimaryButton class="offerDetails__right-btn" name="Позвонить"}}
+    {{> LightButton class="offerDetails__right-btn" name="Написать"}}
+</div>
+<div class="offerDetails__seller">
+    {{> UserAvatar class="offerDetails__seller-avatar" avatar="../../img/userAvatar/unknown.svg" }}
+    <div class="offerDetails__seller-info">
+        <span class="offerDetails__seller-name">
+            {{Seller}}
+        </span>
+        <div class="offerDetails__seller-rating">
+            <div class="offerDetails__seller-rating-icon">
+                <i class="fa-regular fa-star"></i>
+            </div>
+            <span>!4.7!</span>
+        </div>
+    </div>
+    <div class="offerDetails__seller-info">
+        <span class="offerDetails__seller-info-small">!На квартируме с 01.01.2017!</span>
+        <span class="offerDetails__seller-info-small">(!42 успешных объявлений!)</span>
+    </div>
+</div>

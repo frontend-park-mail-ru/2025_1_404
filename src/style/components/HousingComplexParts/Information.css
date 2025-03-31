@@ -1,0 +1,144 @@
+.zhk-information{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 40px;
+    margin-top: 20px;
+    padding-bottom: 50px;
+}
+
+.zhk-information__main {
+    flex: 1 1 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.zhk-information__block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.zhk-information__block__header {
+    color: var(--grey);
+    font-size: 22px;
+}
+
+.zhk-information__block__address {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.zhk-information__block__station {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.zhk-information__block__characteristics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 10px;
+}
+
+.characteristics__part {
+    flex: 1 1 33%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.characteristics__icon{
+    background-color: var(--light-grey);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+}
+
+.characteristics__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.characteristics__text__name {
+    color: var(--grey)
+}
+
+.zhk-information__block__appartments {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.appartments {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--light-grey);
+}
+
+.appartments__information {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.appartments__square {
+    font-weight: bold;
+}
+
+.appartments__price {
+    color: var(--grey);
+}
+
+.appartments__offers {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.zhk-information__block__description {
+    line-height: 2;
+}
+
+.zhk-information__aside {
+    flex: 1 1 25%;
+    position: sticky;
+    height: fit-content;
+    top: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.zhk-information__aside__header, .zhk-information__aside__developer{
+    font-size: 16px;
+}
+
+.zhk-information__aside__header {
+    color: var(--grey);
+}
+
+.zhk-information__aside__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.aside__button {
+    width: 100%;
+}
