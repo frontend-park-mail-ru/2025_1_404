@@ -9,6 +9,7 @@
     "prebuild": "npm run compile",
     "build": "vite build",
     "preview": "vite preview",
+    "prestart": "npm run build",
     "start": "node deploy/main.js",
     "compile": "node tools/compileHandlebars.js"
   },
