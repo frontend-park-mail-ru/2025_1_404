@@ -24,13 +24,13 @@ const compile = function(dir) {
             const precompiled = Handlebars.precompile(template);
             const outputPath = filePath.replace('.hbs', '.precompiled.js');
 
-            fs.writeFileSync(outputPath, `export default Handlebars.template(${precompiled});`);
+            fs.writeFileSync(outputPath, `import Handlebars from "handlebars"; export default Handlebars.template(${precompiled});`);
         }
         return null;
     });
 }
 
 const rootDir = path.dirname(__dirname);
-compile(path.join(rootDir, 'public', 'scripts', 'pages'));
-compile(path.join(rootDir, 'public', 'scripts', 'components'));
-compile(path.join(rootDir, 'public', 'scripts', 'layouts'));
+compile(path.join(rootDir, 'src', 'scripts', 'pages'));
+compile(path.join(rootDir, 'src', 'scripts', 'components'));
+compile(path.join(rootDir, 'src', 'scripts', 'layouts'));
