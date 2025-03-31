@@ -1,0 +1,28 @@
+
+<div class = "reviews">
+{{#if reviews.quantity}}
+    {{#each reviews.items}}   
+        <div class="review">
+            <div class ="review-header">
+                <div class ="rewiew__profile">
+                    <div class="review__profile__avatar">
+                        <img src="{{avatar}}" alt="avatar">
+                    </div>
+                    <div class="review__profile__name">{{name}}</div>
+                </div>
+                <div class = "review__stars">
+                    {{renderRating rating}}
+                </div>
+            </div>
+            <div class ="review__text">
+                <span>{{text}}</span>
+            </div>
+        </div>
+    {{/each}}
+{{else}}
+  <div class="no-reviews">
+    <span>Тут пока нет отзывов</span>
+  </div>
+{{/if}}
+{{> BackgroundlessButton name="Показать ещё" id="loadReviews" class="reviews__load-more" }}
+ </div>

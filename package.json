@@ -6,8 +6,10 @@
   "scripts": {
     "predev": "npm run compile",
     "dev": "vite",
+    "prebuild": "npm run compile",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "node deploy/main.js",
     "compile": "node tools/compileHandlebars.js"
   },
   "repository": {
@@ -21,6 +23,7 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2025_1_404#readme",
   "dependencies": {
+    "express": "^4.21.2",
     "handlebars": "^4.7.8",
     "leaflet": "^1.9.4"
   },

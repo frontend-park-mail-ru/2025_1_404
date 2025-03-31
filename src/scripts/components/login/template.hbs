@@ -1,0 +1,20 @@
+<div class="overlay" id="overlay">
+    <div class="login">
+        <div id="loginCloseButton" class="login__close">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+        </div>
+        <div class="login__inner">
+            <div class="login__logo">
+                <img class="login__logo-img" src="/img/logo/logo.svg" alt="">
+            </div>
+            <h3 class="login__title">Войти или зарегистрироваться</h3>
+            <form id="login-form" class="login__form" method="post" enctype="multipart/form-data" novalidate>
+                {{> Input id="emailInput" type="email" name="email" placeholder="Email" maxlength="32"}}
+                {{> Input id="passwordInput" type="password" name="password" placeholder="Пароль" maxlength="32"}}
+                {{> PrimaryButton name="Войти" class="login__submit" id="loginSubmitButton"}}
+                {{> LightButton name="Зарегистрироваться" class="register__href" id="registerHrefButton"}}
+            </form>
+            <div id="api-error" class="error"></div>
+        </div>
+    </div>
+</div>
