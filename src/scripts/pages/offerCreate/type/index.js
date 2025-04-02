@@ -1,8 +1,8 @@
 'use strict'
 
-import template from "./template.precompiled.js";
 import OfferCreate from "../../../models/offerCreate.js";
 import OfferPage from "../page.js";
+import template from "./template.precompiled.js";
 
 /**
  * @class OfferCreateTypePage
@@ -12,13 +12,13 @@ import OfferPage from "../page.js";
 export default class OfferCreateTypePage extends OfferPage {
     render({layout, root}) {
         root.innerHTML = template();
-        super.render({root, layout});
+        super.render({layout, root});
 
         if (Object.keys(this._offerData).length !== 0) {
             this._setDataFromModel();
-        } else {
-            this._initReadTypeData();
+            return;
         }
+        this._initReadTypeData();
     }
 
     initListeners() {
@@ -31,7 +31,6 @@ export default class OfferCreateTypePage extends OfferPage {
             this._offerData[input.name] = input.labels[0].textContent;
         })
         OfferCreate.setData(this._pageName, this._offerData);
-        this._markAsFullfilled(true);
     }
 
     _setDataFromModel() {

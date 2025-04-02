@@ -1,9 +1,9 @@
 'use strict'
 
-import template from "./template.precompiled.js";
-import offerCreatePhotosPreviewTemplate from "../../../components/offerCreatePhotosPreview/template.precompiled.js";
 import OfferCreate from "../../../models/offerCreate.js";
 import OfferPage from "../page.js";
+import offerCreatePhotosPreviewTemplate from "../../../components/offerCreatePhotosPreview/template.precompiled.js";
+import template from "./template.precompiled.js";
 
 /**
  * @class OfferCreatePhotosPage
@@ -18,7 +18,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
         this._dropArea = document.getElementById('offerCreatePhotosInputBlock');
         this._photosPreviewsList = document.getElementById('offerCreatePhotosPreviews');
 
-        super.render({root, layout});
+        super.render({layout, root});
         if (Object.keys(this._offerData).length !== 0) {
             this._setDataFromModel();
         }
@@ -55,7 +55,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
         event.preventDefault();
         this._dropArea.classList.remove('offerCreate__photos-hover');
 
-        let files = Array.from(event.dataTransfer.files)
+        const files = Array.from(event.dataTransfer.files)
         this._uploadFiles(files);
     }
 

@@ -1,8 +1,8 @@
 import MainLayout from "../main/index.js";
-import RouteManager from "../../managers/routeManager/routeManager.js";
-import OfferCreateNav from "../../components/offerCreateNav/index.js";
-import OfferCreateBtns from "../../components/offerCreateBtns/index.js";
 import OfferCreate from "../../models/offerCreate.js";
+import OfferCreateBtns from "../../components/offerCreateBtns/index.js";
+import OfferCreateNav from "../../components/offerCreateNav/index.js";
+import RouteManager from "../../managers/routeManager/routeManager.js";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
 
 class OfferCreateLayout extends MainLayout {
@@ -10,7 +10,7 @@ class OfferCreateLayout extends MainLayout {
         super();
         this._currentPage = "type";
         this._unlockedPages = ["type", "address"];
-        this._filledPagesId = [];
+        this._filledPagesId = ["type"];
         this._allPages = ["type", "address", "params", "price", "photos", "description"];
 
         this.on('goToPage', this._handlePageChange.bind(this));
@@ -28,24 +28,36 @@ class OfferCreateLayout extends MainLayout {
             },
             render: ({root, props}) => {
                 super.process(page).render({props, root});
+
                 document.getElementById("offerCreateBtns").innerHTML = offerCreateBtnsTemplate({firstPage: page._pageName === this._allPages.at(0), lastPage: page._pageName === this._allPages.at(-1)});
 
                 this._offerCreateNav = new OfferCreateNav({layout: this, page});
-                this._offerCreateNav.addCurrentStageClass(this._currentPage.concat("PageButton"));
                 this._offerCreateBtns = new OfferCreateBtns({layout: this, page});
+                this._currentPage = page._pageName;
+                this._updateNavClasses();
 
+                this._updateOfferCreateButtons();
                 this._unlockPages();
             }
         }
     }
 
-    _handlePageChange(page) {
-        if (page === this._currentPage) return;
+    _updateOfferCreateButtons() {
+        if (OfferCreate.isPageFilled(this._currentPage)) {
+            this._offerCreateBtns.enableNextButton();
+        } else {
+            this._offerCreateBtns.disableNextButton();
+        }
+    }
 
-        const prevStageId = this._currentPage.concat("PageButton");
+    _handlePageChange(page) {
+        if (page === this._currentPage) {
+            return;
+        }
+
         if (this._allPages.indexOf(page) < this._allPages.indexOf(this._currentPage) || this._isAllPagesBeforeFilled(page)) {
             this._goToPage(page);
-            this._updateNavClasses(prevStageId);
+            this._updateNavClasses(this._currentPage);
         }
     }
 
@@ -64,26 +76,26 @@ class OfferCreateLayout extends MainLayout {
     }
 
     _handlePrevPage() {
-        const prevStageId = this._currentPage.concat("PageButton");
         this._prevPage();
-        this._updateNavClasses(prevStageId);
+        this._updateNavClasses(this._currentPage);
     }
 
     _handlePageFilled(isFilled) {
-        const buttonName = this._currentPage.concat("PageButton");
         const nextPage = this._getNextPage();
         if (isFilled) {
-            if (this._filledPagesId.includes(buttonName)) {
+            if (this._filledPagesId.includes(this._currentPage)) {
                 return;
             }
-            this._filledPagesId.push(buttonName);
+            this._filledPagesId.push(this._currentPage);
             this._unlockPage(nextPage);
+            this._offerCreateBtns.enableNextButton();
         } else {
-            if (!this._filledPagesId.includes(buttonName)) {
+            if (!this._filledPagesId.includes(this._currentPage)) {
                 return;
                 }
-            this._filledPagesId = this._filledPagesId.filter((id) => id !== buttonName);
+            this._filledPagesId = this._filledPagesId.filter((id) => id !== this._currentPage);
             this._lockPage(this._getNextPage());
+            this._offerCreateBtns.disableNextButton();
         }
     }
 
@@ -92,7 +104,7 @@ class OfferCreateLayout extends MainLayout {
             this._offerCreateNav.addEmptyStageClass(prevStageId);
         }
         this._offerCreateNav.addFilledStageClass(this._filledPagesId);
-        this._offerCreateNav.addCurrentStageClass(this._currentPage.concat("PageButton"));
+        this._offerCreateNav.addCurrentStageClass(this._currentPage);
     }
 
     _nextPage() {

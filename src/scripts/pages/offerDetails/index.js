@@ -1,14 +1,14 @@
 'use strict'
 
 import Page from '../page.js';
-import template from "./template.precompiled.js";
+import {getOfferById} from "../../util/apiUtil.js";
 import offerDetailsHeaderTemplate
     from "../../components/offerDetailsHeader/template.precompiled.js";
-import offerDetailsSliderTemplate
-    from "../../components/offerDetailsSlider/template.precompiled.js";
 import offerDetailsInfoTemplate
     from "../../components/offerDetailsInfo/template.precompiled.js";
-import {getHousingComplex, getOfferById} from "../../util/apiUtil.js";
+import offerDetailsSliderTemplate
+    from "../../components/offerDetailsSlider/template.precompiled.js";
+import template from "./template.precompiled.js";
 
 /**
  * @class offerDetailsPage
@@ -16,7 +16,7 @@ import {getHousingComplex, getOfferById} from "../../util/apiUtil.js";
  * @extends Page
  */
 export default class OfferDetailsPage extends Page {
-    render({root, props: {id}}) {
+    render({root}) {
         root.innerHTML = template();
         super.render(root);
         this._getOfferById()

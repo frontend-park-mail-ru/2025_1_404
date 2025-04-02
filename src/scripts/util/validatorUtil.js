@@ -54,7 +54,7 @@ const validatePassword = function(password, additionalChecks=false) {
  * @param additionalDetails
  * @returns error
  */
-/* eslint-disable complexity */
+
 export const validateFormInput = function ({value, name:valueName}, additionalDetails=false) {
     const valueLength = value.length;
     if (valueLength === EMPTY_LENGTH) {

@@ -10,6 +10,6 @@ import PageManager from "../../managers/pageManager.js";
  */
 export class ProfileOffersRoute extends BaseRoute {
     process() {
-        PageManager.renderPage('offers', {});
+        PageManager.renderPage('offers', {activeProfileTabIndex: 3});
     }
 }

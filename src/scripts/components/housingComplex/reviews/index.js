@@ -30,8 +30,7 @@ export default class HousingComplexReviews extends BaseComponent {
 
     _showMoreReviews() {
         const reviewsPerClick = 3;
-        const nextReview = 1;
-        for (let it = this._visibleReviews; it < this._visibleReviews + reviewsPerClick; it+=nextReview) {
+        for (let it = this._visibleReviews; it < this._visibleReviews + reviewsPerClick; it++) {
             if (this._reviews[it]) {
               this._reviews[it].style.display = 'flex';
             }

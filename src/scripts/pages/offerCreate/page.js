@@ -1,5 +1,5 @@
-import Page from "../page.js";
 import OfferCreate from "../../models/offerCreate.js";
+import Page from "../page.js";
 
 /**
  * @class OfferPage

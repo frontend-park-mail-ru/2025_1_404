@@ -2,8 +2,8 @@
 
 import { getZhkLine, getZhkPhone} from "../../../util/apiUtil.js";
 import BaseComponent from "../../baseComponent.js";
-import metroStationTemplate from "../../metroStation/template.precompiled.js";
 import getMetroColorByLineName from "../../../util/metroUtil.js";
+import metroStationTemplate from "../../metroStation/template.precompiled.js";
 
 /**
  * @class HousingComplexInformation

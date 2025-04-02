@@ -3,12 +3,12 @@
 import HousingComplexCarousel from "../../components/housingComplex/carousel/index.js";
 import HousingComplexInformation from "../../components/housingComplex/information/index.js";
 import HousingComplexReviews from "../../components/housingComplex/reviews/index.js";
+import Map from "../../models/map.js";
 import Page from "../page.js";
 import {getHousingComplex} from "../../util/apiUtil.js";
 import housingComplexCarouselTemplate from "../../components/housingComplex/carousel/template.precompiled.js";
 import housingComplexInformationTemplate from "../../components/housingComplex/information/template.precompiled.js";
 import template from "./template.precompiled.js";
-import Map from "../../models/map.js";
 
 
 /**
@@ -17,7 +17,7 @@ import Map from "../../models/map.js";
  * @extends Page
  */
 export default class HousingComplexPage extends Page {
-    render ({root, props: {id}}) {
+    render ({root}) {
         root.innerHTML = template();
         super.render({root});
         this._getInformation()
@@ -28,8 +28,9 @@ export default class HousingComplexPage extends Page {
             this._information = new HousingComplexInformation();
             this._reviews = new HousingComplexReviews();
 
-            this.map = new Map({id: 'housingComplex-map', center: [55.557729, 37.313484], zoom: 15})
-            this.map.addHouse({coords: [55.557729, 37.313484]});
+            const housePos = [55.557729, 37.313484];
+            this.map = new Map({center: housePos, id: 'housingComplex-map', zoom: 15})
+            this.map.addHouse({coords: housePos});
         })
         
     }

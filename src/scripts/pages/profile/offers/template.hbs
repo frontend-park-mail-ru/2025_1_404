@@ -1,21 +1,12 @@
-{{#> MainLayout}}
-    <div class="profile">
-        <div class="container">
-            <div class="profile__inner">
-                {{> ProfileLeft }}
-                <div class="profile__right">
-                    <div class="profile__right-nav">
-                        <a class="profile__right-href active" href="#" id="myOffersActive">Активные</a>
-                        <a class="profile__right-href" href="#" id="myOffersDraft">Черновики</a>
-                        <a class="profile__right-href" href="#" id="myOffersClosed">Завершенные</a>
-                    </div>
-                    <div class="profile__list">
-                        {{> ProfileOffer title="Продаётся 1-комн. квартира, 30 м²" metroStation="Славянский бульвар" address="Славянский бул., 13К1" rooms="1" square="30" floor="5" totalFloors="5"}}
-                        {{> ProfileOffer title="Продаётся 1-комн. квартира, 30 м²" metroStation="Славянский бульвар" address="Славянский бул., 13К1" rooms="1" square="30" floor="5" totalFloors="5"}}
-                        {{> ProfileOffer title="Продаётся 1-комн. квартира, 30 м²" metroStation="Славянский бульвар" address="Славянский бул., 13К1" rooms="1" square="30" floor="5" totalFloors="5"}}
-                    </div>
-                </div>
-            </div>
-        </div>
+{{#> ProfileLayout}}
+    <div class="profile__right-nav">
+        <a class="profile__right-href active" href="#" id="myOffersActive">Активные</a>
+        <a class="profile__right-href" href="#" id="myOffersDraft">Черновики</a>
+        <a class="profile__right-href" href="#" id="myOffersClosed">Завершенные</a>
     </div>
-{{/MainLayout}}
+    <div class="profile__list">
+        {{> ProfileOffer title="Продаётся 1-комн. квартира, 30 м²" metroStation="Славянский бульвар" address="Славянский бул., 13К1" rooms="1" square="30" floor="5" totalFloors="5"}}
+        {{> ProfileOffer title="Продаётся 1-комн. квартира, 30 м²" metroStation="Славянский бульвар" address="Славянский бул., 13К1" rooms="1" square="30" floor="5" totalFloors="5"}}
+        {{> ProfileOffer title="Продаётся 1-комн. квартира, 30 м²" metroStation="Славянский бульвар" address="Славянский бул., 13К1" rooms="1" square="30" floor="5" totalFloors="5"}}
+    </div>
+{{/ProfileLayout}}

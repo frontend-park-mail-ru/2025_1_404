@@ -1,21 +1,21 @@
 'use strict';
 
 import AuthMiddleware from "../middlewares/authMiddleware.js";
+import { HousingComplexRoute } from "../routes/housingComplexRoute.js";
 import {IndexRoute} from "../routes/indexRoute.js";
 import {LoginRoute} from "../routes/loginRoute.js";
 import {OfferCreateAddressRoute} from "../routes/offer/offerCreateAddressRoute.js";
 import {OfferCreateDescriptionRoute} from "../routes/offer/offerCreateDescriptionRoute.js";
+import OfferCreateMiddleware from "../middlewares/offerCreateMiddleware.js";
 import {OfferCreateParamsRoute} from "../routes/offer/offerCreateParamsRoute.js";
 import {OfferCreatePhotosRoute} from "../routes/offer/offerCreatePhotosRoute.js";
 import {OfferCreatePriceRoute} from "../routes/offer/offerCreatePriceRoute.js";
 import {OfferCreateTypeRoute} from "../routes/offer/offerCreateTypeRoute.js";
+import {OfferDetailsRoute} from "../routes/offerDetailsRoute.js";
 import {ProfileMainRoute} from "../routes/profile/profileMainRoute.js";
 import {ProfileOffersRoute} from "../routes/profile/profileOffersRoute.js";
 import {RegisterRoute} from "../routes/registerRoute.js";
 import RouteManager from "../managers/routeManager/routeManager.js";
-import { HousingComplexRoute } from "../routes/housingComplexRoute.js";
-import {OfferDetailsRoute} from "../routes/offerDetailsRoute.js";
-import OfferCreateMiddleware from "../middlewares/offerCreateMiddleware.js";
 
 /**
  * @function registerRoutes

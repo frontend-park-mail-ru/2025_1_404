@@ -1,8 +1,8 @@
 'use strict'
 
-import template from "./template.precompiled.js";
 import OfferCreate from "../../../models/offerCreate.js";
 import OfferPage from "../page.js";
+import template from "./template.precompiled.js";
 
 /**
  * @class OfferCreateParamsPage
@@ -12,13 +12,13 @@ import OfferPage from "../page.js";
 export default class OfferCreateParamsPage extends OfferPage {
     render({layout, root}) {
         root.innerHTML = template();
-        super.render({root, layout});
+        super.render({layout, root});
 
         if (Object.keys(this._offerData).length !== 0) {
             this._setDataFromModel();
-        } else {
-            this._initReadParamsData();
+            return;
         }
+        this._initReadParamsData();
     }
 
     initListeners() {
@@ -27,9 +27,9 @@ export default class OfferCreateParamsPage extends OfferPage {
     }
 
     _initReadParamsData() {
-        const input = document
+        const inputSquare = document
             .getElementById('input-square')
-        this._offerData[input.id] = '';
+        this._offerData[inputSquare.id] = '';
 
         const selects = document.getElementById("offerCreateParams").querySelectorAll('input:checked');
         selects.forEach(input => {
@@ -40,10 +40,10 @@ export default class OfferCreateParamsPage extends OfferPage {
     }
 
     _setDataFromModel() {
-        const input = document
+        const inputSquare = document
             .getElementById('input-square')
-        if (this._offerData[input.id]) {
-            input.value = this._offerData[input.id];
+        if (this._offerData[inputSquare.id]) {
+            inputSquare.value = this._offerData[inputSquare.id];
         }
 
         const selects = document.getElementById("offerCreateParams").querySelectorAll('input');
@@ -56,7 +56,7 @@ export default class OfferCreateParamsPage extends OfferPage {
 
     _isInputsFilled() {
         let isFilled = true;
-        for (let key in this._offerData) {
+        for (const key in this._offerData) {
             if (this._offerData[key] === '') {isFilled = false; return isFilled;}
         }
         return isFilled;
