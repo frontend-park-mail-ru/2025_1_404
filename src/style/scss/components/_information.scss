@@ -21,7 +21,7 @@
 }
 
 .zhk-information__block__header {
-    color: var(--grey);
+    color: $grey;
     font-size: 22px;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .characteristics__icon{
-    background-color: var(--light-grey);
+    background-color: $light-grey;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -74,7 +74,7 @@
 }
 
 .characteristics__text__name {
-    color: var(--grey)
+    color: $grey;
 }
 
 .zhk-information__block__appartments {
@@ -88,7 +88,7 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid var(--light-grey);
+    border-bottom: 1px solid $light-grey;
 }
 
 .appartments__information {
@@ -102,7 +102,7 @@
 }
 
 .appartments__price {
-    color: var(--grey);
+    color: $grey;
 }
 
 .appartments__offers {
@@ -130,7 +130,7 @@
 }
 
 .zhk-information__aside__header {
-    color: var(--grey);
+    color: $grey;
 }
 
 .zhk-information__aside__buttons {

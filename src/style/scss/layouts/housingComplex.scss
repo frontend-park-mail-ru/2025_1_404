@@ -1,6 +1,6 @@
-@import 'HousingComplexParts/Carousel.css';
-@import 'HousingComplexParts/Information.css';
-@import 'HousingComplexParts/Reviews.css';
+@import '../components/carousel';
+@import '../components/information';
+@import '../components/reviews';
 
 .carousel-wrapper {
     max-width: 1920px;

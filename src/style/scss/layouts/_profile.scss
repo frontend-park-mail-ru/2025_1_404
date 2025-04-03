@@ -1,0 +1,17 @@
+.profile {
+  padding-top: 1.25em;
+  height: calc(100vh - 4.375em);
+  background-color: $profile-bg;
+
+  &__avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+  }
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+}

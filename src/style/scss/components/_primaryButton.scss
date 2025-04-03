@@ -1,0 +1,18 @@
+.primary-btn {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  background-color: $darker-blue;
+  color: $white;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: $blue-hover;
+  }
+
+  &:disabled {
+    background-color: $light-grey;
+    color: $black-text;
+    cursor: default;
+  }
+}

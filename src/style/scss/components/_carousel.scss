@@ -16,11 +16,12 @@
     gap: 10px;
 }
 
+
 .carousel__rating, .carousel__class , .carousel__name, .carousel__prices,
 .carousel__counter {
     background-color: rgba(0, 0, 0, 0.4);
     padding: 10px 10px;
-    color: var(--white);
+    color: $white;
     border-radius: 6px;
 }
 
@@ -44,7 +45,7 @@
 }
 
 .rating-star {
-    color: var(--orange);
+    color: $orange;
 }
 
 .carousel__slider {
@@ -61,3 +62,5 @@
     height: 40px;
     padding: 10px 20px;
 }
+
+
