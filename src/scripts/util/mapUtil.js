@@ -6,6 +6,7 @@ class MapUtil {
     }
 
     createMap({id, center, zoom}) {
+        // eslint-disable-next-line new-cap
         const map = new L.map(id).setView(center, zoom);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,

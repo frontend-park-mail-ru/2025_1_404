@@ -81,7 +81,8 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     addCurrentStageClass(id) {
-        const stage = document.getElementById(id).firstElementChild;
+        const buttonId = id.concat("PageButton");
+        const stage = document.getElementById(buttonId).firstElementChild;
         this._emptyStageClass.split(" ").forEach(stageClass => {
             stage.classList.remove(stageClass);
         })
@@ -96,7 +97,8 @@ export default class OfferCreateNav extends BaseComponent {
     addFilledStageClass(ids) {
         this._fillRectangles(ids.length);
         ids.forEach(id => {
-            const stage = document.getElementById(id).firstElementChild;
+            const buttonId = id.concat("PageButton");
+            const stage = document.getElementById(buttonId).firstElementChild;
             this._currentStageClass.split(" ").forEach(stageClass => {
                 stage.classList.remove(stageClass);
             })
@@ -110,7 +112,8 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     addEmptyStageClass(id) {
-        const stage = document.getElementById(id).firstElementChild;
+        const buttonId = id.concat("PageButton");
+        const stage = document.getElementById(buttonId).firstElementChild;
         this._filledStageClass.split(" ").forEach(stageClass => {
             stage.classList.remove(stageClass);
         })
@@ -123,9 +126,10 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     _fillRectangles(amount) {
-        amount = Math.min(amount, 5);
+        const minAmount = 5;
+        const correctedAmount = Math.min(amount, minAmount);
         const rectangles = document.getElementsByClassName("offerCreate__rect");
-        for (let i = 0; i < amount; i++) {
+        for (let i = 0; i < correctedAmount; i++) {
             rectangles[i].classList.add("offerCreate__rect-fill");
         }
     }

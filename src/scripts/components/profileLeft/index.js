@@ -22,6 +22,10 @@ export default class ProfileLeft extends BaseComponent {
         this.initListener('profileLogoutButton', 'click', this._logoutButtonHandler);
     }
 
+    setActiveProfileTab(activeProfileTabIndex) {
+        document.getElementsByClassName('profile__nav-btn')[activeProfileTabIndex].classList.add('active');
+    }
+
     /**
      * @method _mainPageButtonHandler
      * @description Обработчик события перехода на главную страницу профиля

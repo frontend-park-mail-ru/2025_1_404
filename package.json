@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "prestart": "npm run build",
     "start": "node deploy/main.js",
-    "compile": "node tools/compileHandlebars.js"
+    "compile": "node tools/compileHandlebars.js",
+    "eslint": "npx eslint src/scripts"
   },
   "repository": {
     "type": "git",

@@ -88,7 +88,7 @@ const offer = {
  * @description Функция для получения объявления по id.
  * @returns {Promise<null>}
  */
-export const getOfferById =  async (id) => await offer;
+export const getOfferById =  async () => await offer;
 
 const zhk = {
     "contacts": {
