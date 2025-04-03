@@ -2,16 +2,16 @@
 
 import BackgroundlessButton from '../components/backgroundlessButton/template.precompiled.js';
 import Card from '../components/card/template.precompiled.js';
-import CharacteristicPart from "../components/characteristicPart/template.precompiled.js";
+import Characteristic from "../components/characteristic/template.precompiled.js";
 import ChevronLeft from '../components/chevron/left/template.precompiled.js';
 import ChevronRight from '../components/chevron/right/template.precompiled.js';
 import Handlebars from "handlebars";
 import Header from '../components/header/template.precompiled.js';
 import HeaderAuthorized from "../components/header/templateAuthorized.precompiled.js";
 import HeartButton from '../components/heartButton/template.precompiled.js';
-import HousingComplexCarousel from '../components/housingComplex/carousel/template.precompiled.js';
-import HousingComplexInformation from '../components/housingComplex/information/template.precompiled.js';
-import HousingComplexReviews from '../components/housingComplex/reviews/template.precompiled.js';
+import HousingComplexCarousel from '../components/housingComplex/housingComplexSlider/template.precompiled.js';
+import HousingComplexInformation from '../components/housingComplex/housingComplexInformation/template.precompiled.js';
+import HousingComplexReviews from '../components/housingComplex/housingComplexReviews/template.precompiled.js';
 import Input from '../components/input/template.precompiled.js';
 import LightButton from '../components/lightButton/template.precompiled.js';
 import Login from '../components/login/template.precompiled.js';
@@ -33,6 +33,7 @@ import ProfilePreview from "../components/profilePreview/template.precompiled.js
 import RedButton from "../components/redButton/template.precompiled.js";
 import SelectButton from "../components/selectButton/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
+import HousingComplexSlider from "../components/housingComplex/housingComplexSlider/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -61,14 +62,14 @@ export default function registerComponents() {
         [OfferCreateTitle, 'OfferCreateTitle'],
         [OfferCreatePhotosPreview, 'OfferCreatePhotosPreview'],
         [OfferCreateStage, 'OfferCreateStage'],
-        [HousingComplexCarousel, 'HousingComplexCarousel'],
+        [HousingComplexSlider, 'HousingComplexSlider'],
         [HousingComplexInformation, 'HousingComplexInformation'],
         [HousingComplexReviews, 'HousingComplexReviews'],
         [ChevronLeft, 'ChevronLeft'],
         [ChevronRight, 'ChevronRight'],
         [PicturesCarousel, 'PicturesCarousel'],
         [MetroStation, 'MetroStation'],
-        [CharacteristicPart, 'CharacteristicPart'],
+        [Characteristic, 'Characteristic'],
         [OfferDetailsHeader, 'OfferDetailsHeader'],
         [OfferDetailsSlider, 'OfferDetailsSlider'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],

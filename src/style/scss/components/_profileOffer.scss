@@ -1,0 +1,38 @@
+.profile__offer {
+  width: 100%;
+  display: flex;
+  gap: 25px;
+  background-color: $white;
+  border-radius: 12px;
+  padding: 10px;
+
+  &-left {
+    width: 200px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
+  }
+
+  &-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &-info ul {
+    display: flex;
+    gap: 0.35em;
+  }
+
+  &-address {
+    color: $grey;
+  }
+
+  &-btns {
+    display: flex;
+    gap: 12px;
+  }
+}

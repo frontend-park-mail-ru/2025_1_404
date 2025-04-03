@@ -11,9 +11,9 @@
     justify-content: center;
     align-items: center;
     transition: background-color 0.2s ease;
-}
 
-.chevron:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+    }
 }

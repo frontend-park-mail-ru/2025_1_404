@@ -23,7 +23,7 @@ export default class HousingComplexInformation extends BaseComponent {
     }
 
     _addSubway() {
-        const station = document.querySelector('.zhk-information__block__station');
+        const station = document.querySelector('.housingComplex__info-block-metro');
         getZhkLine()
         .then ((data) => {
             station.innerHTML = metroStationTemplate({metroColor: getMetroColorByLineName[data.metroLine], metroStation: data.metroLine});

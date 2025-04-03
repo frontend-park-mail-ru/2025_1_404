@@ -1,0 +1,21 @@
+.delete__cross {
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  color: $grey;
+  transition: color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    color: $red;
+  }
+
+  i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,65 @@
+.housingComplex__slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 500px;
+
+    &-information {
+        position: absolute;
+        padding: 10px;
+        bottom: 30px;
+        left: 120px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-row, &-prices {
+            gap: 20px;
+            width: fit-content;
+            font-size: 18px;
+        }
+
+        &-row, &-rating {
+            display: flex;
+            flex-direction: row;
+        }
+
+        &-rating {
+            gap: 10px;
+        }
+
+        &-name {
+            font-size: 38px;
+        }
+    }
+
+    &-text {
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 10px 10px;
+        color: $white;
+        border-radius: 6px;
+    }
+
+    &-controls {
+        position: absolute;
+        bottom: 30px;
+        right: 120px;
+
+        display: flex;
+        flex-direction: row;
+        gap:24px;
+
+        &-counter {
+            gap: 20px;
+            width: fit-content;
+            font-size: 18px;
+            height: 40px;
+            padding: 10px 20px;
+        }
+    }
+}
+
+.rating-star {
+    color: $orange;
+}

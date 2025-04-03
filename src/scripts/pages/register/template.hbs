@@ -3,16 +3,16 @@
         <img src="/img/register/left.jpg" alt="Картинка квартиры">
     </div>
     <div class="register__form">
-        <div class = "register__form__header">
-            <a class="register__form__logo" id="register-form-header-clickable" href="#">
+        <div class = "register__form-header">
+            <a class="register__form-logo" id="register-form-header-clickable" href="#">
                 <img class="logo-img" src="/img/logo/logo.svg" alt="Логотип">
             </a>
             <h2>
                 Регистрация
             </h2>
         </div>
-      <form id="register-form" class="register__form__fields">
-            <div class="register__nickname">
+      <form id="register-form" class="register__form-fields">
+            <div class="register__form-fields-nickname">
                 {{> Input id="registerFirstName" type="text" name="first_name" placeholder="Имя" maxlength="16"}}
                 {{> Input id="registerSecondName" type="text" name="last_name" placeholder="Фамилия" maxlength="16"}}
             </div>
@@ -20,7 +20,7 @@
             {{> Input id="registerPassword" type="password" name="password" placeholder="Пароль" maxlength="32"}}
             {{> Input id="registerConfirmPassword" type="password" name="confirmPassword" placeholder="Подтвердите пароль" maxlength="32"}}
 
-            {{> PrimaryButton name="Зарегистрироваться" class="register__submit" id="registerSubmitButton"}}
+            {{> PrimaryButton name="Зарегистрироваться" class="register__form-fields-submit" id="registerSubmitButton"}}
             {{> BackgroundlessButton name="Уже есть аккаунт?" id="redirectJoinButton" }}
         </form>
         <div id="api-error" class="error"></div>

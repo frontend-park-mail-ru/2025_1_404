@@ -17,7 +17,7 @@ export default class HousingComplexReviews extends BaseComponent {
     }
 
     _setupReviews() {
-        this._reviews = document.querySelectorAll('.review');
+        this._reviews = document.querySelectorAll('.housingComplex__review');
         this._loadReviewsButton = document.getElementById('loadReviews');
         this._visibleReviews = 0;
 

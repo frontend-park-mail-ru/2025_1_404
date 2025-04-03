@@ -4,11 +4,11 @@ import BaseComponent from "../../baseComponent.js";
 import PicturesCarousel from "../../picturesCarousel/index.js";
 
 /**
- * @class Carousel
+ * @class HousingComplexSlider
  * @description Компонент карусели ЖК.
  * @extends BaseComponent
  */
-export default class HousingComplexCarousel extends BaseComponent {
+export default class HousingComplexSlider extends BaseComponent {
     constructor() {
         super({});
         this._carousel = new PicturesCarousel();

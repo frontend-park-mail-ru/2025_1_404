@@ -1,8 +1,14 @@
 {{#> MainLayout}}
-    <div class="carousel-wrapper" id="housingComplexCarousel">
-        {{> HousingComplexCarousel data=data}}
-    </div>
-    <div class="container" id="housingComplexInformation">
-        {{> HousingComplexInformation data=data}}
+    <div class="housingComplex">
+        <div id="housingComplexSlider">
+            {{> HousingComplexSlider data=data}}
+        </div>
+        <div class="housingComplex__information">
+            <div class="container">
+                <div class="housingComplex__information-inner" id="housingComplexInformation">
+                    {{> HousingComplexInformation data=data}}v
+                </div>
+            </div>
+        </div>
     </div>
 {{/MainLayout}}

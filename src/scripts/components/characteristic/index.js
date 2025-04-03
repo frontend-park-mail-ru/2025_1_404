@@ -1,12 +1,12 @@
 import BaseComponent from "../baseComponent.js";
-import template from './characteristicPart.precompiled.js';
+import template from './template.precompiled.js';
 
 /**
- * @class CharacteristicPart
+ * @class Characteristic
  * @description Компонент иконки с характеристикой.
  * @extends BaseComponent
  */
-export default class CharacteristicPart extends BaseComponent {
+export default class Characteristic extends BaseComponent {
     render() {
         return template();
     }

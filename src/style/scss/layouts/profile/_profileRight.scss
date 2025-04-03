@@ -1,0 +1,50 @@
+.profile__right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  &-blocks {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &-promotion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: $white;
+    border-radius: 12px;
+    padding: 10px 15px;
+    width: 100%;
+
+    &-text {
+      line-height: 25px;
+    }
+
+    &-btn {
+      width: 25%;
+    }
+  }
+
+  &-nav {
+    display: flex;
+    gap: 20px;
+
+    &-href {
+      color: $blue-link;
+      font-weight: 700;
+
+      &.active {
+        color: $black;
+      }
+    }
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
