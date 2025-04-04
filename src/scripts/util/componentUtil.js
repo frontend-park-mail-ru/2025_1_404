@@ -77,8 +77,8 @@ export default function registerComponents() {
         [OfferDetailsSlider, 'OfferDetailsSlider'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],
         [Loader, 'Loader'],
-        [ProgressBar, 'ProgressBar']
-        [ProfileDataInput, 'ProfileDataInput'],
+        [ProgressBar, 'ProgressBar'],
+        [ProfileDataInput, 'ProfileDataInput']
     ];
 
     components.forEach(([component, name]) => {
