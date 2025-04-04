@@ -1,8 +1,8 @@
 'use strict'
 
-import template from "./template.precompiled.js";
 import OfferCreate from "../../../models/offerCreate.js";
 import OfferPage from "../page.js";
+import template from "./template.precompiled.js";
 
 /**
  * @class OfferCreatePricePage
@@ -12,7 +12,7 @@ import OfferPage from "../page.js";
 export default class OfferCreatePricePage extends OfferPage {
     render({layout, root}) {
         root.innerHTML = template();
-        super.render({root, layout});
+        super.render({layout, root});
 
         if (Object.keys(this._offerData).length !== 0) {
             this._setDataFromModel();
@@ -31,7 +31,7 @@ export default class OfferCreatePricePage extends OfferPage {
 
     _isInputsFilled() {
         let isFilled = true;
-        for (let key in this._offerData) {
+        for (const key in this._offerData) {
             if (this._offerData[key] === '') {isFilled = false; return isFilled;}
         }
         return isFilled;

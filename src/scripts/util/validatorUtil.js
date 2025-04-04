@@ -52,15 +52,15 @@ const validatePassword = function(password, additionalChecks=false) {
  * @description Функция для валидации input.
  * @param input
  * @param additionalDetails
- * @returns error
+ * @returns string
  */
-/* eslint-disable complexity */
+
 export const validateFormInput = function ({value, name:valueName}, additionalDetails=false) {
     const valueLength = value.length;
     if (valueLength === EMPTY_LENGTH) {
         return 'Это поле обязательное';
     }
-
+    console.log(valueName)
     const password = document.getElementById('registerPassword')?.value
     switch(valueName) {
         // Валидация имени и фамилии

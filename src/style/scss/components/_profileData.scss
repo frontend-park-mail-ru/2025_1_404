@@ -1,0 +1,20 @@
+.profile__data {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &-change {
+    color: $blue-link;
+    font-weight: 700;
+    display: none;
+
+    &.active {display: block}
+  }
+}

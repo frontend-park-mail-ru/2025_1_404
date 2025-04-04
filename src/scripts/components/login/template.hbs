@@ -11,8 +11,8 @@
             <form id="login-form" class="login__form" method="post" enctype="multipart/form-data" novalidate>
                 {{> Input id="emailInput" type="email" name="email" placeholder="Email" maxlength="32"}}
                 {{> Input id="passwordInput" type="password" name="password" placeholder="Пароль" maxlength="32"}}
-                {{> PrimaryButton name="Войти" class="login__submit" id="loginSubmitButton"}}
-                {{> LightButton name="Зарегистрироваться" class="register__href" id="registerHrefButton"}}
+                {{> PrimaryButton name="Войти" class="login__form-submit" id="loginSubmitButton"}}
+                {{> LightButton name="Зарегистрироваться" class="login__form-register" id="registerHrefButton"}}
             </form>
             <div id="api-error" class="error"></div>
         </div>

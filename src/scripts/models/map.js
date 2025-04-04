@@ -4,20 +4,21 @@ export default class Map {
     constructor({id, center, zoom}) {
         this._zoom = zoom;
         this.center = center;
-        this._map = MapUtil.createMap({id, center, zoom});
+        this._map = MapUtil.createMap({center, id, zoom});
     }
 
     addHouse({coords}) {
+        const placeMarkSize = 50;
         return this.addPlacemark({
-            map: this._map,
-            image: '/img/map/housePlacemark.svg',
             coords,
-            size: [50, 50]
+            image: '/img/map/housePlacemark.svg',
+            map: this._map,
+            size: [placeMarkSize, placeMarkSize]
         });
     }
 
     addPlacemark({image, coords, size, offset}) {
-        return MapUtil.addPlacemark({map: this._map, image, coords, size, offset});
+        return MapUtil.addPlacemark({coords, image, map: this._map, offset, size});
     }
 
     removePlacemark({placemark}) {

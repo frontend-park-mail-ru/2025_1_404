@@ -88,7 +88,7 @@ export default class Login extends BaseComponent {
             return acc;
         }, {});
 
-        User.login(values).then(() => {
+        this.layout.makeRequest(User.login.bind(User), values).then(() => {
             this.layout.emit('login');
             this._loginCloseButtonHandler();
         }).catch((error) => {

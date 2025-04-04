@@ -1,0 +1,126 @@
+.housingComplex__info {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 40px;
+    margin-top: 20px;
+    padding-bottom: 50px;
+
+    &-main {
+        flex: 1 1 75%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    &-block {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-header {
+            color: $grey;
+            font-size: 22px;
+        }
+
+        &-address {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        &-metro {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+        }
+
+        &-characteristics {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            row-gap: 10px;
+        }
+    }
+
+    &-characteristic {
+        flex: 1 1 33%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    &-apartments {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &-apartment {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid $light-grey;
+
+        &-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        &-square {
+            font-weight: bold;
+        }
+
+        &-price {
+            color: $grey;
+        }
+
+        &-offers {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+
+    &-description {
+        line-height: 2;
+    }
+
+    &-aside {
+        flex: 1 1 25%;
+        position: sticky;
+        height: fit-content;
+        top: 70px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-developer {
+            font-size: 16px;
+        }
+
+        &-header {
+            color: $grey;
+        }
+
+        &-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        &-btn {
+            width: 100%;
+        }
+    }
+
+    &-map {
+        width: 100%;
+        height: 30em;
+        padding: 0;
+        margin: 0;
+    }
+}

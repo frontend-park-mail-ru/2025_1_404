@@ -1,0 +1,49 @@
+.offerCreate__photos {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding-bottom: 40px;
+
+  &-input {
+    background-color: $profile-bg;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    input {
+      display: none;
+    }
+  }
+
+  &-hover {
+    background-color: $grey;
+  }
+
+  &-previews {
+    display: flex;
+    gap: 15px;
+  }
+
+  &-preview {
+    position: relative;
+    height: 80px;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &-delete {
+    position: absolute;
+    z-index: 1;
+    right: 6px;
+    top: 6px;
+    width: fit-content;
+    height: fit-content;
+
+  }
+}

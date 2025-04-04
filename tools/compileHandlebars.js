@@ -4,6 +4,7 @@ import Handlebars from 'handlebars';
 import {fileURLToPath} from "url";
 import fs from 'fs';
 import path from 'path';
+import * as sass from 'sass-embedded';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,7 +31,10 @@ const compile = function(dir) {
     });
 }
 
-const rootDir = path.dirname(__dirname);
-compile(path.join(rootDir, 'src', 'scripts', 'pages'));
-compile(path.join(rootDir, 'src', 'scripts', 'components'));
-compile(path.join(rootDir, 'src', 'scripts', 'layouts'));
+export default function compileHandlebars() {
+    const rootDir = path.dirname(__dirname);
+    compile(path.join(rootDir, 'src', 'scripts', 'pages'));
+    compile(path.join(rootDir, 'src', 'scripts', 'components'));
+    compile(path.join(rootDir, 'src', 'scripts', 'layouts'));
+}
+

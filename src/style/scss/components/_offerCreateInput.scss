@@ -1,0 +1,13 @@
+.offerCreate__input {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .input {
+    width: inherit;
+  }
+
+  &-label {
+    font-size: 22px;
+  }
+}

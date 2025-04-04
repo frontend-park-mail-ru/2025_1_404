@@ -1,9 +1,9 @@
 'use strict'
 
-import template from "./template.precompiled.js";
 import Map from "../../../models/map.js";
 import OfferCreate from "../../../models/offerCreate.js";
 import OfferPage from "../page.js";
+import template from "./template.precompiled.js";
 
 /**
  * @class OfferCreateAddressPage
@@ -13,7 +13,7 @@ import OfferPage from "../page.js";
 export default class OfferCreateAddressPage extends OfferPage {
     render({layout, root}) {
         root.innerHTML = template();
-        super.render({root, layout});
+        super.render({layout, root});
 
         this._getDataFromModel();
         if (Object.keys(this._offerData).length !== 0) {
@@ -22,9 +22,8 @@ export default class OfferCreateAddressPage extends OfferPage {
 
         const coords = [55.557729, 37.313484]; // TODO: replace to data from API
 
-        this.map = new Map({id: 'offerCreateMap', center: coords, zoom: 15})
-        window.map = this.map;
-        this.house = this.map.addHouse({coords: coords});
+        this.map = new Map({center: coords, id: 'offerCreateMap', zoom: 15})
+        this.house = this.map.addHouse({coords});
     }
 
     changeHousePos(coords) {
@@ -47,7 +46,7 @@ export default class OfferCreateAddressPage extends OfferPage {
 
     _isInputsFilled() {
         let isFilled = true;
-        for (let key in this._offerData) {
+        for (const key in this._offerData) {
             if (this._offerData[key] === '') {isFilled = false; return isFilled;}
         }
         return isFilled;

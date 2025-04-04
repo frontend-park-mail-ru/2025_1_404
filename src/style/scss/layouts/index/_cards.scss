@@ -1,0 +1,16 @@
+.cards {
+  padding-bottom: 3.125em;
+
+  &__title {
+    font-size: 1.75em;
+    font-weight: 700;
+    margin: 1.563rem 0;
+  }
+
+  &__list {
+    display: flex;
+    /*justify-content: space-between;*/
+    gap: 1.6em;
+    flex-wrap: wrap;
+  }
+}

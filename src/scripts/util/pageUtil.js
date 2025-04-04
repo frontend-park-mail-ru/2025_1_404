@@ -1,21 +1,23 @@
 'use strict';
 
+import BaseLayout from "../layouts/baseLayout.js";
+import HousingComplexPage from "../pages/housingComplex/index.js";
 import IndexPage from "../pages/index/index.js";
 import MainLayout from "../layouts/main/index.js";
 import OfferCreateAddressPage from "../pages/offerCreate/address/index.js";
 import OfferCreateDescriptionPage from "../pages/offerCreate/description/index.js";
+import OfferCreateLayout from "../layouts/offerCreate/index.js";
 import OfferCreateParamsPage from "../pages/offerCreate/params/index.js";
 import OfferCreatePhotosPage from "../pages/offerCreate/photos/index.js";
 import OfferCreatePricePage from "../pages/offerCreate/price/index.js";
 import OfferCreateTypePage from "../pages/offerCreate/type/index.js";
+import OfferDetailsPage from "../pages/offerDetails/index.js";
 import PageManager from "../managers/pageManager.js";
+import ProfileLayout from "../layouts/profile/index.js";
 import ProfileMainPage from "../pages/profile/main/index.js";
 import ProfileMyOffersPage from "../pages/profile/offers/index.js";
 import RegisterPage from "../pages/register/index.js";
 import UnknownPage from "../pages/404/index.js";
-import OfferCreateLayout from "../layouts/offerCreate/index.js";
-import HousingComplexPage from "../pages/housingComplex/index.js";
-import OfferDetailsPage from "../pages/offerDetails/index.js";
 
 /**
  * @function registerPages
@@ -23,13 +25,14 @@ import OfferDetailsPage from "../pages/offerDetails/index.js";
  */
 export default function registerPages() {
     const mainLayout = new MainLayout();
+    const baseLayout = new BaseLayout();
 
     PageManager.registerPage('index', mainLayout.process(new IndexPage()));
-    PageManager.registerPage('register', new RegisterPage());
+    PageManager.registerPage('register', baseLayout.process(new RegisterPage()));
     PageManager.registerPage('404', mainLayout.process(new UnknownPage()));
 
-    PageManager.registerPage('main', mainLayout.process(new ProfileMainPage()));
-    PageManager.registerPage('offers', mainLayout.process(new ProfileMyOffersPage()));
+    PageManager.registerPage('main', ProfileLayout.process(new ProfileMainPage()));
+    PageManager.registerPage('offers', ProfileLayout.process(new ProfileMyOffersPage()));
 
     PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type")));
     PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address")));

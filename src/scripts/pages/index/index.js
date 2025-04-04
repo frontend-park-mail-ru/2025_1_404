@@ -2,9 +2,10 @@
 
 import Page from '../page.js';
 import cardTemplate from "../../components/card/template.precompiled.js";
+import getMetroColorByLineName from "../../util/metroUtil.js";
 import {getOffers} from "../../util/apiUtil.js";
 import template from "./template.precompiled.js";
-import getMetroColorByLineName from "../../util/metroUtil.js";
+import User from "../../models/user.js";
 
 /**
  * @class IndexPage
@@ -12,8 +13,9 @@ import getMetroColorByLineName from "../../util/metroUtil.js";
  * @extends Page
  */
 export default class IndexPage extends Page {
-    render({root}) {
+    render({root, layout}) {
         root.innerHTML = template();
+        this._layout = layout;
 
         this._cardsList = document.querySelector('.cards__list');
         this._cardClickHandler = this._cardClickHandler.bind(this);
@@ -65,7 +67,8 @@ export default class IndexPage extends Page {
      * @private
      */
     _getOffers() {
-        getOffers().then((offers) => {
+        if (!User.isLoaded()) return;
+        this._layout.makeRequest(getOffers).then((offers) => {
             for (const offer of offers) {
                 this._addCard(offer);
             }

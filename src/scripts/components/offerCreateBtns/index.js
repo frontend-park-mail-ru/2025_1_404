@@ -10,6 +10,9 @@ import BaseComponent from "../baseComponent.js";
 export default class OfferCreateBtns extends BaseComponent {
     constructor({page, layout}) {
         super({layout, page});
+
+        this._nextButton = document.getElementById('offerCreateBtnsNext');
+        this._backButton = document.getElementById('offerCreateBtnsBack');
     }
 
     initListeners() {
@@ -33,5 +36,21 @@ export default class OfferCreateBtns extends BaseComponent {
 
     _nextButtonClickHandler() {
         this.layout.emit('nextPage');
+    }
+
+    enableNextButton() {
+        this._nextButton.removeAttribute('disabled');
+    }
+
+    disableNextButton() {
+        this._nextButton.setAttribute('disabled', 'disabled');
+    }
+
+    enableBackButton() {
+        this._backButton.removeAttribute('disabled');
+    }
+
+    disableBackButton() {
+        this._backButton.setAttribute('disabled', 'disabled');
     }
 }

@@ -5,7 +5,9 @@ const isUrlInCacheWhitelist = (url) => {
         '127.0.0.1:8000',
         'localhost:8000',
         'fonts.googleapis.com',
-        'api-maps.yandex.ru'
+        'tile.openstreetmap.org',
+        'nominatim.openstreetmap.org',
+        'www.openstreetmap.org'
     ];
 
     const urlObject = new URL(url);

@@ -44,12 +44,10 @@ class RouteManager {
 
     _preparePathStr(pathStr) {
         const minimumPathLength = 1;
-        const pathStartIndex = 0;
-        const pathEndIndex = -1;
 
         let preparedPath = pathStr;
         if (pathStr.length > minimumPathLength && pathStr.endsWith('/')) {
-            preparedPath = preparedPath.slice(pathStartIndex, pathEndIndex);
+            preparedPath = preparedPath.slice(0, -1);
         }
 
         return preparedPath;
@@ -93,9 +91,6 @@ class RouteManager {
      */
     navigateTo(pathStr) {
         const preparedPathStr = this._preparePathStr(pathStr);
-        if (this._isSamePath(preparedPathStr)) {
-            return;
-        }
         this._updateHistory(pathStr);
         const {route, params} = this._processRoute(preparedPathStr);
         route.process(params);

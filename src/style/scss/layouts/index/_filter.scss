@@ -1,0 +1,31 @@
+.filter {
+  background-image: url("/img/filter/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 18em;
+  width: 100%;
+  padding: 3.5em 0;
+
+  &__title {
+    font-size: 2.4em;
+    font-weight: 700;
+    color: $white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+    margin-bottom: 1.875rem;
+  }
+
+  &__settings {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.25em;
+  }
+
+  &__submit {
+    padding: 0.75em 2.5em;
+    min-width: 240px;
+    font-size: 1em;
+    border-radius: 8px;
+  }
+}

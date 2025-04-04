@@ -1,0 +1,16 @@
+.offerCreate__choice {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &-label {
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  &-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+}
