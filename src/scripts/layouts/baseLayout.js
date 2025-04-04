@@ -73,7 +73,6 @@ export default class BaseLayout {
     }
 
     async makeRequest(func, ...args) {
-        console.log(func)
         this._progressBar.setPercentage(30);
         return await func(...args)
             .then((data) => data)

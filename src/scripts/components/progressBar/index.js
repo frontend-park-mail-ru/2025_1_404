@@ -22,7 +22,6 @@ export default class ProgressBar extends BaseComponent {
         const [progressBar] = document.getElementsByClassName('progressBar__line');
         if (correctedPercent === 100) {
             progressBar.addEventListener('transitionend', function reset() {
-                console.log(progressBar.style.width)
                 if (progressBar.style.width !== '100%') {
                     return;
                 }
