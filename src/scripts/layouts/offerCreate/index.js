@@ -158,8 +158,8 @@ class OfferCreateLayout extends MainLayout {
 
     _unlockPages() {
         this._unlockedPages.forEach((page) => {
-            document.getElementById(page.concat("PageButton")).classList.remove("offerCreate__stage-point-disabled");
-            document.getElementById(page.concat("PageTitle")).classList.remove("offerCreate__stage-title-disabled");
+            document.getElementById(page.concat("PageButton")).classList.remove("offerCreate__nav-stage-point-disabled");
+            document.getElementById(page.concat("PageTitle")).classList.remove("offerCreate__nav-stage-title-disabled");
         });
     }
 }

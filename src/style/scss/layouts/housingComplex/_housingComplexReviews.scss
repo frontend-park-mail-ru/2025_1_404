@@ -1,0 +1,53 @@
+.housingComplex__reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+
+    &-load.hidden {
+        display: none;
+    }
+}
+
+.housingComplex__review {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0;
+    width: 100%;
+
+    &-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &-profile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        &-avatar {
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            border-radius: 50%;
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &-rating {
+        color: $orange;
+    }
+
+    &-text {
+        line-height: 2;
+    }
+}

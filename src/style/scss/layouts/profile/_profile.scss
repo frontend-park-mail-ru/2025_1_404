@@ -1,0 +1,26 @@
+.profile {
+  padding-top: 1.25em;
+  height: calc(100vh - 4.375em);
+  background-color: $profile-bg;
+
+  &__avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+
+    & img:hover {
+      cursor: pointer;
+      border: 1px solid $blue;
+    }
+
+    &-wrapper input {
+      display: none;
+    }
+  }
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+}

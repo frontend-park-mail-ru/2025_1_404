@@ -10,8 +10,8 @@ import BaseComponent from "../baseComponent.js";
 export default class PicturesCarousel extends BaseComponent {
     constructor() {
         super({});
-        this._carousel = document.querySelector('.carousel__pictures');
-        this._images = document.querySelectorAll('.carousel img');
+        this._carousel = document.querySelector('.slider__images');
+        this._images = document.querySelectorAll('.slider__images img');
         this._index = 0;
         this._imagePerClick = 1;
     }
@@ -23,7 +23,7 @@ export default class PicturesCarousel extends BaseComponent {
     _updateCarousel() {
         const slidePercent = 100;
         this._carousel.style.transform = `translateX(${-(this._index * slidePercent)}%)`;
-        document.querySelector('.carousel__counter').textContent = `${this._index + this._imagePerClick}/${this._images.length}`;
+        document.querySelector('.housingComplex__slider-controls-counter').textContent = `${this._index + this._imagePerClick}/${this._images.length}`;
     }
     
     _slideToRight() {

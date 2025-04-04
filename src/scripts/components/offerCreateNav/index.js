@@ -128,9 +128,9 @@ export default class OfferCreateNav extends BaseComponent {
     _fillRectangles(amount) {
         const minAmount = 5;
         const correctedAmount = Math.min(amount, minAmount);
-        const rectangles = document.getElementsByClassName("offerCreate__rect");
+        const rectangles = document.getElementsByClassName("offerCreate__nav-rect");
         for (let i = 0; i < correctedAmount; i++) {
-            rectangles[i].classList.add("offerCreate__rect-fill");
+            rectangles[i].classList.add("offerCreate__nav-rect-fill");
         }
     }
 }

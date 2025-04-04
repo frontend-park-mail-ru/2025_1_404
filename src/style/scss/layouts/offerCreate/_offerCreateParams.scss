@@ -1,0 +1,14 @@
+.offerCreate__params {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &-row {
+    display: flex;
+    gap: 75px;
+  }
+
+  &-square {
+    max-width: 30%;
+  }
+}
