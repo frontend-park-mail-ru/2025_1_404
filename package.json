@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prestart": "npm run build",
     "start": "node deploy/main.js",
-    "compile": "node tools/compileHandlebars.js",
+    "compile": "node tools/compileAll.js",
     "eslint": "npx eslint src/scripts"
   },
   "repository": {
@@ -34,7 +34,7 @@
     "eslint": "^9.21.0",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
-    "sass-embedded": "^1.86.1",
+    "sass-embedded": "^1.86.3",
     "vite": "^6.2.0"
   }
 }

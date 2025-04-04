@@ -34,6 +34,7 @@ import RedButton from "../components/redButton/template.precompiled.js";
 import SelectButton from "../components/selectButton/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
 import HousingComplexSlider from "../components/housingComplex/housingComplexSlider/template.precompiled.js";
+import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -73,6 +74,7 @@ export default function registerComponents() {
         [OfferDetailsHeader, 'OfferDetailsHeader'],
         [OfferDetailsSlider, 'OfferDetailsSlider'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],
+        [ProfileDataInput, 'ProfileDataInput'],
     ];
 
     components.forEach(([component, name]) => {

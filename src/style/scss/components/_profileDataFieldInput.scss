@@ -1,0 +1,31 @@
+.profile__data-field-input {
+  width: 100%;
+
+  input {
+    color: $black-text;
+    font-size: 1em;
+    height: 2em;
+    border-bottom: 1px solid $light-grey;
+    width: 100%;
+    background-color: $profile-bg;
+
+    &::placeholder {
+      color: $grey;
+      font-weight: 500;
+    }
+
+    &:focus {
+      border-color: $black-text;
+    }
+
+  }
+
+  &.input__invalid {
+    border-color: $red-darker;
+    box-shadow: 0 0 4px $red-darker;
+  }
+
+  &.alert {
+    color: $red;
+  }
+}

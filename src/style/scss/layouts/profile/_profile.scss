@@ -4,9 +4,18 @@
   background-color: $profile-bg;
 
   &__avatar {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     margin: 0 auto;
+
+    & img:hover {
+      cursor: pointer;
+      border: 1px solid $blue;
+    }
+
+    &-wrapper input {
+      display: none;
+    }
   }
 
   &__inner {
