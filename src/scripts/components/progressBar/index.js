@@ -11,7 +11,6 @@ import template from './template.precompiled.js';
 export default class ProgressBar extends BaseComponent {
     constructor({page, layout}) {
         super({page, layout});
-        window.progressBar = this;
     }
 
     render() {

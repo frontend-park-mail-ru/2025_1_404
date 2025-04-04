@@ -23,7 +23,6 @@ export default class OfferCreateAddressPage extends OfferPage {
         const coords = [55.557729, 37.313484]; // TODO: replace to data from API
 
         this.map = new Map({center: coords, id: 'offerCreateMap', zoom: 15})
-        window.map = this.map;
         this.house = this.map.addHouse({coords});
     }
 
