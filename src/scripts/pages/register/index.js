@@ -12,7 +12,8 @@ import {validateFormInput} from "../../util/validatorUtil.js";
  * @extends Page
  */
 export default class RegisterPage extends Page {
-    render({root}) {
+    render({root, layout}) {
+        this._layout = layout;
         root.innerHTML = template();
         super.render(root);
     }
@@ -66,7 +67,7 @@ export default class RegisterPage extends Page {
             return acc;
         }, {});
 
-        User.register(values).then(() => {
+        this._layout.makeRequest(User.register.bind(User), values).then(() => {
             RouteManager.navigateTo('/');
         }).catch((error) => {
             apiError.textContent = error.message;

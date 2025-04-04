@@ -1,3 +1,8 @@
+import Loader from "../components/loader/index.js";
+import ProgressBar from "../components/progressBar/index.js";
+import RouteManager from "../managers/routeManager/routeManager.js";
+import User from "../models/user.js";
+
 export default class BaseLayout {
     constructor() {
         this.events = {};
@@ -12,13 +17,29 @@ export default class BaseLayout {
             },
             render: ({root, props}) => {
                 this.initListeners();
+
+                this._progressBar = new ProgressBar({layout: this, page});
+                this._loader = new Loader({layout: this, page});
+
                 page.render({
                     layout: this,
                     props,
                     root
                 });
+
+                this.loadUser();
             }
         }
+    }
+
+    loadUser() {
+        if (User.isLoaded()) {
+            return;
+        }
+        this._loader.setLoaderStatus(true);
+        User.update().finally(() => {
+            RouteManager.navigateToPageByCurrentURL();
+        });
     }
 
     on(event, callback) {
@@ -35,7 +56,8 @@ export default class BaseLayout {
         }
     }
 
-    initListeners() {}
+    initListeners() {
+    }
 
     initListener(elementId, type, handler) {
         const element = document.getElementById(elementId);
@@ -48,6 +70,17 @@ export default class BaseLayout {
         this.handlers.forEach(({element, handler, type}) => {
             element.removeEventListener(type, handler);
         });
+    }
+
+    async makeRequest(func, ...args) {
+        this._progressBar.setPercentage(30);
+        return await func(...args)
+            .then((data) => data)
+            .catch((err) => {
+                throw err;
+            }).finally(() => {
+                this._progressBar.setPercentage(100);
+            })
     }
 
 }

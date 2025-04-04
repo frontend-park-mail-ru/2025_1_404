@@ -14,6 +14,7 @@ import HousingComplexInformation from '../components/housingComplex/housingCompl
 import HousingComplexReviews from '../components/housingComplex/housingComplexReviews/template.precompiled.js';
 import Input from '../components/input/template.precompiled.js';
 import LightButton from '../components/lightButton/template.precompiled.js';
+import Loader from "../components/loader/template.precompiled.js";
 import Login from '../components/login/template.precompiled.js';
 import Logo from '../components/logo/template.precompiled.js';
 import MetroStation from '../components/metroStation/template.precompiled.js';
@@ -30,6 +31,7 @@ import PrimaryButton from '../components/primaryButton/template.precompiled.js';
 import ProfileLeft from '../components/profileLeft/template.precompiled.js';
 import ProfileOffer from "../components/profileOffer/template.precompiled.js";
 import ProfilePreview from "../components/profilePreview/template.precompiled.js";
+import ProgressBar from "../components/progressBar/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
 import SelectButton from "../components/selectButton/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
@@ -74,7 +76,9 @@ export default function registerComponents() {
         [OfferDetailsHeader, 'OfferDetailsHeader'],
         [OfferDetailsSlider, 'OfferDetailsSlider'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],
-        [ProfileDataInput, 'ProfileDataInput'],
+        [Loader, 'Loader'],
+        [ProgressBar, 'ProgressBar'],
+        [ProfileDataInput, 'ProfileDataInput']
     ];
 
     components.forEach(([component, name]) => {

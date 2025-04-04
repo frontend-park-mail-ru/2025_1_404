@@ -1,5 +1,6 @@
 'use strict';
 
+import BaseLayout from "../layouts/baseLayout.js";
 import HousingComplexPage from "../pages/housingComplex/index.js";
 import IndexPage from "../pages/index/index.js";
 import MainLayout from "../layouts/main/index.js";
@@ -24,9 +25,10 @@ import UnknownPage from "../pages/404/index.js";
  */
 export default function registerPages() {
     const mainLayout = new MainLayout();
+    const baseLayout = new BaseLayout();
 
     PageManager.registerPage('index', mainLayout.process(new IndexPage()));
-    PageManager.registerPage('register', new RegisterPage());
+    PageManager.registerPage('register', baseLayout.process(new RegisterPage()));
     PageManager.registerPage('404', mainLayout.process(new UnknownPage()));
 
     PageManager.registerPage('main', ProfileLayout.process(new ProfileMainPage()));

@@ -8,7 +8,7 @@ export default class AuthMiddleware extends BaseMiddleware {
     check(route) {
         return {
             process: (params) => {
-                if (!User.isAuthenticated()) {
+                if (User.isLoaded() && !User.isAuthenticated()) {
                     return RouteManager.navigateTo('/login');
                 }
                 return super.check(route).process(params);

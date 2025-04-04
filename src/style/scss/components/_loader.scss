@@ -1,8 +1,8 @@
 .loader {
   &__spinner {
-    border: 12px solid var(--white);
+    border: 12px solid $white;
     border-radius: 50%;
-    border-top: 12px solid var(--blue);
+    border-top: 12px solid $blue;
     width: 120px;
     height: 120px;
     -webkit-animation: spin 1.5s linear infinite; /* Safari */

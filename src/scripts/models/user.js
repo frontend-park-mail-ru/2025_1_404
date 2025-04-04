@@ -5,6 +5,11 @@ import {getProfile, login, logout, registerAccount} from "../util/apiUtil.js";
 class User {
     constructor() {
         this._isAuthenticated = false;
+        this._isLoaded = false;
+    }
+
+    isLoaded() {
+        return this._isLoaded;
     }
 
     isAuthenticated() {
@@ -31,6 +36,8 @@ class User {
             return this.getData();
         }).catch((error) => {
             throw error;
+        }).finally(() => {
+            this._isLoaded = true;
         });
     }
 

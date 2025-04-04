@@ -1,7 +1,6 @@
 'use strict';
 
 import BaseComponent from "../baseComponent.js";
-import MainLayout from "../../layouts/main/index.js";
 import RouteManager from "../../managers/routeManager/routeManager.js";
 import User from "../../models/user.js";
 import {validateFormInput} from "../../util/validatorUtil.js";
@@ -12,9 +11,8 @@ import {validateFormInput} from "../../util/validatorUtil.js";
  * @extends BaseComponent
  */
 export default class ProfileLeft extends BaseComponent {
-    constructor() {
-        super({});
-        this._mainLayout = new MainLayout();
+    constructor({page, layout}) {
+        super({page, layout});
         this._profileAvatar = "";
         const saveButton = document.getElementById('profileDataSave');
         saveButton.classList.remove('active');
@@ -171,8 +169,8 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _logoutButtonHandler() {
-        User.logout().finally(() => {
-            this._mainLayout.setHeaderStatus(false);
+        this.layout.makeRequest(User.logout.bind(User)).finally(() => {
+            this.layout.emit('logout');
         });
     }
 }

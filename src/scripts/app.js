@@ -2,7 +2,6 @@
 
 import PageManager from "./managers/pageManager.js";
 import RouteManager from "./managers/routeManager/routeManager.js";
-import User from "./models/user.js";
 import registerComponents from "./util/componentUtil.js";
 import registerHandlebarsHelper from './util/handlebarsHelper.js'
 import registerLayouts from "./util/layoutUtil.js";
@@ -22,10 +21,8 @@ const init = function() {
     registerLayouts();
     registerHandlebarsHelper();
 
-    User.update().finally(() => {
-        PageManager.emit('init');
-        RouteManager.navigateToPageByCurrentURL();
-    })
+    PageManager.emit('init');
+    RouteManager.navigateToPageByCurrentURL();
 }
 
 if (document.readyState === 'loading') {
