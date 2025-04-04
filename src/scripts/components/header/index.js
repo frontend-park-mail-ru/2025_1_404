@@ -60,7 +60,7 @@ export default class Header extends BaseComponent {
      * @private
      */
     _logoutButtonHandler() {
-        User.logout().finally(() => {
+        this.layout.makeRequest(User.logout.bind(User)).finally(() => {
             this.layout.emit('logout');
         });
     }

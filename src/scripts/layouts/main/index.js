@@ -31,11 +31,13 @@ export default class MainLayout extends BaseLayout {
                 super.process(page).destroy();
             },
             render: ({root, props}) => {
+
                 super.process(page).render({props, root});
-                this.setHeaderStatus(User.isAuthenticated());
 
                 this._header = new Header({layout: this, page});
                 this._loginForm = new Login({layout: this, page});
+
+                this.setHeaderStatus(User.isAuthenticated());
 
                 if (props.showLogin) {
                     document.querySelector('#passwordInput').value = '';

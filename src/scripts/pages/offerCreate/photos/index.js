@@ -35,7 +35,6 @@ export default class OfferCreatePhotosPage extends OfferPage {
     }
 
     _addPhotoPreview(source) {
-        console.log(source)
         this._photosPreviewsCounter += 1;
         this._offerData[this._photosPreviewsCounter] = source;
         this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));

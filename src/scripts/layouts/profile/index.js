@@ -10,7 +10,7 @@ class ProfileLayout extends MainLayout {
             },
             render: ({root, props}) => {
                 super.process(page).render({props, root});
-                this._profileLeft = new ProfileLeft();
+                this._profileLeft = new ProfileLeft({page, layout: this});
                 this._profileLeft.setActiveProfileTab(props.activeProfileTabIndex);
             }
         }

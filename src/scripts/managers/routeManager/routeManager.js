@@ -91,9 +91,6 @@ class RouteManager {
      */
     navigateTo(pathStr) {
         const preparedPathStr = this._preparePathStr(pathStr);
-        if (this._isSamePath(preparedPathStr)) {
-            return;
-        }
         this._updateHistory(pathStr);
         const {route, params} = this._processRoute(preparedPathStr);
         route.process(params);

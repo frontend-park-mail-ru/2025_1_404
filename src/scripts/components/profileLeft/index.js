@@ -1,7 +1,6 @@
 'use strict';
 
 import BaseComponent from "../baseComponent.js";
-import MainLayout from "../../layouts/main/index.js";
 import RouteManager from "../../managers/routeManager/routeManager.js";
 import User from "../../models/user.js";
 
@@ -11,8 +10,8 @@ import User from "../../models/user.js";
  * @extends BaseComponent
  */
 export default class ProfileLeft extends BaseComponent {
-    constructor() {
-        super({});
+    constructor({page, layout}) {
+        super({page, layout});
     }
 
     initListeners() {
@@ -59,8 +58,8 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _logoutButtonHandler() {
-        User.logout().finally(() => {
-            MainLayout.setHeaderStatus(false);
+        this.layout.makeRequest(User.logout.bind(User)).finally(() => {
+            this.layout.emit('logout');
         });
     }
 }
