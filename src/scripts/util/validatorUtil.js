@@ -54,7 +54,6 @@ export const validateFormInput = function ({value, name:valueName}, additionalDe
     if (valueLength === EMPTY_LENGTH) {
         return 'Это поле обязательное';
     }
-    console.log(valueName)
     const password = document.getElementById('registerPassword')?.value
     switch(valueName) {
         // Валидация имени и фамилии

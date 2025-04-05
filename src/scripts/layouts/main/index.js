@@ -75,6 +75,7 @@ export default class MainLayout extends BaseLayout {
                 header.style.display = 'none';
                 authorizedHeader.style.display = 'block';
                 authorizedHeader.querySelector('.header__name').textContent = `${User.getData().firstName}`;
+                authorizedHeader.querySelector('.user__avatar-img').src = User.getData().avatar;
             } else {
                 header.style.display = 'block';
                 authorizedHeader.style.display = 'none';

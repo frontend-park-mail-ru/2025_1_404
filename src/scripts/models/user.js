@@ -1,6 +1,6 @@
 'use strict';
 
-import {getProfile, login, logout, registerAccount} from "../util/apiUtil.js";
+import {getProfile, login, logout, registerAccount, updateAvatar, updateProfile} from "../util/apiUtil.js";
 
 /**
  * @class User
@@ -36,7 +36,7 @@ class User {
     /**
      * @function getData
      * @description Метод получения данных пользователя.
-     * @returns {{email: (null|*), firstName: (null|*), lastName: (null|*)}|null} данные пользователя.
+     * @returns {*} данные пользователя.
      */
     getData() {
         if (!this._isAuthenticated) {
@@ -45,8 +45,48 @@ class User {
         return {
             email: this.email,
             firstName: this.firstName,
-            lastName: this.lastName
+            lastName: this.lastName,
+            avatar: this.avatar || '/img/userAvatar/unknown.svg'
         }
+    }
+
+    /**
+     * @function updateProfile
+     * @description Метод обновления данных пользователя на сервере.
+     * @param {string} email email пользователя.
+     * @param {string} first_name имя пользователя.
+     * @param {string} last_name фамилия пользователя.
+     * @returns {Promise<void>}
+     */
+    async updateProfile({email, first_name, last_name}) {
+        if (!this._isAuthenticated) {
+            throw new Error('User is not authenticated');
+        }
+        await updateProfile({email, first_name, last_name}).then((response) => {
+            this.email = response.email;
+            this.firstName = response.first_name;
+            this.lastName = response.last_name;
+            this.avatar = response.image;
+            return this.getData();
+        }).catch((error) => {
+            throw error;
+        });
+    }
+
+    /**
+     * @function updateAvatar
+     * @description Метод обновления аватара пользователя на сервере.
+     * @param {File} avatar аватар пользователя.
+     * @returns {Promise<void>}
+     */
+    async updateAvatar({avatar}) {
+        if (!this._isAuthenticated) {
+            throw new Error('User is not authenticated');
+        }
+        await updateAvatar({avatar}).then((response) => response
+        ).catch((error) => {
+            throw error;
+        });
     }
 
     /**
@@ -60,6 +100,7 @@ class User {
             this.email = response.email;
             this.firstName = response.first_name;
             this.lastName = response.last_name;
+            this.avatar = response.image;
             return this.getData();
         }).catch((error) => {
             throw error;

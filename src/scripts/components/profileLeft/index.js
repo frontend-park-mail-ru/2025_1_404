@@ -18,9 +18,12 @@ export default class ProfileLeft extends BaseComponent {
      */
     constructor({page, layout}) {
         super({page, layout});
-        this._profileAvatar = "";
-        const saveButton = document.getElementById('profileDataSave');
-        saveButton.classList.remove('active');
+        if (!User.isLoaded() || !User.isAuthenticated()) {
+            return;
+        }
+        this.previousData = User.getData();
+        this.currentData = User.getData();
+        this.fillWithUserData();
     }
 
     /**
@@ -36,6 +39,33 @@ export default class ProfileLeft extends BaseComponent {
         this.initListener('profileAvatarInput', 'change', this._getAvatarAfterChooseClickHandler);
         this.initListener('profileData', 'submit', this._profileDataHandler);
         this.initListener('profileData', 'focusout', this._profileDataInputHandler);
+    }
+
+    /**
+     * @function fillWithUserData
+     * @description Метод заполнения формы данными пользователя.
+     */
+    fillWithUserData() {
+        const userData = User.getData();
+        document.getElementById('profileFirstName').value = userData.firstName;
+        document.getElementById('profileLastName').value = userData.lastName;
+        document.getElementById('profileEmail').value = userData.email;
+        this._addAvatar(userData.avatar);
+    }
+
+    /**
+     * @function isDataChanged
+     * @description Метод проверки изменения данных пользователя.
+     * @returns {boolean} true, если данные изменены, иначе false.
+     */
+    isDataChanged() {
+        for (const key of Object.keys(this.currentData)) {
+            console.log(this.currentData[key], this.previousData[key]);
+            if (this.currentData[key] !== this.previousData[key]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -61,7 +91,17 @@ export default class ProfileLeft extends BaseComponent {
             reader.onload = (event) => {
                 const source = event.target.result.toString();
                 this._addAvatar(source);
-                this._profileAvatar = source;
+
+                const apiError = document.getElementById('profile-api-error');
+                apiError.classList.remove('error__visible');
+                apiError.textContent = '';
+
+                User.updateAvatar({avatar: file}).then(() => {
+                    RouteManager.navigateToPageByCurrentURL();
+                }).catch((err) => {
+                    apiError.classList.add('error__visible');
+                    apiError.textContent = err.message;
+                })
             };
             reader.readAsDataURL(file);
         }
@@ -76,18 +116,17 @@ export default class ProfileLeft extends BaseComponent {
     _profileDataHandler(event) {
         event.preventDefault();
 
+        const apiError = document.getElementById('profile-api-error');
+
         const profileDataSaveButton = event.target.querySelector('#profileDataSave');
         profileDataSaveButton.disabled = true;
 
         let isValid = true;
         const inputFields = event.target
             .querySelectorAll('input');
-        console.log(inputFields);
         inputFields.forEach((input) => {
             const errorText = validateFormInput(input, true);
-            console.log(errorText);
             const errorField = input.nextElementSibling;
-            console.log(errorField)
             if (errorText !== "") {
                 isValid = false;
                 input.classList.add('input__invalid');
@@ -101,12 +140,16 @@ export default class ProfileLeft extends BaseComponent {
             return;
         }
 
-        const values = Array.from(inputFields).reduce((acc, field) => {
-            acc[field.name] = field.value;
-            return acc;
-        }, {});
-        console.log(values);
-        profileDataSaveButton.disabled = false;
+        this.layout.makeRequest(User.updateProfile.bind(User), {
+            first_name: this.currentData.firstName,
+            last_name: this.currentData.lastName,
+            email: this.currentData.email
+        }).then(() => {
+            RouteManager.navigateToPageByCurrentURL();
+        }).catch((err) => {
+            apiError.classList.add('error__visible');
+            apiError.textContent = err.message;
+        })
     }
 
     /**
@@ -123,12 +166,9 @@ export default class ProfileLeft extends BaseComponent {
             return;
         }
 
+        this.currentData[target.name] = target.value;
         const saveButton = document.getElementById('profileDataSave');
-        if (target.value === "") { // TODO Сравнение со старыми данными из базы
-            saveButton.classList.remove('active');
-        } else {
-            saveButton.classList.add('active');
-        }
+        saveButton.disabled = !this.isDataChanged()
 
         const errorText = validateFormInput(target, true);
         const errorField = target.nextElementSibling;
@@ -160,7 +200,6 @@ export default class ProfileLeft extends BaseComponent {
      */
     _getAvatarAfterChooseClickHandler(event) {
         const [file] = event.target.files;
-        console.log(file);
         this._uploadAvatar(file);
     }
 
