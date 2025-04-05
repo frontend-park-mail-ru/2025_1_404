@@ -5,13 +5,22 @@ import User from "../../models/user.js";
 /**
  * @class Header
  * @description Компонент хедера.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class Header extends BaseComponent {
+    /**
+     * @description Конструктор класса.
+     * @param {Page} page - экземпляр класса Page.
+     * @param {BaseLayout} layout - экземпляр класса Layout.
+     */
     constructor({page, layout}) {
         super({layout, page});
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListenerForClass('logo-href', 'click', this._logoHrefHandler);
         this.initListener('profile-href', 'click', this._profileHrefHandler);
@@ -20,15 +29,21 @@ export default class Header extends BaseComponent {
         this.initListener('logoutButton', 'click', this._logoutButtonHandler);
     }
 
+    /**
+     * @function _profileHrefHandler
+     * @description Обработчик клика по ссылке на профиль в шапке
+     * @param {Event} event событие клика
+     * @private
+     */
     _profileHrefHandler(event) {
         event.preventDefault();
         RouteManager.navigateTo('/profile');
     }
 
     /**
-     * @method _logoHrefHandler
+     * @function _logoHrefHandler
      * @description Обработчик клика по логотипу в шапке
-     * @param event
+     * @param {Event} event событие клика
      * @private
      */
     _logoHrefHandler(event) {
@@ -37,7 +52,7 @@ export default class Header extends BaseComponent {
     }
 
     /**
-     * @method _registerButtonHandler
+     * @function _registerButtonHandler
      * @description Обработчик события перехода на страницу регистрации
      * @private
      */
@@ -46,7 +61,7 @@ export default class Header extends BaseComponent {
     }
 
     /**
-     * @method _loginButtonHandler
+     * @function _loginButtonHandler
      * @description Обработчик события открытия окна входа
      * @private
      */
@@ -55,7 +70,7 @@ export default class Header extends BaseComponent {
     }
 
     /**
-     * @method _logoutButtonHandler
+     * @function _logoutButtonHandler
      * @description Обработчик события кнопки выхода из аккаунта
      * @private
      */

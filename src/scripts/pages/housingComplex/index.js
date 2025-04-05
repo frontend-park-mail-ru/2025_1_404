@@ -1,23 +1,29 @@
 'use strict'
 
-import HousingComplexSlider from "../../components/housingComplex/housingComplexSlider/index.js";
 import HousingComplexInformation from "../../components/housingComplex/housingComplexInformation/index.js";
 import HousingComplexReviews from "../../components/housingComplex/housingComplexReviews/index.js";
+import HousingComplexSlider from "../../components/housingComplex/housingComplexSlider/index.js";
 import Map from "../../models/map.js";
 import Page from "../page.js";
 import {getHousingComplex} from "../../util/apiUtil.js";
+import housingComplexInformationTemplate
+    from "../../components/housingComplex/housingComplexInformation/template.precompiled.js";
 import housingComplexSliderTemplate from "../../components/housingComplex/housingComplexSlider/template.precompiled.js";
-import housingComplexInformationTemplate from "../../components/housingComplex/housingComplexInformation/template.precompiled.js";
 import template from "./template.precompiled.js";
 
 
 /**
  * @class HousingComplexPage
  * @description Страница ЖК
- * @extends Page
+ * @augments Page
  */
 export default class HousingComplexPage extends Page {
-    render ({root}) {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы.
+     * @param {HTMLElement} root корневой элемент страницы
+     */
+    render({root}) {
         root.innerHTML = template();
         super.render({root});
         this._getInformation()
@@ -35,6 +41,10 @@ export default class HousingComplexPage extends Page {
         
     }
 
+    /**
+     * @function destroy
+     * @description Метод, который вызывается при уничтожении страницы.
+     */
     destroy() {
         if (this._slider) {
             this._slider.destroy();
@@ -49,6 +59,12 @@ export default class HousingComplexPage extends Page {
         super.destroy();
     }
 
+    /**
+     * @function _getInformation
+     * @description Метод получения информации о ЖК.
+     * @returns {Promise<null | void>} промис с данными о ЖК.
+     * @private
+     */
     _getInformation() {
         return getHousingComplex()
         .then((data) => data)

@@ -5,10 +5,15 @@ import BaseComponent from "../baseComponent.js";
 /**
  * @class OfferCreateTitle
  * @description Компонент заголовка на странице создания объявления.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class OfferCreateTitle extends BaseComponent {
-    constructor() {
-        super({});
+    /**
+     * @description Конструктор класса.
+     * @param {Page} page - экземпляр класса Page.
+     * @param {BaseLayout} layout - экземпляр класса Layout.
+     */
+    constructor({page, layout}) {
+        super({page, layout});
     }
 }

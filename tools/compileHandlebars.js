@@ -4,7 +4,6 @@ import Handlebars from 'handlebars';
 import {fileURLToPath} from "url";
 import fs from 'fs';
 import path from 'path';
-import * as sass from 'sass-embedded';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,7 +11,7 @@ const __dirname = path.dirname(__filename);
 /**
  * @function compile
  * @description Компиляция всех hbs файлов в директории
- * @param dir директория
+ * @param {string} dir Директория
  */
 const compile = function(dir) {
     fs.readdirSync(dir).forEach((file) => {
@@ -31,6 +30,10 @@ const compile = function(dir) {
     });
 }
 
+/**
+ * @function compileHandlebars
+ * @description Компиляция всех hbs файлов
+ */
 export default function compileHandlebars() {
     const rootDir = path.dirname(__dirname);
     compile(path.join(rootDir, 'src', 'scripts', 'pages'));

@@ -8,10 +8,10 @@ const HTTP_METHOD_POST = 'POST';
 /**
  * @function makeRequest
  * @description Функция для выполнения запроса к бэкенду.
- * @param method
- * @param endpoint
- * @param body
- * @returns {Promise<any>}
+ * @param {string} endpoint URL-адрес API
+ * @param {string} method HTTP-метод (GET, POST и т.д.)
+ * @param {object} body Тело запроса (для POST-запросов)
+ * @returns {Promise<any>} Ответ от сервера
  */
 const makeRequest = async (endpoint, method=HTTP_METHOD_GET, body={}) => {
     const options = {
@@ -36,18 +36,18 @@ const makeRequest = async (endpoint, method=HTTP_METHOD_GET, body={}) => {
 /**
  * @function getOffers
  * @description Функция для получения списка предложений.
- * @returns {Promise<*>}
+ * @returns {Promise<*>} Ответ от сервера
  */
 export const getOffers =  async () => await makeRequest('/offers', HTTP_METHOD_GET);
 
 /**
  * @function registerAccount
  * @description Функция для регистрации аккаунта.
- * @param email почта
- * @param password пароль
- * @param first_name имя
- * @param last_name фамилия
- * @returns {Promise<*>}
+ * @param {string} email Электронная почта
+ * @param {string} first_name Имя
+ * @param {string} last_name Фамилия
+ * @param {string} password Пароль
+ * @returns {Promise<*>} Ответ от сервера
  */
 export const registerAccount = async ({email, first_name, last_name,  password}) => await makeRequest('/auth/register', HTTP_METHOD_POST, {email, first_name, last_name, password});
 
@@ -55,7 +55,7 @@ export const registerAccount = async ({email, first_name, last_name,  password})
 /**
  * @function getProfile
  * @description Функция для получения профиля.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} Ответ от сервера
  */
 export const getProfile = async () => await makeRequest('/auth/me', HTTP_METHOD_POST);
 
@@ -86,7 +86,7 @@ const offer = {
 /**
  * @function getOfferById
  * @description Функция для получения объявления по id.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} Ответ от сервера
  */
 export const getOfferById =  async () => await offer;
 
@@ -196,7 +196,7 @@ const zhk = {
 /**
  * @function getHousingComplex
  * @description Функция для получения информации о ЖК.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} Ответ от сервера
  */
 export const getHousingComplex = async () => await zhk;
 
@@ -205,9 +205,9 @@ export const getHousingComplex = async () => await zhk;
 /**
  * @function login
  * @description Функция для входа в аккаунт.
- * @param email
- * @param password
- * @returns {Promise<{first_name: string, last_name: string}>}
+ * @param {string} email Электронная почта
+ * @param {string} password Пароль
+ * @returns {Promise<{first_name: string, last_name: string}>} Ответ от сервера
  */
 export const login = async ({email, password}) => await makeRequest('/auth/login', HTTP_METHOD_POST,  {email, password});
 
@@ -215,6 +215,6 @@ export const login = async ({email, password}) => await makeRequest('/auth/login
 /**
  * @function logout
  * @description Функция для выхода из аккаунта.
- * @returns {Promise<boolean>}
+ * @returns {Promise<boolean>} Ответ от сервера
  */
 export const logout = async () => await makeRequest('/auth/logout', HTTP_METHOD_POST);

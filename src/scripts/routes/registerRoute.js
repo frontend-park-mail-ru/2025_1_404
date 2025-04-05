@@ -8,9 +8,14 @@ import User from "../models/user.js";
 /**
  * @class RegisterRoute
  * @description Класс для обработки маршрута страницы регистрации.
- * @extends BaseRoute
+ * @augments BaseRoute
  */
 export class RegisterRoute extends BaseRoute {
+    /**
+     * @function process
+     * @description Метод, который вызывается при обработке маршрута.
+     * @returns {void}
+     */
     process() {
         if (User.isAuthenticated()) {
             return RouteManager.navigateTo('/');

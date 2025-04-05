@@ -3,6 +3,10 @@
 import * as sass from 'sass-embedded';
 import fs from 'fs';
 
+/**
+ * @function compileScss
+ * @description Функция для компиляции SCSS в CSS.
+ */
 export default function compileScss() {
     sass.compileAsync('src/style/scss/app.scss', { style: 'expanded' })
         .then(result => {

@@ -1,3 +1,9 @@
+/**
+ * @function getMetroColorByLineName
+ * @description Функция для получения цвета метро по названию линии.
+ * @param {string} lineName - Название линии метро.
+ * @returns {*|string} Цвет линии метро в формате HEX или серый цвет по умолчанию.
+ */
 export default function getMetroColorByLineName(lineName) {
     const metroColours = {
         'Арбатско-Покровская': '#0033A0',

@@ -9,15 +9,25 @@ import {validateFormInput} from "../../util/validatorUtil.js";
 /**
  * @class RegisterPage
  * @description Страница регистрации
- * @extends Page
+ * @augments Page
  */
 export default class RegisterPage extends Page {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы.
+     * @param {HTMLElement} root корневой элемент страницы
+     * @param {BaseLayout} layout макет страницы
+     */
     render({root, layout}) {
         this._layout = layout;
         root.innerHTML = template();
         super.render(root);
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('register-form', 'submit', this._registerFormHandler);
         this.initListener('register-form', 'focusout', this._registerFormInputHandler);
@@ -26,9 +36,9 @@ export default class RegisterPage extends Page {
     }
 
     /**
-     * @method _registerFormHandler
+     * @function _registerFormHandler
      * @description Обработчик отправки формы регистрации
-     * @param event
+     * @param {Event} event событие отправки формы
      * @private
      */
     _registerFormHandler(event) {
@@ -78,9 +88,10 @@ export default class RegisterPage extends Page {
     }
 
     /**
-     * @method _registerFormInputHandler
+     * @function _registerFormInputHandler
      * @description Обработчик события отпускания input
-     * @param event
+     * @param {Event} event событие отпускания input
+     * @param {HTMLElement} target элемент, на который кликнули
      * @private
      */
     _registerFormInputHandler(event, {target} = event) {
@@ -104,9 +115,9 @@ export default class RegisterPage extends Page {
     }
 
     /**
-     * @method _registerHeaderHandler
+     * @function _registerHeaderHandler
      * @description Обработчик нажатия на заголовок формы регистрации
-     * @param event
+     * @param {Event} event событие нажатия
      * @private
      */
     _registerHeaderHandler(event) {
@@ -114,6 +125,12 @@ export default class RegisterPage extends Page {
         RouteManager.navigateTo('/');
     }
 
+    /**
+     * @function _redirectJoinHandler
+     * @description Обработчик нажатия на кнопку "Уже есть аккаунт?"
+     * @param {Event} event событие нажатия
+     * @private
+     */
     _redirectJoinHandler(event) {
         event.preventDefault();
         RouteManager.navigateTo('/login');

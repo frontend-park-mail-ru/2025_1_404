@@ -5,7 +5,15 @@ import OfferCreateNav from "../../components/offerCreateNav/index.js";
 import RouteManager from "../../managers/routeManager/routeManager.js";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
 
+/**
+ * @class OfferCreateLayout
+ * @description Макет страницы создания объявления.
+ * @augments MainLayout
+ */
 class OfferCreateLayout extends MainLayout {
+    /**
+     * @description Конструктор класса.
+     */
     constructor() {
         super();
         this._currentPage = "type";
@@ -19,6 +27,12 @@ class OfferCreateLayout extends MainLayout {
         this.on('pageFilled', this._handlePageFilled.bind(this));
     }
 
+    /**
+     * @function process
+     * @description Метод обработки страницы.
+     * @param {Page} page экземпляр класса Page.
+     * @returns {{destroy: *, render: *}} Метод destroy и метод render.
+     */
     process(page) {
         return {
             destroy: () => {
@@ -42,6 +56,11 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _updateOfferCreateButtons
+     * @description Метод обновления состояния кнопок создания объявления.
+     * @private
+     */
     _updateOfferCreateButtons() {
         if (OfferCreate.isPageFilled(this._currentPage)) {
             this._offerCreateBtns.enableNextButton();
@@ -50,6 +69,12 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _handlePageChange
+     * @description Обработчик события перехода на страницу.
+     * @param {string} page идентификатор страницы.
+     * @private
+     */
     _handlePageChange(page) {
         if (page === this._currentPage) {
             return;
@@ -61,6 +86,13 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _isAllPagesBeforeFilled
+     * @description Метод проверки, заполнены ли все страницы перед текущей.
+     * @param {string} page идентификатор страницы.
+     * @returns {boolean} true, если все страницы перед текущей заполнены, иначе false.
+     * @private
+     */
     _isAllPagesBeforeFilled(page) {
         for (let i = 0; i < this._allPages.indexOf(page); i++) {
             if (!OfferCreate.isPageFilled(this._allPages[i])) {
@@ -70,16 +102,32 @@ class OfferCreateLayout extends MainLayout {
         return true;
     }
 
+    /**
+     * @function _handleNextPage
+     * @description Обработчик события перехода на следующую страницу.
+     * @private
+     */
     _handleNextPage() {
         this._nextPage();
         this._updateNavClasses();
     }
 
+    /**
+     * @function _handlePrevPage
+     * @description Обработчик события перехода на предыдущую страницу.
+     * @private
+     */
     _handlePrevPage() {
         this._prevPage();
         this._updateNavClasses(this._currentPage);
     }
 
+    /**
+     * @function _handlePageFilled
+     * @description Обработчик события заполнения страницы.
+     * @param {boolean} isFilled true, если страница заполнена, иначе false.
+     * @private
+     */
     _handlePageFilled(isFilled) {
         const nextPage = this._getNextPage();
         if (isFilled) {
@@ -99,6 +147,12 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _updateNavClasses
+     * @description Метод обновления классов навигации.
+     * @param {string} prevStageId идентификатор предыдущей стадии.
+     * @private
+     */
     _updateNavClasses(prevStageId) {
         if (prevStageId) {
             this._offerCreateNav.addEmptyStageClass(prevStageId);
@@ -107,6 +161,11 @@ class OfferCreateLayout extends MainLayout {
         this._offerCreateNav.addCurrentStageClass(this._currentPage);
     }
 
+    /**
+     * @function _nextPage
+     * @description Метод перехода на следующую страницу.
+     * @private
+     */
     _nextPage() {
         const nextPage = this._getNextPage();
         if (nextPage) {
@@ -114,6 +173,11 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _prevPage
+     * @description Метод перехода на предыдущую страницу.
+     * @private
+     */
     _prevPage() {
         const prevPage = this._getPrevPage();
         if (prevPage) {
@@ -121,17 +185,35 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _goToPage
+     * @description Метод перехода на страницу.
+     * @param {string} page идентификатор страницы.
+     * @private
+     */
     _goToPage(page) {
         if (this._unlockedPages.includes(page)) {
             this._navigateToPage(page);
         }
     }
 
+    /**
+     * @function _navigateToPage
+     * @description Метод навигации на страницу.
+     * @param {string} page идентификатор страницы.
+     * @private
+     */
     _navigateToPage(page) {
         RouteManager.navigateTo("/offer/create/".concat(page));
         this._currentPage = page;
     }
 
+    /**
+     * @function _lockPage
+     * @description Метод блокировки страницы.
+     * @param {string} page идентификатор страницы.
+     * @private
+     */
     _lockPage(page) {
         if (this._unlockedPages.includes(page)) {
             this._unlockedPages = this._unlockedPages.filter((unlockedPage) => unlockedPage !== page);
@@ -139,6 +221,12 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _unlockPage
+     * @description Метод разблокировки страницы.
+     * @param {string} page идентификатор страницы.
+     * @private
+     */
     _unlockPage(page) {
         if (!this._unlockedPages.includes(page)) {
             this._unlockedPages.push(page);
@@ -146,16 +234,33 @@ class OfferCreateLayout extends MainLayout {
         }
     }
 
+    /**
+     * @function _getNextPage
+     * @description Метод получения следующей страницы.
+     * @returns {*} следующая страница.
+     * @private
+     */
     _getNextPage() {
         const currentIndex = this._allPages.indexOf(this._currentPage);
         return this._allPages[currentIndex + 1];
     }
 
+    /**
+     * @function _getPrevPage
+     * @description Метод получения предыдущей страницы.
+     * @returns {*} предыдущая страница.
+     * @private
+     */
     _getPrevPage() {
         const currentIndex = this._allPages.indexOf(this._currentPage);
         return this._allPages[currentIndex - 1];
     }
 
+    /**
+     * @function _unlockPages
+     * @description Метод разблокировки страниц.
+     * @private
+     */
     _unlockPages() {
         this._unlockedPages.forEach((page) => {
             document.getElementById(page.concat("PageButton")).classList.remove("offerCreate__nav-stage-point-disabled");

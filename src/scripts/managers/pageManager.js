@@ -6,7 +6,6 @@
  */
 class PageManager {
     /**
-     * @constructor
      * @description Конструктор класса
      */
     constructor() {
@@ -19,14 +18,30 @@ class PageManager {
         })
     }
 
+    /**
+     * @function on
+     * @description Подписка на событие
+     * @param {string} event название события
+     * @param {Function} callback функция для вызова
+     */
     on(event, callback) {
         this.events[event] = callback;
     }
 
+    /**
+     * @function off
+     * @description Отписка от события
+     * @param {string} event название события
+     */
     off(event) {
         this.events[event] = null;
     }
 
+    /**
+     * @function emit
+     * @description Вызов события
+     * @param {string} event название события
+     */
     emit(event) {
         if (this.events[event]) {
             this.events[event]();
@@ -34,20 +49,20 @@ class PageManager {
     }
 
     /**
-     * @method registerPage
+     * @function registerPage
      * @description Регистрация страницы
-     * @param pageName ключевое имя страницы
-     * @param page объект страницы
+     * @param {string} pageName ключевое имя страницы
+     * @param {object} page объект страницы
      */
     registerPage(pageName, page) {
         this.pages[pageName] = page;
     }
 
     /**
-     * @method renderPage
+     * @function renderPage
      * @description Рендер страницы
-     * @param pageName ключевое имя страницы
-     * @param props параметры для страницы
+     * @param {string} pageName ключевое имя страницы
+     * @param {object} props параметры страницы
      */
     renderPage(pageName, props={}) {
         if (this.activePage) {

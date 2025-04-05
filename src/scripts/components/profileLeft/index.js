@@ -8,9 +8,14 @@ import {validateFormInput} from "../../util/validatorUtil.js";
 /**
  * @class ProfileLeft
  * @description Компонент левой части профиля.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class ProfileLeft extends BaseComponent {
+    /**
+     * @description Конструктор класса.
+     * @param {Page} page - экземпляр класса Page.
+     * @param {BaseLayout} layout - экземпляр класса Layout.
+     */
     constructor({page, layout}) {
         super({page, layout});
         this._profileAvatar = "";
@@ -18,6 +23,10 @@ export default class ProfileLeft extends BaseComponent {
         saveButton.classList.remove('active');
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('profileMainButton', 'click', this._mainPageButtonHandler);
         this.initListener('offerCreateButton', 'click', this._offerCreatePageButtonHandler);
@@ -29,11 +38,23 @@ export default class ProfileLeft extends BaseComponent {
         this.initListener('profileData', 'focusout', this._profileDataInputHandler);
     }
 
+    /**
+     * @function _addAvatar
+     * @description Метод добавления аватара в профиль.
+     * @param {string} source источник изображения аватара.
+     * @private
+     */
     _addAvatar(source) {
         const profileAvatar = document.getElementById('profileAvatar');
         profileAvatar.firstElementChild.setAttribute('src', source);
     }
 
+    /**
+     * @function _uploadAvatar
+     * @description Метод загрузки аватара.
+     * @param {File} file файл аватара.
+     * @private
+     */
     _uploadAvatar(file) {
         if (file.type.startsWith('image/')) {
             const reader = new FileReader();
@@ -46,11 +67,14 @@ export default class ProfileLeft extends BaseComponent {
         }
     }
 
+    /**
+     * @function _profileDataHandler
+     * @description Обработчик события отправки формы данных профиля.
+     * @param {Event} event событие отправки формы
+     * @private
+     */
     _profileDataHandler(event) {
         event.preventDefault();
-
-        // const apiError = document.getElementById('api-error');
-        // apiError.classList.remove('error__visible');
 
         const profileDataSaveButton = event.target.querySelector('#profileDataSave');
         profileDataSaveButton.disabled = true;
@@ -83,18 +107,15 @@ export default class ProfileLeft extends BaseComponent {
         }, {});
         console.log(values);
         profileDataSaveButton.disabled = false;
-
-        // this.profileAvatar;
-        // User.update(values).then(() => {
-        //     RouteManager.navigateTo('/');
-        // }).catch((error) => {
-        //     apiError.textContent = error.message;
-        //     apiError.classList.add('error__visible');
-        // }).finally(() => {
-        //     profileDataSaveButton.disabled = false;
-        // })
     }
 
+    /**
+     * @function _profileDataInputHandler
+     * @description Обработчик события отпускания input
+     * @param {Event} event событие отпускания input
+     * @param {HTMLElement} target элемент, на который кликнули
+     * @private
+     */
     _profileDataInputHandler(event, {target} = event) {
         event.preventDefault();
 
@@ -103,10 +124,10 @@ export default class ProfileLeft extends BaseComponent {
         }
 
         const saveButton = document.getElementById('profileDataSave');
-        if (target.value !== "") { // TODO Сравнение со старыми данными из базы
-            saveButton.classList.add('active');
-        } else {
+        if (target.value === "") { // TODO Сравнение со старыми данными из базы
             saveButton.classList.remove('active');
+        } else {
+            saveButton.classList.add('active');
         }
 
         const errorText = validateFormInput(target, true);
@@ -122,22 +143,38 @@ export default class ProfileLeft extends BaseComponent {
         errorField.textContent = errorText;
     }
 
+    /**
+     * @function _chooseAvatarClickHandler
+     * @description Обработчик события клика по аватару профиля.
+     * @private
+     */
     _chooseAvatarClickHandler() {
         document.getElementById('profileAvatarInput').click();
     }
 
+    /**
+     * @function _getAvatarAfterChooseClickHandler
+     * @description Обработчик события выбора аватара.
+     * @param {Event} event событие выбора файла
+     * @private
+     */
     _getAvatarAfterChooseClickHandler(event) {
-        const file = event.target.files[0];
+        const [file] = event.target.files;
         console.log(file);
         this._uploadAvatar(file);
     }
 
+    /**
+     * @function setActiveProfileTab
+     * @description Метод установки активной вкладки профиля.
+     * @param {number} activeProfileTabIndex индекс активной вкладки профиля.
+     */
     setActiveProfileTab(activeProfileTabIndex) {
         document.getElementsByClassName('profile__left-nav-btn')[activeProfileTabIndex].classList.add('active');
     }
 
     /**
-     * @method _mainPageButtonHandler
+     * @function _mainPageButtonHandler
      * @description Обработчик события перехода на главную страницу профиля
      * @private
      */
@@ -146,7 +183,7 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @method _offerCreatePageButtonHandler
+     * @function _offerCreatePageButtonHandler
      * @description Обработчик события перехода на страницу создания объявления
      * @private
      */
@@ -155,7 +192,7 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @method _myOffersButtonHandler
+     * @function _myOffersButtonHandler
      * @description Обработчик события перехода на страницу "мои объявления"
      * @private
      */
@@ -164,7 +201,7 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @method _logoutButtonHandler
+     * @function _logoutButtonHandler
      * @description Обработчик события кнопки выхода из аккаунта на странице профиля
      * @private
      */

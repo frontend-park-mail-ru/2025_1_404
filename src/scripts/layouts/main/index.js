@@ -4,7 +4,15 @@ import Login from "../../components/login/index.js";
 import RouteManager from "../../managers/routeManager/routeManager.js";
 import User from "../../models/user.js";
 
+/**
+ * @class MainLayout
+ * @description Макет приложения с хедером
+ * @augments BaseLayout
+ */
 export default class MainLayout extends BaseLayout {
+    /**
+     * @description Конструктор класса.
+     */
     constructor() {
         super();
 
@@ -22,6 +30,12 @@ export default class MainLayout extends BaseLayout {
         })
     }
 
+    /**
+     * @function process
+     * @description Метод обработки страницы.
+     * @param {Page} page экземпляр класса Page.
+     * @returns {{destroy: *, render: *}} Метод destroy и метод render.
+     */
     process(page) {
         return {
             destroy: () => {
@@ -49,9 +63,9 @@ export default class MainLayout extends BaseLayout {
     }
 
     /**
-     * @method setHeaderStatus
+     * @function setHeaderStatus
      * @description Установка статуса шапки (для авторизованного пользователя или нет)
-     * @param isAuthorized
+     * @param {boolean} isAuthorized - авторизован ли пользователь
      */
     setHeaderStatus(isAuthorized) {
         const header = document.getElementById('header');

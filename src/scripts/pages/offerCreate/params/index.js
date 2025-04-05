@@ -6,10 +6,16 @@ import template from "./template.precompiled.js";
 
 /**
  * @class OfferCreateParamsPage
- * @description Страница создания объявления с выборо параметров
- * @extends Page
+ * @description Страница создания объявления с выбором параметров
+ * @augments OfferPage
  */
 export default class OfferCreateParamsPage extends OfferPage {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы.
+     * @param {HTMLElement} root корневой элемент страницы
+     * @param {BaseLayout} layout макет страницы
+     */
     render({layout, root}) {
         root.innerHTML = template();
         super.render({layout, root});
@@ -21,11 +27,20 @@ export default class OfferCreateParamsPage extends OfferPage {
         this._initReadParamsData();
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('input-square', 'focusout', this._offerParamsInputChange);
         this.initListener('offerCreateParams', 'change', this._offerParamsSelectsChange);
     }
 
+    /**
+     * @function _initReadParamsData
+     * @description Метод инициализации данных для страницы выбора параметров.
+     * @private
+     */
     _initReadParamsData() {
         const inputSquare = document
             .getElementById('input-square')
@@ -39,6 +54,11 @@ export default class OfferCreateParamsPage extends OfferPage {
         OfferCreate.setPageFilled(this._pageName, this._isInputsFilled());
     }
 
+    /**
+     * @function _setDataFromModel
+     * @description Метод установки данных из модели в инпуты.
+     * @private
+     */
     _setDataFromModel() {
         const inputSquare = document
             .getElementById('input-square')
@@ -54,6 +74,12 @@ export default class OfferCreateParamsPage extends OfferPage {
         })
     }
 
+    /**
+     * @function _isInputsFilled
+     * @description Метод проверки заполненности инпутов.
+     * @returns {boolean} true, если все инпуты заполнены, иначе false
+     * @private
+     */
     _isInputsFilled() {
         let isFilled = true;
         for (const key in this._offerData) {
@@ -62,6 +88,12 @@ export default class OfferCreateParamsPage extends OfferPage {
         return isFilled;
     }
 
+    /**
+     * _offerParamsInputChange
+     * @param {Event} event событие
+     * @param {HTMLElement} target элемент, на который произошло событие
+     * @private
+     */
     _offerParamsInputChange(event, {target} = event) {
         event.preventDefault();
 
@@ -74,6 +106,13 @@ export default class OfferCreateParamsPage extends OfferPage {
         this._markAsFullfilled(this._isInputsFilled());
     }
 
+    /**
+     * @function _offerParamsSelectsChange
+     * @description Метод обработки события изменения данных объявления.
+     * @param {Event} event событие
+     * @param {HTMLElement} target элемент, на который произошло событие
+     * @private
+     */
     _offerParamsSelectsChange(event, {target} = event) {
         event.preventDefault();
 

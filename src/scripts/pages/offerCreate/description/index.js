@@ -7,9 +7,15 @@ import template from "./template.precompiled.js";
 /**
  * @class OfferCreateDescriptionPage
  * @description Страница создания объявления с полем описания
- * @extends Page
+ * @augments OfferPage
  */
 export default class OfferCreateDescriptionPage extends OfferPage {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы.
+     * @param {HTMLElement} root корневой элемент страницы
+     * @param {BaseLayout} layout макет страницы
+     */
     render({layout, root}) {
         root.innerHTML = template();
         super.render({layout, root});
@@ -20,10 +26,19 @@ export default class OfferCreateDescriptionPage extends OfferPage {
         }
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('input-description', 'focusout', this._offerDescriptionTextareaChange);
     }
 
+    /**
+     * @function _isInputsFilled
+     * @returns {boolean} true, если все инпуты заполнены
+     * @private
+     */
     _isInputsFilled() {
         let isFilled = true;
         for (const key in this._offerData) {
@@ -32,12 +47,24 @@ export default class OfferCreateDescriptionPage extends OfferPage {
         return isFilled;
     }
 
+    /**
+     * @function _setDataFromModel
+     * @description Метод установки данных из модели в инпуты.
+     * @private
+     */
     _setDataFromModel() {
         const input = document
             .getElementById('input-description')
         input.value = this._offerData[input.id];
     }
 
+    /**
+     * @function _offerDescriptionTextareaChange
+     * @description Метод обработки события изменения текста в текстовом поле.
+     * @param {Event} event событие изменения текста
+     * @param {HTMLElement} target элемент, вызвавший событие
+     * @private
+     */
     _offerDescriptionTextareaChange(event, {target} = event) {
         event.preventDefault();
 

@@ -9,9 +9,9 @@ import Handlebars from "handlebars";
 import Header from '../components/header/template.precompiled.js';
 import HeaderAuthorized from "../components/header/templateAuthorized.precompiled.js";
 import HeartButton from '../components/heartButton/template.precompiled.js';
-import HousingComplexCarousel from '../components/housingComplex/housingComplexSlider/template.precompiled.js';
 import HousingComplexInformation from '../components/housingComplex/housingComplexInformation/template.precompiled.js';
 import HousingComplexReviews from '../components/housingComplex/housingComplexReviews/template.precompiled.js';
+import HousingComplexSlider from "../components/housingComplex/housingComplexSlider/template.precompiled.js";
 import Input from '../components/input/template.precompiled.js';
 import LightButton from '../components/lightButton/template.precompiled.js';
 import Loader from "../components/loader/template.precompiled.js";
@@ -28,6 +28,7 @@ import OfferDetailsInfo from "../components/offerDetailsInfo/template.precompile
 import OfferDetailsSlider from "../components/offerDetailsSlider/template.precompiled.js";
 import PicturesCarousel from '../components/picturesCarousel/template.precompiled.js';
 import PrimaryButton from '../components/primaryButton/template.precompiled.js';
+import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
 import ProfileLeft from '../components/profileLeft/template.precompiled.js';
 import ProfileOffer from "../components/profileOffer/template.precompiled.js";
 import ProfilePreview from "../components/profilePreview/template.precompiled.js";
@@ -35,8 +36,6 @@ import ProgressBar from "../components/progressBar/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
 import SelectButton from "../components/selectButton/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
-import HousingComplexSlider from "../components/housingComplex/housingComplexSlider/template.precompiled.js";
-import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
 
 /**
  * @function registerComponents

@@ -1,6 +1,13 @@
 'use strict';
 
+/**
+ * @class OfferCreate
+ * @description Модель создания объявления.
+ */
 class OfferCreate {
+    /**
+     * @description Конструктор класса.
+     */
     constructor() {
         this._offerData = {};
         this._filledPages = {
@@ -13,20 +20,49 @@ class OfferCreate {
         };
     }
 
+    /**
+     * @function getOfferData
+     * @description Метод получения данных объявления.
+     * @returns {*|{}} Данные объявления.
+     */
     getOfferData() {
         return this._offerData;
     }
 
+    /**
+     * @function setData
+     * @description Метод установки данных объявления.
+     * @param {string} pageName имя страницы.
+     * @param {object} data данные страницы.
+     */
     setData(pageName, data) {
         this._offerData[pageName] = data;
     }
 
+    /**
+     * @function setPageFilled
+     * @description Метод установки статуса заполненности страницы.
+     * @param {string} pageName имя страницы.
+     * @param {boolean} isFilled статус заполненности страницы.
+     */
     setPageFilled(pageName, isFilled) {
         this._filledPages[pageName] = isFilled;
     }
 
+    /**
+     * @function isPageFilled
+     * @description Метод получения статуса заполненности страницы.
+     * @param {string} pageName имя страницы.
+     * @returns {boolean} статус заполненности страницы.
+     */
     isPageFilled(pageName) {return this._filledPages[pageName];}
 
+    /**
+     * @function isPreviousPageFilled
+     * @description Метод получения статуса заполненности предыдущей страницы.
+     * @param {string} pageName имя страницы.
+     * @returns {boolean} статус заполненности предыдущей страницы.
+     */
     isPreviousPageFilled(pageName) {
         const pageNames = Object.keys(this._filledPages);
         const currentPageIndex = pageNames.indexOf(pageName);
@@ -37,6 +73,11 @@ class OfferCreate {
         return this._filledPages[previousPageName];
     }
 
+    /**
+     * @function getFilledPages
+     * @description Метод получения статуса заполненности страниц.
+     * @returns {string} имя страницы.
+     */
     getLastFilledPage() {
         return Object.keys(this._filledPages).reverse().find((pageName) => this._filledPages[pageName]) || 'type';
     }

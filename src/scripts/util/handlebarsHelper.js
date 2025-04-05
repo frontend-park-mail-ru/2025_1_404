@@ -3,10 +3,10 @@
 import Handlebars from "handlebars";
 
 /**
- * @function registerHandlebarsHelpers
- * @description Регистрация helper для Handlebars
+ * @function renderRating
+ * @param {number} rating - Рейтинг от 1 до 5
+ * @returns {Handlebars.SafeString} HTML-строка с иконками звезд
  */
-
 const renderRating = function(rating) {
     const maxRating = 5;
     const stars =   '<i class="fa-solid fa-star"></i>'.repeat(rating) +
@@ -15,6 +15,10 @@ const renderRating = function(rating) {
     return new Handlebars.SafeString(stars);
 }
 
+/**
+ * @function registerHandlebarsHelpers
+ * @description Регистрация хелперов Handlebars
+ */
 export default function registerHandlebarsHelpers() {
     Handlebars.registerHelper('renderRating', renderRating);
 }

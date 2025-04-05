@@ -6,9 +6,14 @@ import template from "./template.precompiled.js";
 /**
  * @class UnknownPage
  * @description Страница 404
- * @extends Page
+ * @augments Page
  */
 export default class UnknownPage extends Page {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы 404.
+     * @param {HTMLElement} root корневой элемент страницы
+     */
     render(root) {
         root.innerHTML = template();
 
