@@ -4,7 +4,7 @@ import template from './template.precompiled.js';
 /**
  * @class ChoiceButtons
  * @description Компонент кнопок выбора.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class ChoiceButtons extends BaseComponent {
     /**

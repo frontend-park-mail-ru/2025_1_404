@@ -1,12 +1,12 @@
 'use strict'
 
+import Filter from "../../components/filter/index.js";
 import Page from '../page.js';
 import User from "../../models/user.js";
 import cardTemplate from "../../components/card/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.js";
 import {getOffers} from "../../util/apiUtil.js";
 import template from "./template.precompiled.js";
-import Filter from "../../components/filter/index.js";
 
 /**
  * @class IndexPage

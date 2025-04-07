@@ -1,12 +1,15 @@
 import BaseComponent from "../baseComponent.js";
-import RouteManager from "../../managers/routeManager/routeManager.js";
 import FilterModel from "../../models/filterModel.js"
+import RouteManager from "../../managers/routeManager/routeManager.js";
 /**
  * @class Filter
  * @description Компонент фильтра.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class Filter extends BaseComponent {
+    /**
+     * @description Конструктор класса.
+     */
     constructor() {
         super({});
         this._openPopupButton = null;
@@ -33,6 +36,10 @@ export default class Filter extends BaseComponent {
         }
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий для компонента фильтра.
+     */
     initListeners() {
         this.initListenerForClass('filter__select-button', 'click', this._filterSelectOpenPopup);
         this.initListenerForClass('filter__check-elem', 'click', this._filterCheckListElem);
@@ -43,6 +50,12 @@ export default class Filter extends BaseComponent {
         this.initListener('filterSubmitButton', 'click', this._filterSubmit);
     }
 
+    /**
+     * @function _filterSubmit
+     * @description Метод обработки отправки формы фильтра.
+     * @param {Event} event событие отправки формы.
+     * @private
+     */
     _filterSubmit(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -54,12 +67,24 @@ export default class Filter extends BaseComponent {
         RouteManager.navigateTo('/search');
     }
 
+    /**
+     * @function _filterInputChange
+     * @description Метод обработки изменения значения в полях ввода фильтра.
+     * @param {Event} event событие изменения значения в поле ввода.
+     * @private
+     */
     _filterInputChange(event) {
         event.preventDefault();
         this._filterData[event.currentTarget.id] = event.currentTarget.value;
         console.log(this._filterData);
     }
 
+    /**
+     * @function _filterCheckListElem
+     * @description Метод обработки клика по элементу списка чекбоксов фильтра.
+     * @param {Event} event событие клика по элементу списка чекбоксов.
+     * @private
+     */
     _filterCheckListElem(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -68,7 +93,7 @@ export default class Filter extends BaseComponent {
         while (elem.tagName.toLowerCase() !== 'li') {
             elem = elem.parentElement;
         }
-        let selectButton = elem.parentElement.parentElement.previousElementSibling;
+        const selectButton = elem.parentElement.parentElement.previousElementSibling;
 
         if (elem.classList.toggle('checked')) {
             this._filterData[selectButton.id].add(elem.children[1].textContent)
@@ -77,7 +102,7 @@ export default class Filter extends BaseComponent {
             this._filterData[selectButton.id].delete(elem.children[1].textContent)
             console.log(this._filterData);
         }
-        let checked = elem.parentElement.querySelectorAll('.checked');
+        const checked = elem.parentElement.querySelectorAll('.checked');
 
         if (checked && checked.length > 0) {
             selectButton.innerHTML = `Выбрано ${checked.length}`
@@ -86,11 +111,23 @@ export default class Filter extends BaseComponent {
         }
     }
 
+    /**
+     * @function _filterSelectClosePopup
+     * @description Закрывает всплывающее окно селекта фильтра.
+     * @param {HTMLElement} button кнопка, которая открыла всплывающее окно селекта.
+     * @private
+     */
     _filterSelectClosePopup(button) {
         button.classList.remove('active');
         button.nextElementSibling.classList.remove('active');
     }
 
+    /**
+     * @function _filterSelectOpenPopup
+     * @description Открывает всплывающее окно селекта фильтра.
+     * @param {Event} event событие клика по кнопке селекта.
+     * @private
+     */
     _filterSelectOpenPopup(event) {
         event.preventDefault();
         if (this._openPopupButton === null) {

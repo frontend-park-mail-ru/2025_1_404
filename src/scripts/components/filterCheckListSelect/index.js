@@ -4,9 +4,14 @@ import template from './template.precompiled.js';
 /**
  * @class FilterCheckListSelect
  * @description Компонент селекта с чеклистом в фильтре.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class FilterCheckListSelect extends BaseComponent {
+    /**
+     * @function render
+     * @description Метод рендеринга компонента.
+     * @returns {string} HTML-строка с разметкой компонента.
+     */
     render() {
         return template();
     }

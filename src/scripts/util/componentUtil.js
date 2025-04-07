@@ -5,6 +5,13 @@ import Card from '../components/card/template.precompiled.js';
 import Characteristic from "../components/characteristic/template.precompiled.js";
 import ChevronLeft from '../components/chevron/left/template.precompiled.js';
 import ChevronRight from '../components/chevron/right/template.precompiled.js';
+import ChoiceButtons from "../components/choiceButtons/template.precompiled.js";
+import Filter from "../components/filter/template.precompiled.js";
+import FilterCheckList from "../components/filterCheckList/template.precompiled.js";
+import FilterCheckListSelect from "../components/filterCheckListSelect/template.precompiled.js";
+import FilterDoubleInput from "../components/filterDoubleInput/template.precompiled.js";
+import FilterDoubleInputSelect from "../components/filterDoubleInputSelect/template.precompiled.js";
+import FilterSelect from "../components/filterSelect/template.precompiled.js";
 import Handlebars from "handlebars";
 import Header from '../components/header/template.precompiled.js';
 import HeaderAuthorized from "../components/header/templateAuthorized.precompiled.js";
@@ -34,15 +41,8 @@ import ProfileOffer from "../components/profileOffer/template.precompiled.js";
 import ProfilePreview from "../components/profilePreview/template.precompiled.js";
 import ProgressBar from "../components/progressBar/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
-import UserAvatar from "../components/userAvatar/template.precompiled.js";
-import Filter from "../components/filter/template.precompiled.js";
-import FilterSelect from "../components/filterSelect/template.precompiled.js";
-import ChoiceButtons from "../components/choiceButtons/template.precompiled.js";
-import FilterDoubleInput from "../components/filterDoubleInput/template.precompiled.js";
-import FilterDoubleInputSelect from "../components/filterDoubleInputSelect/template.precompiled.js";
-import FilterCheckListSelect from "../components/filterCheckListSelect/template.precompiled.js";
-import FilterCheckList from "../components/filterCheckList/template.precompiled.js";
 import SearchOffer from "../components/searchOffer/template.precompiled.js";
+import UserAvatar from "../components/userAvatar/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -50,49 +50,48 @@ import SearchOffer from "../components/searchOffer/template.precompiled.js";
  */
 export default function registerComponents() {
     const components = [
-        [PrimaryButton, 'PrimaryButton'],
-        [Header, 'Header'],
-        [HeaderAuthorized, 'HeaderAuthorized'],
-        [UserAvatar, 'UserAvatar'],
-        [Card, 'Card'],
-        [Logo, 'Logo'],
-        [Input, 'Input'],
-        [Login, 'Login'],
-        [LightButton, 'LightButton'],
         [BackgroundlessButton, 'BackgroundlessButton'],
-        [HeartButton, 'HeartButton'],
-        [ProfileLeft, 'ProfileLeft'],
-        [ProfilePreview, 'ProfilePreview'],
-        [RedButton, 'RedButton'],
-        [ProfileOffer, 'ProfileOffer'],
-        [OfferCreateNav, 'OfferCreateNav'],
-        [OfferCreateBtns, 'OfferCreateBtns'],
-        [OfferCreateTitle, 'OfferCreateTitle'],
-        [OfferCreatePhotosPreview, 'OfferCreatePhotosPreview'],
-        [OfferCreateStage, 'OfferCreateStage'],
-        [HousingComplexSlider, 'HousingComplexSlider'],
-        [HousingComplexInformation, 'HousingComplexInformation'],
-        [HousingComplexReviews, 'HousingComplexReviews'],
+        [Card, 'Card'],
+        [Characteristic, 'Characteristic'],
         [ChevronLeft, 'ChevronLeft'],
         [ChevronRight, 'ChevronRight'],
-        [PicturesCarousel, 'PicturesCarousel'],
-        [MetroStation, 'MetroStation'],
-        [Characteristic, 'Characteristic'],
-        [OfferDetailsHeader, 'OfferDetailsHeader'],
-        [OfferDetailsSlider, 'OfferDetailsSlider'],
-        [OfferDetailsInfo, 'OfferDetailsInfo'],
-        [Loader, 'Loader'],
-        [ProgressBar, 'ProgressBar'],
-        [ProfileDataInput, 'ProfileDataInput']
-        [ProfileDataInput, 'ProfileDataInput'],
-        [Filter, 'Filter'],
-        [FilterSelect, 'FilterSelect'],
         [ChoiceButtons, 'ChoiceButtons'],
-        [FilterDoubleInput, 'FilterDoubleInput'],
-        [FilterDoubleInputSelect, 'FilterDoubleInputSelect'],
+        [Filter, 'Filter'],
         [FilterCheckList, 'FilterCheckList'],
         [FilterCheckListSelect, 'FilterCheckListSelect'],
+        [FilterDoubleInput, 'FilterDoubleInput'],
+        [FilterDoubleInputSelect, 'FilterDoubleInputSelect'],
+        [FilterSelect, 'FilterSelect'],
+        [Header, 'Header'],
+        [HeaderAuthorized, 'HeaderAuthorized'],
+        [HeartButton, 'HeartButton'],
+        [HousingComplexInformation, 'HousingComplexInformation'],
+        [HousingComplexReviews, 'HousingComplexReviews'],
+        [HousingComplexSlider, 'HousingComplexSlider'],
+        [Input, 'Input'],
+        [LightButton, 'LightButton'],
+        [Loader, 'Loader'],
+        [Login, 'Login'],
+        [Logo, 'Logo'],
+        [MetroStation, 'MetroStation'],
+        [OfferCreateBtns, 'OfferCreateBtns'],
+        [OfferCreateNav, 'OfferCreateNav'],
+        [OfferCreatePhotosPreview, 'OfferCreatePhotosPreview'],
+        [OfferCreateStage, 'OfferCreateStage'],
+        [OfferCreateTitle, 'OfferCreateTitle'],
+        [OfferDetailsHeader, 'OfferDetailsHeader'],
+        [OfferDetailsInfo, 'OfferDetailsInfo'],
+        [OfferDetailsSlider, 'OfferDetailsSlider'],
+        [PicturesCarousel, 'PicturesCarousel'],
+        [PrimaryButton, 'PrimaryButton'],
+        [ProfileDataInput, 'ProfileDataInput'],
+        [ProfileLeft, 'ProfileLeft'],
+        [ProfileOffer, 'ProfileOffer'],
+        [ProfilePreview, 'ProfilePreview'],
+        [ProgressBar, 'ProgressBar'],
+        [RedButton, 'RedButton'],
         [SearchOffer, 'SearchOffer'],
+        [UserAvatar, 'UserAvatar']
     ];
 
     components.forEach(([component, name]) => {

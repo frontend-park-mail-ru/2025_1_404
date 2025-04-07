@@ -35,7 +35,7 @@ export default class ProfileLeft extends BaseComponent {
         this.initListener('offerCreateButton', 'click', this._offerCreatePageButtonHandler);
         this.initListener('profileMyOffersButton', 'click', this._myOffersButtonHandler);
         this.initListener('profileLogoutButton', 'click', this._logoutButtonHandler);
-        this.initListener('profileAvatar', 'click', this._chooseAvatarClickHandler);
+        this.initListener('profileAvatarUpload', 'click', this._processAvatarHandler);
         this.initListener('profileAvatarInput', 'change', this._getAvatarAfterChooseClickHandler);
         this.initListener('profileData', 'submit', this._profileDataHandler);
         this.initListener('profileData', 'focusout', this._profileDataInputHandler);
@@ -77,6 +77,16 @@ export default class ProfileLeft extends BaseComponent {
     _addAvatar(source) {
         const profileAvatar = document.getElementById('profileAvatar');
         profileAvatar.firstElementChild.setAttribute('src', source);
+    }
+
+    /**
+     * @function _removeAvatarHandler
+     * @description Метод удаления аватара из профиля.
+     * @private
+     */
+    _removeAvatarHandler() {
+        // TODO
+        console.log('123')
     }
 
     /**
@@ -181,6 +191,28 @@ export default class ProfileLeft extends BaseComponent {
         target.classList.add('input__invalid');
         errorField.classList.add('error__visible');
         errorField.textContent = errorText;
+    }
+
+    /**
+     * @function _processAvatarHandler
+     * @description Метод обработки событий, связанных с аватаром профиля.
+     * @param {Event} event событие, инициировавшее обработку
+     * @private
+     */
+    _processAvatarHandler(event) {
+        switch (event.target.id) {
+            case 'profileAvatarUpload': {
+                this._chooseAvatarClickHandler(event);
+                break;
+            }
+            case 'profileAvatarRemove': {
+                this._removeAvatarHandler();
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 
     /**
