@@ -1,0 +1,21 @@
+.index__filter {
+  background-image: url("/img/filter/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  padding: 3.5em 0;
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.875em;
+  }
+
+  &-title {
+    font-size: 2.4em;
+    font-weight: 700;
+    color: $white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+  }
+}

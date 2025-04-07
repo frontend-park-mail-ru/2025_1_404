@@ -2,11 +2,11 @@ import BaseComponent from "../baseComponent.js";
 import template from './template.precompiled.js';
 
 /**
- * @class SelectButton
- * @description Компонент кнопки.
+ * @class SearchOffer
+ * @description Компонент объявления в поиске.
  * @augments BaseComponent
  */
-export default class SelectButton extends BaseComponent {
+export default class SearchOffer extends BaseComponent {
     /**
      * @function render
      * @description Метод рендеринга компонента.

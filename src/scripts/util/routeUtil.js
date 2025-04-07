@@ -16,7 +16,7 @@ import {ProfileMainRoute} from "../routes/profile/profileMainRoute.js";
 import {ProfileOffersRoute} from "../routes/profile/profileOffersRoute.js";
 import {RegisterRoute} from "../routes/registerRoute.js";
 import RouteManager from "../managers/routeManager/routeManager.js";
-
+import {SearchRoute} from "../routes/searchRoute.js";
 /**
  * @function registerRoutes
  * @description Регистрация маршрутов
@@ -41,4 +41,6 @@ export default function registerRoutes() {
     RouteManager.registerRoute('zhk/:id', new HousingComplexRoute());
 
     RouteManager.registerRoute('offer/details/:id', new OfferDetailsRoute());
+
+    RouteManager.registerRoute('search', new SearchRoute());
 }

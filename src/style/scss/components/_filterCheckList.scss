@@ -1,0 +1,51 @@
+.filter__check {
+
+  &-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &-elem {
+    display: flex;
+    padding: 10px 15px;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    transition: .2s;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: $grey2;
+    }
+
+    &-checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 16px;
+      width: 16px;
+      border-radius: 4px;
+      border: 1.5px solid $grey;
+
+      i {
+        font-size: 11px;
+        transform: scale(0);
+        transition: all .1s ease-in-out;
+      }
+    }
+
+    &.checked {
+      .filter__check-elem-checkbox {
+        background-color: $blue;
+        border-color: $blue;
+
+        i {
+          transform: scale(1);
+          color: $white;
+        }
+      }
+    }
+  }
+}

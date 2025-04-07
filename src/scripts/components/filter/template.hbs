@@ -1,0 +1,12 @@
+<div class="filter">
+    <div class="filter__first">
+        {{> FilterCheckListSelect id="filterOfferType" name="Тип сделки" }}
+        {{> FilterCheckListSelect id="filterPropertyType" name="Тип недвижимости" }}
+        {{> FilterDoubleInputSelect id="filterPrice" name="Цена"}}
+        {{> FilterDoubleInputSelect id="filterSquare" name="Площадь"}}
+        {{> Input class="filter__bottom-input" id="filterInputAddress" type="text" placeholder="Район, улица, дом, ЖК"}}
+    </div>
+    <div class="filter__bottom">
+        {{> PrimaryButton name="Показать объявления" class="filter__submit" id="filterSubmitButton"}}
+    </div>
+</div>

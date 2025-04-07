@@ -62,15 +62,12 @@ class User {
         if (!this._isAuthenticated) {
             throw new Error('User is not authenticated');
         }
-        await updateProfile({email, first_name, last_name}).then((response) => {
-            this.email = response.email;
-            this.firstName = response.first_name;
-            this.lastName = response.last_name;
-            this.avatar = response.image;
-            return this.getData();
-        }).catch((error) => {
-            throw error;
-        });
+        await updateProfile({email, first_name, last_name})
+            .then(() => this.getData())
+            .catch((error) => {
+                throw error;
+            }
+         );
     }
 
     /**
@@ -83,7 +80,9 @@ class User {
         if (!this._isAuthenticated) {
             throw new Error('User is not authenticated');
         }
-        await updateAvatar({avatar}).then((response) => response
+        await updateAvatar({avatar}).then((response) => {
+            this.avatar = response.image;
+        }
         ).catch((error) => {
             throw error;
         });
@@ -97,10 +96,7 @@ class User {
     async update() {
         await getProfile().then((response) => {
             this._isAuthenticated = true;
-            this.email = response.email;
-            this.firstName = response.first_name;
-            this.lastName = response.last_name;
-            this.avatar = response.image;
+            this._parseData(response);
             return this.getData();
         }).catch((error) => {
             throw error;
@@ -120,9 +116,7 @@ class User {
         await login({email, password})
             .then((response) => {
                 this._isAuthenticated = true;
-                this.email = response.email;
-                this.firstName = response.first_name;
-                this.lastName = response.last_name;
+                this._parseData(response);
                 return this.getData();
             }).catch((error) => {
                 throw error;
@@ -136,10 +130,7 @@ class User {
      */
     async logout() {
         await logout().then(() => {
-            this._isAuthenticated = false;
-            this.email = null;
-            this.firstName = null;
-            this.lastName = null;
+            this._resetData();
         })
     }
 
@@ -156,13 +147,37 @@ class User {
         await registerAccount({email, first_name, last_name, password})
             .then((response) => {
                 this._isAuthenticated = true;
-                this.email = response.email;
-                this.firstName = response.first_name;
-                this.lastName = response.last_name;
+                this._parseData(response);
                 return this.getData();
             }).catch((error) => {
                 throw error;
             });
+    }
+
+    /**
+     * @function _parseData
+     * @description Метод парсинга данных пользователя, полученных с сервера.
+     * @param {object} data объект с данными пользователя, полученными с сервера.
+     * @private
+     */
+    _parseData(data) {
+        this.email = data.email;
+        this.firstName = data.first_name;
+        this.lastName = data.last_name;
+        this.avatar = data.image;
+    }
+
+    /**
+     * @function _resetData
+     * @description Метод сброса данных пользователя в начальное состояние.
+     * @private
+     */
+    _resetData() {
+        this._isAuthenticated = false;
+        this.email = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.avatar = null;
     }
 }
 

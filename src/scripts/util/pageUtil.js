@@ -17,6 +17,7 @@ import ProfileLayout from "../layouts/profile/index.js";
 import ProfileMainPage from "../pages/profile/main/index.js";
 import ProfileMyOffersPage from "../pages/profile/offers/index.js";
 import RegisterPage from "../pages/register/index.js";
+import SearchPage from "../pages/search/index.js";
 import UnknownPage from "../pages/404/index.js";
 
 /**
@@ -44,4 +45,6 @@ export default function registerPages() {
     PageManager.registerPage('zhk', mainLayout.process(new HousingComplexPage()));
 
     PageManager.registerPage('offerDetails', mainLayout.process(new OfferDetailsPage()));
+
+    PageManager.registerPage('search', mainLayout.process(new SearchPage()));
 }

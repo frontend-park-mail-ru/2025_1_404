@@ -57,6 +57,7 @@ export default class BaseComponent {
      */
     initListenerForClass(classId, type, handler) {
         const elements = document.getElementsByClassName(classId);
+        console.log(elements);
         if (elements) {
             const boundedHandler = handler.bind(this);
             for (const element of elements) {

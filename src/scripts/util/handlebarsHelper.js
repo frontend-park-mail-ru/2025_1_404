@@ -15,10 +15,15 @@ const renderRating = function(rating) {
     return new Handlebars.SafeString(stars);
 }
 
+const split = function(str) {
+    return str.split(';');
+}
+
 /**
  * @function registerHandlebarsHelpers
  * @description Регистрация хелперов Handlebars
  */
 export default function registerHandlebarsHelpers() {
     Handlebars.registerHelper('renderRating', renderRating);
+    Handlebars.registerHelper('split', split);
 }
