@@ -4,7 +4,17 @@ import AuthMiddleware from "./authMiddleware.js";
 import OfferCreate from "../models/offerCreate.js";
 import RouteManager from "../managers/routeManager/routeManager.js";
 
+/**
+ * @class OfferCreateMiddleware
+ * @description Middleware для страниц создания объявления.
+ */
 class OfferCreateMiddleware extends AuthMiddleware {
+    /**
+     * @function check
+     * @description Метод предварительной обработки маршрута.
+     * @param {Route} route маршрут.
+     * @returns {{process: ((function(*): (*))|*)}} Итоговый метод обработки маршрута.
+     */
     check(route) {
         return {
             process: (params) => {

@@ -1,6 +1,7 @@
 'use strict'
 
 import Page from '../page.js';
+import User from "../../models/user.js";
 import cardTemplate from "../../components/card/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.js";
 import {getOffers} from "../../util/apiUtil.js";
@@ -10,11 +11,18 @@ import Filter from "../../components/filter/index.js";
 /**
  * @class IndexPage
  * @description Главная страница
- * @extends Page
+ * @augments Page
  */
 export default class IndexPage extends Page {
-    render({root}) {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы.
+     * @param {HTMLElement} root корневой элемент страницы
+     * @param {BaseLayout} layout макет страницы
+     */
+    render({root, layout}) {
         root.innerHTML = template();
+        this._layout = layout;
 
         this._cardsList = document.querySelector('.cards__list');
         this._cardClickHandler = this._cardClickHandler.bind(this);
@@ -27,6 +35,10 @@ export default class IndexPage extends Page {
         super.render(root);
     }
 
+    /**
+     * @function destroy
+     * @description Метод, который вызывается при уничтожении страницы.
+     */
     destroy() {
         if (this._cardsList) {
             this._cardsList.removeEventListener('click', this._cardClickHandler);
@@ -38,18 +50,19 @@ export default class IndexPage extends Page {
     }
 
     /**
-     * @method _addCard
+     * @function _addCard
      * @description Добавление карточки
-     * @param price цена объявления
-     * @param address адрес
-     * @param rooms количество комнат
-     * @param floor этаж
-     * @param totalFloors максимальное число этажей
-     * @param square площадь
-     * @param metro станция метро
-     * @param images картинки объявления
-     * @param metroStation стацния метро
-     * @param metroLine ветка метро
+     * @param {number} price цена объявления
+     * @param {string} address адрес
+     * @param {number} rooms количество комнат
+     * @param {number} floor этаж
+     * @param {number} totalFloors максимальное число этажей
+     * @param {number} square площадь
+     * @param {string[]} images изображения
+     * @param {string} metroStation стацния метро
+     * @param {string} metroLine ветка метро
+     * @param {string} offerType тип объявления
+     * @param {string} rentType тип аренды
      * @private
      */
     _addCard({price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, photos: images, offer_type: offerType, rent_type: rentType}) {
@@ -66,12 +79,15 @@ export default class IndexPage extends Page {
     }
 
     /**
-     * @method _getOffers
+     * @function _getOffers
      * @description Получение предложений
      * @private
      */
     _getOffers() {
-        getOffers().then((offers) => {
+        if (!User.isLoaded()) {
+            return;
+        }
+        this._layout.makeRequest(getOffers).then((offers) => {
             for (const offer of offers) {
                 this._addCard(offer);
             }
@@ -81,9 +97,10 @@ export default class IndexPage extends Page {
     }
 
     /**
-     * @method _cardClickHandler
+     * @function _cardClickHandler
      * @description Обработчик события клика на карточку
-     * @param event
+     * @param {Event} event событие клика
+     * @param {HTMLElement} target элемент, на который кликнули
      * @private
      */
     _cardClickHandler(event, {target} = event) {

@@ -7,9 +7,15 @@ import template from "./template.precompiled.js";
 /**
  * @class OfferCreatePricePage
  * @description Страница создания объявления с выбором цены
- * @extends OfferPage
+ * @augments OfferPage
  */
 export default class OfferCreatePricePage extends OfferPage {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы.
+     * @param {HTMLElement} root корневой элемент страницы
+     * @param {BaseLayout} layout макет страницы
+     */
     render({layout, root}) {
         root.innerHTML = template();
         super.render({layout, root});
@@ -19,16 +25,31 @@ export default class OfferCreatePricePage extends OfferPage {
         }
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('input-price', 'focusout', this._offerPriceInputChange);
     }
 
+    /**
+     * @function _setDataFromModel
+     * @description Метод установки данных из модели в инпуты.
+     * @private
+     */
     _setDataFromModel() {
         const input = document
             .getElementById('input-price')
         input.value = this._offerData[input.id];
     }
 
+    /**
+     * @function _isInputsFilled
+     * @description Метод проверки заполненности инпутов.
+     * @returns {boolean} true, если инпуты заполнены
+     * @private
+     */
     _isInputsFilled() {
         let isFilled = true;
         for (const key in this._offerData) {
@@ -37,6 +58,13 @@ export default class OfferCreatePricePage extends OfferPage {
         return isFilled;
     }
 
+    /**
+     * @function _offerPriceInputChange
+     * @description Метод обработки изменения цены.
+     * @param {Event} event событие изменения
+     * @param {HTMLElement} target целевой элемент
+     * @private
+     */
     _offerPriceInputChange(event, {target} = event) {
         event.preventDefault();
 

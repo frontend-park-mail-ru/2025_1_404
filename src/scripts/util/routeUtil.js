@@ -1,7 +1,7 @@
 'use strict';
 
 import AuthMiddleware from "../middlewares/authMiddleware.js";
-import { HousingComplexRoute } from "../routes/housingComplexRoute.js";
+import {HousingComplexRoute} from "../routes/housingComplexRoute.js";
 import {IndexRoute} from "../routes/indexRoute.js";
 import {LoginRoute} from "../routes/loginRoute.js";
 import {OfferCreateAddressRoute} from "../routes/offer/offerCreateAddressRoute.js";

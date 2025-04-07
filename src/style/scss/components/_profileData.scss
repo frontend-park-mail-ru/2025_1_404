@@ -11,10 +11,13 @@
   }
 
   &-change {
-    color: $blue-link;
+    display: block;
     font-weight: 700;
-    display: none;
+    color: $blue-link;
 
-    &.active {display: block}
+    &:disabled {
+      color: $light-grey;
+      cursor: default;
+    }
   }
 }

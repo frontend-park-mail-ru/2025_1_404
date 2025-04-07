@@ -12,7 +12,7 @@
     "prestart": "npm run build",
     "start": "node deploy/main.js",
     "compile": "node tools/compileAll.js",
-    "eslint": "npx eslint src/scripts"
+    "eslint": "npx eslint src/scripts tools"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "eslint": "^9.21.0",
+    "eslint-plugin-jsdoc": "^50.6.9",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "sass-embedded": "^1.86.3",

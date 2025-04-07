@@ -6,13 +6,22 @@ import {validateFormInput} from "../../util/validatorUtil.js";
 /**
  * @class Login
  * @description Компонент авторизации.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class Login extends BaseComponent {
-    constructor({layout, page}) {
+    /**
+     * @description Конструктор класса.
+     * @param {Page} page - экземпляр класса Page.
+     * @param {BaseLayout} layout - экземпляр класса Layout.
+     */
+    constructor({page, layout}) {
         super({layout, page});
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('loginCloseButton', 'click', this._loginCloseButtonHandler);
         this.initListener('login-form', 'submit', this._loginFormHandler);
@@ -21,6 +30,11 @@ export default class Login extends BaseComponent {
         this.initListener('overlay', 'click', this._overlayHandler);
     }
 
+    /**
+     * @function setShowLogin
+     * @description Метод установки состояния окна авторизации.
+     * @param {boolean} isShow - состояние окна авторизации.c
+     */
     setShowLogin(isShow) {
         if (isShow) {
             document.querySelector('#passwordInput').value = '';
@@ -33,7 +47,7 @@ export default class Login extends BaseComponent {
     }
 
     /**
-     * @method _loginCloseButtonHandler
+     * @function _loginCloseButtonHandler
      * @description Обработчик события закрытия окна входа
      * @private
      */
@@ -42,7 +56,7 @@ export default class Login extends BaseComponent {
     }
 
     /**
-     * @method _loginFormRegisterButtonHandler
+     * @function _loginFormRegisterButtonHandler
      * @description Обработчик события перехода на страницу регистрации
      * @private
      */
@@ -51,9 +65,9 @@ export default class Login extends BaseComponent {
     }
 
     /**
-     * @method _loginFormHandler
+     * @function _loginFormHandler
      * @description Обработчик события формы входа
-     * @param event
+     * @param {Event} event событие отправки формы
      * @private
      */
     _loginFormHandler(event) {
@@ -88,7 +102,7 @@ export default class Login extends BaseComponent {
             return acc;
         }, {});
 
-        User.login(values).then(() => {
+        this.layout.makeRequest(User.login.bind(User), values).then(() => {
             this.layout.emit('login');
             this._loginCloseButtonHandler();
         }).catch((error) => {
@@ -100,9 +114,10 @@ export default class Login extends BaseComponent {
     }
 
     /**
-     * @method _loginFormInputHandler
+     * @function _loginFormInputHandler
      * @description Обработчик события отпускания input
-     * @param event
+     * @param {Event} event событие отпускания клавиши
+     * @param {HTMLElement} target элемент, на котором произошло событие
      * @private
      */
     _loginFormInputHandler(event, {target} = event) {
@@ -126,9 +141,9 @@ export default class Login extends BaseComponent {
     }
 
     /**
-     * @method _overlayHandler
+     * @function _overlayHandler
      * @description Обработчик события клика на затемненное пространство
-     * @param event
+     * @param {Event} event событие клика
      * @private
      */
     _overlayHandler(event) {

@@ -5,7 +5,7 @@ import BaseComponent from "../baseComponent.js";
 /**
  * @class OfferCreateNav
  * @description Компонент панели навигации на странице создания объявления.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class OfferCreateNav extends BaseComponent {
 
@@ -13,10 +13,19 @@ export default class OfferCreateNav extends BaseComponent {
     _currentStageClass = "fa-regular fa-circle-dot";
     _filledStageClass = "fa-solid fa-circle-check";
 
+    /**
+     * @description Конструктор класса.
+     * @param {Page} page - экземпляр класса Page.
+     * @param {BaseLayout} layout - экземпляр класса Layout.
+     */
     constructor({page, layout}) {
         super({layout, page});
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('typePageButton', 'click', this._typePageButtonHandler);
         this.initListener('addressPageButton', 'click', this._addressPageButtonHandler);
@@ -27,7 +36,7 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @method _typePageButtonHandler
+     * @function _typePageButtonHandler
      * @description Обработчик события перехода на страницу выбора типа сделки
      * @private
      */
@@ -36,7 +45,7 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @method _addressPageButtonHandler
+     * @function _addressPageButtonHandler
      * @description Обработчик события перехода на страницу выбора адреса
      * @private
      */
@@ -45,7 +54,7 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @method _paramsPageButtonHandler
+     * @function _paramsPageButtonHandler
      * @description Обработчик события перехода на страницу выбора параметров
      * @private
      */
@@ -54,7 +63,7 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @method _pricePageButtonHandler
+     * @function _pricePageButtonHandler
      * @description Обработчик события перехода на страницу выбора цены
      * @private
      */
@@ -63,7 +72,7 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @method _photosPageButtonHandler
+     * @function _photosPageButtonHandler
      * @description Обработчик события перехода на страницу выбора фотографий
      * @private
      */
@@ -72,7 +81,7 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @method _descriptionPageButtonHandler
+     * @function _descriptionPageButtonHandler
      * @description Обработчик события перехода на страницу с полем описания
      * @private
      */
@@ -80,6 +89,11 @@ export default class OfferCreateNav extends BaseComponent {
         this.layout.emit('goToPage', 'description');
     }
 
+    /**
+     * @function addCurrentStageClass
+     * @description Метод добавления класса текущей стадии.
+     * @param {string} id идентификатор стадии.
+     */
     addCurrentStageClass(id) {
         const buttonId = id.concat("PageButton");
         const stage = document.getElementById(buttonId).firstElementChild;
@@ -94,6 +108,11 @@ export default class OfferCreateNav extends BaseComponent {
         })
     }
 
+    /**
+     * @function addFilledStageClass
+     * @description Метод добавления класса заполненной стадии.
+     * @param {Array} ids массив идентификаторов стадий.
+     */
     addFilledStageClass(ids) {
         this._fillRectangles(ids.length);
         ids.forEach(id => {
@@ -111,6 +130,11 @@ export default class OfferCreateNav extends BaseComponent {
         })
     }
 
+    /**
+     * @function addEmptyStageClass
+     * @description Метод добавления класса пустой стадии.
+     * @param {string} id идентификатор стадии.
+     */
     addEmptyStageClass(id) {
         const buttonId = id.concat("PageButton");
         const stage = document.getElementById(buttonId).firstElementChild;
@@ -125,6 +149,12 @@ export default class OfferCreateNav extends BaseComponent {
         })
     }
 
+    /**
+     * @function _fillRectangles
+     * @description Метод заполнения прямоугольников на панели навигации.
+     * @param {number} amount количество заполненных прямоугольников.
+     * @private
+     */
     _fillRectangles(amount) {
         const minAmount = 5;
         const correctedAmount = Math.min(amount, minAmount);

@@ -4,25 +4,36 @@ const BACKEND_URL = 'http://localhost:8001/api/v1';
 
 const HTTP_METHOD_GET = 'GET';
 const HTTP_METHOD_POST = 'POST';
+const HTTP_METHOD_PUT = 'PUT';
 
 /**
  * @function makeRequest
  * @description Функция для выполнения запроса к бэкенду.
- * @param method
- * @param endpoint
- * @param body
- * @returns {Promise<any>}
+ * @param {string} endpoint URL-адрес API
+ * @param {string} method HTTP-метод (GET, POST и т.д.)
+ * @param {object} body Тело запроса
+ * @param {object} files Файлы для загрузки
+ * @returns {Promise<any>} Ответ от сервера
  */
-const makeRequest = async (endpoint, method=HTTP_METHOD_GET, body={}) => {
+const makeRequest = async ({endpoint, method=HTTP_METHOD_GET, body={}, files={}}) => {
     const options = {
         credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: {},
         method,
         mode: 'cors',
     };
-    if (method === HTTP_METHOD_POST) {
+    if (files && Object.keys(files).length > 0) {
+        const formData = new FormData();
+        for (const key of Object.keys(body)) {
+            formData.append(key, body[key]);
+        }
+        for (const key of Object.keys(files)) {
+            formData.append(key, files[key]);
+        }
+        options.body = formData;
+    }
+    else if (body && Object.keys(body).length > 0) {
+        options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(body);
     }
     const response = await fetch(`${BACKEND_URL}${endpoint}`, options);
@@ -36,32 +47,71 @@ const makeRequest = async (endpoint, method=HTTP_METHOD_GET, body={}) => {
 /**
  * @function getOffers
  * @description Функция для получения списка предложений.
- * @returns {Promise<*>}
+ * @returns {Promise<*>} Ответ от сервера
  */
-export const getOffers =  async () => await makeRequest('/offers', HTTP_METHOD_GET);
+export const getOffers =  async () => await makeRequest({
+    endpoint: '/offers',
+    method: HTTP_METHOD_GET
+});
 
 /**
  * @function registerAccount
  * @description Функция для регистрации аккаунта.
- * @param email почта
- * @param password пароль
- * @param first_name имя
- * @param last_name фамилия
- * @returns {Promise<*>}
+ * @param {string} email Электронная почта
+ * @param {string} first_name Имя
+ * @param {string} last_name Фамилия
+ * @param {string} password Пароль
+ * @returns {Promise<*>} Ответ от сервера
  */
-export const registerAccount = async ({email, first_name, last_name,  password}) => await makeRequest('/auth/register', HTTP_METHOD_POST, {email, first_name, last_name, password});
+export const registerAccount = async ({email, first_name, last_name,  password}) => await makeRequest({
+    endpoint: '/auth/register',
+    method: HTTP_METHOD_POST,
+    body: {email, first_name, last_name, password}
+});
 
 
 /**
  * @function getProfile
  * @description Функция для получения профиля.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} Ответ от сервера
  */
-export const getProfile = async () => await makeRequest('/auth/me', HTTP_METHOD_POST);
+export const getProfile = async () => await makeRequest({
+    endpoint: '/auth/me',
+    method: HTTP_METHOD_POST
+});
 
+/**
+ * @function updateProfile
+ * @description Функция для обновления профиля.
+ * @param {string} email Электронная почта
+ * @param {string} first_name Имя
+ * @param {string} last_name Фамилия
+ * @returns {Promise<*>} Ответ от сервера
+ */
+export const updateProfile = async ({email, first_name, last_name}) => await makeRequest({
+    endpoint: '/users/update',
+    method: HTTP_METHOD_PUT,
+    body: {email, first_name, last_name}
+});
+
+export const updateAvatar = async ({avatar}) => await makeRequest({
+    endpoint: '/users/image',
+    method: HTTP_METHOD_PUT,
+    files: {avatar}
+});
+
+/**
+ * @function getZhkPhone
+ * @description Функция для получения телефона застройщика.
+ * @returns {Promise<{phone: string}>} Ответ от сервера
+ */
 export const getZhkPhone = async () => await ({"phone": '+7(123)456-78-90'})
 
-
+/**
+ * @function getZhkMetroLine
+ * @description Функция для получения линии метро.
+ * @returns {Promise<{metroLine: string}>} Ответ от сервера
+ */
 export const getZhkLine = async () => await ({"metroLine": 'Некрасовская'})
 
 const offer = {
@@ -86,7 +136,7 @@ const offer = {
 /**
  * @function getOfferById
  * @description Функция для получения объявления по id.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} Ответ от сервера
  */
 export const getOfferById =  async () => await offer;
 
@@ -196,7 +246,7 @@ const zhk = {
 /**
  * @function getHousingComplex
  * @description Функция для получения информации о ЖК.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} Ответ от сервера
  */
 export const getHousingComplex = async () => await zhk;
 
@@ -205,16 +255,23 @@ export const getHousingComplex = async () => await zhk;
 /**
  * @function login
  * @description Функция для входа в аккаунт.
- * @param email
- * @param password
- * @returns {Promise<{first_name: string, last_name: string}>}
+ * @param {string} email Электронная почта
+ * @param {string} password Пароль
+ * @returns {Promise<{first_name: string, last_name: string}>} Ответ от сервера
  */
-export const login = async ({email, password}) => await makeRequest('/auth/login', HTTP_METHOD_POST,  {email, password});
+export const login = async ({email, password}) => await makeRequest({
+    endpoint: '/auth/login',
+    method: HTTP_METHOD_POST,
+    body: {email, password}
+});
 
 
 /**
  * @function logout
  * @description Функция для выхода из аккаунта.
- * @returns {Promise<boolean>}
+ * @returns {Promise<boolean>} Ответ от сервера
  */
-export const logout = async () => await makeRequest('/auth/logout', HTTP_METHOD_POST);
+export const logout = async () => await makeRequest({
+    endpoint: '/auth/logout',
+    method: HTTP_METHOD_POST
+});

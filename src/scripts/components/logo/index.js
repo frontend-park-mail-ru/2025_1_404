@@ -1,12 +1,17 @@
 import BaseComponent from "../baseComponent.js";
-import template from './index.precompiled.js';
+import template from './template.precompiled.js';
 
 /**
  * @class Logo
  * @description Компонент логотипа.
- * @extends BaseComponent
+ * @augments BaseComponent
  */
 export default class Logo extends BaseComponent {
+    /**
+     * @function render
+     * @description Метод рендеринга компонента.
+     * @returns {string} HTML-строка с разметкой компонента.
+     */
     render() {
         return template();
     }

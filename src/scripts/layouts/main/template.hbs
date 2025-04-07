@@ -1,6 +1,8 @@
-{{> Header }}
-{{> HeaderAuthorized }}
-{{> Login }}
-<div class="main">
-    {{> @partial-block }}
-</div>
+{{#> BaseLayout}}
+    {{> Header }}
+    {{> HeaderAuthorized }}
+    {{> Login }}
+    <div class="main">
+        {{> @partial-block }}
+    </div>
+{{/BaseLayout}}

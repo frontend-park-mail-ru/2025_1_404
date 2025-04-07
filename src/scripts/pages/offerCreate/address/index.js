@@ -8,9 +8,15 @@ import template from "./template.precompiled.js";
 /**
  * @class OfferCreateAddressPage
  * @description Страница создания объявления с выбором адреса
- * @extends Page
+ * @augments OfferPage
  */
 export default class OfferCreateAddressPage extends OfferPage {
+    /**
+     * @function render
+     * @description Метод рендеринга страницы.
+     * @param {HTMLElement} root корневой элемент страницы
+     * @param {BaseLayout} layout макет страницы
+     */
     render({layout, root}) {
         root.innerHTML = template();
         super.render({layout, root});
@@ -23,19 +29,32 @@ export default class OfferCreateAddressPage extends OfferPage {
         const coords = [55.557729, 37.313484]; // TODO: replace to data from API
 
         this.map = new Map({center: coords, id: 'offerCreateMap', zoom: 15})
-        window.map = this.map;
         this.house = this.map.addHouse({coords});
     }
 
+    /**
+     * @function changeHousePos
+     * @description Метод изменения позиции дома на карте.
+     * @param {Array} coords координаты дома
+     */
     changeHousePos(coords) {
         this.map.removePlacemark({placemark: this.house});
         this.house = this.map.addHouse({coords});
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('offerCreateAddressInputs', 'focusout', this._offerDataChange);
     }
 
+    /**
+     * @function _setDataFromModel
+     * @description Метод установки данных из модели в инпуты.
+     * @private
+     */
     _setDataFromModel() {
         const inputs = document
             .getElementById('offerCreateAddressInputs')
@@ -45,6 +64,12 @@ export default class OfferCreateAddressPage extends OfferPage {
         })
     }
 
+    /**
+     * @function _isInputsFilled
+     * @description Метод проверки заполненности инпутов.
+     * @returns {boolean} true, если все инпуты заполнены, иначе false
+     * @private
+     */
     _isInputsFilled() {
         let isFilled = true;
         for (const key in this._offerData) {
@@ -53,6 +78,13 @@ export default class OfferCreateAddressPage extends OfferPage {
         return isFilled;
     }
 
+    /**
+     * @function _offerDataChange
+     * @description Метод обработки события изменения данных объявления.
+     * @param {Event} event событие
+     * @param {HTMLElement} target элемент, на который произошло событие
+     * @private
+     */
     _offerDataChange(event, {target} = event) {
         event.preventDefault();
 

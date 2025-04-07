@@ -6,7 +6,7 @@
  */
 export default class BaseRoute {
     /**
-     * @method process
+     * @function process
      * @description Метод, который вызывается при обработке маршрута.
      */
     process() {}

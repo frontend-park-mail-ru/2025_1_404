@@ -1,3 +1,4 @@
+{{#> BaseLayout}}
 <div class="register">
     <div class="register__img">
         <img src="/img/register/left.jpg" alt="Картинка квартиры">
@@ -11,7 +12,7 @@
                 Регистрация
             </h2>
         </div>
-      <form id="register-form" class="register__form-fields">
+        <form id="register-form" class="register__form-fields">
             <div class="register__form-fields-nickname">
                 {{> Input id="registerFirstName" type="text" name="first_name" placeholder="Имя" maxlength="16"}}
                 {{> Input id="registerSecondName" type="text" name="last_name" placeholder="Фамилия" maxlength="16"}}
@@ -29,3 +30,4 @@
         <img src="/img/register/right.jpg" alt="Картинка дома">
     </div>
 </div>
+{{/BaseLayout}}

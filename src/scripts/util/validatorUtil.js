@@ -6,8 +6,8 @@ const   EMPTY_LENGTH = 0,
 /**
  * @function validateEmail
  * @description Функция для валидации почты.
- * @param email
- * @returns RegExpMatchArray
+ * @param {string} email Электронная почта
+ * @returns {boolean} Результат валидации
  */
 const validateEmail = function(email) {
     return String(email)
@@ -20,29 +20,23 @@ const validateEmail = function(email) {
 /**
  * @function validateNickname
  * @description Функция для валидации имени/фамилии.
- * @param name
- * @returns RegExpMatchArray
+ * @param {string} name Имя/фамилия
+ * @returns {boolean} Результат валидации
  */
 const validateNickname = function(name) {
-    return String(name)
-        .match(
-            /^[A-Za-zА-Яа-яЁё-]+$/u
-        );
+    return /^[A-Za-zА-Яа-яЁё-]+$/u.test(name);
 }
 
 /**
  * @function validatePassword
  * @description Функция для валидации пароля.
- * @param password
- * @param additionalChecks
- * @returns boolean
+ * @param {string} password Пароль
+ * @param {boolean} additionalChecks Дополнительные проверки
+ * @returns {boolean} Результат валидации
  */
 const validatePassword = function(password, additionalChecks=false) {
     if (additionalChecks) {
-        return String(password)
-            .match(
-                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/u
-            );
+        return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/u.test(password);
     }
     return String(password).length > EMPTY_LENGTH;
 }
@@ -60,7 +54,6 @@ export const validateFormInput = function ({value, name:valueName}, additionalDe
     if (valueLength === EMPTY_LENGTH) {
         return 'Это поле обязательное';
     }
-    console.log(valueName)
     const password = document.getElementById('registerPassword')?.value
     switch(valueName) {
         // Валидация имени и фамилии
@@ -103,8 +96,8 @@ export const validateFormInput = function ({value, name:valueName}, additionalDe
 /**
  * @function parseForm
  * @description Функция для парсинга форм.
- * @param form
- * @returns {{name: *, value: *, error: string}[]}
+ * @param {HTMLFormElement} form Форма
+ * @returns {{name: *, value: *, error: string}[]} Массив объектов с именем, значением и ошибкой
  */
 export const parseForm = function(form) {
     const {elements} = form;
