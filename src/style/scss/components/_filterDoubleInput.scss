@@ -1,0 +1,42 @@
+.filter__double-input {
+  width: 100%;
+
+  &-main {
+    width: 100%;
+  }
+
+  &-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  input {
+    width: 100%;
+    color: $black-text;
+    font-size: 1em;
+    height: 2.5em;
+    padding: 1em 0.625em;
+    border: 1px solid $light-grey;
+    border-radius: 6px;
+    transition:
+            border-color 0.3s ease,
+            box-shadow 0.3s ease;
+
+    &::placeholder {
+      color: $grey;
+      font-weight: 500;
+    }
+
+    &:hover {
+      border-color: $black-text;
+      box-shadow: 0 0 0px;
+    }
+
+    &:focus {
+      border-color: $darker-blue;
+      box-shadow: 0 0 4px $blue-shadow;
+    }
+  }
+}

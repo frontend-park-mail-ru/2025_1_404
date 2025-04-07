@@ -9,7 +9,6 @@ import Handlebars from "handlebars";
 import Header from '../components/header/template.precompiled.js';
 import HeaderAuthorized from "../components/header/templateAuthorized.precompiled.js";
 import HeartButton from '../components/heartButton/template.precompiled.js';
-import HousingComplexCarousel from '../components/housingComplex/housingComplexSlider/template.precompiled.js';
 import HousingComplexInformation from '../components/housingComplex/housingComplexInformation/template.precompiled.js';
 import HousingComplexReviews from '../components/housingComplex/housingComplexReviews/template.precompiled.js';
 import Input from '../components/input/template.precompiled.js';
@@ -31,10 +30,17 @@ import ProfileLeft from '../components/profileLeft/template.precompiled.js';
 import ProfileOffer from "../components/profileOffer/template.precompiled.js";
 import ProfilePreview from "../components/profilePreview/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
-import SelectButton from "../components/selectButton/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
 import HousingComplexSlider from "../components/housingComplex/housingComplexSlider/template.precompiled.js";
 import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
+import Filter from "../components/filter/template.precompiled.js";
+import FilterSelect from "../components/filterSelect/template.precompiled.js";
+import ChoiceButtons from "../components/choiceButtons/template.precompiled.js";
+import FilterDoubleInput from "../components/filterDoubleInput/template.precompiled.js";
+import FilterDoubleInputSelect from "../components/filterDoubleInputSelect/template.precompiled.js";
+import FilterCheckListSelect from "../components/filterCheckListSelect/template.precompiled.js";
+import FilterCheckList from "../components/filterCheckList/template.precompiled.js";
+import SearchOffer from "../components/searchOffer/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -46,7 +52,6 @@ export default function registerComponents() {
         [Header, 'Header'],
         [HeaderAuthorized, 'HeaderAuthorized'],
         [UserAvatar, 'UserAvatar'],
-        [SelectButton, 'SelectButton'],
         [Card, 'Card'],
         [Logo, 'Logo'],
         [Input, 'Input'],
@@ -75,6 +80,14 @@ export default function registerComponents() {
         [OfferDetailsSlider, 'OfferDetailsSlider'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],
         [ProfileDataInput, 'ProfileDataInput'],
+        [Filter, 'Filter'],
+        [FilterSelect, 'FilterSelect'],
+        [ChoiceButtons, 'ChoiceButtons'],
+        [FilterDoubleInput, 'FilterDoubleInput'],
+        [FilterDoubleInputSelect, 'FilterDoubleInputSelect'],
+        [FilterCheckList, 'FilterCheckList'],
+        [FilterCheckListSelect, 'FilterCheckListSelect'],
+        [SearchOffer, 'SearchOffer'],
     ];
 
     components.forEach(([component, name]) => {

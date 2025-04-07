@@ -5,6 +5,7 @@ import cardTemplate from "../../components/card/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.js";
 import {getOffers} from "../../util/apiUtil.js";
 import template from "./template.precompiled.js";
+import Filter from "../../components/filter/index.js";
 
 /**
  * @class IndexPage
@@ -19,6 +20,8 @@ export default class IndexPage extends Page {
         this._cardClickHandler = this._cardClickHandler.bind(this);
         this._cardsList.addEventListener('click', this._cardClickHandler);
 
+        this._filter = new Filter();
+
         this._getOffers();
 
         super.render(root);
@@ -27,6 +30,9 @@ export default class IndexPage extends Page {
     destroy() {
         if (this._cardsList) {
             this._cardsList.removeEventListener('click', this._cardClickHandler);
+        }
+        if (this._filter) {
+            this._filter.destroy();
         }
         super.destroy();
     }

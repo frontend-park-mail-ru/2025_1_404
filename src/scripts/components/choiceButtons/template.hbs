@@ -1,0 +1,11 @@
+<div class="choice__buttons">
+    <h4 class="choice__buttons-label">{{label}}</h4>
+    <div class="choice__buttons-btns">
+        {{#each choices}}
+        <div class="choice__buttons-btn">
+            <input class="choice-button" id="{{../name}}-{{@index}}" type="radio" name="{{../name}}" checked>
+            <label class="choice-label" for="{{../name}}-{{@index}}">{{this}}</label>
+        </div>
+        {{/each}}
+    </div>
+</div>

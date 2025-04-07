@@ -1,39 +1,10 @@
 {{#> MainLayout}}
-    <div class="filter">
+    <div class="index__filter">
         <div class="container">
-            <div class="filter__inner">
-                <h2 class="filter__title">Ваше жилье мечты начинается здесь!</h2>
-                <div class="filter__settings">
-                    <div class="select-button">
-                        <select>
-                            <option value="">Купить</option>
-                            <option value="">Аренда</option>
-                        </select>
-                    </div>
-                    <div class="radio-button">
-                        <input id="rad1" type="radio" name="radioBtn" checked>
-                        <label for="rad1"><span>Новостройки</span></label>
-                        <input id="rad2" type="radio" name="radioBtn">
-                        <label for="rad2"><span>Вторичка</span></label>
-                        <div class="radio-bg"></div>
-                    </div>
-                    <div class="select-button">
-                        <select>
-                            <option value="">Цена</option>
-                            <option value="">А как?...</option>
-                        </select>
-                    </div>
-                    <div class="select-button">
-                        <select>
-                            <option value="">Фильтры</option>
-                            <option value="">А как?...</option>
-                        </select>
-                    </div>
-
-                </div>
-                {{> PrimaryButton name="Показать объявления" class="filter__submit" id="filterSubmitButton"}}
+            <div class="index__filter-inner">
+                <h2 class="index__filter-title">Ваше жилье мечты начинается здесь!</h2>
+                {{> Filter }}
             </div>
-
         </div>
     </div>
     <div class="cards">
