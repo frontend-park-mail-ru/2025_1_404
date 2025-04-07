@@ -1,0 +1,27 @@
+
+import BaseRoute from "../baseRoute.js";
+import PageManager from "../../managers/pageManager.js";
+
+/**
+ * @class OfferCreateRoute
+ * @description Класс для обработки маршрута страницы создания объявления
+ * @augments BaseRoute
+ */
+export class OfferCreateRoute extends BaseRoute {
+    _pageName: string;
+    /**
+     * @description Конструктор класса.c
+     */
+    constructor(pageName: string) {
+        super();
+        this._pageName = pageName;
+    }
+
+    /**
+     * @function process
+     * @description Метод, который вызывается при обработке маршрута.
+     */
+    process() {
+        PageManager.renderPage(this._pageName, {});
+    }
+}
