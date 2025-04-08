@@ -79,7 +79,7 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод активации кнопки далее.
      */
     enableNextButton() {
-        if (this._nextButton === null) {
+        if (!this._nextButton) {
             return;
         }
         this._nextButton.removeAttribute('disabled');
@@ -90,7 +90,7 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод деактивации кнопки далее.
      */
     disableNextButton() {
-        if (this._nextButton === null) {
+        if (!this._nextButton) {
             return;
         }
         this._nextButton.setAttribute('disabled', 'disabled');
@@ -101,7 +101,7 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод активации кнопки назад.
      */
     enableBackButton() {
-        if (this._backButton === null) {
+        if (!this._backButton) {
             return;
         }
         this._backButton.removeAttribute('disabled');
@@ -112,7 +112,7 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод деактивации кнопки назад.
      */
     disableBackButton() {
-        if (this._backButton === null) {
+        if (!this._backButton) {
             return;
         }
         this._backButton.setAttribute('disabled', 'disabled');

@@ -41,7 +41,7 @@ export default class OfferCreateAddressPage extends OfferPage {
      * @param {[number, number]} coords координаты дома
      */
     changeHousePos(coords: [number, number]) {
-        if (this.map == undefined || this.house === undefined) {
+        if (!this.map || !this.house) {
             return;
         }
         this.map.removePlacemark({placemark: this.house});
@@ -63,7 +63,7 @@ export default class OfferCreateAddressPage extends OfferPage {
      */
     _setDataFromModel() {
         const offerCreateAddressInputs = document.getElementById('offerCreateAddressInputs');
-        if (offerCreateAddressInputs == null) {
+        if (offerCreateAddressInputs === null) {
             return;
         }
         const inputs = offerCreateAddressInputs.querySelectorAll('input');

@@ -1,16 +1,18 @@
+import {Page, PageRenderInterface} from "../pages/page.ts";
 import Loader from "../components/loader";
 import ProgressBar from "../components/progressBar";
 import RouteManager from "../managers/routeManager/routeManager.ts";
 import User from "../models/user.ts";
-import {Page, PageRenderInterface} from "../pages/page.ts";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type EventCallback = (...args: any[]) => void;
 
 /**
  * @class BaseLayout
  * @description Базовый класс для всех макетов.
  */
 export class BaseLayout {
-    private events: Record<string, Function | null>;
+    private events: Record<string, EventCallback | null>;
     private handlers: Array<{ element: HTMLElement; handler: EventListenerOrEventListenerObject; type: keyof HTMLElementEventMap | string }>;
     private _progressBar: ProgressBar | undefined;
     private _loader: Loader | undefined;
@@ -77,7 +79,7 @@ export class BaseLayout {
      * @param {string} event название события.
      * @param {Function} callback функция обратного вызова.
      */
-    on(event: string, callback: Function) {
+    on(event: string, callback: EventCallback) {
         this.events[event] = callback;
     }
 
@@ -96,6 +98,7 @@ export class BaseLayout {
      * @param {string} event название события.
      * @param {*} args аргументы события.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     emit(event: string, ...args: any[]) {
         if (this.events[event]) {
             this.events[event](...args);
@@ -114,11 +117,11 @@ export class BaseLayout {
      * @description Метод инициализации слушателя событий.
      * @param {string} elementId id элемента.
      * @param {string} type тип события.
-     * @param {Function} handler обработчик события.
+     * @param {(event: Event)=>void} handler обработчик события.
      */
-    initListener(elementId: string, type: string, handler: Function) {
+    initListener(elementId: string, type: string, handler: (event: Event)=>void) {
         const element = document.getElementById(elementId);
-        if (element === null) {
+        if (!element) {
             return;
         }
         const boundedHandler = handler.bind(this);
@@ -145,12 +148,12 @@ export class BaseLayout {
      * @param {*} args аргументы запроса.
      * @returns {Promise<void>} Promise, который будет выполнен после завершения запроса.
      */
-    async makeRequest(func: Function, ...args: any[]) {
+    async makeRequest<TArgs extends unknown[], TReturn>(func: (...args: TArgs) => Promise<TReturn>, ...args: TArgs) {
         if (this._progressBar) {
             this._progressBar.setPercentage(30);
         }
         return await func(...args)
-            .then((data: any) => data)
+            .then((data: unknown) => data)
             .catch((err: Error) => {
                 throw err;
             }).finally(() => {

@@ -10,7 +10,13 @@ export interface PageRenderInterface {
      * @property {BaseLayout} layout макет страницы, который используется для рендеринга
      */
     layout?: BaseLayout;
-    props?: any;
+    props?: Record<string, unknown>;
+}
+
+interface HandlerInterface {
+    element: Element;
+    handler: EventListenerOrEventListenerObject;
+    type: string;
 }
 
 /**
@@ -18,7 +24,7 @@ export interface PageRenderInterface {
  * @description Базовый класс страницы
  */
 export class Page {
-    handlers: any[];
+    handlers: HandlerInterface[];
     /**
      * @description Конструктор класса.
      */
@@ -30,6 +36,7 @@ export class Page {
      * @function render
      * @description Метод, который вызывается при рендере страницы.
      */
+    // eslint-disable-next-line no-empty-pattern
     render({}: PageRenderInterface): void {
         this.initListeners();
     }
@@ -54,12 +61,12 @@ export class Page {
      * @param {string} type тип события
      * @param {Function} handler обработчик события
      */
-    initListener(elementId: string, type: string, handler: Function) {
+    initListener(elementId: string, type: keyof HTMLElementEventMap, handler: (event: DragEvent)=>void) {
         const element = document.getElementById(elementId);
         if (element) {
             const boundedHandler = handler.bind(this);
-            element.addEventListener(type, boundedHandler);
-            this.handlers.push({element, handler: boundedHandler, type});
+            element.addEventListener(type, boundedHandler as EventListener);
+            this.handlers.push({element, handler: boundedHandler as EventListener, type});
         }
     }
 

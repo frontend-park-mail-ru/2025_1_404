@@ -10,7 +10,7 @@ import ProfileLayout from "../layouts/profile/template.precompiled.js";
  * @description Регистрация layout-ов
  */
 export default function registerLayouts() {
-    const layouts: [any, string][] = [
+    const layouts: [Handlebars.TemplateDelegate, string][] = [
         [BaseLayout, 'BaseLayout'],
         [MainLayout, 'MainLayout'],
         [OfferCreateLayout, 'OfferCreateLayout'],

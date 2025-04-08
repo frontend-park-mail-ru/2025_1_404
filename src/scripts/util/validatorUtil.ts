@@ -58,9 +58,11 @@ interface ValidateFormInputInterface {
 /**
  * @function validateFormInput
  * @description Функция для валидации input.
- * @param input
- * @param additionalDetails
- * @returns string
+ * @param {ValidateFormInputInterface} param Объект с параметрами
+ * @param {string} param.value Значение поля ввода
+ * @param {string} param.name Имя поля ввода
+ * @param {boolean} additionalDetails Дополнительные проверки
+ * @returns {string} Ошибка валидации
  */
 export const validateFormInput = function ({value, name:valueName}: ValidateFormInputInterface, additionalDetails=false) {
     const valueLength = value.length;

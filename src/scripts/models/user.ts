@@ -16,6 +16,25 @@ interface UpdateProfileInterface {
     last_name: string;
 }
 
+interface UserResponseInterface {
+    /**
+     * @property {string} email Email пользователя.
+     */
+    email: string;
+    /**
+     * @property {string} first_name Имя пользователя.
+     */
+    first_name: string;
+    /**
+     * @property {string} last_name Фамилия пользователя.
+     */
+    last_name: string;
+    /**
+     * @property {string} image Аватар пользователя.
+     */
+    image: string;
+}
+
 interface UpdateAvatarInterface {
     /**
      * @property {File} avatar Аватар пользователя.
@@ -54,6 +73,30 @@ interface RegisterInterface {
 }
 
 /**
+ * @interface UserDataInterface
+ * @description Интерфейс для данных пользователя.
+ */
+export interface UserDataInterface {
+    [key: string]: unknown;
+    /**
+     * @property {string} email Email пользователя.
+     */
+    email?: string | null;
+    /**
+     * @property {string} firstName Имя пользователя.
+     */
+    firstName?: string | null;
+    /**
+     * @property {string} lastName Фамилия пользователя.
+     */
+    lastName?: string | null;
+    /**
+     * @property {string} avatar Аватар пользователя.
+     */
+    avatar?: string | null;
+}
+
+/**
  * @class User
  * @description Модель пользователя.
  */
@@ -61,10 +104,7 @@ class User {
     private _isAuthenticated: boolean;
     private _isLoaded: boolean;
 
-    private email: string | null = "";
-    private firstName: string | null = "";
-    private lastName: string | null = "";
-    private avatar: string | null = "";
+    private userData: UserDataInterface = {};
 
     /**
      * @description Конструктор класса.
@@ -97,16 +137,11 @@ class User {
      * @description Метод получения данных пользователя.
      * @returns {*} данные пользователя.
      */
-    getData() {
+    getData(): UserDataInterface | null {
         if (!this._isAuthenticated) {
             return null;
         }
-        return {
-            email: this.email,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            avatar: this.avatar || '/img/userAvatar/unknown.svg'
-        }
+        return this.userData;
     }
 
     /**
@@ -143,7 +178,7 @@ class User {
             throw new Error('User is not authenticated');
         }
         await updateAvatar({avatar}).then((response) => {
-            this.avatar = response.image;
+            this.userData.avatar = response.image;
         }
         ).catch((error) => {
             throw error;
@@ -157,8 +192,12 @@ class User {
      */
     async update() {
         await getProfile().then((response) => {
+            if (!response) {
+                return this.getData();
+            }
+            const userResponse = response as UserResponseInterface;
             this._isAuthenticated = true;
-            this._parseData(response);
+            this._parseData(userResponse);
             return this.getData();
         }).catch((error) => {
             throw error;
@@ -177,8 +216,12 @@ class User {
     async login({email, password}: LoginInterface) {
         await login({email, password})
             .then((response) => {
+                if (!response) {
+                    return this.getData();
+                }
+                const userResponse = response as UserResponseInterface;
                 this._isAuthenticated = true;
-                this._parseData(response);
+                this._parseData(userResponse);
                 return this.getData();
             }).catch((error) => {
                 throw error;
@@ -219,14 +262,14 @@ class User {
     /**
      * @function _parseData
      * @description Метод парсинга данных пользователя, полученных с сервера.
-     * @param {object} data объект с данными пользователя, полученными с сервера.
+     * @param {UserResponseInterface} data объект с данными пользователя, полученными с сервера.
      * @private
      */
-    _parseData(data: any) {
-        this.email = data.email;
-        this.firstName = data.first_name;
-        this.lastName = data.last_name;
-        this.avatar = data.image;
+    _parseData(data: UserResponseInterface) {
+        this.userData.email = data.email;
+        this.userData.firstName = data.first_name;
+        this.userData.lastName = data.last_name;
+        this.userData.avatar = data.image;
     }
 
     /**
@@ -236,10 +279,10 @@ class User {
      */
     _resetData() {
         this._isAuthenticated = false;
-        this.email = null;
-        this.firstName = null;
-        this.lastName = null;
-        this.avatar = null;
+        this.userData.email = null;
+        this.userData.firstName = null;
+        this.userData.lastName = null;
+        this.userData.avatar = null;
     }
 }
 

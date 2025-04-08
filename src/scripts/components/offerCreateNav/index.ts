@@ -114,7 +114,7 @@ export default class OfferCreateNav extends BaseComponent {
         const buttonId = id.concat("PageButton");
         const button = document.getElementById(buttonId) as HTMLElement;
         const stage = button.firstElementChild;
-        if (stage === null) {
+        if (!stage) {
             return;
         }
         this._emptyStageClass.split(" ").forEach(stageClass => {
@@ -139,7 +139,7 @@ export default class OfferCreateNav extends BaseComponent {
             const buttonId = id.concat("PageButton");
             const button = document.getElementById(buttonId) as HTMLElement;
             const stage = button.firstElementChild;
-            if (stage === null) {
+            if (!stage) {
                 return;
             }
             this._currentStageClass.split(" ").forEach(stageClass => {
@@ -163,7 +163,7 @@ export default class OfferCreateNav extends BaseComponent {
         const buttonId = id.concat("PageButton");
         const button = document.getElementById(buttonId) as HTMLElement;
         const stage = button.firstElementChild;
-        if (stage === null) {
+        if (!stage) {
             return;
         }
         this._filledStageClass.split(" ").forEach(stageClass => {

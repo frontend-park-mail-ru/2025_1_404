@@ -16,8 +16,9 @@ export class RegisterRoute extends BaseRoute {
      */
     process() {
         if (User.isAuthenticated()) {
-            return RouteManager.navigateTo('/');
+            RouteManager.navigateTo('/');
+            return;
         }
-        return PageManager.renderPage('register', {});
+        PageManager.renderPage('register', {});
     }
 }

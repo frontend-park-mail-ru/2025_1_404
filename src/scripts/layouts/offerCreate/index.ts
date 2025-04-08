@@ -2,10 +2,10 @@ import MainLayout from "../main/index";
 import OfferCreate from "../../models/offerCreate.ts";
 import OfferCreateBtns from "../../components/offerCreateBtns";
 import OfferCreateNav from "../../components/offerCreateNav";
+import OfferPage from "../../pages/offerCreate/page.ts";
+import {PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
-import {Page, PageRenderInterface} from "../../pages/page.ts";
-import OfferPage from "../../pages/offerCreate/page.ts";
 
 /**
  * @class OfferCreateLayout

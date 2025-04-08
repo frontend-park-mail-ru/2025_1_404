@@ -1,4 +1,4 @@
-import L, {Marker, Map} from 'leaflet';
+import L, {Map, Marker} from 'leaflet';
 
 /**
  * @interface CreateMapInterface
@@ -75,7 +75,6 @@ class MapUtil {
      * @returns {Map} экземпляр карты.
      */
     createMap({id, center, zoom}: CreateMapInterface): Map {
-        // eslint-disable-next-line new-cap
         const map: Map = L.map(id).setView(center, zoom);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -88,11 +87,11 @@ class MapUtil {
     /**
      * @function _removeFlag
      * @description Метод для удаления флага с карты
-     * @param id
+     * @param {string} id идентификатор карты.
      */
     _removeFlag(id: string) {
         const map = document.getElementById(id);
-        if (map === null) {
+        if (!map) {
             return;
         }
         const flags = map.getElementsByClassName('leaflet-attribution-flag');
@@ -138,9 +137,9 @@ class MapUtil {
      * @function geocode
      * @description Метод для геокодирования адреса.
      * @param {string} address адрес для геокодирования.
-     * @returns {Promise<any>} промис с результатами геокодирования.
+     * @returns {Promise<*>} промис с результатами геокодирования.
      */
-    async geocode(address: string): Promise<any> {
+    async geocode(address: string) {
         const domain = 'https://nominatim.openstreetmap.org';
         const response = await fetch(domain.concat('/search?format=json&q=', address));
         if (!response.ok) {

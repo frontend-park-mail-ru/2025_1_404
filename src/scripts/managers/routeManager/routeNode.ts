@@ -7,7 +7,7 @@ import BaseRoute from "../../routes/baseRoute.ts";
 export class RouteNode {
     public children: Record<string, RouteNode>;
     public route: BaseRoute | null;
-    public paramName: string | null    ;
+    public paramName: string | null;
     /**
      * @description Конструктор класса.
      */

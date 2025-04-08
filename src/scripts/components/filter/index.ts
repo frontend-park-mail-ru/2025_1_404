@@ -9,9 +9,11 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
 export default class Filter extends BaseComponent {
     private _openPopupButton: HTMLButtonElement | null;
     private _defaultFields: Record<string, string>;
-    private _filterData: Record<string, any>;
+    private _filterData: Record<string, Set<string> | string>;
     /**
      * @description Конструктор класса.
+     * @param {Page} page - экземпляр класса Page.
+     * @param {BaseLayout} layout - экземпляр класса Layout.
      */
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
@@ -25,20 +27,14 @@ export default class Filter extends BaseComponent {
         this._filterData = {
             "filterOfferType": new Set(),
             "filterPropertyType": new Set(),
-            "filterPriceLeft": 0,
-            "filterPriceRight": 0,
-            "filterSquareLeft": 0,
-            "filterSquareRight": 0,
+            "filterPriceLeft": '0',
+            "filterPriceRight": '0',
+            "filterSquareLeft": '0',
+            "filterSquareRight": '0',
         }
 
         document.onclick = (event) => {
-            if (event.target === null) {
-                return;
-            }
-            if (this._openPopupButton === null) {
-                return;
-            }
-            if (this._openPopupButton.nextElementSibling === null) {
+            if (!event.target || !this._openPopupButton || !this._openPopupButton.nextElementSibling) {
                 return;
             }
             const target = event.target as HTMLElement;
@@ -87,12 +83,14 @@ export default class Filter extends BaseComponent {
      * @private
      */
     _filterInputChange(event: Event) {
-        if (event.currentTarget === null) {
+        if (!event.currentTarget) {
             return;
         }
         const currentTarget = event.currentTarget as HTMLInputElement;
         event.preventDefault();
-        this._filterData[currentTarget.id] = currentTarget.value;
+        if (typeof this._filterData[currentTarget.name] === 'string') {
+            this._filterData[currentTarget.name] = currentTarget.value;
+        }
         console.log(this._filterData);
     }
 
@@ -115,12 +113,15 @@ export default class Filter extends BaseComponent {
         }
         const selectButton = elem.parentElement.parentElement.previousElementSibling as HTMLButtonElement;
 
-        if (elem.classList.toggle('checked')) {
-            this._filterData[selectButton.id].add(elem.children[1].textContent)
-            console.log(this._filterData);
-        } else {
-            this._filterData[selectButton.id].delete(elem.children[1].textContent)
-            console.log(this._filterData);
+        if (this._filterData[selectButton.id] instanceof Set && elem.children[1].textContent) {
+            const currentSet = this._filterData[selectButton.id] as Set<string>;
+            if (elem.classList.toggle('checked')) {
+                currentSet.add(elem.children[1].textContent)
+                console.log(this._filterData);
+            } else {
+                currentSet.delete(elem.children[1].textContent)
+                console.log(this._filterData);
+            }
         }
         const checked = elem.parentElement.querySelectorAll('.checked');
 
@@ -139,7 +140,7 @@ export default class Filter extends BaseComponent {
      */
     _filterSelectClosePopup(button: HTMLButtonElement) {
         button.classList.remove('active');
-        if (button.nextElementSibling === null) {
+        if (!button.nextElementSibling) {
             return;
         }
         button.nextElementSibling.classList.remove('active');
@@ -153,9 +154,8 @@ export default class Filter extends BaseComponent {
      */
     _filterSelectOpenPopup(event: Event) {
         event.preventDefault();
-        if (this._openPopupButton === null) {
-            event.stopPropagation();
-        } else if (this._openPopupButton !== event.target) {
+        event.stopPropagation();
+        if (this._openPopupButton && this._openPopupButton !== event.target) {
             event.stopPropagation();
             this._filterSelectClosePopup(this._openPopupButton);
         }

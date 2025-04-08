@@ -19,7 +19,7 @@ interface MakeRequestInterface {
     /**
      * @property {object} body Тело запроса
      */
-    body?: Record<string, any>;
+    body?: Record<string, string>;
     /**
      * @property {object} files Файлы для загрузки
      */
@@ -33,9 +33,9 @@ interface MakeRequestInterface {
  * @param {string} method HTTP-метод (GET, POST и т.д.)
  * @param {object} body Тело запроса
  * @param {object} files Файлы для загрузки
- * @returns {Promise<any>} Ответ от сервера
+ * @returns {Promise<*>} Ответ от сервера
  */
-const makeRequest = async ({endpoint, method='GET', body={}, files={}}: MakeRequestInterface): Promise<any> => {
+const makeRequest = async ({endpoint, method='GET', body={}, files={}}: MakeRequestInterface) => {
     const options: RequestInit = {
         credentials: 'include',
         headers: {},
@@ -72,7 +72,7 @@ const makeRequest = async ({endpoint, method='GET', body={}, files={}}: MakeRequ
  * @description Функция для получения списка предложений.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const getOffers =  async (): Promise<any> => await makeRequest({
+export const getOffers = async() => await makeRequest({
     endpoint: '/offers',
     method: 'GET'
 });
@@ -109,7 +109,7 @@ interface RegisterAccountInterface {
  * @param {string} password Пароль
  * @returns {Promise<*>} Ответ от сервера
  */
-export const registerAccount = async ({email, first_name, last_name,  password}: RegisterAccountInterface): Promise<any> => await makeRequest({
+export const registerAccount = async ({email, first_name, last_name,  password}: RegisterAccountInterface) => await makeRequest({
     endpoint: '/auth/register',
     method: 'POST',
     body: {email, first_name, last_name, password}
@@ -119,9 +119,9 @@ export const registerAccount = async ({email, first_name, last_name,  password}:
 /**
  * @function getProfile
  * @description Функция для получения профиля.
- * @returns {Promise<null>} Ответ от сервера
+ * @returns {Promise<*>} Ответ от сервера
  */
-export const getProfile = async (): Promise<null> => await makeRequest({
+export const getProfile = async () => await makeRequest({
     endpoint: '/auth/me',
     method: 'POST'
 });
@@ -212,8 +212,10 @@ const offer = {
 /**
  * @function getOfferById
  * @description Функция для получения объявления по id.
+ * @param {number} id ID объявления
  * @returns {Promise<null>} Ответ от сервера
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getOfferById =  async (id: number) => await offer;
 
 const zhk = {
@@ -346,9 +348,9 @@ interface LoginInterface {
  * @description Функция для входа в аккаунт.
  * @param {string} email Электронная почта
  * @param {string} password Пароль
- * @returns {Promise<{first_name: string, last_name: string}>} Ответ от сервера
+ * @returns {Promise<*>} Ответ от сервера
  */
-export const login = async ({email, password}: LoginInterface): Promise<{ first_name: string; last_name: string; }> => await makeRequest({
+export const login = async ({email, password}: LoginInterface) => await makeRequest({
     endpoint: '/auth/login',
     method: 'POST',
     body: {email, password}
@@ -359,7 +361,7 @@ export const login = async ({email, password}: LoginInterface): Promise<{ first_
  * @description Функция для выхода из аккаунта.
  * @returns {Promise<boolean>} Ответ от сервера
  */
-export const logout = async (): Promise<boolean> => await makeRequest({
+export const logout = async () => await makeRequest({
     endpoint: '/auth/logout',
     method: 'POST'
 });

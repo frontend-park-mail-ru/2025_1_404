@@ -8,7 +8,7 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
  * @augments Page
  */
 export default class OfferPage extends Page {
-    _pageName: any;
+    _pageName: string;
     protected _offerData: Record<string, string> = {};
     private _layout: BaseLayout | undefined;
     /**
@@ -71,6 +71,7 @@ export default class OfferPage extends Page {
     /**
      * @function getOfferData
      * @description Метод получения данных предложения, которые были установлены на странице.
+     * @returns {Record<string, string>} данные предложения
      */
     getOfferData() {
         return this._offerData;

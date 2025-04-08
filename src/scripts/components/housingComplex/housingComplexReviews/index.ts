@@ -52,7 +52,7 @@ export default class HousingComplexReviews extends BaseComponent {
      */
     _showMoreReviews() {
         const reviewsPerClick = 3;
-        if (this._reviews == null || this._visibleReviews === null || this._visibleReviews === undefined) {
+        if (!this._reviews || !this._visibleReviews) {
             return;
         }
         for (let it = this._visibleReviews; it < this._visibleReviews + reviewsPerClick; it++) {
@@ -64,7 +64,7 @@ export default class HousingComplexReviews extends BaseComponent {
         this._visibleReviews += reviewsPerClick;
 
         if (this._visibleReviews >= this._reviews.length) {
-            if (this._loadReviewsButton === undefined || this._loadReviewsButton === null) {
+            if (!this._loadReviewsButton) {
                 return;
             }
             this._loadReviewsButton.classList.add('hidden');

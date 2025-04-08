@@ -4,7 +4,7 @@
  * @description Модель для хранения фильтров.
  */
 class FilterModel {
-    private _filterData: Record<string, any>;
+    private _filterData: Record<string, Set<string> | string>;
     /**
      * @description Конструктор класса.
      */
@@ -27,7 +27,7 @@ class FilterModel {
      * @param {string} filterName имя фильтра, по которому будут сохранены данные.
      * @param {*} data данные, которые нужно сохранить в фильтр.
      */
-    setData(filterName: string, data: any) {
+    setData(filterName: string, data: Set<string> | string) {
         this._filterData[filterName] = data;
     }
 

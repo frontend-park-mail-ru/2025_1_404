@@ -39,7 +39,7 @@ export default class PicturesCarousel extends BaseComponent {
      */
     _updateCarousel() {
         const slidePercent = 100;
-        if (this._carousel === null) {
+        if (!this._carousel) {
             return;
         }
         this._carousel.style.transform = `translateX(${-(this._index * slidePercent)}%)`;

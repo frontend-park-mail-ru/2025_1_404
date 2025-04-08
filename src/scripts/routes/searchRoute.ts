@@ -13,6 +13,6 @@ export class SearchRoute extends BaseRoute {
      * @description Метод обработки маршрута.
      */
     process() {
-        return PageManager.renderPage('search', {});
+        PageManager.renderPage('search', {});
     }
 }

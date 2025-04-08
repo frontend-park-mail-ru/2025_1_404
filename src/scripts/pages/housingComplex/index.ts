@@ -32,11 +32,11 @@ export default class HousingComplexPage extends Page {
         this._getInformation()
         .then ((data) => {
             const housingComplexInformation = document.getElementById('housingComplexInformation');
-            if (housingComplexInformation != null) {
+            if (housingComplexInformation !== null) {
                 housingComplexInformation.innerHTML = housingComplexInformationTemplate(data);
             }
             const housingComplexSlider = document.getElementById('housingComplexSlider');
-            if (housingComplexSlider != null) {
+            if (housingComplexSlider !== null) {
                 housingComplexSlider.innerHTML = housingComplexSliderTemplate(data);
             }
             this._slider = new HousingComplexSlider({page: this, layout});

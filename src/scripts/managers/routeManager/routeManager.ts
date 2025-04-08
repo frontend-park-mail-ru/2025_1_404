@@ -1,6 +1,7 @@
 
 import {RouteNode} from "./routeNode.ts";
 import {UnknownRoute} from "../../routes/unknownRoute.ts";
+import BaseRoute from "../../routes/baseRoute.ts";
 
 /**
  * @class RouteManager
@@ -29,7 +30,7 @@ class RouteManager {
      * @param {string} routeName ключевое имя маршрута
      * @param {object} route объект маршрута
      */
-    registerRoute(routeName: string, route: any) {
+    registerRoute(routeName: string, route: BaseRoute) {
         const segments = routeName.split('/');
         let current = this.root;
 

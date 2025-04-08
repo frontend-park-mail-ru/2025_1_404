@@ -3,6 +3,11 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
 import {validateFormInput} from "../../util/validatorUtil.ts";
 
+interface LoginInterface extends Record<string, string> {
+    email: string;
+    password: string;
+}
+
 /**
  * @class Login
  * @description Компонент авторизации.
@@ -78,70 +83,120 @@ export default class Login extends BaseComponent {
     _loginFormHandler(event: Event) {
         event.preventDefault();
 
-        const apiError = document.getElementById('api-error') as HTMLElement;
-        apiError.classList.remove('error__visible');
-        if (event.target === null) {
-            return;
-        }
+        this._resetApiError();
+
         const target = event.target as HTMLElement;
         const loginButton = target.querySelector('#loginSubmitButton') as HTMLButtonElement;
         loginButton.disabled = true;
 
-        let isValid = true;
-        const inputFields = target
-            .querySelectorAll('input');
-        inputFields.forEach((input) => {
-            const errorText = validateFormInput(input, false);
-            const errorField = input.nextElementSibling;
-            if (errorField === null) {
-                return;
-            }
-            if (errorText !== "") {
-                isValid = false;
-                input.classList.add('input__invalid');
-                errorField.classList.add('error__visible');
-                errorField.textContent = errorText;
-            }
-        })
+        const isValid = this._validateFormFields(target);
         if (!isValid) {
             loginButton.disabled = false;
             return;
         }
-        const values = Array.from(inputFields).reduce((acc: Record<string, any>, field) => {
-            if (field.name !== 'confirmPassword') {
-                acc[field.name] = field.value;
-            }
-            return acc;
-        }, {});
-
+        const values = this._getFormValues(target);
         if (!this.layout) {
             return;
         }
-        this.layout.makeRequest(User.login.bind(User), values).then(() => {
+        this.layout.makeRequest(User.login.bind(User), values as LoginInterface).then(() => {
             if (!this.layout) {
                 return;
             }
             this.layout.emit('login');
             this._loginCloseButtonHandler();
         }).catch((error: Error) => {
-            apiError.textContent = error.message;
-            apiError.classList.add('error__visible');
+            this._showApiError(error);
         }).finally(() => {
             loginButton.disabled = false;
         })
     }
 
     /**
+     * @function _resetApiError
+     * @description Метод сброса ошибки API
+     */
+    _resetApiError() {
+        const apiError = document.getElementById('api-error') as HTMLElement;
+        apiError.classList.remove('error__visible');
+    }
+
+    /**
+     * @function _showApiError
+     * @description Метод отображения ошибки API
+     * @param {Error} error ошибка API
+     */
+    _showApiError(error: Error) {
+        const apiError = document.getElementById('api-error') as HTMLElement;
+        apiError.textContent = error.message;
+        apiError.classList.add('error__visible');
+    }
+
+    /**
+     * @function _validateFormFields
+     * @description Метод валидации полей формы
+     * @param {HTMLElement} formElement элемент формы
+     * @returns {boolean} true, если форма валидна, иначе false
+     */
+    _validateFormFields(formElement: HTMLElement): boolean {
+        let isValid = true;
+        const inputFields = formElement.querySelectorAll('input');
+
+        inputFields.forEach((input) => {
+            const errorText = validateFormInput(input, false);
+            const errorField = input.nextElementSibling;
+
+            if (!errorField) {
+                return;
+            }
+
+            if (errorText !== "") {
+                isValid = false;
+                this._showFieldError(input, errorField, errorText);
+            }
+        });
+
+        return isValid;
+    }
+
+    /**
+     * @function _showFieldError
+     * @description Метод отображения ошибки в поле ввода
+     * @param {HTMLInputElement} input поле ввода
+     * @param {Element} errorField элемент ошибки
+     * @param {string} errorText текст ошибки
+     */
+    _showFieldError(input: HTMLInputElement, errorField: Element, errorText: string) {
+        input.classList.add('input__invalid');
+        errorField.classList.add('error__visible');
+        errorField.textContent = errorText;
+    }
+
+    /**
+     * @function _getFormValues
+     * @description Метод получения значений полей формы
+     * @param {HTMLElement} formElement элемент формы
+     * @returns {Record<string, string>} объект с именами полей и их значениями
+     */
+    _getFormValues(formElement: HTMLElement): Record<string, string> {
+        const inputFields = formElement.querySelectorAll('input');
+        return Array.from(inputFields).reduce((acc: Record<string, string>, field) => {
+            if (field.name !== 'confirmPassword') {
+                acc[field.name] = field.value;
+            }
+            return acc;
+        }, {});
+    }
+
+    /**
      * @function _loginFormInputHandler
      * @description Обработчик события отпускания input
      * @param {Event} event событие отпускания клавиши
-     * @param {HTMLElement} target элемент, на котором произошло событие
      * @private
      */
     _loginFormInputHandler(event: Event) {
         event.preventDefault();
 
-        if (event.target === null) {
+        if (!event.target) {
             return;
         }
         const target = event.target as HTMLInputElement;
@@ -152,7 +207,7 @@ export default class Login extends BaseComponent {
 
         const errorText = validateFormInput(target);
         const errorField = target.nextElementSibling;
-        if (errorField === null) {
+        if (!errorField) {
             return;
         }
         if (errorText === "") {

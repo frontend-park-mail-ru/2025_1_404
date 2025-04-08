@@ -1,6 +1,7 @@
 import globals from "globals";
 import jsdoc from "eslint-plugin-jsdoc";
 import pluginJs from "@eslint/js";
+import tseslint from 'typescript-eslint';
 
 const MAX_STATEMENTS = 20
 
@@ -10,6 +11,7 @@ export default [
     {
         ignores: ["**/*.precompiled.js", "**/*.min-*.js"],
     },
+    ...tseslint.configs.recommended,
     {
         languageOptions: {
             ecmaVersion: "latest",
@@ -19,6 +21,10 @@ export default [
                 process: "readonly",
                 ymaps: "readonly",
             },
+            parser: tseslint.parser,
+            parserOptions: {
+                project: true
+            }
         },
         plugins: {
             jsdoc,
@@ -30,27 +36,22 @@ export default [
             "func-names": ["error", "as-needed"],
             "id-length": "off",
             "max-statements": ["error", MAX_STATEMENTS],
+            "max-lines": ["error", { max: 300, skipBlankLines: true, skipComments: true }],
             "no-console": "off",
             "no-empty-function": "off",
             "no-magic-numbers": "off",
-            "sort-keys": "off",
             "no-inline-comments": "off",
             "no-plusplus": "off",
             "no-ternary": "off",
             "no-underscore-dangle": "off",
-            "no-unused-vars": [
-                "error",
-                {
-                    // Игнорируем параметры, начинающиеся с _
-                    argsIgnorePattern: "^_",
-                    // Игнорируем переменные, начинающиеся с _
-                    varsIgnorePattern: "^_",
-                },
-            ],
+            "no-unused-vars": "off",
+            "no-use-before-define": "off",
             "no-warning-comments": "off",
             "one-var":"off",
             "prefer-template": "off",
             "strict": "off",
+            "sort-keys": "off",
+            "sort-imports": ["error", { "ignoreDeclarationSort": true }],
 
             // JSDOC
             "jsdoc/check-access": 1,

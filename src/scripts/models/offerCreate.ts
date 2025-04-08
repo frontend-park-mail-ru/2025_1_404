@@ -4,7 +4,7 @@
  * @description Модель создания объявления.
  */
 class OfferCreate {
-    private _offerData: Record<string, any> = {};
+    private _offerData: Record<string, Record<string, string>> = {};
     private _filledPages: Record<string, boolean> = {};
     /**
      * @description Конструктор класса.
@@ -35,7 +35,7 @@ class OfferCreate {
      * @param {string} pageName имя страницы.
      * @param {object} data данные страницы.
      */
-    setData(pageName: string, data: any) {
+    setData(pageName: string, data: Record<string, string>) {
         this._offerData[pageName] = data;
     }
 

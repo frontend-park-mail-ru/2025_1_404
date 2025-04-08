@@ -1,9 +1,9 @@
 import {BaseLayout} from "../baseLayout.ts";
 import Header from "../../components/header";
 import Login from "../../components/login";
+import {Page, PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
-import {Page, PageRenderInterface} from "../../pages/page.ts";
 
 /**
  * @class MainLayout
@@ -62,7 +62,7 @@ export default class MainLayout extends BaseLayout {
 
                 this.setHeaderStatus(User.isAuthenticated());
 
-                if (props.showLogin) {
+                if (props && props.showLogin) {
                     const passwordInput = document.querySelector('#passwordInput') as HTMLInputElement;
                     passwordInput.value = '';
                     const login = document.querySelector(".login") as HTMLElement;
@@ -91,13 +91,15 @@ export default class MainLayout extends BaseLayout {
                 header.style.display = 'none';
                 authorizedHeader.style.display = 'block';
                 const userData = User.getData();
-                if (userData === null) {
+                if (!userData) {
                     return;
                 }
                 const headerName = authorizedHeader.querySelector('.header__name') as HTMLElement;
                 headerName.textContent = `${userData.firstName}`;
-                const avatar = authorizedHeader.querySelector('.user__avatar-img') as HTMLImageElement;
-                avatar.src = userData.avatar;
+                if (userData.avatar) {
+                    const avatar = authorizedHeader.querySelector('.user__avatar-img') as HTMLImageElement;
+                    avatar.src = userData.avatar;
+                }
             } else {
                 header.style.display = 'block';
                 authorizedHeader.style.display = 'none';

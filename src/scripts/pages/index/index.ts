@@ -79,7 +79,7 @@ export default class IndexPage extends Page {
         this._layout = layout;
 
         this._cardsList = document.querySelector('.cards__list');
-        if (this._cardsList != null) {
+        if (this._cardsList !== null) {
             this._cardClickHandler = this._cardClickHandler.bind(this);
             this._cardsList.addEventListener('click', this._cardClickHandler);
         }
@@ -147,9 +147,12 @@ export default class IndexPage extends Page {
             return;
         }
         this._layout.makeRequest(getOffers).then((offers) => {
-            for (const offer of offers) {
-                this._addCard(offer);
+            if (!offers || !Array.isArray(offers)) {
+                return;
             }
+            Array.from(offers).forEach((offer) => {
+                this._addCard(offer);
+            });
         }).catch((error) => {
             console.error(error)
         })
@@ -164,7 +167,7 @@ export default class IndexPage extends Page {
      */
     _cardClickHandler(event: Event, {target} = event) {
         let currentTarget = target as HTMLElement | null;
-        if (currentTarget === null) {
+        if (!currentTarget) {
             return;
         }
         while (currentTarget.parentElement !== null && (currentTarget.tagName === 'path' || currentTarget.tagName === 'I')) {

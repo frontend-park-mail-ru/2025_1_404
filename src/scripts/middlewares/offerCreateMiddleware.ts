@@ -2,7 +2,6 @@
 import AuthMiddleware from "./authMiddleware.ts";
 import OfferCreate from "../models/offerCreate.ts";
 import RouteManager from "../managers/routeManager/routeManager.ts";
-import BaseRoute from "../routes/baseRoute.ts";
 import {OfferCreateRoute} from "../routes/offer/OfferCreateRoute.ts";
 
 /**

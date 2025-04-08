@@ -95,14 +95,13 @@ export default class OfferCreateParamsPage extends OfferPage {
     /**
      * _offerParamsInputChange
      * @param {Event} event событие
-     * @param {HTMLElement} target элемент, на который произошло событие
      * @private
      */
     _offerParamsInputChange(event: Event) {
         event.preventDefault();
 
         if (!event.target) {
-            return null;
+            return;
         }
         const target = event.target as HTMLInputElement;
 
@@ -119,14 +118,13 @@ export default class OfferCreateParamsPage extends OfferPage {
      * @function _offerParamsSelectsChange
      * @description Метод обработки события изменения данных объявления.
      * @param {Event} event событие
-     * @param {HTMLElement} target элемент, на который произошло событие
      * @private
      */
     _offerParamsSelectsChange(event: Event) {
         event.preventDefault();
 
         if (!event.target) {
-            return null;
+            return;
         }
         const target = event.target as HTMLFormElement;
 

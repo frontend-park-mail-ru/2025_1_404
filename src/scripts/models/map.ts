@@ -121,16 +121,16 @@ export default class Map {
      * @returns {Promise<void>}
      */
     async geoCode(address: string) {
-        try {
-            const data = await MapUtil.geocode(address);
-            this.center = [data[0].lat, data[0].lon];
-            this._map.setView(this.center, this._zoom);
-        }
-        catch (error: Error | any) {
-            throw new Error(error);
-        }
+        const data = await MapUtil.geocode(address);
+        this.center = [data[0].lat, data[0].lon];
+        this._map.setView(this.center, this._zoom);
     }
 
+    /**
+     * @function getCenter
+     * @description Метод получения центра карты.
+     * @returns {[number, number]} координаты центра карты.
+     */
     getCenter() {
         return this.center;
     }

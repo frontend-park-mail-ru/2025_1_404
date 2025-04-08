@@ -1,5 +1,7 @@
 import {Page} from "../pages/page.ts";
 
+type EventCallback = (...args: string[]) => void;
+
 /**
  * @class PageManager
  * @description Класс для управления страницами
@@ -7,7 +9,7 @@ import {Page} from "../pages/page.ts";
 class PageManager {
     private pages: Record<string, Page>;
     private activePage: Page | null
-    private events: Record<string, Function | null>;
+    private events: Record<string, EventCallback | null>;
     private root: HTMLElement | null | undefined;
     /**
      * @description Конструктор класса
@@ -28,7 +30,7 @@ class PageManager {
      * @param {string} event название события
      * @param {Function} callback функция для вызова
      */
-    on(event: string, callback: Function) {
+    on(event: string, callback: EventCallback) {
         this.events[event] = callback;
     }
 

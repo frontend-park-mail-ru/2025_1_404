@@ -1,7 +1,13 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
+import {default as User, UserDataInterface} from "../../models/user.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
-import User from "../../models/user.ts";
 import {validateFormInput} from "../../util/validatorUtil.ts";
+
+interface ProfileInterface extends Record<string, string> {
+    first_name: string;
+    last_name: string;
+    email: string;
+}
 
 /**
  * @class ProfileLeft
@@ -9,8 +15,8 @@ import {validateFormInput} from "../../util/validatorUtil.ts";
  * @augments BaseComponent
  */
 export default class ProfileLeft extends BaseComponent {
-    private previousData: Record<string, any> | null = {};
-    private currentData: Record<string, any> | null = {};
+    private previousData: UserDataInterface | null = null;
+    private currentData: UserDataInterface | null = null;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -47,7 +53,7 @@ export default class ProfileLeft extends BaseComponent {
      */
     fillWithUserData() {
         const userData = User.getData();
-        if (userData === null) {
+        if (!userData) {
             return;
         }
         const profileFirstName = document.getElementById('profileFirstName') as HTMLInputElement;
@@ -62,7 +68,9 @@ export default class ProfileLeft extends BaseComponent {
         if (profileEmail) {
             profileEmail.value = userData.email || "";
         }
-        this._addAvatar(userData.avatar);
+        if (userData && userData.avatar) {
+            this._addAvatar(userData.avatar);
+        }
     }
 
     /**
@@ -70,11 +78,12 @@ export default class ProfileLeft extends BaseComponent {
      * @description Метод проверки изменения данных пользователя.
      * @returns {boolean} true, если данные изменены, иначе false.
      */
-    isDataChanged() {
-        if (this.currentData === null || this.previousData === null) {
-            return;
+    isDataChanged(): boolean {
+        if (!this.currentData || !this.previousData) {
+            return false;
         }
         for (const key of Object.keys(this.currentData)) {
+
             console.log(this.currentData[key], this.previousData[key]);
             if (this.currentData[key] !== this.previousData[key]) {
                 return true;
@@ -91,7 +100,7 @@ export default class ProfileLeft extends BaseComponent {
      */
     _addAvatar(source: string) {
         const profileAvatar = document.getElementById('profileAvatar') as HTMLImageElement;
-        if (profileAvatar.firstElementChild === null) {
+        if (!profileAvatar.firstElementChild) {
             return;
         }
         profileAvatar.firstElementChild.setAttribute('src', source);
@@ -117,14 +126,14 @@ export default class ProfileLeft extends BaseComponent {
         if (file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onload = (event) => {
-                if (event.target === null || event.target.result === null) {
+                if (!event.target || !event.target.result) {
                     return;
                 }
                 const source = event.target.result.toString();
                 this._addAvatar(source);
 
                 const apiError = document.getElementById('profile-api-error');
-                if (apiError === null) {
+                if (!apiError) {
                     return;
                 }
                 apiError.classList.remove('error__visible');
@@ -152,7 +161,7 @@ export default class ProfileLeft extends BaseComponent {
 
         const apiError = document.getElementById('profile-api-error');
 
-        if (event.target === null) {
+        if (!event.target) {
             return;
         }
         const target = event.target as HTMLElement;
@@ -178,20 +187,17 @@ export default class ProfileLeft extends BaseComponent {
             return;
         }
 
-        if (this.currentData === null) {
-            return;
-        }
-        if (!this.layout) {
+        if (!this.currentData || !this.layout) {
             return;
         }
         this.layout.makeRequest(User.updateProfile.bind(User), {
             first_name: this.currentData.firstName,
             last_name: this.currentData.lastName,
             email: this.currentData.email
-        }).then(() => {
+        } as ProfileInterface).then(() => {
             RouteManager.navigateToPageByCurrentURL();
         }).catch((err: Error) => {
-            if (apiError === null) {
+            if (!apiError) {
                 return;
             }
             apiError.classList.add('error__visible');
@@ -203,40 +209,47 @@ export default class ProfileLeft extends BaseComponent {
      * @function _profileDataInputHandler
      * @description Обработчик события отпускания input
      * @param {Event} event событие отпускания input
-     * @param {HTMLElement} target элемент, на который кликнули
      * @private
      */
     _profileDataInputHandler(event: Event) {
         event.preventDefault();
-        if (event.target === null) {
-            return;
-        }
-        const target = event.target as HTMLInputElement;
-        if (target.tagName !== 'INPUT') {
+        const inputElement = this._getValidInputElement(event);
+        if (!inputElement || !this.currentData) {
             return;
         }
 
-        if (this.currentData === null) {
-            return;
-        }
-        this.currentData[target.name] = target.value;
+        this.currentData[inputElement.name] = inputElement.value;
         const saveButton = document.getElementById('profileDataSave') as HTMLButtonElement;
         saveButton.disabled = !this.isDataChanged()
 
-        const errorText = validateFormInput(target, true);
-        const errorField = target.nextElementSibling;
-        if (errorField === null) {
+        const errorText = validateFormInput(inputElement, true);
+        const errorField = inputElement.nextElementSibling;
+        if (!errorField) {
             return;
         }
         if (errorText === "") {
-            target.classList.remove('input__invalid');
+            inputElement.classList.remove('input__invalid');
             errorField.classList.remove('error__visible');
-            errorField.textContent = errorText;
-            return;
+        } else {
+            inputElement.classList.add('input__invalid');
+            errorField.classList.add('error__visible');
         }
-        target.classList.add('input__invalid');
-        errorField.classList.add('error__visible');
         errorField.textContent = errorText;
+    }
+
+    /**
+     * @function _getValidInputElement
+     * @description Метод получения валидного элемента input.
+     * @param {Event} event событие
+     * @returns {HTMLInputElement | null} валидный элемент input или null
+     */
+    _getValidInputElement(event: Event): HTMLInputElement | null {
+        if (!event.target) {
+            return null;
+        }
+
+        const target = event.target as HTMLElement;
+        return target.tagName === 'INPUT' ? target as HTMLInputElement : null;
     }
 
     /**
@@ -246,7 +259,7 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _processAvatarHandler(event: Event) {
-        if (event.target === null) {
+        if (!event.target) {
             return;
         }
         const target = event.target as HTMLElement;
@@ -282,14 +295,14 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _getAvatarAfterChooseClickHandler(event: Event) {
-        if (event.target === null) {
+        if (!event.target) {
             return;
         }
         const target = event.target as HTMLInputElement;
-        if (target.files === null) {
+        if (!target.files) {
             return;
         }
-        const file = target.files[0];
+        const [file] = target.files;
         this._uploadAvatar(file);
     }
 

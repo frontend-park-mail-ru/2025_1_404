@@ -1,7 +1,6 @@
 import MainLayout from "../main/index";
 import ProfileLeft from "../../components/profileLeft";
 import {Page, PageRenderInterface} from "../../pages/page.ts";
-import {BaseLayout} from "../baseLayout.ts";
 
 /**
  * @class ProfileLayout
@@ -24,7 +23,9 @@ class ProfileLayout extends MainLayout {
             render: ({root, props}: PageRenderInterface) => {
                 super.process(page).render({props, root});
                 this._profileLeft = new ProfileLeft({page, layout: this});
-                this._profileLeft.setActiveProfileTab(props.activeProfileTabIndex);
+                if (props && props.activeProfileTabIndex && typeof props.activeProfileTabIndex === 'number') {
+                    this._profileLeft.setActiveProfileTab(props.activeProfileTabIndex as number);
+                }
             },
             handlers: page.handlers,
             initListeners: page.initListeners,

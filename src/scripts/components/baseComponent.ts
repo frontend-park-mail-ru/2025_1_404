@@ -1,10 +1,16 @@
 
-import {Page} from "../pages/page.ts";
 import {BaseLayout} from "../layouts/baseLayout.ts";
+import {Page} from "../pages/page.ts";
 
 export interface BaseComponentInterface {
     page: Page;
     layout: BaseLayout | undefined;
+}
+
+interface HandlerInterface {
+    element: Element;
+    handler: EventListenerOrEventListenerObject;
+    type: string;
 }
 
 /**
@@ -14,11 +20,11 @@ export interface BaseComponentInterface {
 export class BaseComponent {
     protected page: Page;
     protected layout: BaseLayout | undefined;
-    private handlers: any[];
+    private handlers: HandlerInterface[];
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
-     * @param {BaseLayout} layout - экземпляр класса Layout.
+     * @param {BaseLayout} layout экземпляр класса Layout.
      */
     constructor({page, layout}: BaseComponentInterface) {
         this.page = page;
@@ -49,7 +55,7 @@ export class BaseComponent {
      * @param {string} type тип события.
      * @param {Function} handler обработчик события.
      */
-    initListener(elementId: string, type: string, handler: Function) {
+    initListener(elementId: string, type: string, handler: (event: Event) => void) {
         const element = document.getElementById(elementId);
         if (element) {
             const boundedHandler = handler.bind(this);
@@ -65,7 +71,7 @@ export class BaseComponent {
      * @param {string} type тип события.
      * @param {Function} handler обработчик события.
      */
-    initListenerForClass(classId: string, type: string, handler: Function) {
+    initListenerForClass(classId: string, type: string, handler: (event: Event) => void) {
         const elements = document.getElementsByClassName(classId);
         const boundedHandler = handler.bind(this);
         Array.from(elements).forEach((element: Element) => {

@@ -11,6 +11,7 @@ export class OfferCreateRoute extends BaseRoute {
     _pageName: string;
     /**
      * @description Конструктор класса.c
+     * @param {string} pageName имя страницы
      */
     constructor(pageName: string) {
         super();

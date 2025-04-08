@@ -1,5 +1,5 @@
-import {getZhkLine, getZhkPhone} from "../../../util/apiUtil.ts";
 import {BaseComponent, BaseComponentInterface} from "../../baseComponent.ts";
+import {getZhkLine, getZhkPhone} from "../../../util/apiUtil.ts";
 import getMetroColorByLineName from "../../../util/metroUtil";
 import metroStationTemplate from "../../metroStation/template.precompiled.js";
 
@@ -51,7 +51,7 @@ export default class HousingComplexInformation extends BaseComponent {
     _getPhone() {
         getZhkPhone()
         .then((data) => {
-            if (this._phoneButton === null) {
+            if (!this._phoneButton) {
                 return;
             }
             this._phoneButton.textContent = data.phone;

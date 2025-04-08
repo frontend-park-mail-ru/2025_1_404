@@ -48,7 +48,7 @@ import UserAvatar from "../components/userAvatar/template.precompiled.js";
  * @description Регистрация компонентов
  */
 export default function registerComponents() {
-    const components: [any, string][] = [
+    const components: [Handlebars.TemplateDelegate, string][] = [
         [BackgroundlessButton, 'BackgroundlessButton'],
         [Card, 'Card'],
         [Characteristic, 'Characteristic'],
