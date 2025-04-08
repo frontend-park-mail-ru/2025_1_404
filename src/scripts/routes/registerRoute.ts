@@ -1,8 +1,8 @@
 
-import BaseRoute from "./baseRoute.js";
-import PageManager from "../managers/pageManager.js";
-import RouteManager from "../managers/routeManager/routeManager.js";
-import User from "../models/user.js";
+import BaseRoute from "./baseRoute.ts";
+import PageManager from "../managers/pageManager.ts";
+import RouteManager from "../managers/routeManager/routeManager.ts";
+import User from "../models/user.ts";
 
 /**
  * @class RegisterRoute

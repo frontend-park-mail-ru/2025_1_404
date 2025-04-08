@@ -1,6 +1,6 @@
-import OfferCreate from "../../models/offerCreate.js";
-import {Page, PageRenderInterface} from "../page.js";
-import {BaseLayout} from "../../layouts/baseLayout.js";
+import OfferCreate from "../../models/offerCreate.ts";
+import {Page, PageRenderInterface} from "../page.ts";
+import {BaseLayout} from "../../layouts/baseLayout.ts";
 
 /**
  * @class OfferPage

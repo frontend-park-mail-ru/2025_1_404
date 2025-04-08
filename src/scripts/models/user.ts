@@ -1,5 +1,5 @@
 
-import {getProfile, login, logout, registerAccount, updateAvatar, updateProfile} from "../util/apiUtil.js";
+import {getProfile, login, logout, registerAccount, updateAvatar, updateProfile} from "../util/apiUtil.ts";
 
 interface UpdateProfileInterface {
     /**
@@ -122,7 +122,10 @@ class User {
             throw new Error('User is not authenticated');
         }
         await updateProfile({email, first_name, last_name})
-            .then(() => this.getData())
+            .then((response) => {
+                this._parseData(response);
+                this.getData();
+            })
             .catch((error) => {
                 throw error;
             }

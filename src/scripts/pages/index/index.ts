@@ -1,12 +1,12 @@
 
 import Filter from "../../components/filter";
 import {Page, PageRenderInterface} from '../page';
-import User from "../../models/user.js";
+import User from "../../models/user.ts";
 import cardTemplate from "../../components/card/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil";
-import {getOffers} from "../../util/apiUtil.js";
+import {getOffers} from "../../util/apiUtil.ts";
 import template from "./template.precompiled.js";
-import {BaseLayout} from "../../layouts/baseLayout.js";
+import {BaseLayout} from "../../layouts/baseLayout.ts";
 
 /**
  * @interface AddCardInterface

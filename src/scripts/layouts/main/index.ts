@@ -1,9 +1,9 @@
-import {BaseLayout} from "../baseLayout.js";
+import {BaseLayout} from "../baseLayout.ts";
 import Header from "../../components/header";
 import Login from "../../components/login";
-import RouteManager from "../../managers/routeManager/routeManager.js";
-import User from "../../models/user.js";
-import {Page, PageRenderInterface} from "../../pages/page.js";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
+import User from "../../models/user.ts";
+import {Page, PageRenderInterface} from "../../pages/page.ts";
 
 /**
  * @class MainLayout

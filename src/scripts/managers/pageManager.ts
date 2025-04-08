@@ -1,4 +1,4 @@
-import {Page} from "../pages/page.js";
+import {Page} from "../pages/page.ts";
 
 /**
  * @class PageManager

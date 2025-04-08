@@ -1,4 +1,4 @@
-import {BaseComponent, BaseComponentInterface} from "../baseComponent.js";
+import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 
 /**
  * @class OfferCreateTitle

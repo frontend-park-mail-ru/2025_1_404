@@ -1,6 +1,6 @@
 
-import BaseRoute from "../baseRoute.js";
-import PageManager from "../../managers/pageManager.js";
+import BaseRoute from "../baseRoute.ts";
+import PageManager from "../../managers/pageManager.ts";
 
 /**
  * @class ProfileMainRoute

@@ -1,11 +1,11 @@
 
-import PageManager from "./managers/pageManager.js";
-import RouteManager from "./managers/routeManager/routeManager.js";
-import registerComponents from "./util/componentUtil.js";
+import PageManager from "./managers/pageManager.ts";
+import RouteManager from "./managers/routeManager/routeManager.ts";
+import registerComponents from "./util/componentUtil.ts";
 import registerHandlebarsHelper from './util/handlebarsHelper.js'
-import registerLayouts from "./util/layoutUtil.js";
-import registerPages from "./util/pageUtil.js";
-import registerRoutes from "./util/routeUtil.js";
+import registerLayouts from "./util/layoutUtil.ts";
+import registerPages from "./util/pageUtil.ts";
+import registerRoutes from "./util/routeUtil.ts";
 
 /**
  * @function init

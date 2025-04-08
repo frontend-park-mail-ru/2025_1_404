@@ -1,4 +1,4 @@
-import MapUtil from "../util/mapUtil.js";
+import MapUtil from "../util/mapUtil.ts";
 import {Map as LeafletMap, Marker} from "leaflet";
 
 interface MapConstructorInterface {

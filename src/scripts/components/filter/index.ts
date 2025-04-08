@@ -1,6 +1,6 @@
-import {BaseComponent, BaseComponentInterface} from "../baseComponent.js";
+import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import FilterModel from "../../models/filterModel"
-import RouteManager from "../../managers/routeManager/routeManager.js";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
 /**
  * @class Filter
  * @description Компонент фильтра.

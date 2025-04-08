@@ -1,7 +1,7 @@
 import MainLayout from "../main/index";
 import ProfileLeft from "../../components/profileLeft";
-import {Page, PageRenderInterface} from "../../pages/page.js";
-import {BaseLayout} from "../baseLayout.js";
+import {Page, PageRenderInterface} from "../../pages/page.ts";
+import {BaseLayout} from "../baseLayout.ts";
 
 /**
  * @class ProfileLayout

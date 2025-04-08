@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prestart": "npm run build",
     "start": "node deploy/main.js",
-    "compile": "tsc && node dist/tools/compileAll.js",
+    "compile": "npx tsx tools/compileAll.ts",
     "eslint": "npx eslint src/scripts tools"
   },
   "repository": {
@@ -30,7 +30,8 @@
     "@types/serviceworker": "^0.0.127",
     "express": "^4.21.2",
     "handlebars": "^4.7.8",
-    "leaflet": "^1.9.4"
+    "leaflet": "^1.9.4",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -39,6 +40,7 @@
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "sass-embedded": "^1.86.3",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "vite": "^6.2.0"
   }

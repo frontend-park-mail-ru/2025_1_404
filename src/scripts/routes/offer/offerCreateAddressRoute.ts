@@ -1,5 +1,5 @@
 
-import {OfferCreateRoute} from "./OfferCreateRoute.js";
+import {OfferCreateRoute} from "./OfferCreateRoute.ts";
 
 /**
  * @class OfferCreateAddressRoute

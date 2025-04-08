@@ -1,6 +1,6 @@
 
-import {RouteNode} from "./routeNode.js";
-import {UnknownRoute} from "../../routes/unknownRoute.js";
+import {RouteNode} from "./routeNode.ts";
+import {UnknownRoute} from "../../routes/unknownRoute.ts";
 
 /**
  * @class RouteManager

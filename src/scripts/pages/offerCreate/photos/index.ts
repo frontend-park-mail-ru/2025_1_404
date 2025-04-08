@@ -1,9 +1,9 @@
 
-import OfferCreate from "../../../models/offerCreate.js";
-import OfferPage from "../page.js";
+import OfferCreate from "../../../models/offerCreate.ts";
+import OfferPage from "../page.ts";
 import offerCreatePhotosPreviewTemplate from "../../../components/offerCreatePhotosPreview/template.precompiled.js";
 import template from "./template.precompiled.js";
-import {PageRenderInterface} from "../../page.js";
+import {PageRenderInterface} from "../../page.ts";
 
 /**
  * @class OfferCreatePhotosPage
@@ -111,6 +111,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
      * @private
      */
     _uploadFiles(files: Array<File>) {
+        console.log('?');
         files.forEach((file) => {
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();

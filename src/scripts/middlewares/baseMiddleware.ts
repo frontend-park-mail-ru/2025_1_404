@@ -1,4 +1,4 @@
-import BaseRoute from "../routes/baseRoute.js";
+import BaseRoute from "../routes/baseRoute.ts";
 
 /**
  * @class BaseMiddleware

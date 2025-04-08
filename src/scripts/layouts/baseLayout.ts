@@ -1,8 +1,8 @@
 import Loader from "../components/loader";
 import ProgressBar from "../components/progressBar";
-import RouteManager from "../managers/routeManager/routeManager.js";
-import User from "../models/user.js";
-import {Page, PageRenderInterface} from "../pages/page.js";
+import RouteManager from "../managers/routeManager/routeManager.ts";
+import User from "../models/user.ts";
+import {Page, PageRenderInterface} from "../pages/page.ts";
 
 
 /**

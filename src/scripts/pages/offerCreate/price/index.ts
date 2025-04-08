@@ -1,8 +1,8 @@
 
-import OfferCreate from "../../../models/offerCreate.js";
-import OfferPage from "../page.js";
+import OfferCreate from "../../../models/offerCreate.ts";
+import OfferPage from "../page.ts";
 import template from "./template.precompiled.js";
-import {PageRenderInterface} from "../../page.js";
+import {PageRenderInterface} from "../../page.ts";
 
 /**
  * @class OfferCreatePricePage

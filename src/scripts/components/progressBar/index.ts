@@ -1,4 +1,4 @@
-import {BaseComponent, BaseComponentInterface} from "../baseComponent.js";
+import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import template from './template.precompiled.js';
 
 /**

@@ -1,7 +1,7 @@
-import {BaseComponent, BaseComponentInterface} from "../baseComponent.js";
-import RouteManager from "../../managers/routeManager/routeManager.js";
-import User from "../../models/user.js";
-import {validateFormInput} from "../../util/validatorUtil.js";
+import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
+import User from "../../models/user.ts";
+import {validateFormInput} from "../../util/validatorUtil.ts";
 
 /**
  * @class Login

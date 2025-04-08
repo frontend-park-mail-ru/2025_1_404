@@ -1,6 +1,6 @@
 
-import {Page} from "../pages/page.js";
-import {BaseLayout} from "../layouts/baseLayout.js";
+import {Page} from "../pages/page.ts";
+import {BaseLayout} from "../layouts/baseLayout.ts";
 
 export interface BaseComponentInterface {
     page: Page;

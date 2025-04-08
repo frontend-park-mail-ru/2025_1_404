@@ -1,6 +1,6 @@
 
 import Filter from "../../components/filter";
-import {Page, PageRenderInterface} from "../page.js";
+import {Page, PageRenderInterface} from "../page.ts";
 import template from './template.precompiled.js';
 
 /**

@@ -1,8 +1,8 @@
 
 import BaseMiddleware from "./baseMiddleware";
-import RouteManager from "../managers/routeManager/routeManager.js";
-import User from "../models/user.js";
-import BaseRoute from "../routes/baseRoute.js";
+import RouteManager from "../managers/routeManager/routeManager.ts";
+import User from "../models/user.ts";
+import BaseRoute from "../routes/baseRoute.ts";
 
 /**
  * @class AuthMiddleware

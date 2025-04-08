@@ -1,6 +1,6 @@
 
 import {Page, PageRenderInterface} from '../page';
-import {getOfferById} from "../../util/apiUtil.js";
+import {getOfferById} from "../../util/apiUtil.ts";
 import offerDetailsHeaderTemplate from "../../components/offerDetailsHeader/template.precompiled.js";
 import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template.precompiled.js";
 import offerDetailsSliderTemplate from "../../components/offerDetailsSlider/template.precompiled.js";

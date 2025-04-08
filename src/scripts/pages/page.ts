@@ -1,5 +1,5 @@
 
-import {BaseLayout} from "../layouts/baseLayout.js";
+import {BaseLayout} from "../layouts/baseLayout.ts";
 
 export interface PageRenderInterface {
     /**

@@ -1,5 +1,5 @@
-import {getZhkLine, getZhkPhone} from "../../../util/apiUtil.js";
-import {BaseComponent, BaseComponentInterface} from "../../baseComponent.js";
+import {getZhkLine, getZhkPhone} from "../../../util/apiUtil.ts";
+import {BaseComponent, BaseComponentInterface} from "../../baseComponent.ts";
 import getMetroColorByLineName from "../../../util/metroUtil";
 import metroStationTemplate from "../../metroStation/template.precompiled.js";
 
