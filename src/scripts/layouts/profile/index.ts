@@ -23,7 +23,7 @@ class ProfileLayout extends MainLayout {
             render: ({root, props}: PageRenderInterface) => {
                 super.process(page).render({props, root});
                 this._profileLeft = new ProfileLeft({page, layout: this});
-                if (props && props.activeProfileTabIndex && typeof props.activeProfileTabIndex === 'number') {
+                if (props && typeof props.activeProfileTabIndex === 'number') {
                     this._profileLeft.setActiveProfileTab(props.activeProfileTabIndex as number);
                 }
             },

@@ -9,7 +9,7 @@ import {BaseComponent, BaseComponentInterface} from "../../baseComponent.ts";
 export default class HousingComplexReviews extends BaseComponent {
     private _reviews: NodeListOf<Element> | undefined;
     private _loadReviewsButton: HTMLElement | null | undefined;
-    private _visibleReviews: number | undefined;
+    private _visibleReviews: number = 0;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -52,7 +52,7 @@ export default class HousingComplexReviews extends BaseComponent {
      */
     _showMoreReviews() {
         const reviewsPerClick = 3;
-        if (!this._reviews || !this._visibleReviews) {
+        if (!this._reviews) {
             return;
         }
         for (let it = this._visibleReviews; it < this._visibleReviews + reviewsPerClick; it++) {

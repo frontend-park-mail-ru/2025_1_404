@@ -141,7 +141,7 @@ class User {
         if (!this._isAuthenticated) {
             return null;
         }
-        return this.userData;
+        return {...this.userData};
     }
 
     /**
