@@ -12,6 +12,7 @@
     </div>
 </div>
 <div class="slider__previews-wrapper">
+    {{> ChevronLeft id="sliderPreviewsChevronLeft" class="slider__previews-control" }}
     <div class="slider__previews {{previews}}">
         {{#each images}}
             <div id="sliderPreview-{{@index}}" class="slider__previews-preview">
@@ -19,8 +20,5 @@
             </div>
         {{/each}}
     </div>
-    <div class="slider__previews-controls">
-        {{> ChevronLeft id="sliderPreviewsChevronLeft" }}
-        {{> ChevronRight id="sliderPreviewsChevronRight" }}
-    </div>
+    {{> ChevronRight id="sliderPreviewsChevronRight" class="slider__previews-control" }}
 </div>

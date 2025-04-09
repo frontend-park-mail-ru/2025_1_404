@@ -63,7 +63,7 @@ export default class PicturesCarouselPreviews extends BaseComponent {
             return;
         }
         this._previewsCarousel.style.transform = `translateX(${-(this._previewsIndex * slidePercent)}%)`;
-        // this._setActivePreview("sliderPreview-" + this._previewsIndex);
+        this._toggleActivePreview("sliderPreview-" + this._previewsIndex);
     }
 
     /**
