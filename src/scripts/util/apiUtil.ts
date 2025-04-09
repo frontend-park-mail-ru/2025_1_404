@@ -332,7 +332,10 @@ const zhk = {
  * @description Функция для получения информации о ЖК.
  * @returns {Promise<null>} Ответ от сервера
  */
-export const getHousingComplex = async () => await zhk;
+export const getHousingComplex = async (id: number) => await makeRequest({
+    endpoint: '/zhk/'.concat(id.toString()),
+    method: 'GET'
+});
 
 /**
  * @interface LoginInterface

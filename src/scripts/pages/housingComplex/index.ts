@@ -25,11 +25,16 @@ export default class HousingComplexPage extends Page {
      * @function render
      * @description Метод рендеринга страницы.
      * @param {HTMLElement} root корневой элемент страницы
+     * @param {BaseLayout} layout макет страницы
+     * @param {Record<string, unknown>} props параметры страницы
      */
-    render({root, layout}: PageRenderInterface) {
+    render({root, layout, props}: PageRenderInterface) {
+        if (!props || typeof props.id !== 'number') {
+            return;
+        }
         root.innerHTML = template();
         super.render({root});
-        this._getInformation()
+        this._getInformation(props.id)
         .then ((data) => {
             const housingComplexInformation = document.getElementById('housingComplexInformation');
             if (housingComplexInformation !== null) {
@@ -74,8 +79,8 @@ export default class HousingComplexPage extends Page {
      * @returns {Promise<null | void>} промис с данными о ЖК.
      * @private
      */
-    _getInformation() {
-        return getHousingComplex()
+    _getInformation(id: number) {
+        return getHousingComplex(id)
         .then((data) => data)
         .catch ((error) => {
             console.warn(error);

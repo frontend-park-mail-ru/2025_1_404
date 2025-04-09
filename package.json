@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@vitejs/plugin-legacy": "^6.0.2",
     "eslint": "^9.21.0",
     "eslint-plugin-jsdoc": "^50.6.9",
     "globals": "^16.0.0",
