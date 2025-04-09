@@ -3,8 +3,11 @@ import {Page, PageRenderInterface} from '../page';
 import {getOfferById} from "../../util/apiUtil.ts";
 import offerDetailsHeaderTemplate from "../../components/offerDetailsHeader/template.precompiled.js";
 import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template.precompiled.js";
-import offerDetailsSliderTemplate from "../../components/offerDetailsSlider/template.precompiled.js";
+import offerDetailsSliderTemplate from "../../components/offerDetailsLeft/template.precompiled.js";
 import template from "./template.precompiled.js";
+import Map from "../../models/map";
+import HousingComplexSlider from "../../components/housingComplex/housingComplexSlider";
+import OfferDetailsLeft from "../../components/offerDetailsLeft";
 
 /**
  * @class offerDetailsPage
@@ -12,6 +15,8 @@ import template from "./template.precompiled.js";
  * @augments Page
  */
 export default class OfferDetailsPage extends Page {
+    private map: Map | undefined;
+    private _offerDetailsLeft: OfferDetailsLeft | undefined;
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -25,10 +30,19 @@ export default class OfferDetailsPage extends Page {
         .then ((data) => {
             const offerDetailsHeader = document.getElementById("offerDetailsHeader") as HTMLElement;
             const offerDetailsLeft = document.getElementById("offerDetailsLeft") as HTMLElement;
+            if (this._offerDetailsLeft !== null) {
+                offerDetailsLeft.innerHTML = offerDetailsSliderTemplate(data);
+            }
+
             const offerDetailsInfo = document.getElementById("offerDetailsInfo") as HTMLElement;
             offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate(data);
-            offerDetailsLeft.innerHTML = offerDetailsSliderTemplate(data);
             offerDetailsInfo.innerHTML = offerDetailsInfoTemplate(data);
+
+            this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
+
+            const coords: [number, number] = [55.557729, 37.313484];
+            this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
+            this.map.addHouse({coords: coords});
         })
     }
 

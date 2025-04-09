@@ -205,8 +205,14 @@ const offer = {
     Area:         60.5,
     Rooms:        2,
     Price:        10000000,
-    Photos:       "https://images.cdn-cian.ru/images/kvartira-moskva-shmitovskiy-proezd-2239195740-1.jpg",
-    Description:  "Просторная квартира в центре города.",
+    Photos:       [
+        "https://images.cdn-cian.ru/images/kvartira-moskva-shmitovskiy-proezd-2239195740-1.jpg",
+        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907645-1.jpg",
+        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907625-1.jpg",
+        "https://images.cdn-cian.ru/images/kvartira-moskva-shmitovskiy-proezd-2239195740-1.jpg",
+        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907645-1.jpg",
+        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907625-1.jpg"],
+    Description:  "Уютная квартира с двумя спальными комнатами, панорамными окнами и балконами. 'Фрунзенская набережная' - неповторимый элитный клубный город-парк в престижном и желанном месте на Фрунзенской набережной, где нет...",
 }
 
 /**

@@ -31,7 +31,7 @@ import OfferCreateStage from "../components/offerCreateStage/template.precompile
 import OfferCreateTitle from "../components/offerCreateTitle/template.precompiled.js";
 import OfferDetailsHeader from "../components/offerDetailsHeader/template.precompiled.js";
 import OfferDetailsInfo from "../components/offerDetailsInfo/template.precompiled.js";
-import OfferDetailsSlider from "../components/offerDetailsSlider/template.precompiled.js";
+import OfferDetailsSlider from "../components/offerDetailsLeft/template.precompiled.js";
 import PicturesCarousel from '../components/picturesCarousel/template.precompiled.js';
 import PrimaryButton from '../components/primaryButton/template.precompiled.js';
 import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
@@ -42,6 +42,8 @@ import ProgressBar from "../components/progressBar/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
 import SearchOffer from "../components/searchOffer/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
+import OfferDetailsLeft from "../components/offerDetailsLeft/template.precompiled.js";
+import PicturesCarouselPreviews from "../components/picturesCarouselPreviews/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -80,7 +82,7 @@ export default function registerComponents() {
         [OfferCreateTitle, 'OfferCreateTitle'],
         [OfferDetailsHeader, 'OfferDetailsHeader'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],
-        [OfferDetailsSlider, 'OfferDetailsSlider'],
+        [OfferDetailsLeft, 'OfferDetailsLeft'],
         [PicturesCarousel, 'PicturesCarousel'],
         [PrimaryButton, 'PrimaryButton'],
         [ProfileDataInput, 'ProfileDataInput'],
@@ -90,7 +92,8 @@ export default function registerComponents() {
         [ProgressBar, 'ProgressBar'],
         [RedButton, 'RedButton'],
         [SearchOffer, 'SearchOffer'],
-        [UserAvatar, 'UserAvatar']
+        [UserAvatar, 'UserAvatar'],
+        [PicturesCarouselPreviews, 'PicturesCarouselPreviews'],
     ];
 
     components.forEach(([component, name]) => {

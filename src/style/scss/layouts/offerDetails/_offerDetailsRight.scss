@@ -1,6 +1,8 @@
 .offerDetails__right {
+  position: sticky;
+  top: 70px;
   width: 45%;
-  height: 100%;
+  height: fit-content;
   border: 1px solid $light-grey;
   border-radius: 12px;
   padding: 20px 30px;

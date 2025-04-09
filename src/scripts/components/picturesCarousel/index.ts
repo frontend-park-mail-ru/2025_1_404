@@ -28,8 +28,8 @@ export default class PicturesCarousel extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('chevronRight', 'click', this._slideToRight);
-        this.initListener('chevronLeft', 'click', this._slideToLeft);
+        this.initListener('housingComplexSliderChevronRight', 'click', this._slideToRight);
+        this.initListener('housingComplexSliderChevronLeft', 'click', this._slideToLeft);
     }
 
     /**

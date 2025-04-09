@@ -1,10 +1,12 @@
 .offerDetails {
+  padding-top: 1.25em;
+  padding-bottom: 3.5em;
+  height: 100%;
 
   &__inner {
-    margin-top: 40px;
     display: flex;
+    position: relative;
     flex-direction: column;
-    align-items: start;
     gap: 25px;
   }
 
@@ -37,5 +39,6 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    position: relative;
   }
 }
