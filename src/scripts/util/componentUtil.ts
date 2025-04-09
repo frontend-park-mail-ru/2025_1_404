@@ -31,7 +31,7 @@ import OfferCreateStage from "../components/offerCreateStage/template.precompile
 import OfferCreateTitle from "../components/offerCreateTitle/template.precompiled.js";
 import OfferDetailsHeader from "../components/offerDetailsHeader/template.precompiled.js";
 import OfferDetailsInfo from "../components/offerDetailsInfo/template.precompiled.js";
-import OfferDetailsSlider from "../components/offerDetailsLeft/template.precompiled.js";
+import OfferDetailsLeft from "../components/offerDetailsLeft/template.precompiled.js";
 import PicturesCarousel from '../components/picturesCarousel/template.precompiled.js';
 import PrimaryButton from '../components/primaryButton/template.precompiled.js';
 import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
@@ -42,13 +42,13 @@ import ProgressBar from "../components/progressBar/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
 import SearchOffer from "../components/searchOffer/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
-import OfferDetailsLeft from "../components/offerDetailsLeft/template.precompiled.js";
 import PicturesCarouselPreviews from "../components/picturesCarouselPreviews/template.precompiled.js";
 
 /**
  * @function registerComponents
  * @description Регистрация компонентов
  */
+// eslint-disable-next-line max-lines-per-function
 export default function registerComponents() {
     const components: [Handlebars.TemplateDelegate, string][] = [
         [BackgroundlessButton, 'BackgroundlessButton'],

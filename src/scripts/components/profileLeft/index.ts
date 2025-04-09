@@ -112,8 +112,12 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _removeAvatarHandler() {
-        // TODO
-        console.log('123')
+        this._resetApiError();
+        User.removeAvatar().then(() => {
+            RouteManager.navigateToPageByCurrentURL();
+        }).catch((err: Error) => {
+            this._showApiError(err);
+        })
     }
 
     /**
@@ -132,22 +136,36 @@ export default class ProfileLeft extends BaseComponent {
                 const source = event.target.result.toString();
                 this._addAvatar(source);
 
-                const apiError = document.getElementById('profile-api-error');
-                if (!apiError) {
-                    return;
-                }
-                apiError.classList.remove('error__visible');
-                apiError.textContent = '';
+                this._resetApiError();
 
                 User.updateAvatar({avatar: file}).then(() => {
                     RouteManager.navigateToPageByCurrentURL();
                 }).catch((err) => {
-                    apiError.classList.add('error__visible');
-                    apiError.textContent = err.message;
+                    this._showApiError(err);
                 })
             };
             reader.readAsDataURL(file);
         }
+    }
+
+    /**
+     * @function _resetApiError
+     * @description Метод сброса ошибки API
+     */
+    _resetApiError() {
+        const apiError = document.getElementById('profile-api-error') as HTMLElement;
+        apiError.classList.remove('error__visible');
+    }
+
+    /**
+     * @function _showApiError
+     * @description Метод отображения ошибки API
+     * @param {Error} error ошибка API
+     */
+    _showApiError(error: Error) {
+        const apiError = document.getElementById('profile-api-error') as HTMLElement;
+        apiError.textContent = error.message;
+        apiError.classList.add('error__visible');
     }
 
     /**
@@ -158,8 +176,6 @@ export default class ProfileLeft extends BaseComponent {
      */
     _profileDataHandler(event: Event) {
         event.preventDefault();
-
-        const apiError = document.getElementById('profile-api-error');
 
         if (!event.target) {
             return;
@@ -190,6 +206,7 @@ export default class ProfileLeft extends BaseComponent {
         if (!this.currentData || !this.layout) {
             return;
         }
+        this._resetApiError();
         this.layout.makeRequest(User.updateProfile.bind(User), {
             first_name: this.currentData.firstName,
             last_name: this.currentData.lastName,
@@ -197,11 +214,7 @@ export default class ProfileLeft extends BaseComponent {
         } as ProfileInterface).then(() => {
             RouteManager.navigateToPageByCurrentURL();
         }).catch((err: Error) => {
-            if (!apiError) {
-                return;
-            }
-            apiError.classList.add('error__visible');
-            apiError.textContent = err.message;
+            this._showApiError(err);
         })
     }
 

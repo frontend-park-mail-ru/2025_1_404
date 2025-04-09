@@ -9,6 +9,7 @@ import housingComplexInformationTemplate
     from "../../components/housingComplex/housingComplexInformation/template.precompiled.js";
 import housingComplexSliderTemplate from "../../components/housingComplex/housingComplexSlider/template.precompiled.js";
 import template from "./template.precompiled.js";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
 
 
 /**
@@ -76,14 +77,15 @@ export default class HousingComplexPage extends Page {
     /**
      * @function _getInformation
      * @description Метод получения информации о ЖК.
-     * @returns {Promise<null | void>} промис с данными о ЖК.
+     * @param {number} id id ЖК
+     * @returns {Promise<unknown>} Промис с информацией о ЖК
      * @private
      */
     _getInformation(id: number) {
         return getHousingComplex(id)
         .then((data) => data)
-        .catch ((error) => {
-            console.warn(error);
+        .catch (() => {
+            RouteManager.navigateTo('/');
         });
     }
 }

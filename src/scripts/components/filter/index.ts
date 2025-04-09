@@ -91,7 +91,6 @@ export default class Filter extends BaseComponent {
         if (typeof this._filterData[currentTarget.name] === 'string') {
             this._filterData[currentTarget.name] = currentTarget.value;
         }
-        console.log(this._filterData);
     }
 
     /**
@@ -117,10 +116,8 @@ export default class Filter extends BaseComponent {
             const currentSet = this._filterData[selectButton.id] as Set<string>;
             if (elem.classList.toggle('checked')) {
                 currentSet.add(elem.children[1].textContent)
-                console.log(this._filterData);
             } else {
                 currentSet.delete(elem.children[1].textContent)
-                console.log(this._filterData);
             }
         }
         const checked = elem.parentElement.querySelectorAll('.checked');

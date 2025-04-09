@@ -26,7 +26,7 @@ export class HousingComplexRoute extends BaseRoute {
      * @param {number} id ID жилищного комплекса.
      */
     process({id}: HousingComplexRouteParams) {
-        const idNumber = parseInt(id);
+        const idNumber = parseInt(id, 10);
         if (isNaN(idNumber)) {
             RouteManager.navigateTo('/');
             return;

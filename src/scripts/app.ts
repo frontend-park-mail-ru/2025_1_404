@@ -8,16 +8,23 @@ import registerPages from "./util/pageUtil.ts";
 import registerRoutes from "./util/routeUtil.ts";
 
 /**
+ * @function initServiceWorker
+ * @description Инициализация Service Worker
+ */
+const initServiceWorker = function() {
+    if (!('serviceWorker' in navigator)) {
+        console.warn('Service Worker не поддерживается вашим браузером.');
+        return;
+    }
+    navigator.serviceWorker.register('/scripts/serviceWorker.js', {scope: '/'});
+}
+
+/**
  * @function init
  * @description Инициализация приложения
  */
 const init = function() {
-    if (!('serviceWorker' in navigator)) {
-        console.warn('Service Worker не поддерживается вашим браузером.');
-    }
-    else {
-        navigator.serviceWorker.register('/scripts/serviceWorker.js', {scope: '/'});
-    }
+    initServiceWorker();
 
     registerComponents();
     registerPages();

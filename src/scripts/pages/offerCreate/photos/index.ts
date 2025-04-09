@@ -54,7 +54,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
      * @private
      */
     _addPhotoPreview(source: string) {
-        if (this._photosPreviewsCounter === undefined || !this._photosPreviewsList) {
+        if (typeof this._photosPreviewsCounter !== 'number' || !this._photosPreviewsList) {
             return;
         }
         this._photosPreviewsCounter += 1;
@@ -158,7 +158,6 @@ export default class OfferCreatePhotosPage extends OfferPage {
      * @function _photoPreviewClickHandler
      * @description Обработчик события клика на превью фото
      * @param {Event} event событие клика
-     * @param {HTMLElement} target элемент, на который кликнули
      * @private
      */
     _photoPreviewClickHandler(event: Event,) {

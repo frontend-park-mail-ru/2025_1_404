@@ -49,6 +49,7 @@ export default [
             "no-warning-comments": "off",
             "one-var":"off",
             "prefer-template": "off",
+            "prefer-destructuring": "off",
             "strict": "off",
             "sort-keys": "off",
             "sort-imports": ["error", { "ignoreDeclarationSort": true }],

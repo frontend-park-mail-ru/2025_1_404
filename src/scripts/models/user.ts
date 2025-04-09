@@ -1,5 +1,13 @@
 
-import {getProfile, login, logout, registerAccount, updateAvatar, updateProfile} from "../util/apiUtil.ts";
+import {
+    getProfile,
+    login,
+    logout,
+    registerAccount,
+    removeAvatar,
+    updateAvatar,
+    updateProfile
+} from "../util/apiUtil.ts";
 
 interface UpdateProfileInterface {
     /**
@@ -178,11 +186,26 @@ class User {
             throw new Error('User is not authenticated');
         }
         await updateAvatar({avatar}).then((response) => {
-            this.userData.avatar = response.image;
+            this._parseData(response);
+            return this.getData();
         }
         ).catch((error) => {
             throw error;
         });
+    }
+
+    /**
+     * @function removeAvatar
+     * @description Метод удаления аватара пользователя на сервере.
+     */
+    async removeAvatar() {
+        if (!this._isAuthenticated) {
+            throw new Error('User is not authenticated');
+        }
+        await removeAvatar().then((response) => {
+            this._parseData(response);
+            return this.getData();
+        })
     }
 
     /**

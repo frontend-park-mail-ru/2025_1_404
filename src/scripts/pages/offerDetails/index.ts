@@ -6,7 +6,6 @@ import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template
 import offerDetailsSliderTemplate from "../../components/offerDetailsLeft/template.precompiled.js";
 import template from "./template.precompiled.js";
 import Map from "../../models/map";
-import HousingComplexSlider from "../../components/housingComplex/housingComplexSlider";
 import OfferDetailsLeft from "../../components/offerDetailsLeft";
 
 /**
@@ -42,7 +41,7 @@ export default class OfferDetailsPage extends Page {
 
             const coords: [number, number] = [55.557729, 37.313484];
             this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
-            this.map.addHouse({coords: coords});
+            this.map.addHouse({coords});
         })
     }
 
