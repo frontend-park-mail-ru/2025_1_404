@@ -5,7 +5,7 @@
                 <span>Расположение</span>
             </div>
             <div class="housingComplex__info-block-address">
-                <span>{{general.address}}</span>
+                <span>{{address}}</span>
             </div>
             <div class="housingComplex__info-block-metro">
                 
@@ -27,15 +27,15 @@
                         </div>
                         <div class="characteristic__text-content">
                             <span>
-                                {{general.characteristics.square.lowestSquare}}
+                                {{characteristics.square.lowest_square}}
                                 -
-                                {{general.characteristics.square.highestSquare}}
+                                {{characteristics.square.highest_square}}
                                 м²
                             </span>
                         </div>
                     </div>
                 </div>
-                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-star" label="Класс" content=general.characteristics.class}}
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-star" label="Класс" content=characteristics.class}}
 
                 <div class="housingComplex__info-characteristic">
                     <div class="characteristic__icon">
@@ -47,9 +47,9 @@
                         </div>
                         <div class="characteristic__text-content">
                             <span>
-                                {{general.characteristics.floors.lowestFloor}}
+                                {{characteristics.floors.lowest_floor}}
                                 -
-                                {{general.characteristics.floors.highestFloor}}
+                                {{characteristics.floors.highest_floor}}
                             </span>
                         </div>
                     </div>
@@ -65,16 +65,16 @@
                         </div>
                         <div class="characteristic__text-content">
                             <span>
-                                {{general.characteristics.ceilingHeight.lowestHeight}}
+                                {{characteristics.ceiling_height.lowest_height}}
                                 -
-                                {{general.characteristics.ceilingHeight.highestHeight}}
+                                {{characteristics.ceiling_height.highest_height}}
                                 м
                             </span>
                         </div>
                     </div>
                 </div>
-                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-paint-roller" label="Виды отделок" content=general.characteristics.decoration}}
-                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-building" label="Количество корпусов" content=general.characteristics.buildings}}
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-paint-roller" label="Виды отделок" content=(join characteristics.decoration) }}
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-building" label="Количество корпусов" content='-'}}
             </div>
         </div>
         <div class="housingComplex__info-block">
@@ -82,7 +82,7 @@
                 <span>Квартиры от застройщика</span>
             </div>
             <div class="housingComplex__info-apartments">
-                {{#each general.appartments}}
+                {{#each apartments.items}}
                     <div class="housingComplex__info-apartment">
                         <div class="housingComplex__info-apartment-info">
                             <span class="housingComplex__info-apartment-square">{{rooms}}-комн. от {{minSquare}} м²</span>
@@ -102,7 +102,7 @@
                 <span>Описание</span>
             </div>
             <div class="housingComplex__info-description">
-                <span>{{general.description}}</span>
+                <span>{{description}}</span>
             </div>
         </div>
 

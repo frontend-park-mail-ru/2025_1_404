@@ -1,6 +1,7 @@
 
 import BaseRoute from "./baseRoute.ts";
 import PageManager from "../managers/pageManager.ts";
+import RouteManager from "../managers/routeManager/routeManager.ts";
 
 /**
  * @interface HousingComplexRouteParams
@@ -10,7 +11,7 @@ interface HousingComplexRouteParams {
     /**
      * ID жилищного комплекса.
      */
-    id: number;
+    id: string;
 }
 
 /**
@@ -25,6 +26,11 @@ export class HousingComplexRoute extends BaseRoute {
      * @param {number} id ID жилищного комплекса.
      */
     process({id}: HousingComplexRouteParams) {
-        PageManager.renderPage('zhk', {id});
+        const idNumber = parseInt(id);
+        if (isNaN(idNumber)) {
+            RouteManager.navigateTo('/');
+            return;
+        }
+        PageManager.renderPage('zhk', {id: idNumber});
     }
 }

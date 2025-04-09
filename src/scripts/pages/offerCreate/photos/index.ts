@@ -54,7 +54,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
      * @private
      */
     _addPhotoPreview(source: string) {
-        if (!this._photosPreviewsCounter || !this._photosPreviewsList) {
+        if (this._photosPreviewsCounter === undefined || !this._photosPreviewsList) {
             return;
         }
         this._photosPreviewsCounter += 1;
@@ -111,7 +111,6 @@ export default class OfferCreatePhotosPage extends OfferPage {
      * @private
      */
     _uploadFiles(files: Array<File>) {
-        console.log('?');
         files.forEach((file) => {
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();

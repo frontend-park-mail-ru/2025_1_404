@@ -18,6 +18,13 @@ const split = function(str: string) {
     return str.split(';');
 }
 
+const join = function(array: string[]) {
+    if (!array) {
+        return '';
+    }
+    return array.join(', ');
+};
+
 /**
  * @function registerHandlebarsHelpers
  * @description Регистрация хелперов Handlebars
@@ -25,4 +32,5 @@ const split = function(str: string) {
 export default function registerHandlebarsHelpers() {
     Handlebars.registerHelper('renderRating', renderRating);
     Handlebars.registerHelper('split', split);
+    Handlebars.registerHelper('join', join);
 }

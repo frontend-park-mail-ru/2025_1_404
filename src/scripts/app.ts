@@ -12,7 +12,12 @@ import registerRoutes from "./util/routeUtil.ts";
  * @description Инициализация приложения
  */
 const init = function() {
-    navigator.serviceWorker.register('/scripts/serviceWorker.js', {scope: '/'});
+    if (!('serviceWorker' in navigator)) {
+        console.warn('Service Worker не поддерживается вашим браузером.');
+    }
+    else {
+        navigator.serviceWorker.register('/scripts/serviceWorker.js', {scope: '/'});
+    }
 
     registerComponents();
     registerPages();
