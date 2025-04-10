@@ -4,6 +4,7 @@ const isUrlInCacheWhitelist = (url) => {
     const ALLOWED_DOMAINS = [
         '127.0.0.1:8000',
         'localhost:8000',
+        '217.16.22.143:8000',
         'fonts.googleapis.com',
         'tile.openstreetmap.org',
         'nominatim.openstreetmap.org',
