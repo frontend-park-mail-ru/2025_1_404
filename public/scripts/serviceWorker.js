@@ -1,6 +1,6 @@
 const CACHE_NAME = 'offline';
 
-const isUrlInCacheWhitelist = (url: string) => {
+const isUrlInCacheWhitelist = (url) => {
     const ALLOWED_DOMAINS = [
         '127.0.0.1:8000',
         'localhost:8000',
@@ -14,13 +14,13 @@ const isUrlInCacheWhitelist = (url: string) => {
     return ALLOWED_DOMAINS.includes(urlObject.host);
 }
 
-self.addEventListener('install', (event: ExtendableEvent) => {
+self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
     )
 })
 
-self.addEventListener('fetch', (event: FetchEvent) => {
+self.addEventListener('fetch', (event) => {
     const needToCache = isUrlInCacheWhitelist(event.request.url);
     event.respondWith(
         fetch(event.request).then((response) => {
