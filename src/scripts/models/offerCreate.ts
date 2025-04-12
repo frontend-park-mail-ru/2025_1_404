@@ -1,3 +1,6 @@
+import {createOffer, CreateOfferInterface} from "../util/apiUtil.ts";
+import Offer from "./offer.ts";
+import RouteManager from "../managers/routeManager/routeManager.ts";
 
 /**
  * @class OfferCreate
@@ -5,6 +8,7 @@
  */
 class OfferCreate {
     private _offerData: Record<string, Record<string, string>> = {};
+    private _uploadedImages: Record<string, File> = {}
     private _filledPages: Record<string, boolean> = {};
     /**
      * @description Конструктор класса.
@@ -37,6 +41,10 @@ class OfferCreate {
      */
     setData(pageName: string, data: Record<string, string>) {
         this._offerData[pageName] = data;
+    }
+
+    setImages(images: Record<string, File>) {
+        this._uploadedImages = images;
     }
 
     /**
@@ -80,6 +88,11 @@ class OfferCreate {
      */
     getLastFilledPage() {
         return Object.keys(this._filledPages).reverse().find((pageName) => this._filledPages[pageName]) || 'type';
+    }
+
+    async create() {
+        const offer = new Offer(this._offerData, this._uploadedImages);
+        return await offer.create();
     }
 
 }

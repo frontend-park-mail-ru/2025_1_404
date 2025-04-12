@@ -36,15 +36,6 @@ export default class OfferCreateBtns extends BaseComponent {
     }
 
     /**
-     * @function _submitButtonClickHandler
-     * @description Обработчик клика по кнопке завершения создания объявления.
-     * @private
-     */
-    _submitButtonClickHandler(){
-
-    }
-
-    /**
      * @function _deleteButtonClickHandler
      * @description Обработчик клика по кнопке удаления объявления.
      * @private
@@ -60,6 +51,18 @@ export default class OfferCreateBtns extends BaseComponent {
      */
     _saveButtonClickHandler() {
 
+    }
+
+    /**
+     * @function _submitButtonClickHandler
+     * @description Обработчик клика по кнопке отправки объявления.
+     * @private
+     */
+    _submitButtonClickHandler() {
+        if (!this.layout) {
+            return;
+        }
+        this.layout.emit('submitPage');
     }
 
     /**

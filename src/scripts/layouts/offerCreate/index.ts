@@ -33,6 +33,7 @@ class OfferCreateLayout extends MainLayout {
         this.on('nextPage', this._handleNextPage.bind(this));
         this.on('prevPage', this._handlePrevPage.bind(this));
         this.on('pageFilled', this._handlePageFilled.bind(this));
+        this.on('submitPage', this._handlePageSubmit.bind(this));
     }
 
     /**
@@ -70,6 +71,11 @@ class OfferCreateLayout extends MainLayout {
             initListeners: page.initListeners,
             initListener: page.initListener,
             removeListeners: page.removeListeners,
+            formInputHandler: page.formInputHandler,
+            resetApiError: page.resetApiError,
+            showApiError: page.showApiError,
+            showFieldError: page.showFieldError,
+            validateFormFields: page.validateFormFields,
         }
     }
 
@@ -84,14 +90,12 @@ class OfferCreateLayout extends MainLayout {
         }
         if (OfferCreate.isPageFilled(this._currentPage)) {
             if (this._currentPage === this._allPages[this._allPages.length - 1]) {
-                console.log("BBB");
                 this._offerCreateBtns.enableSubmitButton();
                 return;
             }
             this._offerCreateBtns.enableNextButton();
         } else {
             if (this._currentPage === this._allPages[this._allPages.length - 1]) {
-                console.log("CCC");
                 this._offerCreateBtns.disableSubmitButton();
                 return;
             }
@@ -188,6 +192,21 @@ class OfferCreateLayout extends MainLayout {
             }
             this._offerCreateBtns.disableNextButton();
         }
+    }
+
+    /**
+     * @function _handlePageSubmit
+     * @description Обработчик события отправки страницы.
+     */
+    async _handlePageSubmit() {
+        if (!this._currentPage) {
+            return;
+        }
+        await this.makeRequest(OfferCreate.create.bind(OfferCreate)).then((offerId) => {
+            if (typeof offerId === 'number') {
+                RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
+            }
+        });
     }
 
     /**

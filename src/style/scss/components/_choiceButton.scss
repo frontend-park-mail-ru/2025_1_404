@@ -17,4 +17,9 @@
     border: 1px solid $darker-blue;
     color: $darker-blue;
   }
+
+  &-button:disabled + &-label {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }

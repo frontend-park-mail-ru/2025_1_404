@@ -50,15 +50,17 @@ export default class OfferCreatePhotosPage extends OfferPage {
     /**
      * @function _addPhotoPreview
      * @description Метод добавления превью фото в список
-     * @param {string} source адрес фото
+     * @param {File} file адрес фото
+     * @param {string} source объект FileReader
      * @private
      */
-    _addPhotoPreview(source: string) {
+    _addPhotoPreview(file: File, source: string) {
         if (typeof this._photosPreviewsCounter !== 'number' || !this._photosPreviewsList) {
             return;
         }
         this._photosPreviewsCounter += 1;
         this._offerData[this._photosPreviewsCounter] = source;
+        this._uploadedImages[this._photosPreviewsCounter] = file;
         this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));
     }
 
@@ -120,8 +122,10 @@ export default class OfferCreatePhotosPage extends OfferPage {
                     }
                     const target = event.target as FileReader;
                     if (target.result) {
-                        this._addPhotoPreview(target.result.toString());
+                        this._addPhotoPreview(file, target.result.toString());
                         OfferCreate.setData(this._pageName, this._offerData);
+                        OfferCreate.setImages(this._uploadedImages);
+
                         this._markAsFullfilled(Object.keys(this._offerData).length > 0);
                     }
                 };
@@ -179,8 +183,10 @@ export default class OfferCreatePhotosPage extends OfferPage {
 
             const photoPreview = currentTarget.id
             delete this._offerData[photoPreview];
+            delete this._uploadedImages[photoPreview];
 
             OfferCreate.setData(this._pageName, this._offerData);
+            OfferCreate.setImages(this._uploadedImages);
             this._markAsFullfilled(Object.keys(this._offerData).length > 0);
             currentTarget.remove();
         }
@@ -192,8 +198,11 @@ export default class OfferCreatePhotosPage extends OfferPage {
      * @private
      */
     _setDataFromModel() {
-        Object.keys(this._offerData).forEach(photo => {
-            this._addPhotoPreview(this._offerData[photo]);
+        const _offerData = this._offerData;
+        this._offerData = {};
+        this._uploadedImages = {};
+        Object.keys(_offerData).forEach(photo => {
+            this._addPhotoPreview(this._uploadedImages[photo], _offerData[photo]);
         })
     }
 }

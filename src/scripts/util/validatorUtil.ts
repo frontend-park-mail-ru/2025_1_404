@@ -42,12 +42,12 @@ const validatePassword = function(password: string, additionalChecks=false) {
 
 const validateDoubleNumeric = function(number: string) {
     const num = parseInt(number, 10);
-    return num >= 1 && num <= 99;
+    return !isNaN(num) && num >= 1 && num <= 99;
 }
 
 const validateTripleNumeric = function(number: string) {
     const num = parseInt(number, 10);
-    return num >= 1 && num <= 999;
+    return !isNaN(num) && num >= 1 && num <= 999;
 }
 
 const validateFlat = function(flatNumber: string) {
@@ -59,7 +59,8 @@ const validateAddress = function(address: string) {
 }
 
 const validateNumeric = function(number: string) {
-    return /^[1-9]\d*$/u.test(number);
+    const num = parseInt(number, 10);
+    return !isNaN(num);
 }
 
 /**
@@ -135,6 +136,7 @@ export const validateFormInput = function ({value, name:valueName}: ValidateForm
         }
         return '';
         case 'offer_floor':
+        case 'offer_total_floors':
             if (validateDoubleNumeric(value)) {
                 return '';
             }
@@ -149,6 +151,11 @@ export const validateFormInput = function ({value, name:valueName}: ValidateForm
                 return '';
             }
             return "Неправильный формат адреса";
+        case 'offer_ceiling_height':
+            if (validateDoubleNumeric(value)) {
+                return '';
+            }
+            return "От 1 до 99";
         case 'offer_square':
             if (validateTripleNumeric(value)) {
                 return '';

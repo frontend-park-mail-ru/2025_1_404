@@ -70,20 +70,38 @@ export default class OfferCreateTypePage extends OfferPage {
      * @function _offerDataChange
      * @description Метод изменения данных в модели.
      * @param {Event} event событие
-     * @param {HTMLElement} target целевой элемент
      * @private
      */
     _offerDataChange(event: Event) {
-        event.preventDefault();
+        const response = super._offerDataChange(event);
 
-        if (!event.target) {
-            return;
-        }
         const target = event.target as HTMLInputElement;
-
         if (target.labels && target.labels[0].textContent) {
             this._offerData[target.name] = target.labels[0].textContent;
+            this._handleRentType();
         }
         OfferCreate.setData(this._pageName, this._offerData);
+        OfferCreate.setPageFilled(this._pageName, this._isInputsFilled());
+
+        return response;
+    }
+
+    /**
+     * @function _handleRentType
+     * @description Метод обработки типа аренды.
+     */
+    _handleRentType() {
+        const activeOffetTypeCheckbox = document.querySelector('[name="input-offer-type"]:checked') as HTMLInputElement;
+        if (!activeOffetTypeCheckbox || !activeOffetTypeCheckbox.parentElement) {
+            return;
+        }
+        const activeLabel = activeOffetTypeCheckbox.parentElement.getElementsByTagName('label')[0];
+        const rentTypes = document.querySelectorAll('[name="input-rent-type"]');
+        rentTypes.forEach((rentType) => {
+            if (rentType instanceof HTMLElement) {
+                const rentTypeElement = rentType as HTMLInputElement;
+                rentTypeElement.disabled = activeLabel.textContent === 'Продажа';
+            }
+        });
     }
 }

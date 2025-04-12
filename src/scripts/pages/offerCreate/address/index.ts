@@ -53,7 +53,7 @@ export default class OfferCreateAddressPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreateAddressForm', 'focusout', this._offerDataChange);
+        this.initListener('offerCreateAddressForm', 'change', this._offerDataChange);
     }
 
     /**
@@ -77,43 +77,14 @@ export default class OfferCreateAddressPage extends OfferPage {
 
     }
 
-    /**
-     * @function _isInputsFilled
-     * @description Метод проверки заполненности инпутов.
-     * @returns {boolean} true, если все инпуты заполнены, иначе false
-     * @private
-     */
-    _isInputsFilled() {
-        let isFilled = true;
-        if (Object.keys(this._offerData).length !== 3) {
-            return false;
+    _offerDataChange(event: Event) {
+        const response = super._offerDataChange(event);
+        if (response.result) {
+            if (response.input.id === 'input-address') {
+                this._changeMap(response.input);
+            }
         }
-        for (const key in this._offerData) {
-            if (this._offerData[key] === '') {isFilled = false; return isFilled;}
-        }
-        return isFilled;
-    }
-
-    /**
-     * @function _offerDataChange
-     * @description Метод обработки события изменения данных объявления.
-     * @param {Event} event событие
-     * @param {HTMLElement} target элемент, на который произошло событие
-     * @private
-     */
-    _offerDataChange(event: Event, {target} = event) {
-        event.preventDefault();
-        this.formInputHandler(event);
-
-        const input = target as HTMLInputElement;
-
-        if (input.id === 'input-address') {
-            this._changeMap(input);
-        }
-
-        this._offerData[input.id] = input.value;
-        OfferCreate.setData(this._pageName, this._offerData);
-        this._markAsFullfilled(this._isInputsFilled());
+        return response;
     }
 
     _changeMap(input: HTMLInputElement) {

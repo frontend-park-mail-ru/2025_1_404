@@ -2,6 +2,11 @@ import OfferCreate from "../../models/offerCreate.ts";
 import {Page, PageRenderInterface} from "../page.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 
+export interface OfferDataChangeInterface {
+    result: boolean;
+    input: HTMLInputElement;
+}
+
 /**
  * @class OfferPage
  * @description Базовая Страница создания объявления
@@ -9,15 +14,19 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
  */
 export default class OfferPage extends Page {
     _pageName: string;
+    _inputs: number;
     protected _offerData: Record<string, string> = {};
+    protected _uploadedImages: Record<string, File> = {};
     private _layout: BaseLayout | undefined;
     /**
      * @description Конструктор класса.
      * @param {string} propertyName имя свойства в модели
+     * @param {number} inputs количество инпутов на странице
      */
-    constructor(propertyName: string) {
+    constructor(propertyName: string, inputs: number = 0) {
         super();
         this._pageName = propertyName;
+        this._inputs = inputs;
     }
 
     /**
@@ -66,6 +75,48 @@ export default class OfferPage extends Page {
         if (this._layout) {
             this._layout.emit('pageFilled', isFilled);
         }
+    }
+
+    /**
+     * @function _isInputsFilled
+     * @description Метод проверки заполненности инпутов.
+     * @returns {boolean} true, если все инпуты заполнены, иначе false
+     * @private
+     */
+    _isInputsFilled() {
+        let isFilled = true;
+        console.log(this._offerData);
+        if (Object.keys(this._offerData).length !== this._inputs) {
+            return false;
+        }
+        for (const key in this._offerData) {
+            if (this._offerData[key] === '') {isFilled = false; return isFilled;}
+        }
+        return isFilled;
+    }
+
+
+    /**
+     * @function _offerDataChange
+     * @description Метод обработки события изменения данных объявления.
+     * @param {Event} event событие
+     * @private
+     */
+    _offerDataChange(event: Event): OfferDataChangeInterface {
+        event.preventDefault();
+        const input = event.target as HTMLInputElement;
+
+        let result = true;
+        if (input.type === 'text' || input.type === 'tel') {
+            this._offerData[input.id] = '';
+            result = this.formInputHandler(event);
+            if (result) {
+                this._offerData[input.id] = input.value;
+            }
+            OfferCreate.setData(this._pageName, this._offerData);
+        }
+        this._markAsFullfilled(this._isInputsFilled());
+        return {result, input};
     }
 
     /**

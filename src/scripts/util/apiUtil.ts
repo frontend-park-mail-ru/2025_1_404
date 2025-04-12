@@ -19,7 +19,7 @@ interface MakeRequestInterface {
     /**
      * @property {object} body Тело запроса
      */
-    body?: Record<string, string>;
+    body?: Record<string, string|number>;
     /**
      * @property {string} query Query параметры
      */
@@ -28,6 +28,29 @@ interface MakeRequestInterface {
      * @property {object} files Файлы для загрузки
      */
     files?: Record<string, File>;
+}
+
+/**
+ * @interface UserResponseInterface
+ * @description Интерфейс для ответа от сервера с данными пользователя.
+ */
+export interface UserResponseInterface {
+    /**
+     * @property {string} email Email пользователя.
+     */
+    email: string;
+    /**
+     * @property {string} first_name Имя пользователя.
+     */
+    first_name: string;
+    /**
+     * @property {string} last_name Фамилия пользователя.
+     */
+    last_name: string;
+    /**
+     * @property {string} image Аватар пользователя.
+     */
+    image: string;
 }
 
 /**
@@ -50,7 +73,9 @@ const makeRequest = async ({endpoint, method='GET', body={}, query='', files={}}
     if (files && Object.keys(files).length > 0) {
         const formData = new FormData();
         for (const key of Object.keys(body)) {
-            formData.append(key, body[key]);
+            if (typeof body[key] === 'string') {
+                formData.append(key, body[key]);
+            }
         }
         for (const key of Object.keys(files)) {
             formData.append(key, files[key]);
@@ -92,7 +117,7 @@ export const getOffers = async(queryParams: Object={}) => await makeRequest({
  * @interface RegisterAccountInterface
  * @description Интерфейс для регистрации аккаунта.
  */
-interface RegisterAccountInterface {
+export interface RegisterAccountInterface {
     /**
      * @property {string} email Электронная почта
      */
@@ -141,7 +166,7 @@ export const getProfile = async () => await makeRequest({
  * @interface UpdateProfileInterface
  * @description Интерфейс для обновления профиля.
  */
-interface UpdateProfileInterface {
+export interface UpdateProfileInterface {
     /**
      * @property {string} email Электронная почта
      */
@@ -174,19 +199,28 @@ export const updateProfile = async ({email, first_name, last_name}: UpdateProfil
  * @interface UpdateAvatarInterface
  * @description Интерфейс для обновления аватара пользователя.
  */
-interface UpdateAvatarInterface {
+export interface UpdateAvatarInterface {
     /**
      * @property {File} avatar Файл аватара
      */
     avatar: File;
 }
 
+/**
+ * @function updateAvatar
+ * @description Функция для обновления аватара пользователя.
+ * @param {File} avatar Файл аватара
+ */
 export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await makeRequest({
     endpoint: '/users/image',
     method: 'PUT',
     files: {avatar}
 });
 
+/**
+ * @function removeAvatar
+ * @description Функция для удаления аватара пользователя.
+ */
 export const removeAvatar = async () => await makeRequest({
     endpoint: '/users/image',
     method: 'DELETE'
@@ -241,6 +275,143 @@ const offer = {
 export const getOfferById =  async (id: number) => await offer;
 
 /**
+ * @interface CreateOfferInterface
+ * @description Интерфейс для создания объявления.
+ */
+export interface CreateOfferInterface {
+    /**
+     * @property {string} propertyType Тип недвижимости
+     */
+    propertyType: number;
+    /**
+     * @property {string} offerType Тип предложения
+     */
+    offerType: number;
+    /**
+     * @property {string} purchaseType Тип покупки
+     */
+    purchaseType: number;
+    /**
+     * @property {string} rentType Тип аренды
+     */
+    rentType: number;
+    /**
+     * @property {string} address Адрес
+     */
+    address: string;
+    /**
+     * @property {string} metroLine Линия метро
+     */
+    metroLine: string;
+    /**
+     * @property {string} metroStation Станция метро
+     */
+    metroStation: string;
+    /**
+     * @property {number} floor Этаж
+     */
+    floor: number;
+    /**
+     * @property {number} totalFloors Всего этажей
+     */
+    totalFloors: number;
+    /**
+     * @property {number} area Площадь
+     */
+    area: number;
+    /**
+     * @property {number} rooms Количество комнат
+     */
+    rooms: number;
+    /**
+     * @property {number} price Цена
+     */
+    price: number;
+    /**
+     * @property {string} description Описание
+     */
+    description: string;
+    /**
+     * @property {number} flat Номер квартиры
+     */
+    flat: number;
+    /**
+     * @property {string} ceilingHeight Высота потолков
+     */
+    ceilingHeight: number;
+    /**
+     * @property {number} renovation Ремонт
+     */
+    renovation: number;
+    /**
+     * @property {number} complexId ID ЖК
+     */
+    complexId: number;
+    /**
+     * @property {Array<File>} images Изображения
+     */
+    images: Array<File>;
+}
+
+export const createOffer = async ({...args}: CreateOfferInterface) => await makeRequest({
+    endpoint: '/offers',
+    method: 'POST',
+    body: {
+        price: args.price,
+        description: args.description,
+        floor: args.floor,
+        total_floors: args.totalFloors,
+        rooms: args.rooms,
+        address: args.address,
+        flat: args.flat,
+        area: args.area,
+        ceiling_height: args.ceilingHeight,
+        offer_type_id: args.offerType,
+        rent_type_id: args.rentType,
+        purchase_type_id: args.purchaseType,
+        property_type_id: args.propertyType,
+        metro_line: args.metroLine,
+        metro_station_id: args.metroStation,
+        renovation_id: args.renovation,
+        complex_id: args.complexId,
+    }
+});
+
+/**
+ * @interface UploadOfferImageInterface
+ * @description Интерфейс для загрузки изображения.
+ */
+interface UploadOfferImageInterface {
+    /**
+     * @property {number} offerId ID объявления
+     */
+    offerId: number;
+    /**
+     * @property {File} image Файл изображения
+     */
+    image: File;
+}
+
+/**
+ * @function uploadOfferImage
+ * @description Функция для загрузки изображения.
+ * @param {number} offerId ID объявления
+ * @param {File} image Файл изображения
+ */
+export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterface) => makeRequest({
+    endpoint: `/offers/${offerId}/image`,
+    method: 'POST',
+    files: {
+        'image': image
+    }
+});
+
+export const publishOffer = async (offerId: number) => makeRequest({
+    endpoint: `/offers/${offerId}/publish`,
+    method: 'POST'
+})
+
+/**
  * @function getHousingComplex
  * @description Функция для получения информации о ЖК.
  * @param {number} id ID ЖК
@@ -255,7 +426,7 @@ export const getHousingComplex = async (id: number) => await makeRequest({
  * @interface LoginInterface
  * @description Интерфейс для входа в аккаунт.
  */
-interface LoginInterface {
+export interface LoginInterface {
     /**
      * @property {string} email Электронная почта
      */

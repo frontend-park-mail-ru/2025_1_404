@@ -1,84 +1,13 @@
 
 import {
     getProfile,
-    login,
+    login, LoginInterface,
     logout,
-    registerAccount,
+    registerAccount, RegisterAccountInterface,
     removeAvatar,
-    updateAvatar,
-    updateProfile
+    updateAvatar, UpdateAvatarInterface,
+    updateProfile, UpdateProfileInterface, UserResponseInterface
 } from "../util/apiUtil.ts";
-
-interface UpdateProfileInterface {
-    /**
-     * @property {string} email Email пользователя.
-     */
-    email: string;
-    /**
-     * @property {string} first_name Имя пользователя.
-     */
-    first_name: string;
-    /**
-     * @property {string} last_name Фамилия пользователя.
-     */
-    last_name: string;
-}
-
-interface UserResponseInterface {
-    /**
-     * @property {string} email Email пользователя.
-     */
-    email: string;
-    /**
-     * @property {string} first_name Имя пользователя.
-     */
-    first_name: string;
-    /**
-     * @property {string} last_name Фамилия пользователя.
-     */
-    last_name: string;
-    /**
-     * @property {string} image Аватар пользователя.
-     */
-    image: string;
-}
-
-interface UpdateAvatarInterface {
-    /**
-     * @property {File} avatar Аватар пользователя.
-     */
-    avatar: File;
-}
-
-interface LoginInterface {
-    /**
-     * @property {string} email Email пользователя.
-     */
-    email: string;
-    /**
-     * @property {string} password Пароль пользователя.
-     */
-    password: string;
-}
-
-interface RegisterInterface {
-    /**
-     * @property {string} email Email пользователя.
-     */
-    email: string;
-    /**
-     * @property {string} password Пароль пользователя.
-     */
-    password: string;
-    /**
-     * @property {string} first_name Имя пользователя.
-     */
-    first_name: string;
-    /**
-     * @property {string} last_name Фамилия пользователя.
-     */
-    last_name: string;
-}
 
 /**
  * @interface UserDataInterface
@@ -271,7 +200,7 @@ class User {
      * @param {string} last_name фамилия пользователя.
      * @returns {Promise<void>}
      */
-    async register({email, password, first_name, last_name}: RegisterInterface) {
+    async register({email, password, first_name, last_name}: RegisterAccountInterface) {
         await registerAccount({email, first_name, last_name, password})
             .then((response) => {
                 this._isAuthenticated = true;

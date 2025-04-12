@@ -34,12 +34,12 @@ export default function registerPages() {
     PageManager.registerPage('main', ProfileLayout.process(new ProfileMainPage()));
     PageManager.registerPage('offers', ProfileLayout.process(new ProfileMyOffersPage()));
 
-    PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type")));
-    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address")));
-    PageManager.registerPage('params', OfferCreateLayout.process(new OfferCreateParamsPage("params")));
-    PageManager.registerPage('price', OfferCreateLayout.process(new OfferCreatePricePage("price")));
+    PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type", 4)));
+    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 4)));
+    PageManager.registerPage('params', OfferCreateLayout.process(new OfferCreateParamsPage("params", 4)));
+    PageManager.registerPage('price', OfferCreateLayout.process(new OfferCreatePricePage("price", 1)));
     PageManager.registerPage('photos', OfferCreateLayout.process(new OfferCreatePhotosPage("photos")));
-    PageManager.registerPage('description', OfferCreateLayout.process(new OfferCreateDescriptionPage("description")));
+    PageManager.registerPage('description', OfferCreateLayout.process(new OfferCreateDescriptionPage("description", 1)));
 
     PageManager.registerPage('zhk', mainLayout.process(new HousingComplexPage()));
 

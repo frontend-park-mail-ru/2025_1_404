@@ -7,7 +7,11 @@
         </div>
         <div class="offerCreate__input offerCreate__address-floor">
             <label for="input-floor" class="offerCreate__input-label">Этаж</label>
-            {{> Input id="input-floor" name="offer_floor" type="text"}}
+            <div class="offerCreate__address-inputs-floor">
+                {{> Input id="input-floor" type="text" name="offer_floor"}}
+                <span>/</span>
+                {{> Input id="input-total-floors" type="text" name="offer_total_floors"}}
+            </div>
         </div>
         <div class="offerCreate__input offerCreate__address-flat">
             <label for="input-flat" class="offerCreate__input-label">Квартира</label>

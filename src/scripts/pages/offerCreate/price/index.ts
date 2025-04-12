@@ -30,7 +30,7 @@ export default class OfferCreatePricePage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('input-price', 'focusout', this._offerPriceInputChange);
+        this.initListener('input-price', 'change', this._offerDataChange);
     }
 
     /**
@@ -42,40 +42,5 @@ export default class OfferCreatePricePage extends OfferPage {
         const input = document
             .getElementById('input-price') as HTMLInputElement
         input.value = this._offerData[input.id];
-    }
-
-    /**
-     * @function _isInputsFilled
-     * @description Метод проверки заполненности инпутов.
-     * @returns {boolean} true, если инпуты заполнены
-     * @private
-     */
-    _isInputsFilled() {
-        let isFilled = true;
-        for (const key in this._offerData) {
-            if (this._offerData[key] === '') {isFilled = false; return isFilled;}
-        }
-        return isFilled;
-    }
-
-    /**
-     * @function _offerPriceInputChange
-     * @description Метод обработки изменения цены.
-     * @param {Event} event событие изменения
-     * @param {HTMLElement} target целевой элемент
-     * @private
-     */
-    _offerPriceInputChange(event: Event) {
-        event.preventDefault();
-        this.formInputHandler(event);
-
-        if (!event.target) {
-            return;
-        }
-        const target = event.target as HTMLInputElement;
-
-        this._offerData[target.id] = target.value;
-        OfferCreate.setData(this._pageName, this._offerData);
-        this._markAsFullfilled(this._isInputsFilled());
     }
 }

@@ -32,8 +32,7 @@ export default class OfferCreateParamsPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('input-square', 'focusout', this._offerParamsInputChange);
-        this.initListener('offerCreateParams', 'change', this._offerParamsSelectsChange);
+        this.initListener('offerCreateParams', 'change', this._offerDataChange);
     }
 
     /**
@@ -76,39 +75,6 @@ export default class OfferCreateParamsPage extends OfferPage {
                 inputElement.checked = true;
             }
         })
-    }
-
-    /**
-     * @function _isInputsFilled
-     * @description Метод проверки заполненности инпутов.
-     * @returns {boolean} true, если все инпуты заполнены, иначе false
-     * @private
-     */
-    _isInputsFilled() {
-        let isFilled = true;
-        for (const key in this._offerData) {
-            if (this._offerData[key] === '') {isFilled = false; return isFilled;}
-        }
-        return isFilled;
-    }
-
-    /**
-     * _offerParamsInputChange
-     * @param {Event} event событие
-     * @private
-     */
-    _offerParamsInputChange(event: Event) {
-        event.preventDefault();
-        this.formInputHandler(event);
-
-        if (!event.target) {
-            return;
-        }
-        const target = event.target as HTMLInputElement;
-
-        this._offerData[target.id] = target.value;
-        OfferCreate.setData(this._pageName, this._offerData);
-        this._markAsFullfilled(this._isInputsFilled());
     }
 
     /**

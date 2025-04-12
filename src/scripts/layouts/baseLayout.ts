@@ -54,6 +54,11 @@ export class BaseLayout {
             initListeners: page.initListeners,
             initListener: page.initListener,
             removeListeners: page.removeListeners,
+            formInputHandler: page.formInputHandler,
+            resetApiError: page.resetApiError,
+            showApiError: page.showApiError,
+            showFieldError: page.showFieldError,
+            validateFormFields: page.validateFormFields,
         }
     }
 
