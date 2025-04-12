@@ -1,8 +1,8 @@
 import {createOffer, publishOffer, uploadOfferImage} from "../util/apiUtil.ts";
 
 const offerStatus: Record<number, string> = {
-    1: 'Активный',
-    2: 'Заблокированный',
+    1: 'Черновик',
+    2: 'Активный',
     3: 'Завершенный',
 }
 
@@ -36,31 +36,44 @@ const offerRenovations: Record<number, string> = {
     6: 'Улучшенная черновая',
 };
 
+interface Seller {
+    id: number;
+    firstName: string;
+    lastName: string;
+    avatar: string;
+    createdAt: Date;
+}
+
 export default class Offer {
     id?: number;
-    status: number;
-    price: number;
-    description: string;
-    floor: number;
-    totalFloors: number;
-    rooms: number;
-    address: string;
-    flat: number;
-    area: number;
-    ceilingHeight: number;
-    offerType: string;
-    rentType: string;
-    purchaseType: string;
-    propertyType: string;
-    metroStation: string;
-    metroLine: string;
-    renovation: string;
-    complexId: number;
-    images: Array<File>;
+    seller: Seller = {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        avatar: '',
+        createdAt: new Date(),
+    };
+    status: number = 1;
+    price: number = 0;
+    description: string = '';
+    floor: number = 1;
+    totalFloors: number = 1;
+    rooms: number = 1;
+    address: string = '';
+    flat: number = 1;
+    area: number = 1;
+    ceilingHeight: number = 1;
+    offerType: string = '';
+    rentType: string = '';
+    purchaseType: string = '';
+    propertyType: string = '';
+    metroStation: string = '';
+    metroLine: string = '';
+    renovation: string = '';
+    complexId?: number = undefined;
+    images: Array<File|string> = [];
 
-    constructor(createOfferData: Record<string, Record<string, string>>, images: Record<string, File>) {
-        console.log(images);
-
+    parseOfferData(createOfferData: Record<string, Record<string, string>>, images: Record<string, File>) {
         this.id = undefined;
         this.status = 1;
         this.price = Number(createOfferData['price']['input-price']);
@@ -83,6 +96,35 @@ export default class Offer {
         this.images = Object.values(images);
     }
 
+    parseJSON(json: any) {
+        this.id = json.offer.id;
+        this.seller.id = json.offer.seller_id;
+        this.seller.firstName = json.offer_data.seller.seller_name;
+        this.seller.lastName = json.offer_data.seller.seller_last_name;
+        this.seller.avatar = json.offer_data.seller.avatar;
+        this.seller.createdAt = new Date(json.offer_data.seller.created_at);
+        this.status = json.offer.status_id;
+        this.price = json.offer.price;
+        this.description = json.offer.description;
+        this.floor = json.offer.floor;
+        this.totalFloors = json.offer.total_floors;
+        this.rooms = json.offer.rooms;
+        this.address = json.offer.address;
+        this.flat = json.offer.flat;
+        this.area = json.offer.area;
+        this.ceilingHeight = json.offer.ceiling_height;
+        this.offerType = offerTypes[json.offer.offer_type_id];
+        this.rentType = rentTypes[json.offer.rent_type_id];
+        this.purchaseType = purchaseTypes[json.offer.purchase_type_id];
+        this.propertyType = propertyTypes[json.offer.property_type_id];
+        this.metroStation = json.offer_data.metro.station;
+        this.metroLine = json.offer_data.metro.line;
+        this.renovation = offerRenovations[json.offer.renovation_id];
+        for (const image of json.offer_data.offer_images) {
+            this.images.push(image.image);
+        }
+    }
+
     async create() {
         const response = await createOffer({
             price: this.price,
@@ -101,11 +143,14 @@ export default class Offer {
             metroStation: this.metroStation,
             metroLine: this.metroLine,
             renovation: Number(Object.keys(offerRenovations).find((key) => offerRenovations[Number(key)] === this.renovation)),
-            complexId: this.complexId,
-            images: this.images
+            complexId: Number(this.complexId),
+            images: this.images.filter(image => typeof image !== 'string'),
         })
         const offerId = response.id;
         for (const image of this.images) {
+            if (typeof image === 'string') {
+                continue;
+            }
             await uploadOfferImage({
                 offerId: offerId,
                 image: image

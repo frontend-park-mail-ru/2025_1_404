@@ -36,6 +36,10 @@ interface MakeRequestInterface {
  */
 export interface UserResponseInterface {
     /**
+     * @property {number} id ID пользователя.
+     */
+    id: number;
+    /**
      * @property {string} email Email пользователя.
      */
     email: string;
@@ -107,11 +111,21 @@ const makeRequest = async ({endpoint, method='GET', body={}, query='', files={}}
  * @description Функция для получения списка предложений.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const getOffers = async(queryParams: Object={}) => await makeRequest({
+export const getOffers = async() => await makeRequest({
     endpoint: '/offers',
     method: 'GET',
-    query: _fromObjectToQuery(queryParams as Record<string, string>),
 });
+
+/**
+ * @function searchOffers
+ * @description Функция для поиска предложений по фильтрам.
+ * @param filters
+ */
+export const searchOffers = async (filters: Record<string, string>) => await makeRequest({
+    endpoint: '/offers',
+    method: 'GET',
+    query: _fromObjectToQuery(filters)
+})
 
 /**
  * @interface RegisterAccountInterface
@@ -240,31 +254,6 @@ export const getZhkPhone = async () => await ({"phone": '+7(123)456-78-90'})
  */
 export const getZhkLine = async () => await ({"metroLine": 'Некрасовская'})
 
-const offer = {
-    ID:           1,
-    Seller:       "Иван Петров",
-    PropertyType: "квартира",
-    OfferType:    "продажа",
-    PurchaseType: "вторичка",
-    RentType:     "",
-    Address:      "ул. Ленина, д.10",
-    MetroLine:    "Сокольническая",
-    MetroStation: "Охотный ряд",
-    Floor:        3,
-    TotalFloors:  10,
-    Area:         60.5,
-    Rooms:        2,
-    Price:        10000000,
-    Photos:       [
-        "https://images.cdn-cian.ru/images/kvartira-moskva-shmitovskiy-proezd-2239195740-1.jpg",
-        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907645-1.jpg",
-        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907625-1.jpg",
-        "https://images.cdn-cian.ru/images/kvartira-moskva-shmitovskiy-proezd-2239195740-1.jpg",
-        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907645-1.jpg",
-        "https://images.cdn-cian.ru/images/67/099/031/kvartira-putilkovo-shodnenskaya-ulica-1309907625-1.jpg"],
-    Description:  "Уютная квартира с двумя спальными комнатами, панорамными окнами и балконами. 'Фрунзенская набережная' - неповторимый элитный клубный город-парк в престижном и желанном месте на Фрунзенской набережной, где нет...",
-}
-
 /**
  * @function getOfferById
  * @description Функция для получения объявления по id.
@@ -272,7 +261,10 @@ const offer = {
  * @returns {Promise<null>} Ответ от сервера
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getOfferById =  async (id: number) => await offer;
+export const getOfferById =  async (id: number) => await makeRequest({
+    endpoint: '/offers/'.concat(id.toString()),
+    method: 'GET'
+});
 
 /**
  * @interface CreateOfferInterface
@@ -377,6 +369,11 @@ export const createOffer = async ({...args}: CreateOfferInterface) => await make
     }
 });
 
+export const deleteOffer = async (id: number) => await makeRequest({
+    endpoint: `/offers/${id}`,
+    method: 'DELETE'
+});
+
 /**
  * @interface UploadOfferImageInterface
  * @description Интерфейс для загрузки изображения.
@@ -463,17 +460,7 @@ export const logout = async () => await makeRequest({
 const _fromObjectToQuery = function(object: Record<string, string>): string {
     let queryParams = '';
     Object.keys(object).forEach((key: string) => {
-        //if (object[key] instanceof Set) {
-            //queryParams += `${key}=`;
-            //object[key].forEach((value: string) => {
-                //queryParams += `${value},`;
-            //});
-            //queryParams = queryParams.slice(0, -1);
-            //queryParams += '&';
-        //}
-        if (typeof object[key] === 'string') {
-            queryParams += `${key}=${object[key]}&`;
-        }
+        queryParams += `${key}=${object[key]}&`;
     });
 
     if (queryParams.endsWith('&')) {

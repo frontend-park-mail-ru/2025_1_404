@@ -1,6 +1,7 @@
 
 import BaseRoute from "./baseRoute.ts";
 import PageManager from "../managers/pageManager.ts";
+import RouteManager from "../managers/routeManager/routeManager.ts";
 
 /**
  * @interface OfferDetailsRouteParams
@@ -10,7 +11,7 @@ interface OfferDetailsRouteParams {
     /**
      * @property {number} id ID объявления.
      */
-    id: number;
+    id: string;
 }
 
 /**
@@ -25,6 +26,11 @@ export class OfferDetailsRoute extends BaseRoute {
      * @param {number} id ID объявления.
      */
     process({id}: OfferDetailsRouteParams) {
-        PageManager.renderPage('offerDetails', {id});
+        const idNumber = parseInt(id, 10);
+        if (isNaN(idNumber)) {
+            RouteManager.navigateTo('/');
+            return;
+        }
+        PageManager.renderPage('offerDetails', {id: idNumber});
     }
 }

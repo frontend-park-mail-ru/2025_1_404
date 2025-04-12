@@ -196,13 +196,13 @@ export default class Filter extends BaseComponent {
         }
         const inputs = filterInputs.querySelectorAll('input');
         inputs.forEach(input => {
-            console.log(input, this._filterData[input.id]);
+            // console.log(input, this._filterData[input.id]);
             input.value = <string>this._filterData[input.id];
         })
 
         this._filterCheckLists.forEach(id => {
             const ul = document.getElementById(id);
-            console.log(ul);
+            // console.log(ul);
             if (ul === null) {
                 return;
             }
@@ -213,8 +213,8 @@ export default class Filter extends BaseComponent {
                     return;
                 }
                 const spanText = li.children[1].textContent as string;
-                console.log(spanText);
-                console.log(this._filterData[id]);
+                // console.log(spanText);
+                // console.log(this._filterData[id]);
                 if (this._filterData[id] === spanText) {
                     li.classList.add('checked');
                 }

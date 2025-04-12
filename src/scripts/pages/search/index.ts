@@ -4,12 +4,20 @@ import {Page, PageRenderInterface} from "../page.ts";
 import template from './template.precompiled.js';
 import User from "../../models/user.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
-import {getOffers} from "../../util/apiUtil.ts";
+import {getOffers, searchOffers} from "../../util/apiUtil.ts";
 import searchOfferTemplate from "../../components/searchOffer/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import FilterModel from "../../models/filterModel.ts";
+import Offer from "../../models/offer.ts";
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
+import RouteManager from "../../managers/routeManager/routeManager.ts";
 
 interface AddOfferInterface {
+    /**
+     * @property {number} id ID объекта недвижимости
+     */
+    id: number;
     /**
      * @property {string} address Адрес объекта недвижимости
      */
@@ -35,9 +43,9 @@ interface AddOfferInterface {
      */
     area: number;
     /**
-     * @property {string[]} photos Список URL изображений объекта недвижимости
+     * @property {string[]} image URL изображение недвижимости
      */
-    photos: string[];
+    image: string
     /**
      * @property {string} metro_station Станция метро
      */
@@ -54,6 +62,14 @@ interface AddOfferInterface {
      * @property {string} rent_type Тип аренды (например, "долгосрок" или "сутки"), используется только для аренды
      */
     rent_type: string;
+    /**
+     * @property {string} seller_name Имя продавца
+     */
+    seller_name: string;
+    /**
+     * @property {string} seller_last_name Фамилия продавца
+     */
+    seller_last_name: string;
 }
 
 /**
@@ -83,7 +99,30 @@ export default class SearchPage extends Page {
         this._getOffers(FilterModel.getFilterData());
     }
 
-    _addOffer({price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, photos: images, offer_type: offerType, rent_type: rentType}: AddOfferInterface) {
+    initListeners() {
+        this.initListener('searchResults', 'click', this._handleCardClick);
+    }
+
+    _handleCardClick(event: Event) {
+        const target = event.target as HTMLElement;
+        if (!target) {
+            return;
+        }
+        let parent = target;
+        while (parent && parent.parentElement && !parent.classList.contains('search__results-offer')) {
+            parent = parent.parentElement;
+        }
+        const offerId = parent.dataset.id;
+        if (!offerId) {
+            return;
+        }
+        event.preventDefault()
+        if (target.id === 'search-link') {
+            RouteManager.navigateTo(`/offer/details/${offerId}`);
+        }
+    }
+
+    _addOffer({id, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType}: AddOfferInterface) {
         if (!this._offerList) {
             return;
         }
@@ -95,8 +134,7 @@ export default class SearchPage extends Page {
         else {
             title = 'Продажа: ' + title;
         }
-        const [image] = images
-        this._offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors}));
+        this._offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors}));
     }
 
     /**
@@ -104,16 +142,69 @@ export default class SearchPage extends Page {
      * @description Получение предложений по фильтру
      * @private
      */
-    async _getOffers(filterData: Record<string, Set<string> | string>) {
+    async _getOffers(filterData: Record<string, string>) {
+        const offerTypes: Record<string, number> = {
+            'Продажа': 1,
+            'Аренда': 2
+        };
+
+        const propertyTypes: Record<string, number> = {
+            'Апартаменты': 1,
+            'Дом': 2,
+            'Квартира': 3
+        };
+
         if (!User.isLoaded() || !this._layout) {
             return;
         }
-        await getOffers(filterData).then((offers) => {
+        let offerTypeId = '';
+        if (filterData['filterOfferType'] in offerTypes) {
+            offerTypeId = offerTypes[filterData['filterOfferType']].toString();
+        }
+        let propertyTypeId = '';
+        if (filterData['filterPropertyType'] in propertyTypes) {
+            propertyTypeId = propertyTypes[filterData['filterPropertyType']].toString();
+        }
+        await searchOffers({
+            'min_area': filterData['filterSquareLeft'],
+            'max_area': filterData['filterSquareRight'],
+            'min_price': filterData['filterPriceLeft'],
+            'max_price': filterData['filterPriceRight'],
+            'offer_type_id': offerTypeId,
+            'property_type_id': propertyTypeId,
+            'address': filterData['filterInputAddress'],
+        }).then((offers) => {
             if (!offers || !Array.isArray(offers)) {
                 return;
             }
-            Array.from(offers).forEach((offer) => {
-                this._addOffer(offer);
+            const title = document.getElementById('search-result-title') as HTMLElement;
+            if (!title) {
+                return;
+            }
+            title.textContent = `Найдено ${offers.length} объявлений`;
+            Array.from(offers).forEach((offerData) => {
+                const offer = new Offer();
+                offer.parseJSON(offerData);
+                let image = '';
+                if (offer.images.length > 0 && typeof offer.images[0] === 'string') {
+                    image = offer.images[0];
+                }
+                this._addOffer({
+                    id: offer.id || 0,
+                    price: offer.price,
+                    address: offer.address,
+                    area: offer.area,
+                    floor: offer.floor,
+                    metro_line: offer.metroLine,
+                    metro_station: offer.metroStation || 'Нет',
+                    offer_type: offer.offerType,
+                    image: image,
+                    rent_type: offer.rentType,
+                    rooms: offer.rooms,
+                    total_floors: offer.totalFloors,
+                    seller_last_name: offer.seller.lastName,
+                    seller_name: offer.seller.firstName
+                });
             });
         }).catch((error) => {
             console.error(error)

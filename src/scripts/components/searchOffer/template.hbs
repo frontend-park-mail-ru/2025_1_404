@@ -1,4 +1,4 @@
-<div class="search__results-offer">
+<div class="search__results-offer" data-id="{{id}}">
     <div class="search__results-offer-img">
         <img src="{{image}}" alt="">
         <!--<div class="search__results-offer-heart">-->
@@ -8,7 +8,9 @@
     <div class="search__results-offer-left">
         <div class="search__results-offer-titles">
             <h2 class="search__results-offer-title">
-                {{title}}
+                <a href="/offer/details/{{id}}" id="search-link">
+                    {{title}}
+                </a>
             </h2>
             <span class="search__results-offer-price">
                 {{price}}
@@ -26,10 +28,10 @@
                 </ul>
             </div>
             <div class="search__results-offer-metro">
-                {{> MetroStation metroColor=metroColor metroStation=metroStation}}
                 <svg width="17" height="12" viewBox="0 0 17 12" fill="black" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.6135 9.69889L11.8759 0.239685L8.71426 5.76928L5.56546 0.239685L1.81506 9.69889H0.714264V11.1325H6.37187V9.69889H5.52706L6.34626 7.34368L8.71426 11.2349L11.0823 7.34368L11.9015 9.69889H11.0567V11.1325H16.7143V9.69889H15.6135Z" fill="{{metroColor}}"/>
                 </svg>
+                <span>{{metroStation}}</span>
                 <span>4 мин.</span>
             </div>
             <span class="search__results-offer-description">
@@ -46,18 +48,18 @@
                 {{surname}}
             </span>
         </div>
-        <div class="search__results-offer-seller-rating">
-            <div class="search__results-offer-seller-rating-wrapper">
-                <span class="search__results-offer-seller-rating-num">
-                    {{rating}}
-                </span>
-                <div class="search__results-offer-seller-rating-stars">
-                    {{renderRating 5}}
-                </div>
-            </div>
-            <span class="search__results-offer-seller-rating-reviews">
-                {{reviewsAmount}} отзывов
-            </span>
-        </div>
+<!--        <div class="search__results-offer-seller-rating">-->
+<!--            <div class="search__results-offer-seller-rating-wrapper">-->
+<!--                <span class="search__results-offer-seller-rating-num">-->
+<!--                    {{rating}}-->
+<!--                </span>-->
+<!--                <div class="search__results-offer-seller-rating-stars">-->
+<!--                    {{renderRating 5}}-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <span class="search__results-offer-seller-rating-reviews">-->
+<!--                {{reviewsAmount}} отзывов-->
+<!--            </span>-->
+<!--        </div>-->
     </div>
 </div>

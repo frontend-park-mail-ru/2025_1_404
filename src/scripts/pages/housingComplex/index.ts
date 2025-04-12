@@ -10,6 +10,7 @@ import housingComplexInformationTemplate
 import housingComplexSliderTemplate from "../../components/housingComplex/housingComplexSlider/template.precompiled.js";
 import template from "./template.precompiled.js";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
+import {BaseLayout} from "../../layouts/baseLayout.ts";
 
 
 /**
@@ -21,6 +22,7 @@ export default class HousingComplexPage extends Page {
     private _slider: HousingComplexSlider | undefined;
     private _information: HousingComplexInformation | undefined;
     private _reviews: HousingComplexReviews | undefined;
+    private _layout: BaseLayout | undefined;
     private map: Map | undefined;
     /**
      * @function render
@@ -33,6 +35,7 @@ export default class HousingComplexPage extends Page {
         if (!props || typeof props.id !== 'number') {
             return;
         }
+        this._layout = layout;
         root.innerHTML = template();
         super.render({root});
         this._getInformation(props.id)
@@ -82,7 +85,10 @@ export default class HousingComplexPage extends Page {
      * @private
      */
     _getInformation(id: number) {
-        return getHousingComplex(id)
+        if (!this._layout) {
+            return Promise.reject(new Error('Layout is not defined'));
+        }
+        return this._layout?.makeRequest(getHousingComplex, id)
         .then((data) => data)
         .catch (() => {
             RouteManager.navigateTo('/');

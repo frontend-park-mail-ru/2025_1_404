@@ -18,6 +18,10 @@ export interface UserDataInterface {
     /**
      * @property {string} email Email пользователя.
      */
+    id?: number | null;
+    /**
+     * @property {string} email Email пользователя.
+     */
     email?: string | null;
     /**
      * @property {string} firstName Имя пользователя.
@@ -218,6 +222,7 @@ class User {
      * @private
      */
     _parseData(data: UserResponseInterface) {
+        this.userData.id = data.id;
         this.userData.email = data.email;
         this.userData.firstName = data.first_name;
         this.userData.lastName = data.last_name;
@@ -231,6 +236,7 @@ class User {
      */
     _resetData() {
         this._isAuthenticated = false;
+        this.userData.id = null;
         this.userData.email = null;
         this.userData.firstName = null;
         this.userData.lastName = null;

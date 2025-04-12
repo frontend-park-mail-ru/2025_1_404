@@ -7,6 +7,8 @@ import getMetroColorByLineName from "../../util/metroUtil";
 import {getOffers} from "../../util/apiUtil.ts";
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
+import Offer from "../../models/offer.ts";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
 
 /**
  * @interface AddCardInterface
@@ -108,33 +110,22 @@ export default class IndexPage extends Page {
     /**
      * @function _addCard
      * @description Добавление карточки
-     * @param {number} price цена объявления
-     * @param {string} address адрес
-     * @param {number} rooms количество комнат
-     * @param {number} floor этаж
-     * @param {number} totalFloors максимальное число этажей
-     * @param {number} square площадь
-     * @param {string[]} images изображения
-     * @param {string} metroStation стацния метро
-     * @param {string} metroLine ветка метро
-     * @param {string} offerType тип объявления
-     * @param {string} rentType тип аренды
      * @private
+     * @param offer
      */
-    _addCard({price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, photos: images, offer_type: offerType, rent_type: rentType}: AddCardInterface) {
+    _addCard(offer: Offer) {
         if (!this._cardsList) {
             return;
         }
-        let cardTitle = `${price.toLocaleString('ru-RU')} ₽`;
-        if (offerType === 'аренда') {
+        let cardTitle = `${offer.price.toLocaleString('ru-RU')} ₽`;
+        if (offer.offerType === 'Аренда') {
             cardTitle = 'Аренда: ' + cardTitle;
-            cardTitle += `/${rentType === 'долгосрок' ? 'мес.' : 'сут.'}`
+            cardTitle += `/${offer.rentType === 'Долгосрок' ? 'мес.' : 'сут.'}`
         }
         else {
             cardTitle = 'Продажа: ' + cardTitle;
         }
-        const [image] = images
-        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({address, cardTitle, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors}));
+        this._cardsList.insertAdjacentHTML('beforeend', cardTemplate({id: offer.id, address: offer.address, cardTitle, floor: offer.floor, image: offer.images[0], metroColor: getMetroColorByLineName(offer.metroLine), metroStation: offer.metroStation || "Нет", rooms: offer.rooms, square: offer.area, totalFloors: offer.totalFloors}));
     }
 
     /**
@@ -150,7 +141,9 @@ export default class IndexPage extends Page {
             if (!offers || !Array.isArray(offers)) {
                 return;
             }
-            Array.from(offers).forEach((offer) => {
+            Array.from(offers).forEach((offerData) => {
+                const offer = new Offer();
+                offer.parseJSON(offerData);
                 this._addCard(offer);
             });
         }).catch((error) => {
@@ -166,16 +159,25 @@ export default class IndexPage extends Page {
      * @private
      */
     _cardClickHandler(event: Event, {target} = event) {
+        event.preventDefault();
         let currentTarget = target as HTMLElement | null;
         if (!currentTarget) {
             return;
         }
-        while (currentTarget.parentElement !== null && (currentTarget.tagName === 'path' || currentTarget.tagName === 'I')) {
-            currentTarget = currentTarget.parentElement;
+        let parentElement = currentTarget;
+        let heart = currentTarget;
+        while (parentElement.parentElement !== null && !parentElement.classList.contains('card__link')) {
+            if (parentElement.classList.contains('heart')) {
+                heart = parentElement;
+            }
+            parentElement = parentElement.parentElement;
         }
-        if (currentTarget.classList.contains('heart')) {
-            event.preventDefault();
-            currentTarget.classList.toggle('active');
+        if (heart.classList.contains('heart')) {
+            heart.classList.toggle('active');
+            return;
+        }
+        if (parentElement.classList.contains('card__link')) {
+            RouteManager.navigateTo(`/offer/details/${parentElement.dataset.id}`);
         }
     }
 }

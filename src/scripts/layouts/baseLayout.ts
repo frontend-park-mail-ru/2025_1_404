@@ -158,7 +158,7 @@ export class BaseLayout {
             this._progressBar.setPercentage(30);
         }
         return await func(...args)
-            .then((data: unknown) => data)
+            .then((data) => data)
             .catch((err: Error) => {
                 throw err;
             }).finally(() => {

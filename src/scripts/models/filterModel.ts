@@ -9,7 +9,15 @@ class FilterModel {
      * @description Конструктор класса.
      */
     constructor() {
-        this._filterData = {};
+        this._filterData = {
+            "filterOfferType": '',
+            "filterPropertyType": '',
+            "filterPriceLeft": '',
+            "filterPriceRight": '',
+            "filterSquareLeft": '',
+            "filterSquareRight": '',
+            "filterInputAddress": '',
+        };
     }
 
     /**

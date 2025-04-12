@@ -1,6 +1,6 @@
 
-import BaseRoute from "../baseRoute.ts";
-import PageManager from "../../managers/pageManager.ts";
+import BaseRoute from "../../baseRoute.ts";
+import PageManager from "../../../managers/pageManager.ts";
 
 /**
  * @class OfferCreateRoute

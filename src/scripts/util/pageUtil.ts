@@ -6,6 +6,7 @@ import MainLayout from "../layouts/main/index.ts";
 import OfferCreateAddressPage from "../pages/offerCreate/address/index.ts";
 import OfferCreateDescriptionPage from "../pages/offerCreate/description/index.ts";
 import OfferCreateLayout from "../layouts/offerCreate/index.ts";
+import OfferEditLayout from "../layouts/offerEdit/index.ts";
 import OfferCreateParamsPage from "../pages/offerCreate/params/index.ts";
 import OfferCreatePhotosPage from "../pages/offerCreate/photos/index.ts";
 import OfferCreatePricePage from "../pages/offerCreate/price/index.ts";
@@ -40,6 +41,13 @@ export default function registerPages() {
     PageManager.registerPage('price', OfferCreateLayout.process(new OfferCreatePricePage("price", 1)));
     PageManager.registerPage('photos', OfferCreateLayout.process(new OfferCreatePhotosPage("photos")));
     PageManager.registerPage('description', OfferCreateLayout.process(new OfferCreateDescriptionPage("description", 1)));
+
+    PageManager.registerPage('edit_type', OfferEditLayout.process(new OfferCreateTypePage("type", 4)));
+    PageManager.registerPage('edit_address', OfferEditLayout.process(new OfferCreateAddressPage("address", 4)));
+    PageManager.registerPage('edit_params', OfferEditLayout.process(new OfferCreateParamsPage("params", 4)));
+    PageManager.registerPage('edit_price', OfferEditLayout.process(new OfferCreatePricePage("price", 1)));
+    PageManager.registerPage('edit_photos', OfferEditLayout.process(new OfferCreatePhotosPage("photos")));
+    PageManager.registerPage('edit_description', OfferEditLayout.process(new OfferCreateDescriptionPage("description", 1)));
 
     PageManager.registerPage('zhk', mainLayout.process(new HousingComplexPage()));
 
