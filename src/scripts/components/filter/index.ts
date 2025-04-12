@@ -11,7 +11,7 @@ export default class Filter extends BaseComponent {
     private _openPopupButton: HTMLButtonElement | null;
     private _defaultFields: Record<string, string>;
     private _filterCheckLists: string[];
-    private _filterData: Record<string, Set<string> | string>;
+    private _filterData: Record<string, string>;
     private _filterValid: Record<string, boolean>;
     private _page: Page
     /**
@@ -31,8 +31,8 @@ export default class Filter extends BaseComponent {
         };
         this._filterCheckLists = ["filterOfferType", "filterPropertyType"];
         this._filterData = {
-            "filterOfferType": new Set(),
-            "filterPropertyType": new Set(),
+            "filterOfferType": '',
+            "filterPropertyType": '',
             "filterPriceLeft": '',
             "filterPriceRight": '',
             "filterSquareLeft": '',
@@ -127,18 +127,23 @@ export default class Filter extends BaseComponent {
         }
         const selectButton = elem.parentElement.parentElement.previousElementSibling as HTMLButtonElement;
 
-        if (this._filterData[elem.parentElement.id] instanceof Set && elem.children[1].textContent) {
-            const currentSet = this._filterData[elem.parentElement.id] as Set<string>;
+        if (elem.children[1].textContent) {
+            const checked = elem.parentElement.querySelector('.checked');
             if (elem.classList.toggle('checked')) {
-                currentSet.add(elem.children[1].textContent)
+                if (!checked) {
+                    this._filterData[elem.parentElement.id] = elem.children[1].textContent;
+                } else {
+                    checked.classList.toggle('checked');
+                    this._filterData[elem.parentElement.id] = elem.children[1].textContent;
+                }
             } else {
-                currentSet.delete(elem.children[1].textContent)
+                this._filterData[elem.parentElement.id] = '';
             }
         }
-        const checked = elem.parentElement.querySelectorAll('.checked');
+        const checked = elem.parentElement.querySelector('.checked');
 
-        if (checked && checked.length > 0) {
-            selectButton.innerHTML = `Выбрано ${checked.length}`
+        if (checked) {
+            selectButton.innerHTML = `${checked.children[1].textContent}`;
         } else {
             selectButton.innerHTML = this._defaultFields[elem.parentElement.id];
         }
@@ -210,7 +215,7 @@ export default class Filter extends BaseComponent {
                 const spanText = li.children[1].textContent as string;
                 console.log(spanText);
                 console.log(this._filterData[id]);
-                if (this._filterData[id] instanceof Set && this._filterData[id].has(spanText)) {
+                if (this._filterData[id] === spanText) {
                     li.classList.add('checked');
                 }
             });
@@ -218,10 +223,10 @@ export default class Filter extends BaseComponent {
                 return;
             }
             const selectButton = ul.parentElement.previousElementSibling as HTMLButtonElement;
-            const checked = ul.querySelectorAll('.checked');
+            const checked = ul.querySelector('.checked');
 
-            if (checked && checked.length > 0) {
-                selectButton.innerHTML = `Выбрано ${checked.length}`
+            if (checked) {
+                selectButton.innerHTML = `${checked.children[1].textContent}`
             } else {
                 selectButton.innerHTML = this._defaultFields[id];
             }

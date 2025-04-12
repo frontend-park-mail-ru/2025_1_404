@@ -110,7 +110,7 @@ const makeRequest = async ({endpoint, method='GET', body={}, query='', files={}}
 export const getOffers = async(queryParams: Object={}) => await makeRequest({
     endpoint: '/offers',
     method: 'GET',
-    query: _fromObjectToQuery(queryParams as Record<string, Set<string> | string>),
+    query: _fromObjectToQuery(queryParams as Record<string, string>),
 });
 
 /**
@@ -460,17 +460,18 @@ export const logout = async () => await makeRequest({
     method: 'POST'
 });
 
-const _fromObjectToQuery = function(object: Record<string, Set<string> | string>): string {
+const _fromObjectToQuery = function(object: Record<string, string>): string {
     let queryParams = '';
     Object.keys(object).forEach((key: string) => {
-        if (object[key] instanceof Set) {
-            queryParams += `${key}=`;
-            object[key].forEach((value: string) => {
-                queryParams += `${value},`;
-            });
-            queryParams = queryParams.slice(0, -1);
-            queryParams += '&';
-        } else if (typeof object[key] === 'string') {
+        //if (object[key] instanceof Set) {
+            //queryParams += `${key}=`;
+            //object[key].forEach((value: string) => {
+                //queryParams += `${value},`;
+            //});
+            //queryParams = queryParams.slice(0, -1);
+            //queryParams += '&';
+        //}
+        if (typeof object[key] === 'string') {
             queryParams += `${key}=${object[key]}&`;
         }
     });
