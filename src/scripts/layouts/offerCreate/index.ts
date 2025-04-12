@@ -83,8 +83,18 @@ class OfferCreateLayout extends MainLayout {
             return;
         }
         if (OfferCreate.isPageFilled(this._currentPage)) {
+            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
+                console.log("BBB");
+                this._offerCreateBtns.enableSubmitButton();
+                return;
+            }
             this._offerCreateBtns.enableNextButton();
         } else {
+            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
+                console.log("CCC");
+                this._offerCreateBtns.disableSubmitButton();
+                return;
+            }
             this._offerCreateBtns.disableNextButton();
         }
     }
@@ -158,7 +168,13 @@ class OfferCreateLayout extends MainLayout {
                 return;
             }
             this._filledPagesId.push(this._currentPage);
-            this._unlockPage(nextPage);
+            if (this._currentPage !== this._allPages[this._allPages.length - 1]) {
+                this._unlockPage(nextPage);
+            }
+            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
+                this._offerCreateBtns.enableSubmitButton();
+                return;
+            }
             this._offerCreateBtns.enableNextButton();
         } else {
             if (!this._filledPagesId.includes(this._currentPage)) {
@@ -166,6 +182,10 @@ class OfferCreateLayout extends MainLayout {
                 }
             this._filledPagesId = this._filledPagesId.filter((id) => id !== this._currentPage);
             this._lockPage(this._getNextPage());
+            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
+                this._offerCreateBtns.disableSubmitButton();
+                return;
+            }
             this._offerCreateBtns.disableNextButton();
         }
     }

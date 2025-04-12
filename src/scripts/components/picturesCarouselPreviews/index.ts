@@ -81,7 +81,6 @@ export default class PicturesCarouselPreviews extends BaseComponent {
         const maxTranslateValue = this._getMaxTranslateX();
         const calculatedTranslateValue = Math.min(this._previewsIndex * slidePercent, maxTranslateValue);
         this._previewsCarousel.style.transform = `translateX(${-calculatedTranslateValue}%)`;
-        this._toggleActivePreview(this._previewsIndex);
     }
 
     /**
@@ -91,8 +90,7 @@ export default class PicturesCarouselPreviews extends BaseComponent {
      */
     _slideImagesToRight() {
         this._imagesIndex = (this._imagesIndex + this._imagePerClick) % this._images.length;
-        this._previewsIndex = this._imagesIndex;
-        this._toggleActivePreview(this._previewsIndex);
+        this._toggleActivePreview(this._imagesIndex);
         this._updateImagesCarousel();
         this._updatePreviewsCarousel();
     }
@@ -104,8 +102,7 @@ export default class PicturesCarouselPreviews extends BaseComponent {
      */
     _slideImagesToLeft() {
         this._imagesIndex = (this._imagesIndex - this._imagePerClick + this._images.length) % this._images.length;
-        this._previewsIndex = this._imagesIndex;
-        this._toggleActivePreview(this._previewsIndex);
+        this._toggleActivePreview(this._imagesIndex);
         this._updateImagesCarousel();
         this._updatePreviewsCarousel();
     }
@@ -115,7 +112,8 @@ export default class PicturesCarouselPreviews extends BaseComponent {
      * @description Метод сдвига карусели превью вправо.
      */
     _slidePreviewsToRight() {
-        this._previewsIndex = (this._previewsIndex + this._previewsPerClick) % this._images.length;
+        const newIndex = (this._previewsIndex + this._previewsPerClick) % this._images.length;
+        this._toggleActivePreview(newIndex);
         this._imagesIndex = this._previewsIndex;
         this._updatePreviewsCarousel();
         this._updateImagesCarousel();
@@ -126,7 +124,8 @@ export default class PicturesCarouselPreviews extends BaseComponent {
      * @description Метод сдвига карусели превью влево.
      */
     _slidePreviewsToLeft() {
-        this._previewsIndex = (this._previewsIndex - this._previewsPerClick + this._images.length) % this._images.length;
+        const newIndex = (this._previewsIndex - this._previewsPerClick + this._images.length) % this._images.length;
+        this._toggleActivePreview(newIndex);
         this._imagesIndex = this._previewsIndex;
         this._updatePreviewsCarousel();
         this._updateImagesCarousel();
@@ -151,24 +150,22 @@ export default class PicturesCarouselPreviews extends BaseComponent {
             return;
         }
         this._imagesIndex = previewIndex;
-        this._previewsIndex = previewIndex;
+        this._toggleActivePreview(previewIndex);
         this._updateImagesCarousel();
-        this._toggleActivePreview(this._previewsIndex);
     }
 
     /**
      * @function _toggleActivePreview
      * @description Метод переключения активного превью.
-     * @param {number} id - индекс превью.
+     * @param {number} newId - индекс превью.
      */
-    _toggleActivePreview(id: number) {
+    _toggleActivePreview(newId: number) {
         const previews = document.querySelectorAll('.slider__previews-preview');
-        if (previews.length < id + 1) {
+        if (previews.length < newId + 1) {
             return;
         }
-        previews.forEach((preview) => {
-            preview.classList.remove('active');
-        });
-        previews[id].classList.add('active');
+        previews[this._previewsIndex].classList.remove('active')
+        previews[newId].classList.add('active');
+        this._previewsIndex = newId;
     }
 }

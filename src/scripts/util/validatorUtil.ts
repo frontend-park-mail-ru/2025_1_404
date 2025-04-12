@@ -40,6 +40,28 @@ const validatePassword = function(password: string, additionalChecks=false) {
     return String(password).length > EMPTY_LENGTH;
 }
 
+const validateDoubleNumeric = function(number: string) {
+    const num = parseInt(number, 10);
+    return num >= 1 && num <= 99;
+}
+
+const validateTripleNumeric = function(number: string) {
+    const num = parseInt(number, 10);
+    return num >= 1 && num <= 999;
+}
+
+const validateFlat = function(flatNumber: string) {
+    return /^(?:[1-9][0-9]{0,3}|[1-9][0-9]{0,3}[A-Za-z])$/u.test(flatNumber);
+}
+
+const validateAddress = function(address: string) {
+    return /^(?<city>[А-Яа-яЁё\s\-]+)[,\s]+(?<street>(улица|проспект|бульвар|переулок)\s+[А-Яа-яЁё\s\-]+)[,\s]+(?<houseNumber>\d+(\/\d+)?)$/u.test(address);
+}
+
+const validateNumeric = function(number: string) {
+    return /^[1-9]\d*$/u.test(number);
+}
+
 /**
  * @interface ValidateFormInputInterface
  * @description Интерфейс для валидации формы.
@@ -62,19 +84,23 @@ interface ValidateFormInputInterface {
  * @param {string} param.value Значение поля ввода
  * @param {string} param.name Имя поля ввода
  * @param {boolean} additionalDetails Дополнительные проверки
+ * @param {boolean} required обязательное поле
  * @returns {string} Ошибка валидации
  */
-export const validateFormInput = function ({value, name:valueName}: ValidateFormInputInterface, additionalDetails=false) {
+export const validateFormInput = function ({value, name:valueName}: ValidateFormInputInterface, additionalDetails=false, required=true) {
     const valueLength = value.length;
     if (valueLength === EMPTY_LENGTH) {
-        return 'Это поле обязательное';
+        if (required) {
+            return 'Это поле обязательное';
+        }
+        return '';
     }
     let password = '';
     const passwordDocument = document.getElementById('registerPassword') as HTMLInputElement | null;
     if (passwordDocument) {
         password = passwordDocument.value;
     }
-
+    console.log(value, valueName);
     switch(valueName) {
         // Валидация имени и фамилии
         case 'first_name':
@@ -103,11 +129,36 @@ export const validateFormInput = function ({value, name:valueName}: ValidateForm
         }
         return 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
         // Валидация подтверждения пароля
-        case 'confirmPassword':
+        case 'confirm_password':
         if (password !== value) {
             return 'Пароли должны совпадать';
         }
         return '';
+        case 'offer_floor':
+            if (validateDoubleNumeric(value)) {
+                return '';
+            }
+            return "От 1 до 99";
+        case 'offer_flat':
+            if (validateFlat(value)) {
+                return '';
+            }
+            return "от 1 до 9999";
+        case 'offer_address':
+            if (validateAddress(value)) {
+                return '';
+            }
+            return "Неправильный формат адреса";
+        case 'offer_square':
+            if (validateTripleNumeric(value)) {
+                return '';
+            }
+            return "От 1 до 999";
+        case 'offer_price':
+            if (validateNumeric(value)) {
+                return '';
+            }
+            return "Неправильно введена цена";
         default:
         return '';
     }

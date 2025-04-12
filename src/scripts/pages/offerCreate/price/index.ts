@@ -67,15 +67,12 @@ export default class OfferCreatePricePage extends OfferPage {
      */
     _offerPriceInputChange(event: Event) {
         event.preventDefault();
+        this.formInputHandler(event);
 
         if (!event.target) {
             return;
         }
         const target = event.target as HTMLInputElement;
-
-        if (target.tagName !== 'INPUT') {
-            return;
-        }
 
         this._offerData[target.id] = target.value;
         OfferCreate.setData(this._pageName, this._offerData);

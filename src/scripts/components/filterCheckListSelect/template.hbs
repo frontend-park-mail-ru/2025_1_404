@@ -1,6 +1,6 @@
 <div class="filter__select">
-    <button id="{{id}}" class="filter__select-button {{class}}">{{name}}</button>
+    <button class="filter__select-button {{class}}">{{label}}</button>
     <div id="filterSelectPopup" class="filter__select-popup">
-        {{> FilterCheckList id=id elements=(split 'dada;bebebe')}}
+        {{> FilterCheckList id=id elements=(split choices )}}
     </div>
 </div>

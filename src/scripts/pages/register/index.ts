@@ -52,13 +52,13 @@ export default class RegisterPage extends Page {
     _registerFormHandler(event: Event) {
         event.preventDefault();
 
-        this._resetApiError();
+        this.resetApiError();
         const target = event.target as HTMLInputElement;
 
         const registerButton = target.querySelector('#registerSubmitButton') as HTMLButtonElement;
         registerButton.disabled = true;
 
-        const isValid = this._validateFormFields(target);
+        const isValid = this.validateFormFields(target);
         if (!isValid) {
             registerButton.disabled = false;
             return;
@@ -68,71 +68,11 @@ export default class RegisterPage extends Page {
             this._layout.makeRequest(User.register.bind(User), values as RegisterInterface).then(() => {
                 RouteManager.navigateTo('/');
             }).catch((error) => {
-                this._showApiError(error);
+                this.showApiError(error);
             }).finally(() => {
                 registerButton.disabled = false;
             })
         }
-    }
-
-    /**
-     * @function _resetApiError
-     * @description Метод сброса ошибки API
-     */
-    _resetApiError() {
-        const apiError = document.getElementById('api-error') as HTMLElement;
-        apiError.classList.remove('error__visible');
-    }
-
-    /**
-     * @function _showApiError
-     * @description Метод отображения ошибки API
-     * @param {Error} error ошибка API
-     */
-    _showApiError(error: Error) {
-        const apiError = document.getElementById('api-error') as HTMLElement;
-        apiError.textContent = error.message;
-        apiError.classList.add('error__visible');
-    }
-
-    /**
-     * @function _validateFormFields
-     * @description Метод валидации полей формы
-     * @param {HTMLElement} formElement элемент формы
-     * @returns {boolean} true, если форма валидна, иначе false
-     */
-    _validateFormFields(formElement: HTMLElement): boolean {
-        let isValid = true;
-        const inputFields = formElement.querySelectorAll('input');
-
-        inputFields.forEach((input) => {
-            const errorText = validateFormInput(input, false);
-            const errorField = input.nextElementSibling;
-
-            if (!errorField) {
-                return;
-            }
-
-            if (errorText !== "") {
-                isValid = false;
-                this._showFieldError(input, errorField, errorText);
-            }
-        });
-
-        return isValid;
-    }
-
-    /**
-     * @function _showFieldError
-     * @description Метод отображения ошибки в поле ввода
-     * @param {HTMLInputElement} input поле ввода
-     * @param {Element} errorField элемент ошибки
-     * @param {string} errorText текст ошибки
-     */
-    _showFieldError(input: HTMLInputElement, errorField: Element, errorText: string) {
-        input.classList.add('input__invalid');
-        errorField.classList.add('error__visible');
-        errorField.textContent = errorText;
     }
 
     /**
@@ -144,27 +84,7 @@ export default class RegisterPage extends Page {
      */
     _registerFormInputHandler(event: Event) {
         event.preventDefault();
-
-        if (!event.target) {
-            return;
-        }
-        const target = event.target as HTMLInputElement;
-
-        if (target.tagName !== 'INPUT') {
-            return;
-        }
-
-        const errorText = validateFormInput(target, true);
-        const errorField = target.nextElementSibling as HTMLElement;
-        if (errorText === "") {
-            target.classList.remove('input__invalid');
-            errorField.classList.remove('error__visible');
-            errorField.textContent = errorText;
-            return;
-        }
-        target.classList.add('input__invalid');
-        errorField.classList.add('error__visible');
-        errorField.textContent = errorText;
+        this.formInputHandler(event);
     }
 
     /**

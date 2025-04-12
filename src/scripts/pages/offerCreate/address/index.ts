@@ -24,15 +24,15 @@ export default class OfferCreateAddressPage extends OfferPage {
         root.innerHTML = template();
         super.render({layout, root});
 
-        this._getDataFromModel();
-        if (this._offerData && Object.keys(this._offerData).length !== 0) {
-            this._setDataFromModel();
-        }
-
         const coords: [number, number] = [55.557729, 37.313484]; // TODO: replace to data from API
 
         this.map = new Map({center: coords, id: 'offerCreateMap', zoom: 15})
         this.house = this.map.addHouse({coords});
+
+        this._getDataFromModel();
+        if (this._offerData && Object.keys(this._offerData).length !== 0) {
+            this._setDataFromModel();
+        }
     }
 
     /**
@@ -53,7 +53,7 @@ export default class OfferCreateAddressPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreateAddressInputs', 'focusout', this._offerDataChange);
+        this.initListener('offerCreateAddressForm', 'focusout', this._offerDataChange);
     }
 
     /**
@@ -62,14 +62,19 @@ export default class OfferCreateAddressPage extends OfferPage {
      * @private
      */
     _setDataFromModel() {
-        const offerCreateAddressInputs = document.getElementById('offerCreateAddressInputs');
+        const offerCreateAddressInputs = document.getElementById('offerCreateAddressForm');
         if (offerCreateAddressInputs === null) {
             return;
         }
         const inputs = offerCreateAddressInputs.querySelectorAll('input');
         inputs.forEach(input => {
             input.value = this._offerData[input.id];
+
+            if (input.id === 'input-address') {
+                this._changeMap(input);
+            }
         })
+
     }
 
     /**
@@ -80,6 +85,9 @@ export default class OfferCreateAddressPage extends OfferPage {
      */
     _isInputsFilled() {
         let isFilled = true;
+        if (Object.keys(this._offerData).length !== 3) {
+            return false;
+        }
         for (const key in this._offerData) {
             if (this._offerData[key] === '') {isFilled = false; return isFilled;}
         }
@@ -95,23 +103,27 @@ export default class OfferCreateAddressPage extends OfferPage {
      */
     _offerDataChange(event: Event, {target} = event) {
         event.preventDefault();
+        this.formInputHandler(event);
 
         const input = target as HTMLInputElement;
 
-        if (input.tagName !== 'INPUT') {
-            return;
-        }
-
-        if (input.id === 'input-address' && this.map) {
-            this.map.geoCode(input.value).then(() => {
-                if (this.map) {
-                    this.changeHousePos(this.map.getCenter());
-                }
-            });
+        if (input.id === 'input-address') {
+            this._changeMap(input);
         }
 
         this._offerData[input.id] = input.value;
         OfferCreate.setData(this._pageName, this._offerData);
         this._markAsFullfilled(this._isInputsFilled());
+    }
+
+    _changeMap(input: HTMLInputElement) {
+        if (this.map) {
+            this.map.geoCode(input.value).then(() => {
+                if (this.map) {
+                    const coords = this.map.getCenter();
+                    this.changeHousePos(coords);
+                }
+            });
+        }
     }
 }

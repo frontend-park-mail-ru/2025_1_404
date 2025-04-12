@@ -9,6 +9,7 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 export default class OfferCreateBtns extends BaseComponent {
     private _nextButton: HTMLElement | null;
     private _backButton: HTMLElement | null;
+    private _submitButton: HTMLElement | null;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -19,6 +20,7 @@ export default class OfferCreateBtns extends BaseComponent {
 
         this._nextButton = document.getElementById('offerCreateBtnsNext');
         this._backButton = document.getElementById('offerCreateBtnsBack');
+        this._submitButton = document.getElementById('offerCreateBtnsSubmit');
     }
 
     /**
@@ -30,6 +32,16 @@ export default class OfferCreateBtns extends BaseComponent {
         this.initListener('offerCreateBtnsSave', 'click', this._saveButtonClickHandler);
         this.initListener('offerCreateBtnsBack', 'click', this._backButtonClickHandler);
         this.initListener('offerCreateBtnsNext', 'click', this._nextButtonClickHandler);
+        this.initListener('offerCreateBtnsSubmit', 'click', this._submitButtonClickHandler);
+    }
+
+    /**
+     * @function _submitButtonClickHandler
+     * @description Обработчик клика по кнопке завершения создания объявления.
+     * @private
+     */
+    _submitButtonClickHandler(){
+
     }
 
     /**
@@ -72,6 +84,28 @@ export default class OfferCreateBtns extends BaseComponent {
             return;
         }
         this.layout.emit('nextPage');
+    }
+
+    /**
+     * @function enableSubmitButton
+     * @description Метод активации кнопки завершения.
+     */
+    enableSubmitButton() {
+        if (!this._submitButton) {
+            return;
+        }
+        this._submitButton.removeAttribute('disabled');
+    }
+
+    /**
+     * @function disableSubmitButton
+     * @description Метод деактивации кнопки завершения.
+     */
+    disableSubmitButton() {
+        if (!this._submitButton) {
+            return;
+        }
+        this._submitButton.setAttribute('disabled', 'disabled');
     }
 
     /**

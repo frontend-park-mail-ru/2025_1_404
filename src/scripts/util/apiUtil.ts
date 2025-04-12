@@ -21,6 +21,10 @@ interface MakeRequestInterface {
      */
     body?: Record<string, string>;
     /**
+     * @property {string} query Query параметры
+     */
+    query?: string;
+    /**
      * @property {object} files Файлы для загрузки
      */
     files?: Record<string, File>;
@@ -32,10 +36,11 @@ interface MakeRequestInterface {
  * @param {string} endpoint URL-адрес API
  * @param {string} method HTTP-метод (GET, POST и т.д.)
  * @param {object} body Тело запроса
+ * @param {string} query Query параметры
  * @param {object} files Файлы для загрузки
  * @returns {Promise<*>} Ответ от сервера
  */
-const makeRequest = async ({endpoint, method='GET', body={}, files={}}: MakeRequestInterface) => {
+const makeRequest = async ({endpoint, method='GET', body={}, query='', files={}}: MakeRequestInterface) => {
     const options: RequestInit = {
         credentials: 'include',
         headers: {},
@@ -59,7 +64,12 @@ const makeRequest = async ({endpoint, method='GET', body={}, files={}}: MakeRequ
         }
         options.body = JSON.stringify(body);
     }
-    const response = await fetch(`${BACKEND_URL}${endpoint}`, options);
+    let endpointUrl = endpoint;
+    if (query !== '') {
+       endpointUrl = endpointUrl + '?' + query;
+    }
+
+    const response = await fetch(`${BACKEND_URL}${endpointUrl}`, options);
     if (!response.ok) {
         const json = await response.json();
         throw new Error(json.error);
@@ -72,9 +82,10 @@ const makeRequest = async ({endpoint, method='GET', body={}, files={}}: MakeRequ
  * @description Функция для получения списка предложений.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const getOffers = async() => await makeRequest({
+export const getOffers = async(queryParams: Object={}) => await makeRequest({
     endpoint: '/offers',
-    method: 'GET'
+    method: 'GET',
+    query: _fromObjectToQuery(queryParams as Record<string, Set<string> | string>),
 });
 
 /**
@@ -277,3 +288,25 @@ export const logout = async () => await makeRequest({
     endpoint: '/auth/logout',
     method: 'POST'
 });
+
+const _fromObjectToQuery = function(object: Record<string, Set<string> | string>): string {
+    let queryParams = '';
+    Object.keys(object).forEach((key: string) => {
+        if (object[key] instanceof Set) {
+            queryParams += `${key}=`;
+            object[key].forEach((value: string) => {
+                queryParams += `${value},`;
+            });
+            queryParams = queryParams.slice(0, -1);
+            queryParams += '&';
+        } else if (typeof object[key] === 'string') {
+            queryParams += `${key}=${object[key]}&`;
+        }
+    });
+
+    if (queryParams.endsWith('&')) {
+        queryParams = queryParams.slice(0, -1);
+    }
+
+    return queryParams;
+}

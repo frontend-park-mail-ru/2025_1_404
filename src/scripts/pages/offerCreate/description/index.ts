@@ -80,6 +80,7 @@ export default class OfferCreateDescriptionPage extends OfferPage {
 
         this._offerData[target.id] = target.value;
         OfferCreate.setData(this._pageName, this._offerData);
+        console.log(this._isInputsFilled());
         this._markAsFullfilled(this._isInputsFilled());
     }
 }

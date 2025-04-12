@@ -1,10 +1,10 @@
 <div class="filter">
-    <div class="filter__first">
-        {{> FilterCheckListSelect id="filterOfferType" name="Тип сделки" }}
-        {{> FilterCheckListSelect id="filterPropertyType" name="Тип недвижимости" }}
-        {{> FilterDoubleInputSelect id="filterPrice" name="Цена"}}
-        {{> FilterDoubleInputSelect id="filterSquare" name="Площадь"}}
-        {{> Input class="filter__bottom-input" id="filterInputAddress" type="text" placeholder="Район, улица, дом, ЖК"}}
+    <div id="filterInputs" class="filter__first">
+        {{> FilterCheckListSelect id="filterOfferType" label="Тип сделки" choices="Аренда;Покупка"}}
+        {{> FilterCheckListSelect id="filterPropertyType" label="Тип недвижимости" choices="Квартира;Дом;Апартаменты" }}
+        {{> FilterDoubleInputSelect id="filterPrice" name="offer_price" label="Цена"}}
+        {{> FilterDoubleInputSelect id="filterSquare" name="offer_square" label="Площадь"}}
+        {{> Input class="filter__bottom-input" id="filterInputAddress" name="offer_address" type="text" placeholder="Город, улица, дом"}}
     </div>
     <div class="filter__bottom">
         {{> PrimaryButton name="Показать объявления" class="filter__submit" id="filterSubmitButton"}}

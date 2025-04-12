@@ -1,6 +1,6 @@
 <div class="filter__select">
-    <button id="{{id}}Button" class="filter__select-button {{class}}">{{name}}</button>
+    <button id="{{id}}Button" class="filter__select-button {{class}}" name="{{name}}">{{label}}</button>
     <div id="{{id}}Popup" class="filter__select-popup">
-        {{> FilterDoubleInput id=id type="text"}}
+        {{> FilterDoubleInput id=id name=name type="text"}}
     </div>
 </div>

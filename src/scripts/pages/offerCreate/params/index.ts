@@ -99,15 +99,12 @@ export default class OfferCreateParamsPage extends OfferPage {
      */
     _offerParamsInputChange(event: Event) {
         event.preventDefault();
+        this.formInputHandler(event);
 
         if (!event.target) {
             return;
         }
         const target = event.target as HTMLInputElement;
-
-        if (target.tagName !== 'INPUT') {
-            return;
-        }
 
         this._offerData[target.id] = target.value;
         OfferCreate.setData(this._pageName, this._offerData);
