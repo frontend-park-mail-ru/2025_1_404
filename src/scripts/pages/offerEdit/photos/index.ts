@@ -4,26 +4,34 @@ import OfferPage from "../page.ts";
 import offerCreatePhotosPreviewTemplate from "../../../components/offerCreatePhotosPreview/template.precompiled.js";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
+import {BaseLayout} from "../../../layouts/baseLayout.ts";
+import {deleteOfferImage, uploadOfferImage} from "../../../util/apiUtil.ts";
 
 /**
- * @class OfferCreatePhotosPage
- * @description Страница создания объявления с выбором фото
+ * @class OfferEditPhotosPage
+ * @description Страница редактирования объявления с выбором фото
  * @augments OfferPage
  */
-export default class OfferCreatePhotosPage extends OfferPage {
-    private _photosPreviewsCounter: number | undefined;
+export default class OfferEditPhotosPage extends OfferPage {
+    private _photosPreviewsCounter: number = -1;
     private _dropArea: HTMLElement | null | undefined;
     private _photosPreviewsList: HTMLElement | null | undefined;
+    private _offerId: number = 0;
     /**
      * @function render
      * @description Метод рендеринга страницы.
      * @param {HTMLElement} root корневой элемент страницы
      * @param {BaseLayout} layout макет страницы
+     * @param {Object} props параметры страницы
      */
-    render({layout, root}: PageRenderInterface) {
-        root.innerHTML = template();
+    render({layout, root, props}: PageRenderInterface) {
+        if (!props || typeof props.id !== 'number') {
+            return;
+        }
 
-        this._photosPreviewsCounter = 0;
+        root.innerHTML = template();
+        this._offerId = props.id;
+        this._photosPreviewsCounter = -1;
         this._dropArea = document.getElementById('offerCreatePhotosInputBlock');
         this._photosPreviewsList = document.getElementById('offerCreatePhotosPreviews');
 
@@ -31,6 +39,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
         if (Object.keys(this._offerData).length !== 0) {
             this._setDataFromModel();
         }
+
     }
 
     /**
@@ -60,9 +69,6 @@ export default class OfferCreatePhotosPage extends OfferPage {
         }
         this._photosPreviewsCounter += 1;
         this._offerData[this._photosPreviewsCounter] = source;
-        this._uploadedImages[this._photosPreviewsCounter] = {
-            file: file
-        };
         this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));
     }
 
@@ -118,7 +124,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
         files.forEach((file) => {
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = (event) => {
+                reader.onload = async (event) => {
                     if (!event.target) {
                         return;
                     }
@@ -126,13 +132,51 @@ export default class OfferCreatePhotosPage extends OfferPage {
                     if (target.result) {
                         this._addPhotoPreview(file, target.result.toString());
                         OfferCreate.setData(this._pageName, this._offerData);
-                        OfferCreate.setImages(this._uploadedImages);
+
+                        await this._handleAddImage(file);
 
                         this._markAsFullfilled(Object.keys(this._offerData).length > 0);
                     }
                 };
                 reader.readAsDataURL(file);
             }
+        })
+    }
+
+    async _deleteImage(localId: string) {
+        if (this._offerId === undefined || this._uploadedImages[localId].id === undefined) {
+            return;
+        }
+        await this._layout?.makeRequest(deleteOfferImage,
+            this._uploadedImages[localId].id
+        ).catch((err) => {
+            console.error(err);
+        })
+    }
+
+    async _handleAddImage(file: File) {
+        if (typeof this._photosPreviewsCounter !== 'number') {
+            return;
+        }
+        const localId = this._photosPreviewsCounter;
+        if (this._offerId === undefined) {
+            return;
+        }
+        await this._layout?.makeRequest(uploadOfferImage, {
+            offerId: this._offerId,
+            image: file
+        }).then((data) => {
+            if (data) {
+                this._uploadedImages[localId] = {
+                    file: file,
+                    id: data.image_id,
+                }
+                OfferCreate.setImages(this._uploadedImages);
+                console.log(this._offerData)
+                console.log(this._uploadedImages)
+            }
+        }).catch((err) => {
+            console.error(err);
         })
     }
 
@@ -184,13 +228,14 @@ export default class OfferCreatePhotosPage extends OfferPage {
             event.preventDefault();
 
             const photoPreview = currentTarget.id
-            delete this._offerData[photoPreview];
-            delete this._uploadedImages[photoPreview];
-
-            OfferCreate.setData(this._pageName, this._offerData);
-            OfferCreate.setImages(this._uploadedImages);
-            this._markAsFullfilled(Object.keys(this._offerData).length > 0);
-            currentTarget.remove();
+            this._deleteImage(photoPreview).then(() => {
+                delete this._offerData[photoPreview];
+                delete this._uploadedImages[photoPreview];
+                OfferCreate.setData(this._pageName, this._offerData);
+                OfferCreate.setImages(this._uploadedImages);
+                this._markAsFullfilled(Object.keys(this._offerData).length > 0);
+                currentTarget.remove();
+            })
         }
     }
 
@@ -202,8 +247,8 @@ export default class OfferCreatePhotosPage extends OfferPage {
     _setDataFromModel() {
         const _offerData = this._offerData;
         this._offerData = {};
-        // this._uploadedImages = {};
         Object.keys(_offerData).forEach(photo => {
+            console.log(_offerData, photo, this._uploadedImages)
             this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);
         })
     }

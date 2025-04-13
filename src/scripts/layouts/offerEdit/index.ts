@@ -7,6 +7,7 @@ import {PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
 import {getOfferById} from "../../util/apiUtil.ts";
+import Loader from "../../components/loader";
 
 /**
  * @class OfferEditLayout
@@ -61,13 +62,18 @@ class OfferEditLayout extends MainLayout {
                 if (!props || typeof props.id !== 'number') {
                     return;
                 }
+                const loader = new Loader({layout: this, page: page});
                 if (this._offerId === undefined) {
+                    loader.setLoaderStatus(true);
                     this.makeRequest(getOfferById, props.id).then((data) => {
                         if (data) {
                             this._offerId = data.offer.id;
-                            OfferCreate.parseJSON(data);
-                            RouteManager.navigateToPageByCurrentURL();
+                            OfferCreate.parseJSON(data).then(() => {
+                                RouteManager.navigateToPageByCurrentURL();
+                            })
                         }
+                    }).finally(() => {
+                        loader.setLoaderStatus(false);
                     })
                 }
 
@@ -214,10 +220,10 @@ class OfferEditLayout extends MainLayout {
      * @description Обработчик события отправки страницы.
      */
     async _handlePageSubmit() {
-        if (!this._currentPage) {
+        if (!this._currentPage || this._offerId === undefined) {
             return;
         }
-        await this.makeRequest(OfferCreate.create.bind(OfferCreate)).then((offerId) => {
+        await this.makeRequest(OfferCreate.save.bind(OfferCreate), this._offerId).then((offerId) => {
             if (typeof offerId === 'number') {
                 RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
             }

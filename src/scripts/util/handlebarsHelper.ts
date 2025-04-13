@@ -25,6 +25,12 @@ const join = function(array: string[]) {
     return array.join(', ');
 };
 
+const breakLines = function(text: string) {
+    text = Handlebars.Utils.escapeExpression(text);
+    text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+    return new Handlebars.SafeString(text);
+}
+
 /**
  * @function registerHandlebarsHelpers
  * @description Регистрация хелперов Handlebars
@@ -33,4 +39,5 @@ export default function registerHandlebarsHelpers() {
     Handlebars.registerHelper('renderRating', renderRating);
     Handlebars.registerHelper('split', split);
     Handlebars.registerHelper('join', join);
+    Handlebars.registerHelper('breakLines', breakLines);
 }

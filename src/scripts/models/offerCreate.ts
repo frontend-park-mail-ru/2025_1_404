@@ -1,6 +1,10 @@
-import {createOffer, CreateOfferInterface} from "../util/apiUtil.ts";
 import Offer from "./offer.ts";
-import RouteManager from "../managers/routeManager/routeManager.ts";
+import {uploadOfferImage} from "../util/apiUtil.ts";
+
+export interface ImageData {
+    id?: number,
+    file: File,
+}
 
 /**
  * @class OfferCreate
@@ -15,7 +19,7 @@ class OfferCreate {
         'photos': {},
         'description': {},
     };
-    private _uploadedImages: Record<string, File> = {}
+    private _uploadedImages: Record<string, ImageData> = {}
     private _filledPages: Record<string, boolean> = {};
     /**
      * @description Конструктор класса.
@@ -40,6 +44,10 @@ class OfferCreate {
         return this._offerData;
     }
 
+    getImages() {
+        return this._uploadedImages;
+    }
+
     /**
      * @function setData
      * @description Метод установки данных объявления.
@@ -50,7 +58,7 @@ class OfferCreate {
         this._offerData[pageName] = data;
     }
 
-    setImages(images: Record<string, File>) {
+    setImages(images: Record<string, ImageData>) {
         this._uploadedImages = images;
     }
 
@@ -103,7 +111,65 @@ class OfferCreate {
         return await offer.create();
     }
 
-    parseJSON(data) {
+    async save(offerId: number) {
+        const offer = new Offer();
+        offer.parseOfferData(this._offerData, this._uploadedImages);
+        offer.id = offerId
+        return await offer.save();
+    }
+
+    async fileToString(file: File | Blob): Promise<string> {
+        if (!(file instanceof Blob)) throw new Error("Expected a Blob or File");
+
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result));
+            reader.onerror = () => reject(reader.error || new Error("FileReader failed"));
+            reader.readAsDataURL(file);
+        });
+    }
+
+    async urlToFile(url: string, filename: string, mimeType: string): Promise<File> {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new File([blob], filename, { type: mimeType });
+    }
+
+    async addImage(offerId: number, localId: string, file: File): Promise<void> {
+        uploadOfferImage({
+            offerId: offerId,
+            image: file
+        }).then((response) => {
+            this._uploadedImages[localId] = {
+                id: response.id,
+                file: file
+            };
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    reset() {
+        this._filledPages = {
+            'type': true,
+            'address': false,
+            'params': false,
+            'price': false,
+            'photos': false,
+            'description': false,
+        };
+
+        this._offerData = {
+            'type': {},
+            'address': {},
+            'params': {},
+            'price': {},
+            'photos': {},
+            'description': {},
+        };
+    }
+
+    async parseJSON(data) {
         const offerStatus: Record<number, string> = {
             1: 'Черновик',
             2: 'Активный',
@@ -149,15 +215,39 @@ class OfferCreate {
         this._offerData['address']['input-flat'] = data.offer.flat.toString();
         this._offerData['params']['input-square'] = data.offer.area.toString();
         this._offerData['params']['input-ceiling-height'] = data.offer.ceiling_height.toString();
-        this._offerData['type']['input-offer-type'] = data.offer.floor.toString();
+        this._offerData['type']['input-offer-type'] = offerTypes[data.offer.offer_type_id];
         this._offerData['type']['input-rent-type'] = rentTypes[data.offer.rent_type_id];
         this._offerData['type']['input-purchase-type'] = purchaseTypes[data.offer.purchase_type_id];
         this._offerData['type']['input-property-type'] = propertyTypes[data.offer.property_type_id];
         this._offerData['address']['input-metroStation'] = data.offer_data.metro.station;
         this._offerData['address']['input-metroLine'] = data.offer_data.metro.line;
-        this._offerData['params']['input-renovation'] = offerRenovations[data.offer.renovation_type_id];
+        this._offerData['params']['input-renovation'] = offerRenovations[data.offer.renovation_id];
 
-        console.log(this._offerData)
+        this._filledPages = {
+            'type': true,
+            'address': true,
+            'params': true,
+            'price': true,
+            'photos': true,
+            'description': true,
+        }
+
+        this._uploadedImages = {};
+        for (let i = 0; i < data.offer_data.offer_images.length; i++) {
+            await this.urlToFile(data.offer_data.offer_images[i].image, `image-${i}`, 'image/jpg').then(async (file) => {
+                this._uploadedImages[i.toString()] = {
+                    id: data.offer_data.offer_images[i].id,
+                    file: file
+                };
+                await this.fileToString(file).then((result) => {
+                    this._offerData['photos'][i.toString()] = result;
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }).catch((err) => {
+                console.log(err)
+            });
+        }
     }
 
 }

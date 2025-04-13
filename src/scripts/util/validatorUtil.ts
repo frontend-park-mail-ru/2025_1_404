@@ -101,7 +101,6 @@ export const validateFormInput = function ({value, name:valueName}: ValidateForm
     if (passwordDocument) {
         password = passwordDocument.value;
     }
-    console.log(value, valueName);
     switch(valueName) {
         // Валидация имени и фамилии
         case 'first_name':

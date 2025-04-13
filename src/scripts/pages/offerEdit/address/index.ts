@@ -7,11 +7,11 @@ import {PageRenderInterface} from "../../page.ts";
 import {Marker} from "leaflet";
 
 /**
- * @class OfferCreateAddressPage
- * @description Страница создания объявления с выбором адреса
+ * @class OfferEditAddressPage
+ * @description Страница режактирования объявления с выбором адреса
  * @augments OfferPage
  */
-export default class OfferCreateAddressPage extends OfferPage {
+export default class OfferEditAddressPage extends OfferPage {
     private map: Map | undefined;
     private house: Marker | undefined;
     /**

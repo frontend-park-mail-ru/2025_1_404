@@ -5,11 +5,11 @@ import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
 
 /**
- * @class OfferCreatePricePage
- * @description Страница создания объявления с выбором цены
+ * @class OfferEditPricePage
+ * @description Страница редактирования объявления с выбором цены
  * @augments OfferPage
  */
-export default class OfferCreatePricePage extends OfferPage {
+export default class OfferEditPricePage extends OfferPage {
     /**
      * @function render
      * @description Метод рендеринга страницы.

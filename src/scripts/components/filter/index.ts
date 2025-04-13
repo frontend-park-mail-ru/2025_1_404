@@ -84,7 +84,6 @@ export default class Filter extends BaseComponent {
         for (const [key, value] of Object.entries(this._filterData)) {
             FilterModel.setData(key, value);
         }
-        console.log(FilterModel.getFilterData())
         RouteManager.navigateTo('/search');
     }
 
@@ -196,13 +195,11 @@ export default class Filter extends BaseComponent {
         }
         const inputs = filterInputs.querySelectorAll('input');
         inputs.forEach(input => {
-            // console.log(input, this._filterData[input.id]);
             input.value = <string>this._filterData[input.id];
         })
 
         this._filterCheckLists.forEach(id => {
             const ul = document.getElementById(id);
-            // console.log(ul);
             if (ul === null) {
                 return;
             }
@@ -213,8 +210,6 @@ export default class Filter extends BaseComponent {
                     return;
                 }
                 const spanText = li.children[1].textContent as string;
-                // console.log(spanText);
-                // console.log(this._filterData[id]);
                 if (this._filterData[id] === spanText) {
                     li.classList.add('checked');
                 }

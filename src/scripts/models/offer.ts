@@ -1,4 +1,5 @@
-import {createOffer, publishOffer, uploadOfferImage} from "../util/apiUtil.ts";
+import {createOffer, publishOffer, updateOffer, uploadOfferImage} from "../util/apiUtil.ts";
+import {ImageData} from "./offerCreate.ts";
 
 const offerStatus: Record<number, string> = {
     1: 'Черновик',
@@ -73,7 +74,7 @@ export default class Offer {
     complexId?: number = undefined;
     images: Array<File|string> = [];
 
-    parseOfferData(createOfferData: Record<string, Record<string, string>>, images: Record<string, File>) {
+    parseOfferData(createOfferData: Record<string, Record<string, string>>, images: Record<string, ImageData>) {
         this.id = undefined;
         this.status = 1;
         this.price = Number(createOfferData['price']['input-price']);
@@ -93,7 +94,10 @@ export default class Offer {
         this.metroLine = createOfferData['address']['input-metroLine'];
         this.renovation = createOfferData['params']['input-renovation'];
         this.complexId = Number(createOfferData['address']['input-complexId']);
-        this.images = Object.values(images);
+        this.images = [];
+        for (const key in images) {
+            this.images.push(images[key].file);
+        }
     }
 
     parseJSON(json: any) {
@@ -158,5 +162,30 @@ export default class Offer {
         }
         await publishOffer(offerId);
         return offerId;
+    }
+
+    async save() {
+        const response = await updateOffer({
+            id: this.id,
+            price: this.price,
+            description: this.description,
+            floor: this.floor,
+            totalFloors: this.totalFloors,
+            rooms: this.rooms,
+            address: this.address,
+            flat: this.flat,
+            area: this.area,
+            ceilingHeight: this.ceilingHeight,
+            offerType: Number(Object.keys(offerTypes).find((key) => offerTypes[Number(key)] === this.offerType)),
+            rentType: Number(Object.keys(rentTypes).find((key) => rentTypes[Number(key)] === this.rentType)),
+            purchaseType: Number(Object.keys(purchaseTypes).find((key) => purchaseTypes[Number(key)] === this.purchaseType)),
+            propertyType: Number(Object.keys(propertyTypes).find((key) => propertyTypes[Number(key)] === this.propertyType)),
+            metroStation: this.metroStation,
+            metroLine: this.metroLine,
+            renovation: Number(Object.keys(offerRenovations).find((key) => offerRenovations[Number(key)] === this.renovation)),
+            complexId: Number(this.complexId),
+            images: this.images.filter(image => typeof image !== 'string'),
+        });
+        return this.id;
     }
 }
