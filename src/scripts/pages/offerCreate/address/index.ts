@@ -52,7 +52,7 @@ export default class OfferCreateAddressPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreateAddressForm', 'change', this._offerDataChange);
+        this.initListener('offerCreateAddressForm', 'input', this._offerDataChange);
     }
 
     /**

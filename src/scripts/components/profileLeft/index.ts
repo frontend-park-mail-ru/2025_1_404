@@ -46,7 +46,7 @@ export default class ProfileLeft extends BaseComponent {
         this.initListener('profileAvatarUpload', 'click', this._processAvatarHandler);
         this.initListener('profileAvatarInput', 'change', this._getAvatarAfterChooseClickHandler);
         this.initListener('profileData', 'submit', this._profileDataHandler);
-        this.initListener('profileData', 'focusout', this._profileDataInputHandler);
+        this.initListener('profileData', 'input', this._profileDataInputHandler);
     }
 
     /**

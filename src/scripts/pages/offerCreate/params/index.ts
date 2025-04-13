@@ -32,7 +32,7 @@ export default class OfferCreateParamsPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreateParams', 'change', this._offerDataChange);
+        this.initListener('offerCreateParams', 'input', this._offerDataChange);
     }
 
     /**

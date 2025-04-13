@@ -32,7 +32,7 @@ export default class Login extends BaseComponent {
     initListeners() {
         this.initListener('loginCloseButton', 'click', this._loginCloseButtonHandler);
         this.initListener('login-form', 'submit', this._loginFormHandler);
-        this.initListener('login-form', 'focusout', this._loginFormInputHandler);
+        this.initListener('login-form', 'input', this._loginFormInputHandler);
         this.initListener('registerHrefButton', 'click', this._loginFormRegisterButtonHandler);
         this.initListener('overlay', 'click', this._overlayHandler);
     }

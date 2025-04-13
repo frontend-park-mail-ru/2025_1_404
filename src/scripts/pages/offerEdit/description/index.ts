@@ -31,7 +31,7 @@ export default class OfferEditDescriptionPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('input-description', 'change', this._offerDescriptionTextareaChange);
+        this.initListener('input-description', 'input', this._offerDescriptionTextareaChange);
     }
 
     /**

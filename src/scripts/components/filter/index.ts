@@ -67,11 +67,11 @@ export default class Filter extends BaseComponent {
     initListeners() {
         this.initListenerForClass('filter__select-button', 'click', this._filterSelectOpenPopup);
         this.initListenerForClass('filter__check-elem', 'click', this._filterCheckListElem);
-        this.initListener('filterPriceLeft', 'focusout', this._filterInputChange);
-        this.initListener('filterPriceRight', 'focusout', this._filterInputChange);
-        this.initListener('filterSquareLeft', 'focusout', this._filterInputChange);
-        this.initListener('filterSquareRight', 'focusout', this._filterInputChange);
-        this.initListener('filterInputAddress', 'focusout', this._filterInputChange);
+        this.initListener('filterPriceLeft', 'input', this._filterInputChange);
+        this.initListener('filterPriceRight', 'input', this._filterInputChange);
+        this.initListener('filterSquareLeft', 'input', this._filterInputChange);
+        this.initListener('filterSquareRight', 'input', this._filterInputChange);
+        this.initListener('filterInputAddress', 'input', this._filterInputChange);
         this.initListener('filterSubmitButton', 'click', this._filterSubmit);
     }
 

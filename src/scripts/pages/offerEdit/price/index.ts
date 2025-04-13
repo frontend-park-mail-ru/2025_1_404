@@ -28,7 +28,7 @@ export default class OfferEditPricePage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('input-price', 'change', this._offerDataChange);
+        this.initListener('input-price', 'input', this._offerDataChange);
     }
 
     /**
