@@ -26,6 +26,7 @@ import {OfferEditDescriptionRoute} from "../routes/offer/edit/offerEditDescripti
  * @function registerRoutes
  * @description Регистрация маршрутов
  */
+// eslint-disable-next-line max-statements
 export default function registerRoutes() {
     const authMiddleware = new AuthMiddleware();
 

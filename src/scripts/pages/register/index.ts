@@ -3,7 +3,6 @@ import {Page, PageRenderInterface} from '../page';
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
 import template from './template.precompiled.js';
-import {validateFormInput} from "../../util/validatorUtil.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 
 interface RegisterInterface extends Record<string, string> {

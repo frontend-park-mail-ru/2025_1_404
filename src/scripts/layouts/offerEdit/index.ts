@@ -2,7 +2,7 @@ import MainLayout from "../main/index";
 import OfferCreate from "../../models/offerCreate.ts";
 import OfferCreateBtns from "../../components/offerCreateBtns";
 import OfferCreateNav from "../../components/offerCreateNav";
-import OfferPage from "../../pages/offerCreate/page.ts";
+import OfferPage from "../../pages/offerEdit/page.ts";
 import {PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
@@ -15,11 +15,11 @@ import Loader from "../../components/loader";
  * @augments MainLayout
  */
 class OfferEditLayout extends MainLayout {
-    private _offerId: number | undefined;
+    private _offerId: number | null = null;
     private _currentPage: string | undefined;
-    private _unlockedPages: string[];
-    private _filledPagesId: string[];
-    private _allPages: string[];
+    private _allPages: string[] = ["type", "address", "params", "price", "photos", "description"];
+    private _unlockedPages: string[] = this._allPages;
+    private _filledPagesId: string[] = this._allPages;
     private _offerCreateNav: OfferCreateNav | undefined;
     private _offerCreateBtns: OfferCreateBtns | undefined;
     /**
@@ -27,11 +27,7 @@ class OfferEditLayout extends MainLayout {
      */
     constructor() {
         super();
-        this._currentPage = "type";
-        this._allPages = ["type", "address", "params", "price", "photos", "description"];
-        this._unlockedPages = this._allPages;
-        this._filledPagesId = this._allPages;
-
+        this.reset()
         this.on('goToPage', this._handlePageChange.bind(this));
         this.on('nextPage', this._handleNextPage.bind(this));
         this.on('prevPage', this._handlePrevPage.bind(this));
@@ -95,7 +91,7 @@ class OfferEditLayout extends MainLayout {
      */
     _getOfferById(page: OfferPage, props: Record<string, unknown>) {
         const loader = new Loader({page, layout: this});
-        if (this._offerId === undefined) {
+        if (this._offerId === null) {
             loader.setLoaderStatus(true);
             this.makeRequest(getOfferById, props.id as number).then((data) => {
                 if (data) {
@@ -193,6 +189,7 @@ class OfferEditLayout extends MainLayout {
      * @param {boolean} isFilled true, если страница заполнена, иначе false.
      * @private
      */
+    // eslint-disable-next-line max-statements
     _handlePageFilled(isFilled: boolean) {
         const nextPage = this._getNextPage();
         if (!this._currentPage || !this._offerCreateBtns) {
@@ -230,7 +227,7 @@ class OfferEditLayout extends MainLayout {
      * @description Обработчик события отправки страницы.
      */
     async _handlePageSubmit() {
-        if (!this._currentPage || this._offerId === undefined) {
+        if (!this._currentPage || this._offerId === null) {
             return;
         }
         await this.makeRequest(OfferCreate.save.bind(OfferCreate), this._offerId).then((offerId) => {
@@ -300,7 +297,7 @@ class OfferEditLayout extends MainLayout {
      * @private
      */
     _navigateToPage(page: string) {
-        if (this._offerId === undefined) {
+        if (this._offerId === null) {
             return;
         }
         RouteManager.navigateTo("/offer/edit/".concat(this._offerId.toString(), '/', page));
@@ -381,7 +378,11 @@ class OfferEditLayout extends MainLayout {
      * @private
      */
     reset() {
-        this._offerId = undefined;
+        this._offerId = null;
+        this._currentPage = "type";
+        this._allPages = ["type", "address", "params", "price", "photos", "description"];
+        this._unlockedPages = this._allPages;
+        this._filledPagesId = this._allPages;
     }
 }
 

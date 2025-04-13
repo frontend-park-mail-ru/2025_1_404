@@ -1,5 +1,3 @@
-
-import OfferCreate from "../../../models/offerCreate.ts";
 import OfferPage from "../page.ts";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";

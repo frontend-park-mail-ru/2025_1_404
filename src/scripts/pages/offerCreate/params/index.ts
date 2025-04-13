@@ -39,6 +39,7 @@ export default class OfferCreateParamsPage extends OfferPage {
      * @function _offerDataChange
      * @description Метод изменения данных в модели.
      * @param {Event} event событие
+     * @returns {Promise<void>} промис
      * @private
      */
     _offerDataChange(event: Event) {

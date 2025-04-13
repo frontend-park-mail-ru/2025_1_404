@@ -50,11 +50,11 @@ export default class OfferDetailsPage extends Page {
 
             this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
 
-            const coords: [number, number] = [55.557729, 37.313484];
+            let coords: [number, number] = [55.557729, 37.313484];
             this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
             this.map.geoCode(offer.address).then(() => {
                 if (this.map) {
-                    const coords = this.map.getCenter();
+                    coords = this.map.getCenter();
                     this.map.addHouse({coords});
                 }
             });
@@ -64,6 +64,7 @@ export default class OfferDetailsPage extends Page {
     /**
      * @function _getOfferById
      * @description Метод получения объявления по id.
+     * @param {number} id id объявления
      * @returns {Promise<null | void>} промис с данными объявления.
      * @private
      */

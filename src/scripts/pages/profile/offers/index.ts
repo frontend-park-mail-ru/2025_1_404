@@ -31,11 +31,20 @@ export default class ProfileMyOffersPage extends Page {
         this._updateContent(this._offerStatus);
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('profile-right-nav', 'click', this._handleTabClick);
         this.initListener('profile-right-list', 'click', this._handleCardClick);
     }
 
+    /**
+     * @function _handleCardClick
+     * @description Метод обработки клика по карточке объявления.
+     * @param {Event} event событие
+     */
     _handleCardClick(event: Event) {
         const target = event.target as HTMLElement;
         if (!target) {
@@ -65,6 +74,11 @@ export default class ProfileMyOffersPage extends Page {
         }
     }
 
+    /**
+     * @function _deleteOffer
+     * @description Метод удаления объявления.
+     * @param {number} offerId ID объявления
+     */
     _deleteOffer(offerId: number) {
         if (!this._layout) {
             return;
@@ -76,6 +90,11 @@ export default class ProfileMyOffersPage extends Page {
         });
     }
 
+    /**
+     * @function _handleTabClick
+     * @description Метод обработки клика по вкладке.
+     * @param {Event} event событие
+     */
     _handleTabClick(event: Event) {
         const target = event.target as HTMLElement;
         if (target.classList.contains('profile__right-nav-href') && target.dataset && target.dataset.tab && target.dataset.offerstatus) {
@@ -86,6 +105,11 @@ export default class ProfileMyOffersPage extends Page {
         }
     }
 
+    /**
+     * @function _updateContent
+     * @description Метод обновления контента страницы.
+     * @param {number} offerType тип объявления
+     */
     _updateContent(offerType: number) {
         const offerList = document.querySelector('.profile__right-list') as HTMLElement;
         if (!offerList || !this._layout) {
@@ -100,7 +124,8 @@ export default class ProfileMyOffersPage extends Page {
             'seller_id': user.id.toString(),
             'offer_type_id': offerType.toString()
         }).then((response) => {
-            response.forEach((offerData) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            response.forEach((offerData: any) => {
                 const offer = new Offer();
                 offer.parseJSON(offerData);
                 offerList.innerHTML += profileOfferTemplate({
@@ -121,6 +146,11 @@ export default class ProfileMyOffersPage extends Page {
         })
     }
 
+    /**
+     * @function _setActiveTab
+     * @description Метод установки активной вкладки.
+     * @param {number} tabIndex индекс вкладки
+     */
     _setActiveTab(tabIndex: number) {
         const tabs = document.querySelectorAll('.profile__right-nav-href');
         tabs.forEach((tab, index) => {

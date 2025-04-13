@@ -146,7 +146,7 @@ class OfferCreate {
      * @param {File | Blob} file файл.
      * @returns {Promise<any>}.
      */
-    async fileToString(file: File | Blob): Promise<string> {
+    fileToString(file: File | Blob): Promise<string> {
         if (!(file instanceof Blob)) {
             throw new Error("Expected a Blob or File");
         }
@@ -159,14 +159,29 @@ class OfferCreate {
         });
     }
 
+    /**
+     * @function urlToFile
+     * @description Метод преобразования URL в файл.
+     * @param {string} url URL файла.
+     * @param {string} filename имя файла.
+     * @param {string} mimeType MIME-тип файла.
+     * @returns {Promise<File>} файл.
+     */
     async urlToFile(url: string, filename: string, mimeType: string): Promise<File> {
         const response = await fetch(url);
         const blob = await response.blob();
         return new File([blob], filename, { type: mimeType });
     }
 
+    /**
+     * @function addImage
+     * @description Метод добавления изображения в объявление.
+     * @param {number} offerId ID объявления.
+     * @param {string} localId локальный ID изображения.
+     * @param {File} file файл изображения.
+     */
     async addImage(offerId: number, localId: string, file: File): Promise<void> {
-        uploadOfferImage({
+        await uploadOfferImage({
             offerId,
             image: file
         }).then((response) => {
@@ -179,6 +194,10 @@ class OfferCreate {
         })
     }
 
+    /**
+     * @function reset
+     * @description Метод сброса данных объявления.
+     */
     reset() {
         this._filledPages = {
             'type': true,
@@ -199,59 +218,18 @@ class OfferCreate {
         };
     }
 
-    async parseJSON(data) {
-        // const offerStatus: Record<number, string> = {
-        //     1: 'Черновик',
-        //     2: 'Активный',
-        //     3: 'Завершенный',
-        // }
-
-        const offerTypes: Record<number, string> = {
-            1: 'Продажа',
-            2: 'Аренда'
-        };
-
-        const propertyTypes: Record<number, string> = {
-            1: 'Апартаменты',
-            2: 'Дом',
-            3: 'Квартира'
-        };
-
-        const purchaseTypes: Record<number, string> = {
-            1: 'Новостройка',
-            2: 'Вторичка'
-        };
-
-        const rentTypes: Record<number, string> = {
-            1: 'Посуточно',
-            2: 'Долгосрок'
-        };
-
-        const offerRenovations: Record<number, string> = {
-            1: 'Современный ремонт',
-            2: 'Косметический ремонт',
-            3: 'Черновая отделка',
-            4: 'Нужен полный ремонт',
-            5: 'Нужен частичный ремонт',
-            6: 'Улучшенная черновая',
-        };
-
-        this._offerData.price['input-price'] = data.offer.price.toString();
-        this._offerData.description['input-description'] = data.offer.description;
-        this._offerData.address['input-floor'] = data.offer.floor.toString();
-        this._offerData.address['input-total-floors'] = data.offer.total_floors.toString();
-        this._offerData.params['input-rooms'] = data.offer.rooms.toString();
-        this._offerData.address['input-address'] = data.offer.address;
-        this._offerData.address['input-flat'] = data.offer.flat.toString();
-        this._offerData.params['input-square'] = data.offer.area.toString();
-        this._offerData.params['input-ceiling-height'] = data.offer.ceiling_height.toString();
-        this._offerData.type['input-offer-type'] = offerTypes[data.offer.offer_type_id];
-        this._offerData.type['input-rent-type'] = rentTypes[data.offer.rent_type_id];
-        this._offerData.type['input-purchase-type'] = purchaseTypes[data.offer.purchase_type_id];
-        this._offerData.type['input-property-type'] = propertyTypes[data.offer.property_type_id];
-        this._offerData.address['input-metroStation'] = data.offer_data.metro.station;
-        this._offerData.address['input-metroLine'] = data.offer_data.metro.line;
-        this._offerData.params['input-renovation'] = offerRenovations[data.offer.renovation_id];
+    /**
+     * @function parseJSON
+     * @description Метод парсинга данных объявления из JSON.
+     * @param {any} data данные объявления.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async parseJSON(data: any) {
+        await this._parseBasicData(data);
+        await this._parseTypeData(data);
+        await this._parseAddressData(data);
+        await this._parseParamsData(data);
+        await this._parsePhotos(data);
 
         this._filledPages = {
             'type': true,
@@ -260,23 +238,112 @@ class OfferCreate {
             'price': true,
             'photos': true,
             'description': true,
-        }
+        };
+    }
 
+    /**
+     * @function _parseBasicData
+     * @description Метод парсинга базовых данных объявления.
+     * @param {any} data данные объявления.
+     * @private
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    _parseBasicData(data: any) {
+        this._offerData.price['input-price'] = data.offer.price.toString();
+        this._offerData.description['input-description'] = data.offer.description;
+    }
+
+    /**
+     * @function _parseTypeData
+     * @description Метод парсинга данных типа объявления.
+     * @param {any} data данные объявления.
+     * @private
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    _parseTypeData(data: any) {
+        const offerTypes: Record<number, string> = {
+            1: 'Продажа', 2: 'Аренда'
+        };
+        const propertyTypes: Record<number, string> = {
+            1: 'Апартаменты', 2: 'Дом', 3: 'Квартира'
+        };
+        const purchaseTypes: Record<number, string> = {
+            1: 'Новостройка', 2: 'Вторичка'
+        };
+        const rentTypes: Record<number, string> = {
+            1: 'Посуточно', 2: 'Долгосрок'
+        };
+
+        this._offerData.type['input-offer-type'] = offerTypes[data.offer.offer_type_id];
+        this._offerData.type['input-rent-type'] = rentTypes[data.offer.rent_type_id];
+        this._offerData.type['input-purchase-type'] = purchaseTypes[data.offer.purchase_type_id];
+        this._offerData.type['input-property-type'] = propertyTypes[data.offer.property_type_id];
+    }
+
+    /**
+     * @function _parseAddressData
+     * @description Метод парсинга данных адреса объявления.
+     * @param {any} data данные объявления.
+     * @private
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    _parseAddressData(data: any) {
+        this._offerData.address['input-floor'] = data.offer.floor.toString();
+        this._offerData.address['input-total-floors'] = data.offer.total_floors.toString();
+        this._offerData.address['input-address'] = data.offer.address;
+        this._offerData.address['input-flat'] = data.offer.flat.toString();
+    }
+
+    /**
+     * @function _parseParamsData
+     * @description Метод парсинга данных параметров объявления.
+     * @param {any} data данные объявления.
+     * @private
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    _parseParamsData(data: any) {
+        const offerRenovations: Record<number, string> = {
+            1: 'Современный ремонт', 2: 'Косметический ремонт',
+            3: 'Черновая отделка', 4: 'Нужен полный ремонт',
+            5: 'Нужен частичный ремонт', 6: 'Улучшенная черновая'
+        };
+
+        this._offerData.params['input-rooms'] = data.offer.rooms.toString();
+        this._offerData.params['input-square'] = data.offer.area.toString();
+        this._offerData.params['input-ceiling-height'] = data.offer.ceiling_height.toString();
+        this._offerData.params['input-renovation'] = offerRenovations[data.offer.renovation_id];
+    }
+
+    /**
+     * @function _parsePhotos
+     * @description Метод парсинга данных фотографий объявления.
+     * @param {any} data данные объявления.
+     * @private
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async _parsePhotos(data: any) {
         this._uploadedImages = {};
+
         for (let i = 0; i < data.offer_data.offer_images.length; i++) {
-            await this.urlToFile(data.offer_data.offer_images[i].image, `image-${i}`, 'image/jpg').then(async (file) => {
+            try {
+                // eslint-disable-next-line no-await-in-loop
+                const file = await this.urlToFile(
+                    data.offer_data.offer_images[i].image,
+                    `image-${i}`,
+                    'image/jpg'
+                );
+
                 this._uploadedImages[i.toString()] = {
                     id: data.offer_data.offer_images[i].id,
                     file
                 };
-                await this.fileToString(file).then((result) => {
-                    this._offerData.photos[i.toString()] = result;
-                }).catch((err) => {
-                    console.log(err)
-                })
-            }).catch((err) => {
-                console.log(err)
-            });
+
+                // eslint-disable-next-line no-await-in-loop
+                const result = await this.fileToString(file);
+                this._offerData.photos[i.toString()] = result;
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 

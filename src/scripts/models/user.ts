@@ -1,12 +1,13 @@
 
 import {
+    LoginInterface, RegisterAccountInterface, UpdateAvatarInterface, UpdateProfileInterface, UserResponseInterface,
     getProfile,
-    login, LoginInterface,
+    login,
     logout,
-    registerAccount, RegisterAccountInterface,
+    registerAccount,
     removeAvatar,
-    updateAvatar, UpdateAvatarInterface, updateCSRF,
-    updateProfile, UpdateProfileInterface, UserResponseInterface
+    updateAvatar, updateCSRF,
+    updateProfile,
 } from "../util/apiUtil.ts";
 
 /**

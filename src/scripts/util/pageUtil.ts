@@ -30,6 +30,7 @@ import OfferEditDescriptionPage from "../pages/offerEdit/description";
  * @function registerPages
  * @description Регистрация страниц
  */
+// eslint-disable-next-line max-statements
 export default function registerPages() {
     const mainLayout = new MainLayout();
     const baseLayout = new BaseLayout();

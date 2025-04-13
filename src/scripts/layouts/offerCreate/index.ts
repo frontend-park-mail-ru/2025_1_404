@@ -14,9 +14,9 @@ import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.p
  */
 class OfferCreateLayout extends MainLayout {
     private _currentPage: string | undefined;
-    private _unlockedPages: string[];
-    private _filledPagesId: string[];
-    private _allPages: string[];
+    private _unlockedPages: string[] = [];
+    private _filledPagesId: string[] = [];
+    private _allPages: string[] = [];
     private _offerCreateNav: OfferCreateNav | undefined;
     private _offerCreateBtns: OfferCreateBtns | undefined;
     /**
@@ -172,6 +172,7 @@ class OfferCreateLayout extends MainLayout {
      * @param {boolean} isFilled true, если страница заполнена, иначе false.
      * @private
      */
+    // eslint-disable-next-line max-statements
     _handlePageFilled(isFilled: boolean) {
         const nextPage = this._getNextPage();
         if (!this._currentPage || !this._offerCreateBtns) {

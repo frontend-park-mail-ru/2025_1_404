@@ -1,6 +1,5 @@
 
 import Map from "../../../models/map";
-import OfferCreate from "../../../models/offerCreate.ts";
 import OfferPage from "../page.ts";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
@@ -77,6 +76,13 @@ export default class OfferEditAddressPage extends OfferPage {
 
     }
 
+    /**
+     * @function _offerDataChange
+     * @description Метод изменения данных в модели.
+     * @param {Event} event событие
+     * @returns {Promise<void>} промис
+     * @private
+     */
     _offerDataChange(event: Event) {
         const response = super._offerDataChange(event);
         if (response.result) {
@@ -87,6 +93,11 @@ export default class OfferEditAddressPage extends OfferPage {
         return response;
     }
 
+    /**
+     * @function _changeMap
+     * @description Метод изменения карты.
+     * @param {HTMLInputElement} input инпут с адресом
+     */
     _changeMap(input: HTMLInputElement) {
         if (this.map) {
             this.map.geoCode(input.value).then(() => {

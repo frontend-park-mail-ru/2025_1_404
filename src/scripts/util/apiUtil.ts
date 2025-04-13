@@ -3,7 +3,7 @@ const BACKEND_URL = 'http://localhost:8001/api/v1';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-let csrfToken: string | undefined;
+let csrfToken: string | null = null;
 
 /**
  * @interface MakeRequestInterface
@@ -73,48 +73,121 @@ export const updateCSRF = async () => {
  * @description Функция для выполнения запроса к бэкенду.
  * @param {string} endpoint URL-адрес API
  * @param {string} method HTTP-метод (GET, POST и т.д.)
- * @param {object} body Тело запроса
+ * @param {Record<string, string|number>} body Тело запроса
  * @param {string} query Query параметры
- * @param {object} files Файлы для загрузки
+ * @param {Record<string, File>} files Файлы для загрузки
  * @returns {Promise<*>} Ответ от сервера
  */
 const makeRequest = async ({endpoint, method='GET', body={}, query='', files={}}: MakeRequestInterface) => {
-    const options: RequestInit = {
-        credentials: 'include',
-        headers: {},
-        method,
-        mode: 'cors',
-    };
+    const options = createRequestOptions(method);
+    addCsrfToken(options);
+
+    if (shouldUseFormData(files)) {
+        options.body = createFormData(body, files);
+    } else if (shouldUseJsonBody(body)) {
+        setJsonContentType(options);
+        options.body = JSON.stringify(body);
+    }
+
+    const endpointUrl = buildEndpointUrl(endpoint, query);
+    return await fetchAndHandleResponse(endpointUrl, options);
+}
+
+/**
+ * @function createRequestOptions
+ * @description Функция для создания параметров запроса.
+ * @param {HttpMethod} method HTTP-метод (GET, POST и т.д.)
+ * @returns {RequestInit} Параметры запроса
+ */
+const createRequestOptions = (method: HttpMethod): RequestInit => ({
+    credentials: 'include',
+    headers: {},
+    method,
+    mode: 'cors',
+});
+
+/**
+ * @function addCsrfToken
+ * @description Функция для добавления CSRF-токена в заголовки запроса.
+ * @param {RequestInit} options Параметры запроса
+ */
+const addCsrfToken = (options: RequestInit) => {
     if (csrfToken) {
         options.headers = {
             ...options.headers,
             'X-CSRF-Token': csrfToken
         }
     }
-    if (files && Object.keys(files).length > 0) {
-        const formData = new FormData();
-        for (const key of Object.keys(body)) {
-            if (typeof body[key] === 'string') {
-                formData.append(key, body[key]);
-            }
-        }
-        for (const key of Object.keys(files)) {
-            formData.append(key, files[key]);
-        }
-        options.body = formData;
-    }
-    else if (body && Object.keys(body).length > 0) {
-        options.headers = {
-            ...options.headers,
-            'Content-Type': 'application/json'
-        }
-        options.body = JSON.stringify(body);
-    }
-    let endpointUrl = endpoint;
-    if (query !== '') {
-       endpointUrl = endpointUrl + '?' + query;
-    }
+}
 
+/**
+ * @function shouldUseFormData
+ * @description Функция для проверки, нужно ли использовать FormData.
+ * @param {object} files Файлы для загрузки
+ * @returns {boolean} true, если нужно использовать FormData, иначе false
+ */
+const shouldUseFormData = (files: object): boolean => files && Object.keys(files).length > 0;
+
+/**
+ * @function shouldUseJsonBody
+ * @description Функция для проверки, нужно ли использовать JSON в теле запроса.
+ * @param {object} body Тело запроса
+ * @returns {boolean} true, если нужно использовать JSON, иначе false
+ */
+const shouldUseJsonBody = (body: object): boolean => body && Object.keys(body).length > 0;
+
+/**
+ * @function createFormData
+ * @param {Record<string, string|number>} body Тело запроса
+ * @param {Record<string, File>} files Файлы для загрузки
+ * @returns {FormData} FormData объект
+ */
+const createFormData = (body: Record<string, string|number>, files: Record<string, File>): FormData => {
+    const formData = new FormData();
+
+    Object.keys(body).forEach(key => {
+        if (typeof body[key] === 'string') {
+            formData.append(key, body[key]);
+        }
+    });
+
+    Object.keys(files).forEach(key => {
+        formData.append(key, files[key]);
+    });
+
+    return formData;
+}
+
+/**
+ * @function setJsonContentType
+ * @description Функция для установки заголовка Content-Type в JSON.
+ * @param {RequestInit} options Параметры запроса
+ */
+const setJsonContentType = (options: RequestInit) => {
+    options.headers = {
+        ...options.headers,
+        'Content-Type': 'application/json'
+    };
+}
+
+/**
+ * @function buildEndpointUrl
+ * @description Функция для построения URL-адреса конечной точки.
+ * @param {string} endpoint URL-адрес API
+ * @param {string} query Query параметры
+ * @returns {string} Полный URL-адрес конечной точки
+ */
+const buildEndpointUrl = (endpoint: string, query: string): string => query ? `${endpoint}?${query}` : endpoint;
+
+/**
+ *
+ * @function fetchAndHandleResponse
+ * @description Функция для выполнения запроса к бэкенду.
+ * @param {string} endpointUrl URL-адрес API
+ * @param {RequestInit} options Параметры запроса
+ * @returns {Promise<*>} Ответ от сервера
+ */
+const fetchAndHandleResponse = async(endpointUrl: string, options: RequestInit) => {
     const response = await fetch(`${BACKEND_URL}${endpointUrl}`, options);
     if (!response.ok) {
         const json = await response.json();
@@ -136,7 +209,8 @@ export const getOffers = async() => await makeRequest({
 /**
  * @function searchOffers
  * @description Функция для поиска предложений по фильтрам.
- * @param filters
+ * @param {Record<string, string>} filters Фильтры для поиска
+ * @returns {Promise<*>} Ответ от сервера
  */
 export const searchOffers = async (filters: Record<string, string>) => await makeRequest({
     endpoint: '/offers',
@@ -241,6 +315,7 @@ export interface UpdateAvatarInterface {
  * @function updateAvatar
  * @description Функция для обновления аватара пользователя.
  * @param {File} avatar Файл аватара
+ * @returns {Promise<*>} Ответ от сервера
  */
 export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await makeRequest({
     endpoint: '/users/image',
@@ -251,6 +326,7 @@ export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await mak
 /**
  * @function removeAvatar
  * @description Функция для удаления аватара пользователя.
+ * @returns {Promise<*>} Ответ от сервера
  */
 export const removeAvatar = async () => await makeRequest({
     endpoint: '/users/image',
@@ -277,7 +353,6 @@ export const getZhkLine = async () => await ({"metroLine": 'Некрасовск
  * @param {number} id ID объявления
  * @returns {Promise<null>} Ответ от сервера
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getOfferById =  async (id: number) => await makeRequest({
     endpoint: '/offers/'.concat(id.toString()),
     method: 'GET'
@@ -383,8 +458,6 @@ export const createOffer = async ({...args}: CreateOfferInterface) => await make
         rent_type_id: args.rentType,
         purchase_type_id: args.purchaseType,
         property_type_id: args.propertyType,
-        // metro_line: args.metroLine,
-        // metro_station_id: args.metroStation,
         renovation_id: args.renovation,
         complex_id: args.complexId,
     }
@@ -407,8 +480,6 @@ export const updateOffer = async ({...args}: CreateOfferInterface) => await make
         rent_type_id: args.rentType,
         purchase_type_id: args.purchaseType,
         property_type_id: args.propertyType,
-        // metro_line: args.metroLine,
-        // metro_station_id: args.metroStation,
         renovation_id: args.renovation
     }
 })
@@ -438,21 +509,22 @@ interface UploadOfferImageInterface {
  * @description Функция для загрузки изображения.
  * @param {number} offerId ID объявления
  * @param {File} image Файл изображения
+ * @returns {Promise<*>} Ответ от сервера
  */
-export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterface) => makeRequest({
+export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterface) => await makeRequest({
     endpoint: `/offers/${offerId}/image`,
     method: 'POST',
     files: {
-        'image': image
+        image
     }
 });
 
-export const deleteOfferImage = async (imageId: number) => makeRequest({
+export const deleteOfferImage = async (imageId: number) => await makeRequest({
     endpoint: `/images/${imageId}`,
     method: 'DELETE'
 })
 
-export const publishOffer = async (offerId: number) => makeRequest({
+export const publishOffer = async (offerId: number) => await makeRequest({
     endpoint: `/offers/${offerId}/publish`,
     method: 'POST'
 })
