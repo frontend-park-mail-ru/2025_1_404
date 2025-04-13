@@ -3,6 +3,7 @@ import {default as User, UserDataInterface} from "../../models/user.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import {validateFormInput} from "../../util/validatorUtil.ts";
 import OfferCreate from "../../models/offerCreate.ts";
+import {BaseLayout} from "../../layouts/baseLayout.ts";
 
 interface ProfileInterface extends Record<string, string> {
     first_name: string;

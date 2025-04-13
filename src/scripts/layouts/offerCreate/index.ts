@@ -24,10 +24,6 @@ class OfferCreateLayout extends MainLayout {
      */
     constructor() {
         super();
-        this._currentPage = "type";
-        this._unlockedPages = ["type", "address"];
-        this._filledPagesId = ["type"];
-        this._allPages = ["type", "address", "params", "price", "photos", "description"];
 
         this.on('goToPage', this._handlePageChange.bind(this));
         this.on('nextPage', this._handleNextPage.bind(this));
@@ -77,6 +73,19 @@ class OfferCreateLayout extends MainLayout {
             showFieldError: page.showFieldError,
             validateFormFields: page.validateFormFields,
         }
+    }
+
+    /**
+     * @function init
+     * @description Метод инициализации страниц создания объявления.
+     * @public
+     */
+
+    init() {
+        this._currentPage = "type";
+        this._unlockedPages = ["type", "address"];
+        this._filledPagesId = ["type"];
+        this._allPages = ["type", "address", "params", "price", "photos", "description"];
     }
 
     /**

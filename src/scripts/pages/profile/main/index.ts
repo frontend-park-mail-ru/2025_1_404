@@ -32,7 +32,7 @@ export default class ProfileMainPage extends Page {
     _updateMyOffers() {
         const offerType = 2;
         const myOffersList = document.getElementById('profileMyOffersPreviews') as HTMLElement;
-        const myOffersButtton = document.getElementById('profileMyOffersButton') as HTMLElement;
+        const myOffersButtton = document.getElementById('profileBlockMyOffersButton') as HTMLElement;
         if (!myOffersList || !this._layout) {
             return;
         }
@@ -45,17 +45,21 @@ export default class ProfileMainPage extends Page {
             'seller_id': user.id.toString(),
             'offer_type_id': offerType.toString()
         }).then((response) => {
+            let myOffersCnt = 0;
             response.forEach((offerData) => {
                 const offer = new Offer();
                 offer.parseJSON(offerData);
-                myOffersList.innerHTML += profilePreviewTemplate({
-                    id: offer.id,
-                    title: `${offer.offerType === 'Продажа' ? 'Продажа' : 'Сдача'} ${offer.rooms}-комн. ${offer.propertyType.toLowerCase()}, ${offer.area} м²`,
-                    address: offer.address,
-                    image: offer.images[0]
-                });
-                if (offerData.length > 3) {
+                myOffersCnt++;
+                if (myOffersCnt > 3) {
+                    console.log(myOffersButtton);
                     myOffersButtton.classList.add('active');
+                } else {
+                    myOffersList.innerHTML += profilePreviewTemplate({
+                        id: offer.id,
+                        title: `${offer.offerType === 'Продажа' ? 'Продажа' : 'Сдача'} ${offer.rooms}-комн. ${offer.propertyType.toLowerCase()}, ${offer.area} м²`,
+                        address: offer.address,
+                        image: offer.images[0]
+                    });
                 }
             });
         }).catch((error) => {
