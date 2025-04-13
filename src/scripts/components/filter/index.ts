@@ -13,6 +13,8 @@ export default class Filter extends BaseComponent {
     private _filterCheckLists: string[];
     private _filterData: Record<string, string>;
     private _filterValid: Record<string, boolean>;
+    private _isValid: boolean;
+    private _submitButton: HTMLElement | null;
     private _page: Page
     /**
      * @description Конструктор класса.
@@ -23,6 +25,8 @@ export default class Filter extends BaseComponent {
         super({page, layout});
         this._page = page;
         this._openPopupButton = null;
+        this._submitButton = document.getElementById("filterSubmitButton");
+        this._isValid = true;
         this._defaultFields = {
             "filterOfferType": "Тип сделки",
             "filterPropertyType": "Тип недвижимости",
@@ -154,9 +158,21 @@ export default class Filter extends BaseComponent {
      */
     _filterSelectClosePopup(button: HTMLButtonElement) {
         button.classList.remove('active');
-        button.classList.remove('red');
-        if (!this._filterValid[button.name] && Object.hasOwn(this._filterValid, button.name)) {
-            button.classList.add('red');
+
+        if (Object.hasOwn(this._filterValid, button.name)) {
+            if (!this._submitButton) {
+                return;
+            }
+            console.log(this._filterValid[button.name]);
+            if (this._filterValid[button.name]) {
+                button.classList.remove('red');
+                this._isValid = true;
+                this._submitButton.removeAttribute('disabled');
+            } else {
+                button.classList.add('red');
+                this._isValid = false;
+                this._submitButton.setAttribute('disabled', 'disabled');
+            }
         }
 
         if (!button.nextElementSibling) {

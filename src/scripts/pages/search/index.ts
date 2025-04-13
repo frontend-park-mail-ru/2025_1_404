@@ -12,6 +12,7 @@ import Offer from "../../models/offer.ts";
 import {DomEvent} from "leaflet";
 import off = DomEvent.off;
 import RouteManager from "../../managers/routeManager/routeManager.ts";
+import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template.precompiled";
 
 interface AddOfferInterface {
     /**
@@ -54,6 +55,10 @@ interface AddOfferInterface {
      * @property {string} metro_line Ветка метро
      */
     metro_line: string;
+    /**
+     * @property {string} description Описание
+     */
+    description: string;
     /**
      * @property {string} offer_type Тип предложения (например, "аренда" или "продажа")
      */
@@ -122,7 +127,7 @@ export default class SearchPage extends Page {
         }
     }
 
-    _addOffer({id, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType}: AddOfferInterface) {
+    _addOffer({id, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName}: AddOfferInterface) {
         if (!this._offerList) {
             return;
         }
@@ -134,7 +139,7 @@ export default class SearchPage extends Page {
         else {
             title = 'Продажа: ' + title;
         }
-        this._offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors}));
+        this._offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName}));
     }
 
     /**
@@ -203,7 +208,8 @@ export default class SearchPage extends Page {
                     rooms: offer.rooms,
                     total_floors: offer.totalFloors,
                     seller_last_name: offer.seller.lastName,
-                    seller_name: offer.seller.firstName
+                    seller_name: offer.seller.firstName,
+                    description: offer.description,
                 });
             });
         }).catch((error) => {
