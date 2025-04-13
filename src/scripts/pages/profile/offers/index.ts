@@ -17,7 +17,7 @@ import OfferEditLayout from "../../../layouts/offerEdit/index.ts";
  */
 export default class ProfileMyOffersPage extends Page {
     private _layout: BaseLayout | undefined;
-    private _offerStatus = 2;
+    private _offerStatus = 1;
     /**
      * @function render
      * @description Метод рендеринга страницы.

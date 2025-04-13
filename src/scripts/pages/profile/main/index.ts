@@ -82,8 +82,7 @@ export default class ProfileMainPage extends Page {
             return;
         }
         this._layout.makeRequest(searchOffers, {
-            'seller_id': user.id.toString(),
-            'offer_type_id': offerType.toString()
+            'seller_id': user.id.toString()
         }).then((response) => {
             let myOffersCnt = 0;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
