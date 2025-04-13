@@ -1,6 +1,7 @@
 @use "../abstracts/variables" as *;
 .search {
   background-color: $profile-bg;
+  height: 100vh;
 
   &__inner {
     display: flex;
