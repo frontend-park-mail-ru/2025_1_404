@@ -25,6 +25,8 @@ class OfferCreateLayout extends MainLayout {
     constructor() {
         super();
 
+        this.init();
+
         this.on('goToPage', this._handlePageChange.bind(this));
         this.on('nextPage', this._handleNextPage.bind(this));
         this.on('prevPage', this._handlePrevPage.bind(this));

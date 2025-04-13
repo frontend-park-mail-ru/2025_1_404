@@ -3,6 +3,7 @@ import {default as User, UserDataInterface} from "../../models/user.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import {validateFormInput} from "../../util/validatorUtil.ts";
 import OfferCreate from "../../models/offerCreate.ts";
+import OfferCreateLayout from "../../layouts/offerCreate/index.ts"
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 
 interface ProfileInterface extends Record<string, string> {
@@ -344,6 +345,7 @@ export default class ProfileLeft extends BaseComponent {
      */
     _offerCreatePageButtonHandler() {
         OfferCreate.reset();
+        OfferCreateLayout.init();
         RouteManager.navigateTo('/offer/create/type');
     }
 
