@@ -135,6 +135,10 @@ export default class Offer {
         this.metroStation = json.offer_data.metro.station;
         this.metroLine = json.offer_data.metro.line;
         this.renovation = offerRenovations[json.offer.renovation_id];
+        if (!json.offer_data.offer_images) {
+            this.images.push('/img/card/undefined.webp');
+            return;
+        }
         for (const image of json.offer_data.offer_images) {
             this.images.push(image.image);
         }

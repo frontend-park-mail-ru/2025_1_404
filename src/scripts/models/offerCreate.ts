@@ -324,6 +324,9 @@ class OfferCreate {
     async _parsePhotos(data: any) {
         this._uploadedImages = {};
 
+        if (!data.offer_data.offer_images) {
+            return;
+        }
         for (let i = 0; i < data.offer_data.offer_images.length; i++) {
             try {
                 // eslint-disable-next-line no-await-in-loop
