@@ -82,7 +82,6 @@ class OfferCreateLayout extends MainLayout {
      * @description Метод инициализации страниц создания объявления.
      * @public
      */
-
     init() {
         this._currentPage = "type";
         this._unlockedPages = ["type", "address"];

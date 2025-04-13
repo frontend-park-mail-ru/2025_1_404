@@ -44,6 +44,11 @@ class OfferCreate {
         return this._offerData;
     }
 
+    /**
+     * @function getImages
+     * @description Метод получения загруженных фото.
+     * @returns {Record<string, ImageData>} Данные фото.
+     */
     getImages() {
         return this._uploadedImages;
     }
@@ -58,6 +63,11 @@ class OfferCreate {
         this._offerData[pageName] = data;
     }
 
+    /**
+     * @function setImages
+     * @description Метод установки данных фото.
+     * @param {Record<string, ImageData>} images данные фото.
+     */
     setImages(images: Record<string, ImageData>) {
         this._uploadedImages = images;
     }
@@ -105,12 +115,24 @@ class OfferCreate {
         return Object.keys(this._filledPages).reverse().find((pageName) => this._filledPages[pageName]) || 'type';
     }
 
+
+    /**
+     * @function create
+     * @description Метод с запросом на создание объявления после его заполнения.
+     * @returns {Promise<any>}.
+     */
     async create() {
         const offer = new Offer();
         offer.parseOfferData(this._offerData, this._uploadedImages);
         return await offer.create();
     }
 
+    /**
+     * @function save
+     * @description Метод с запросом на сохранение объявления.
+     * @param {number} offerId ID объявления.
+     * @returns {Promise<any>}.
+     */
     async save(offerId: number) {
         const offer = new Offer();
         offer.parseOfferData(this._offerData, this._uploadedImages);
@@ -118,8 +140,16 @@ class OfferCreate {
         return await offer.save();
     }
 
+    /**
+     * @function fileToString
+     * @description Метод преобразования файла в строку.
+     * @param {File | Blob} file файл.
+     * @returns {Promise<any>}.
+     */
     async fileToString(file: File | Blob): Promise<string> {
-        if (!(file instanceof Blob)) throw new Error("Expected a Blob or File");
+        if (!(file instanceof Blob)) {
+            throw new Error("Expected a Blob or File");
+        }
 
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -137,12 +167,12 @@ class OfferCreate {
 
     async addImage(offerId: number, localId: string, file: File): Promise<void> {
         uploadOfferImage({
-            offerId: offerId,
+            offerId,
             image: file
         }).then((response) => {
             this._uploadedImages[localId] = {
                 id: response.id,
-                file: file
+                file
             };
         }).catch((err) => {
             console.log(err)
@@ -170,11 +200,11 @@ class OfferCreate {
     }
 
     async parseJSON(data) {
-        const offerStatus: Record<number, string> = {
-            1: 'Черновик',
-            2: 'Активный',
-            3: 'Завершенный',
-        }
+        // const offerStatus: Record<number, string> = {
+        //     1: 'Черновик',
+        //     2: 'Активный',
+        //     3: 'Завершенный',
+        // }
 
         const offerTypes: Record<number, string> = {
             1: 'Продажа',
@@ -206,22 +236,22 @@ class OfferCreate {
             6: 'Улучшенная черновая',
         };
 
-        this._offerData['price']['input-price'] = data.offer.price.toString();
-        this._offerData['description']['input-description'] = data.offer.description;
-        this._offerData['address']['input-floor'] = data.offer.floor.toString();
-        this._offerData['address']['input-total-floors'] = data.offer.total_floors.toString();
-        this._offerData['params']['input-rooms'] = data.offer.rooms.toString();
-        this._offerData['address']['input-address'] = data.offer.address;
-        this._offerData['address']['input-flat'] = data.offer.flat.toString();
-        this._offerData['params']['input-square'] = data.offer.area.toString();
-        this._offerData['params']['input-ceiling-height'] = data.offer.ceiling_height.toString();
-        this._offerData['type']['input-offer-type'] = offerTypes[data.offer.offer_type_id];
-        this._offerData['type']['input-rent-type'] = rentTypes[data.offer.rent_type_id];
-        this._offerData['type']['input-purchase-type'] = purchaseTypes[data.offer.purchase_type_id];
-        this._offerData['type']['input-property-type'] = propertyTypes[data.offer.property_type_id];
-        this._offerData['address']['input-metroStation'] = data.offer_data.metro.station;
-        this._offerData['address']['input-metroLine'] = data.offer_data.metro.line;
-        this._offerData['params']['input-renovation'] = offerRenovations[data.offer.renovation_id];
+        this._offerData.price['input-price'] = data.offer.price.toString();
+        this._offerData.description['input-description'] = data.offer.description;
+        this._offerData.address['input-floor'] = data.offer.floor.toString();
+        this._offerData.address['input-total-floors'] = data.offer.total_floors.toString();
+        this._offerData.params['input-rooms'] = data.offer.rooms.toString();
+        this._offerData.address['input-address'] = data.offer.address;
+        this._offerData.address['input-flat'] = data.offer.flat.toString();
+        this._offerData.params['input-square'] = data.offer.area.toString();
+        this._offerData.params['input-ceiling-height'] = data.offer.ceiling_height.toString();
+        this._offerData.type['input-offer-type'] = offerTypes[data.offer.offer_type_id];
+        this._offerData.type['input-rent-type'] = rentTypes[data.offer.rent_type_id];
+        this._offerData.type['input-purchase-type'] = purchaseTypes[data.offer.purchase_type_id];
+        this._offerData.type['input-property-type'] = propertyTypes[data.offer.property_type_id];
+        this._offerData.address['input-metroStation'] = data.offer_data.metro.station;
+        this._offerData.address['input-metroLine'] = data.offer_data.metro.line;
+        this._offerData.params['input-renovation'] = offerRenovations[data.offer.renovation_id];
 
         this._filledPages = {
             'type': true,
@@ -237,10 +267,10 @@ class OfferCreate {
             await this.urlToFile(data.offer_data.offer_images[i].image, `image-${i}`, 'image/jpg').then(async (file) => {
                 this._uploadedImages[i.toString()] = {
                     id: data.offer_data.offer_images[i].id,
-                    file: file
+                    file
                 };
                 await this.fileToString(file).then((result) => {
-                    this._offerData['photos'][i.toString()] = result;
+                    this._offerData.photos[i.toString()] = result;
                 }).catch((err) => {
                     console.log(err)
                 })

@@ -15,7 +15,7 @@ export default function compileScss() {
                 fs.mkdirSync(cssPath, { recursive: true });
             }
             fs.writeFileSync(cssPath.concat("app.css"), result.css);
-            console.log('CSS файл скомпилирован!');
+            console.log('CSS файл скомпилирован');
         })
         .catch(error => {
             console.error('Ошибка компиляции SCSS:', error);

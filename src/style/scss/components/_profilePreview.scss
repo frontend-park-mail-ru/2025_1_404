@@ -1,8 +1,15 @@
+@use "../abstracts/variables" as *;
 .profile__preview {
   display: flex;
   border: 1px solid $light-grey;
   padding: 10px;
   gap: 10px;
+  transition: 0.2s background-color ease-in-out;
+
+  &:hover {
+    background-color: $light-grey;
+    cursor: pointer;
+  }
 
   img {
     width: 68px;

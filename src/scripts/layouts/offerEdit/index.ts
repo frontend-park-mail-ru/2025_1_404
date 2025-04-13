@@ -62,20 +62,7 @@ class OfferEditLayout extends MainLayout {
                 if (!props || typeof props.id !== 'number') {
                     return;
                 }
-                const loader = new Loader({layout: this, page: page});
-                if (this._offerId === undefined) {
-                    loader.setLoaderStatus(true);
-                    this.makeRequest(getOfferById, props.id).then((data) => {
-                        if (data) {
-                            this._offerId = data.offer.id;
-                            OfferCreate.parseJSON(data).then(() => {
-                                RouteManager.navigateToPageByCurrentURL();
-                            })
-                        }
-                    }).finally(() => {
-                        loader.setLoaderStatus(false);
-                    })
-                }
+                this._getOfferById(page, props);
 
                 const offerCreateBtns = document.getElementById("offerCreateBtns") as HTMLElement;
                 offerCreateBtns.innerHTML = offerCreateBtnsTemplate({firstPage: page._pageName === this._allPages.at(0), lastPage: page._pageName === this._allPages.at(-1)});
@@ -97,6 +84,29 @@ class OfferEditLayout extends MainLayout {
             showApiError: page.showApiError,
             showFieldError: page.showFieldError,
             validateFormFields: page.validateFormFields,
+        }
+    }
+
+    /**
+     * @function _getOfferById
+     * @description Метод получения объявления по ID.
+     * @param {OfferPage} page экземпляр класса OfferPage.
+     * @param {Record<string, unknown>} props дополнительные свойства/параметры страницы
+     */
+    _getOfferById(page: OfferPage, props: Record<string, unknown>) {
+        const loader = new Loader({page, layout: this});
+        if (this._offerId === undefined) {
+            loader.setLoaderStatus(true);
+            this.makeRequest(getOfferById, props.id as number).then((data) => {
+                if (data) {
+                    this._offerId = data.offer.id;
+                    OfferCreate.parseJSON(data).then(() => {
+                        RouteManager.navigateToPageByCurrentURL();
+                    })
+                }
+            }).finally(() => {
+                loader.setLoaderStatus(false);
+            })
         }
     }
 

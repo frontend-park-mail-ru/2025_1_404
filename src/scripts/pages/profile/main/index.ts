@@ -7,6 +7,8 @@ import Offer from "../../../models/offer.ts";
 import profilePreviewTemplate from "../../../components/profilePreview/template.precompiled.js";
 import getMetroColorByLineName from "../../../util/metroUtil.ts";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
+import RouteManager from "../../../managers/routeManager/routeManager.ts";
+import OfferEditLayout from "../../../layouts/offerEdit";
 
 /**
  * @class ProfileMainPage
@@ -27,6 +29,33 @@ export default class ProfileMainPage extends Page {
         super.render({layout, root});
 
         this._updateMyOffers();
+    }
+
+    initListeners() {
+        this.initListener('profileMyOffersPreviews', 'click', this._handlePreviewClick);
+    }
+
+    _handlePreviewClick(event: Event) {
+        const target = event.target as HTMLElement;
+        if (!target) {
+            return;
+        }
+        let parent = target;
+        while (parent.parentElement && !parent.classList.contains('profile__preview')) {
+            parent = parent.parentElement as HTMLElement;
+        }
+
+        if (!parent || typeof parent.dataset.id !== 'string') {
+            return;
+        }
+        const offerId = parseInt(parent.dataset.id, 10);
+        if (isNaN(offerId)) {
+            return;
+        }
+        event.preventDefault();
+
+        RouteManager.navigateTo(`/offer/details/${offerId}`);
+
     }
 
     _updateMyOffers() {

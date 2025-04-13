@@ -23,7 +23,7 @@ export class OfferDetailsRoute extends BaseRoute {
     /**
      * @function process
      * @description Метод, который вызывается при обработке маршрута.
-     * @param {number} id ID объявления.
+     * @param {string} id ID объявления.
      */
     process({id}: OfferDetailsRouteParams) {
         const idNumber = parseInt(id, 10);

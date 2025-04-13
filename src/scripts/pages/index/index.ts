@@ -11,57 +11,6 @@ import Offer from "../../models/offer.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 
 /**
- * @interface AddCardInterface
- * @description Интерфейс для описания структуры объекта недвижимости, который добавляется на главную страницу.
- */
-interface AddCardInterface {
-    /**
-     * @property {string} address Адрес объекта недвижимости
-     */
-    price: number;
-    /**
-     * @property {string} address Адрес объекта недвижимости
-     */
-    address: string;
-    /**
-     * @property {number} rooms Количество комнат
-     */
-    rooms: number;
-    /**
-     * @property {number} floor Этаж
-     */
-    floor: number;
-    /**
-     * @property {number} totalFloors Максимальное количество этажей в здании
-     */
-    total_floors: number;
-    /**
-     * @property {number} area Площадь объекта недвижимости
-     */
-    area: number;
-    /**
-     * @property {string[]} photos Список URL изображений объекта недвижимости
-     */
-    photos: string[];
-    /**
-     * @property {string} metro_station Станция метро
-     */
-    metro_station: string;
-    /**
-     * @property {string} metro_line Ветка метро
-     */
-    metro_line: string;
-    /**
-     * @property {string} offer_type Тип предложения (например, "аренда" или "продажа")
-     */
-    offer_type: string;
-    /**
-     * @property {string} rent_type Тип аренды (например, "долгосрок" или "сутки"), используется только для аренды
-     */
-    rent_type: string;
-}
-
-/**
  * @class IndexPage
  * @description Главная страница
  * @augments Page

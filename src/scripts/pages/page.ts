@@ -8,9 +8,12 @@ export interface PageRenderInterface {
      */
     root: HTMLElement;
     /**
-     * @property {BaseLayout} layout макет страницы, который используется для рендеринга
+     * @property {BaseLayout} layout макет страницы, которая используется для рендеринга
      */
     layout?: BaseLayout;
+    /**
+     * @property {Record<string, unknown>} props дополнительные свойства/параметры страницы, которая используется для рендеринга
+     */
     props?: Record<string, unknown>;
 }
 

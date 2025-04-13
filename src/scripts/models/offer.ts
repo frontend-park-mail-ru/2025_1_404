@@ -1,11 +1,11 @@
 import {createOffer, publishOffer, updateOffer, uploadOfferImage} from "../util/apiUtil.ts";
 import {ImageData} from "./offerCreate.ts";
 
-const offerStatus: Record<number, string> = {
-    1: 'Черновик',
-    2: 'Активный',
-    3: 'Завершенный',
-}
+// const offerStatus: Record<number, string> = {
+//     1: 'Черновик',
+//     2: 'Активный',
+//     3: 'Завершенный',
+// }
 
 const offerTypes: Record<number, string> = {
     1: 'Продажа',
@@ -77,29 +77,36 @@ export default class Offer {
     parseOfferData(createOfferData: Record<string, Record<string, string>>, images: Record<string, ImageData>) {
         this.id = undefined;
         this.status = 1;
-        this.price = Number(createOfferData['price']['input-price']);
-        this.description = createOfferData['description']['input-description'];
-        this.floor = Number(createOfferData['address']['input-floor']);
-        this.totalFloors = Number(createOfferData['address']['input-total-floors']);
-        this.rooms = Number(createOfferData['params']['input-rooms']);
-        this.address = createOfferData['address']['input-address'];
-        this.flat = Number(createOfferData['address']['input-flat']);
-        this.area = Number(createOfferData['params']['input-square']);
-        this.ceilingHeight = Number(createOfferData['params']['input-ceiling-height']);
-        this.offerType = createOfferData['type']['input-offer-type'];
-        this.rentType = createOfferData['type']['input-rent-type'];
-        this.purchaseType = createOfferData['type']['input-purchase-type'];
-        this.propertyType = createOfferData['type']['input-property-type'];
-        this.metroStation = createOfferData['address']['input-metroStation'];
-        this.metroLine = createOfferData['address']['input-metroLine'];
-        this.renovation = createOfferData['params']['input-renovation'];
-        this.complexId = Number(createOfferData['address']['input-complexId']);
+        this.price = Number(createOfferData.price['input-price']);
+        this.description = createOfferData.description['input-description'];
+        this.floor = Number(createOfferData.address['input-floor']);
+        this.totalFloors = Number(createOfferData.address['input-total-floors']);
+        this.rooms = Number(createOfferData.params['input-rooms']);
+        this.address = createOfferData.address['input-address'];
+        this.flat = Number(createOfferData.address['input-flat']);
+        this.area = Number(createOfferData.params['input-square']);
+        this.ceilingHeight = Number(createOfferData.params['input-ceiling-height']);
+        this.offerType = createOfferData.type['input-offer-type'];
+        this.rentType = createOfferData.type['input-rent-type'];
+        this.purchaseType = createOfferData.type['input-purchase-type'];
+        this.propertyType = createOfferData.type['input-property-type'];
+        this.metroStation = createOfferData.address['input-metroStation'];
+        this.metroLine = createOfferData.address['input-metroLine'];
+        this.renovation = createOfferData.params['input-renovation'];
+        this.complexId = Number(createOfferData.address['input-complexId']);
         this.images = [];
         for (const key in images) {
-            this.images.push(images[key].file);
+            if (Object.hasOwn(images, key)) {
+                this.images.push(images[key].file);
+            }
         }
     }
 
+    /**
+     * @function parseJSON
+     * @description Метод парсинга json.
+     * @param {any} json json.
+     */
     parseJSON(json: any) {
         this.id = json.offer.id;
         this.seller.id = json.offer.seller_id;
@@ -156,8 +163,8 @@ export default class Offer {
                 continue;
             }
             await uploadOfferImage({
-                offerId: offerId,
-                image: image
+                offerId,
+                image
             })
         }
         await publishOffer(offerId);
