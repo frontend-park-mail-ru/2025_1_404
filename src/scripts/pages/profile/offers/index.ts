@@ -27,6 +27,7 @@ export default class ProfileMyOffersPage extends Page {
     render({layout, root} : PageRenderInterface) {
         this._layout = layout;
         root.innerHTML = template();
+        this._offerStatus = 1;
         super.render({layout, root});
         this._updateContent(this._offerStatus);
     }
