@@ -61,7 +61,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
         this._photosPreviewsCounter += 1;
         this._offerData[this._photosPreviewsCounter] = source;
         this._uploadedImages[this._photosPreviewsCounter] = {
-            file: file
+            file
         };
         this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));
     }
@@ -202,7 +202,6 @@ export default class OfferCreatePhotosPage extends OfferPage {
     _setDataFromModel() {
         const _offerData = this._offerData;
         this._offerData = {};
-        // this._uploadedImages = {};
         Object.keys(_offerData).forEach(photo => {
             this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);
         })

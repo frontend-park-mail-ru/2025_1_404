@@ -4,7 +4,6 @@ import OfferPage from "../page.ts";
 import offerCreatePhotosPreviewTemplate from "../../../components/offerCreatePhotosPreview/template.precompiled.js";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
-import {BaseLayout} from "../../../layouts/baseLayout.ts";
 import {deleteOfferImage, uploadOfferImage} from "../../../util/apiUtil.ts";
 
 /**
@@ -22,7 +21,7 @@ export default class OfferEditPhotosPage extends OfferPage {
      * @description Метод рендеринга страницы.
      * @param {HTMLElement} root корневой элемент страницы
      * @param {BaseLayout} layout макет страницы
-     * @param {Object} props параметры страницы
+     * @param {Record<string, unknown>} props параметры страницы
      */
     render({layout, root, props}: PageRenderInterface) {
         if (!props || typeof props.id !== 'number') {
@@ -143,8 +142,13 @@ export default class OfferEditPhotosPage extends OfferPage {
         })
     }
 
+    /**
+     * @function _deleteImage
+     * @description Метод удаления фото
+     * @param {string} localId id фото
+     */
     async _deleteImage(localId: string) {
-        if (this._offerId === undefined || this._uploadedImages[localId].id === undefined) {
+        if (!this._uploadedImages[localId] || !this._uploadedImages[localId].id) {
             return;
         }
         await this._layout?.makeRequest(deleteOfferImage,
@@ -154,21 +158,23 @@ export default class OfferEditPhotosPage extends OfferPage {
         })
     }
 
+    /**
+     * @function _handleAddImage
+     * @description Метод обработки события добавления фото
+     * @param {File} file файл
+     */
     async _handleAddImage(file: File) {
         if (typeof this._photosPreviewsCounter !== 'number') {
             return;
         }
         const localId = this._photosPreviewsCounter;
-        if (this._offerId === undefined) {
-            return;
-        }
         await this._layout?.makeRequest(uploadOfferImage, {
             offerId: this._offerId,
             image: file
         }).then((data) => {
             if (data) {
                 this._uploadedImages[localId] = {
-                    file: file,
+                    file,
                     id: data.image_id,
                 }
                 OfferCreate.setImages(this._uploadedImages);

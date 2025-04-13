@@ -98,6 +98,7 @@ export default class OfferPage extends Page {
      * @function _offerDataChange
      * @description Метод обработки события изменения данных объявления.
      * @param {Event} event событие
+     * @returns {OfferDataChangeInterface} объект с результатом и инпутом
      * @private
      */
     _offerDataChange(event: Event): OfferDataChangeInterface {

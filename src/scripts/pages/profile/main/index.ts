@@ -5,10 +5,8 @@ import User from "../../../models/user.ts";
 import {searchOffers} from "../../../util/apiUtil.ts";
 import Offer from "../../../models/offer.ts";
 import profilePreviewTemplate from "../../../components/profilePreview/template.precompiled.js";
-import getMetroColorByLineName from "../../../util/metroUtil.ts";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
 import RouteManager from "../../../managers/routeManager/routeManager.ts";
-import OfferEditLayout from "../../../layouts/offerEdit";
 
 /**
  * @class ProfileMainPage
@@ -31,10 +29,19 @@ export default class ProfileMainPage extends Page {
         this._updateMyOffers();
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     initListeners() {
         this.initListener('profileMyOffersPreviews', 'click', this._handlePreviewClick);
     }
 
+    /**
+     * @function _handleTabClick
+     * @description Метод обработки клика по вкладке.
+     * @param {Event} event событие
+     */
     _handlePreviewClick(event: Event) {
         const target = event.target as HTMLElement;
         if (!target) {
@@ -58,6 +65,10 @@ export default class ProfileMainPage extends Page {
 
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
     _updateMyOffers() {
         const offerType = 2;
         const myOffersList = document.getElementById('profileMyOffersPreviews') as HTMLElement;
@@ -75,7 +86,8 @@ export default class ProfileMainPage extends Page {
             'offer_type_id': offerType.toString()
         }).then((response) => {
             let myOffersCnt = 0;
-            response.forEach((offerData) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            response.forEach((offerData: any) => {
                 const offer = new Offer();
                 offer.parseJSON(offerData);
                 myOffersCnt++;

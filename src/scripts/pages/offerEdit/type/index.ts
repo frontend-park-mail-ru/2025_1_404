@@ -70,6 +70,7 @@ export default class OfferEditTypePage extends OfferPage {
      * @function _offerDataChange
      * @description Метод изменения данных в модели.
      * @param {Event} event событие
+     * @returns {boolean} true, если данные изменены
      * @private
      */
     _offerDataChange(event: Event) {

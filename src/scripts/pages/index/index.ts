@@ -59,8 +59,8 @@ export default class IndexPage extends Page {
     /**
      * @function _addCard
      * @description Добавление карточки
+     * @param {Offer} offer - предложение
      * @private
-     * @param offer
      */
     _addCard(offer: Offer) {
         if (!this._cardsList) {
@@ -109,7 +109,7 @@ export default class IndexPage extends Page {
      */
     _cardClickHandler(event: Event, {target} = event) {
         event.preventDefault();
-        let currentTarget = target as HTMLElement | null;
+        const currentTarget = target as HTMLElement | null;
         if (!currentTarget) {
             return;
         }

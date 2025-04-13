@@ -14,10 +14,22 @@ const renderRating = function(rating: number) {
     return new Handlebars.SafeString(stars);
 }
 
+/**
+ * @function split
+ * @description Разделяет строку на массив строк по разделителю ';'
+ * @param {string} str - Строка для разделения
+ * @returns {string[]} Массив строк
+ */
 const split = function(str: string) {
     return str.split(';');
 }
 
+/**
+ * @function join
+ * @description Объединяет массив строк в строку с разделителем ', '
+ * @param {string[]} array - Массив строк для объединения
+ * @returns {string} Объединенная строка
+ */
 const join = function(array: string[]) {
     if (!array) {
         return '';
@@ -25,10 +37,16 @@ const join = function(array: string[]) {
     return array.join(', ');
 };
 
+/**
+ * @function breakLines
+ * @description Заменяет символы новой строки на <br> в строке
+ * @param {text} text - Строка для обработки
+ * @returns {Handlebars.SafeString} Обработанная строка с <br>
+ */
 const breakLines = function(text: string) {
-    text = Handlebars.Utils.escapeExpression(text);
-    text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
-    return new Handlebars.SafeString(text);
+    const escapedText = Handlebars.Utils.escapeExpression(text);
+    const withBreaks = escapedText.replace(/(?:\r\n|\n|\r)/gmu, '<br>');
+    return new Handlebars.SafeString(withBreaks);
 }
 
 /**

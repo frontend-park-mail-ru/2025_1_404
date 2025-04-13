@@ -1,12 +1,6 @@
 import {createOffer, publishOffer, updateOffer, uploadOfferImage} from "../util/apiUtil.ts";
 import {ImageData} from "./offerCreate.ts";
 
-// const offerStatus: Record<number, string> = {
-//     1: 'Черновик',
-//     2: 'Активный',
-//     3: 'Завершенный',
-// }
-
 const offerTypes: Record<number, string> = {
     1: 'Продажа',
     2: 'Аренда'
@@ -45,8 +39,12 @@ interface Seller {
     createdAt: Date;
 }
 
+/**
+ * @class Offer
+ * @description Класс объявления
+ */
 export default class Offer {
-    id?: number;
+    id?: number | null;
     seller: Seller = {
         id: 0,
         firstName: '',
@@ -71,11 +69,18 @@ export default class Offer {
     metroStation: string = '';
     metroLine: string = '';
     renovation: string = '';
-    complexId?: number = undefined;
+    complexId?: number;
     images: Array<File|string> = [];
 
+    /**
+     * @function parseOfferData
+     * @description Метод парсинга данных объявления.
+     * @param {Record<string, Record<string, string>>} createOfferData данные объявления
+     * @param {Record<string, ImageData>} images изображения объявления
+     */
+    // eslint-disable-next-line max-statements
     parseOfferData(createOfferData: Record<string, Record<string, string>>, images: Record<string, ImageData>) {
-        this.id = undefined;
+        this.id = null;
         this.status = 1;
         this.price = Number(createOfferData.price['input-price']);
         this.description = createOfferData.description['input-description'];
@@ -90,8 +95,6 @@ export default class Offer {
         this.rentType = createOfferData.type['input-rent-type'];
         this.purchaseType = createOfferData.type['input-purchase-type'];
         this.propertyType = createOfferData.type['input-property-type'];
-        this.metroStation = createOfferData.address['input-metroStation'];
-        this.metroLine = createOfferData.address['input-metroLine'];
         this.renovation = createOfferData.params['input-renovation'];
         this.complexId = Number(createOfferData.address['input-complexId']);
         this.images = [];
@@ -107,6 +110,7 @@ export default class Offer {
      * @description Метод парсинга json.
      * @param {any} json json.
      */
+    // eslint-disable-next-line max-statements, @typescript-eslint/no-explicit-any
     parseJSON(json: any) {
         this.id = json.offer.id;
         this.seller.id = json.offer.seller_id;
@@ -136,6 +140,11 @@ export default class Offer {
         }
     }
 
+    /**
+     * @function create
+     * @description Метод создания объявления.
+     * @returns {Promise<number>} id объявления
+     */
     async create() {
         const response = await createOffer({
             price: this.price,
@@ -159,20 +168,28 @@ export default class Offer {
         })
         const offerId = response.id;
         for (const image of this.images) {
-            if (typeof image === 'string') {
-                continue;
+            if (typeof image !== 'string') {
+                // eslint-disable-next-line no-await-in-loop
+                await uploadOfferImage({
+                    offerId,
+                    image
+                })
             }
-            await uploadOfferImage({
-                offerId,
-                image
-            })
         }
         await publishOffer(offerId);
         return offerId;
     }
 
+    /**
+     * @function save
+     * @description Метод сохранения объявления.
+     * @returns {Promise<number>} id объявления
+     */
     async save() {
-        const response = await updateOffer({
+        if (this.id === null) {
+            return null;
+        }
+        await updateOffer({
             id: this.id,
             price: this.price,
             description: this.description,

@@ -149,7 +149,7 @@ export class Page {
      * @description Обработчик события отпускания input
      * @param {Event} event событие отпускания input
      * @param {boolean} required обязательное поле
-     * @param {HTMLElement} target элемент, на который кликнули
+     * @returns {boolean} true, если поле валидно, иначе false
      * @private
      */
     formInputHandler(event: Event, required=true) : boolean {

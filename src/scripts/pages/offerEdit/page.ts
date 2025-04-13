@@ -90,7 +90,7 @@ export default class OfferPage extends Page {
             return false;
         }
         for (const key in this._offerData) {
-            if (this._offerData[key] === '') {isFilled = false; return isFilled;}
+            if (this._offerData[key] === '') { console.log(key); isFilled = false; return isFilled;}
         }
         return isFilled;
     }
@@ -100,6 +100,7 @@ export default class OfferPage extends Page {
      * @function _offerDataChange
      * @description Метод обработки события изменения данных объявления.
      * @param {Event} event событие
+     * @returns {OfferDataChangeInterface} объект с результатом и инпутом
      * @private
      */
     _offerDataChange(event: Event): OfferDataChangeInterface {
