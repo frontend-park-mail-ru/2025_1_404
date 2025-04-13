@@ -359,6 +359,11 @@ class OfferEditLayout extends MainLayout {
         });
     }
 
+    /**
+     * @function reset
+     * @description Метод ресета id оффера.
+     * @private
+     */
     reset() {
         this._offerId = undefined;
     }

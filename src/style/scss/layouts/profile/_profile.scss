@@ -1,7 +1,14 @@
 .profile {
-  padding-top: 1.25em;
-  height: calc(100vh - 4.375em);
   background-color: $profile-bg;
+
+  &__inner {
+    padding-top: 1.25em;
+    height: 100%;
+    padding-bottom: 4em;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
 
   &__avatar {
     width: 80px;
@@ -39,11 +46,5 @@
     &-wrapper input {
       display: none;
     }
-  }
-
-  &__inner {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
   }
 }

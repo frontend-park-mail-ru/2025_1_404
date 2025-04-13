@@ -130,12 +130,10 @@ export default class Filter extends BaseComponent {
         if (elem.children[1].textContent) {
             const checked = elem.parentElement.querySelector('.checked');
             if (elem.classList.toggle('checked')) {
-                if (!checked) {
-                    this._filterData[elem.parentElement.id] = elem.children[1].textContent;
-                } else {
+                if (checked) {
                     checked.classList.toggle('checked');
-                    this._filterData[elem.parentElement.id] = elem.children[1].textContent;
                 }
+                this._filterData[elem.parentElement.id] = elem.children[1].textContent;
             } else {
                 this._filterData[elem.parentElement.id] = '';
             }
@@ -158,7 +156,7 @@ export default class Filter extends BaseComponent {
     _filterSelectClosePopup(button: HTMLButtonElement) {
         button.classList.remove('active');
         button.classList.remove('red');
-        if (!this._filterValid[button.name] && this._filterValid[button.name] !== undefined) {
+        if (!this._filterValid[button.name] && Object.hasOwn(this._filterValid, button.name)) {
             button.classList.add('red');
         }
 
@@ -188,6 +186,11 @@ export default class Filter extends BaseComponent {
         }
     }
 
+    /**
+     * @function _filterSetData
+     * @description Перемещает данные фильтра из модели на ui компонент.
+     * @private
+     */
     _filterSetData() {
         this._filterData = FilterModel.getFilterData();
         const filterInputs = document.getElementById('filterInputs');
@@ -196,13 +199,11 @@ export default class Filter extends BaseComponent {
         }
         const inputs = filterInputs.querySelectorAll('input');
         inputs.forEach(input => {
-            // console.log(input, this._filterData[input.id]);
             input.value = <string>this._filterData[input.id];
         })
 
         this._filterCheckLists.forEach(id => {
             const ul = document.getElementById(id);
-            // console.log(ul);
             if (ul === null) {
                 return;
             }
@@ -213,8 +214,6 @@ export default class Filter extends BaseComponent {
                     return;
                 }
                 const spanText = li.children[1].textContent as string;
-                // console.log(spanText);
-                // console.log(this._filterData[id]);
                 if (this._filterData[id] === spanText) {
                     li.classList.add('checked');
                 }
