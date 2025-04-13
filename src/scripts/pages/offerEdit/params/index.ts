@@ -5,11 +5,11 @@ import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
 
 /**
- * @class OfferCreateParamsPage
- * @description Страница создания объявления с выбором параметров
+ * @class OfferEditParamsPage
+ * @description Страница изменения объявления с выбором параметров
  * @augments OfferPage
  */
-export default class OfferCreateParamsPage extends OfferPage {
+export default class OfferEditParamsPage extends OfferPage {
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -25,14 +25,6 @@ export default class OfferCreateParamsPage extends OfferPage {
             return;
         }
         this._initReadParamsData();
-    }
-
-    /**
-     * @function initListeners
-     * @description Метод инициализации слушателей событий.
-     */
-    initListeners() {
-        this.initListener('offerCreateParams', 'change', this._offerDataChange);
     }
 
     /**
@@ -52,6 +44,14 @@ export default class OfferCreateParamsPage extends OfferPage {
         OfferCreate.setPageFilled(this._pageName, this._isInputsFilled());
 
         return response;
+    }
+
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
+    initListeners() {
+        this.initListener('offerCreateParams', 'change', this._offerDataChange);
     }
 
     /**

@@ -2,6 +2,7 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import {default as User, UserDataInterface} from "../../models/user.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import {validateFormInput} from "../../util/validatorUtil.ts";
+import OfferCreate from "../../models/offerCreate.ts";
 
 interface ProfileInterface extends Record<string, string> {
     first_name: string;
@@ -83,8 +84,6 @@ export default class ProfileLeft extends BaseComponent {
             return false;
         }
         for (const key of Object.keys(this.currentData)) {
-
-            console.log(this.currentData[key], this.previousData[key]);
             if (this.currentData[key] !== this.previousData[key]) {
                 return true;
             }
@@ -343,6 +342,7 @@ export default class ProfileLeft extends BaseComponent {
      * @private
      */
     _offerCreatePageButtonHandler() {
+        OfferCreate.reset();
         RouteManager.navigateTo('/offer/create/type');
     }
 

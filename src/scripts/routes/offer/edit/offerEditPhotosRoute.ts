@@ -10,6 +10,6 @@ export class OfferEditPhotosRoute extends OfferEditRoute {
      * @description Конструктор класса.
      */
     constructor() {
-        super('photos');
+        super('edit_photos');
     }
 }

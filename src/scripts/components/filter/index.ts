@@ -84,7 +84,6 @@ export default class Filter extends BaseComponent {
         for (const [key, value] of Object.entries(this._filterData)) {
             FilterModel.setData(key, value);
         }
-        console.log(FilterModel.getFilterData())
         RouteManager.navigateTo('/search');
     }
 

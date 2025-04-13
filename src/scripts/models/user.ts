@@ -5,7 +5,7 @@ import {
     logout,
     registerAccount, RegisterAccountInterface,
     removeAvatar,
-    updateAvatar, UpdateAvatarInterface,
+    updateAvatar, UpdateAvatarInterface, updateCSRF,
     updateProfile, UpdateProfileInterface, UserResponseInterface
 } from "../util/apiUtil.ts";
 
@@ -178,6 +178,7 @@ class User {
                 const userResponse = response as UserResponseInterface;
                 this._isAuthenticated = true;
                 this._parseData(userResponse);
+                updateCSRF();
                 return this.getData();
             }).catch((error) => {
                 throw error;
@@ -209,6 +210,7 @@ class User {
             .then((response) => {
                 this._isAuthenticated = true;
                 this._parseData(response);
+                updateCSRF();
                 return this.getData();
             }).catch((error) => {
                 throw error;

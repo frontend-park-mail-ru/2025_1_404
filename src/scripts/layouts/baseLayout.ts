@@ -3,6 +3,7 @@ import Loader from "../components/loader";
 import ProgressBar from "../components/progressBar";
 import RouteManager from "../managers/routeManager/routeManager.ts";
 import User from "../models/user.ts";
+import {updateCSRF} from "../util/apiUtil.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EventCallback = (...args: any[]) => void;
@@ -73,9 +74,11 @@ export class BaseLayout {
         if (this._loader) {
             this._loader.setLoaderStatus(true);
         }
-        User.update().finally(() => {
-            RouteManager.navigateToPageByCurrentURL();
-        });
+        updateCSRF().finally(() => {
+            User.update().finally(() => {
+                RouteManager.navigateToPageByCurrentURL();
+            });
+        })
     }
 
     /**

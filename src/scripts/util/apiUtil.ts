@@ -3,6 +3,8 @@ const BACKEND_URL = 'http://localhost:8001/api/v1';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
+let csrfToken: string | undefined;
+
 /**
  * @interface MakeRequestInterface
  * @description Интерфейс для параметров функции makeRequest.
@@ -57,6 +59,15 @@ export interface UserResponseInterface {
     image: string;
 }
 
+export const updateCSRF = async () => {
+    await makeRequest({
+        method: 'GET',
+        endpoint: '/users/csrf'
+    }).then((data) => {
+        csrfToken = data.csrf_token;
+    })
+}
+
 /**
  * @function makeRequest
  * @description Функция для выполнения запроса к бэкенду.
@@ -74,6 +85,12 @@ const makeRequest = async ({endpoint, method='GET', body={}, query='', files={}}
         method,
         mode: 'cors',
     };
+    if (csrfToken) {
+        options.headers = {
+            ...options.headers,
+            'X-CSRF-Token': csrfToken
+        }
+    }
     if (files && Object.keys(files).length > 0) {
         const formData = new FormData();
         for (const key of Object.keys(body)) {
@@ -272,6 +289,10 @@ export const getOfferById =  async (id: number) => await makeRequest({
  */
 export interface CreateOfferInterface {
     /**
+     * @property {number} id ID объявления
+     */
+    id?: number;
+    /**
      * @property {string} propertyType Тип недвижимости
      */
     propertyType: number;
@@ -362,12 +383,35 @@ export const createOffer = async ({...args}: CreateOfferInterface) => await make
         rent_type_id: args.rentType,
         purchase_type_id: args.purchaseType,
         property_type_id: args.propertyType,
-        metro_line: args.metroLine,
-        metro_station_id: args.metroStation,
+        // metro_line: args.metroLine,
+        // metro_station_id: args.metroStation,
         renovation_id: args.renovation,
         complex_id: args.complexId,
     }
 });
+
+export const updateOffer = async ({...args}: CreateOfferInterface) => await makeRequest({
+    endpoint: `/offers/${args.id}`,
+    method: 'PUT',
+    body: {
+        price: args.price,
+        description: args.description,
+        floor: args.floor,
+        total_floors: args.totalFloors,
+        rooms: args.rooms,
+        address: args.address,
+        flat: args.flat,
+        area: args.area,
+        ceiling_height: args.ceilingHeight,
+        offer_type_id: args.offerType,
+        rent_type_id: args.rentType,
+        purchase_type_id: args.purchaseType,
+        property_type_id: args.propertyType,
+        // metro_line: args.metroLine,
+        // metro_station_id: args.metroStation,
+        renovation_id: args.renovation
+    }
+})
 
 export const deleteOffer = async (id: number) => await makeRequest({
     endpoint: `/offers/${id}`,
@@ -402,6 +446,11 @@ export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterfac
         'image': image
     }
 });
+
+export const deleteOfferImage = async (imageId: number) => makeRequest({
+    endpoint: `/images/${imageId}`,
+    method: 'DELETE'
+})
 
 export const publishOffer = async (offerId: number) => makeRequest({
     endpoint: `/offers/${offerId}/publish`,

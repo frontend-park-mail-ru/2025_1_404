@@ -58,7 +58,7 @@ export default class ProfileMyOffersPage extends Page {
         }
         if (target.classList.contains("light-btn")) {
             OfferEditLayout.reset();
-            RouteManager.navigateTo(`/offer/edit/${offerId}`);
+            RouteManager.navigateTo(`/offer/edit/${offerId}/type`);
         }
         if (target.classList.contains("red-btn")) {
            this._deleteOffer(offerId);

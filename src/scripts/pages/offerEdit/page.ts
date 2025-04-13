@@ -9,7 +9,7 @@ export interface OfferDataChangeInterface {
 
 /**
  * @class OfferPage
- * @description Базовая Страница создания объявления
+ * @description Базовая Страница редактирования объявления
  * @augments Page
  */
 export default class OfferPage extends Page {
@@ -17,7 +17,7 @@ export default class OfferPage extends Page {
     _inputs: number;
     protected _offerData: Record<string, string> = {};
     protected _uploadedImages: Record<string, ImageData> = {};
-    private _layout: BaseLayout | undefined;
+    protected _layout: BaseLayout | undefined;
     /**
      * @description Конструктор класса.
      * @param {string} propertyName имя свойства в модели
@@ -52,6 +52,7 @@ export default class OfferPage extends Page {
     _getDataFromModel() {
         if (OfferCreate.getOfferData()[this._pageName]) {
             this._offerData = OfferCreate.getOfferData()[this._pageName];
+            this._uploadedImages = OfferCreate.getImages();
         }
     }
 
@@ -93,6 +94,7 @@ export default class OfferPage extends Page {
         }
         return isFilled;
     }
+
 
     /**
      * @function _offerDataChange
