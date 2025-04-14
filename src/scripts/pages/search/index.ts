@@ -175,6 +175,7 @@ export default class SearchPage extends Page {
      * @param {Record<string, string>} filterData Данные фильтра
      * @private
      */
+    // eslint-disable-next-line max-lines-per-function
     async _getOffers(filterData: Record<string, string>) {
         if (!User.isLoaded() || !this._layout) {
             return;

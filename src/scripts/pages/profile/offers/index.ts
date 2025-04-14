@@ -17,7 +17,7 @@ import OfferEditLayout from "../../../layouts/offerEdit/index.ts";
  */
 export default class ProfileMyOffersPage extends Page {
     private _layout: BaseLayout | undefined;
-    private _offerStatus = 1;
+    private _offerStatus: string = '';
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -27,7 +27,7 @@ export default class ProfileMyOffersPage extends Page {
     render({layout, root} : PageRenderInterface) {
         this._layout = layout;
         root.innerHTML = template();
-        this._offerStatus = 1;
+        this._offerStatus = '';
         super.render({layout, root});
         this._updateContent(this._offerStatus);
     }
@@ -100,7 +100,7 @@ export default class ProfileMyOffersPage extends Page {
         const target = event.target as HTMLElement;
         if (target.classList.contains('profile__right-nav-href') && target.dataset && target.dataset.tab && target.dataset.offerstatus) {
             event.preventDefault();
-            this._offerStatus = parseInt(target.dataset.offerstatus, 10);
+            this._offerStatus = target.dataset.offerstatus;
             this._setActiveTab(parseInt(target.dataset.tab, 10));
             this._updateContent(this._offerStatus);
         }
@@ -111,7 +111,7 @@ export default class ProfileMyOffersPage extends Page {
      * @description Метод обновления контента страницы.
      * @param {number} offerType тип объявления
      */
-    _updateContent(offerType: number) {
+    _updateContent(offerType: string) {
         const offerList = document.querySelector('.profile__right-list') as HTMLElement;
         if (!offerList || !this._layout) {
             return;
@@ -123,7 +123,7 @@ export default class ProfileMyOffersPage extends Page {
         }
         this._layout.makeRequest(searchOffers, {
             'seller_id': user.id.toString(),
-            'offer_type_id': offerType.toString()
+            'offer_type_id': offerType
         }).then((response) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             response.forEach((offerData: any) => {

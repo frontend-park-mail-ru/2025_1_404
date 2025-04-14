@@ -70,7 +70,6 @@ export default class ProfileMainPage extends Page {
      * @description Метод инициализации слушателей событий.
      */
     _updateMyOffers() {
-        const offerType = 2;
         const myOffersList = document.getElementById('profileMyOffersPreviews') as HTMLElement;
         const myOffersButtton = document.getElementById('profileBlockMyOffersButton') as HTMLElement;
         if (!myOffersList || !this._layout) {

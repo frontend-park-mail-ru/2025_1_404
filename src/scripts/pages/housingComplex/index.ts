@@ -9,7 +9,6 @@ import housingComplexInformationTemplate
     from "../../components/housingComplex/housingComplexInformation/template.precompiled.js";
 import housingComplexSliderTemplate from "../../components/housingComplex/housingComplexSlider/template.precompiled.js";
 import template from "./template.precompiled.js";
-import RouteManager from "../../managers/routeManager/routeManager.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import PageManager from "../../managers/pageManager.ts";
 
