@@ -35,6 +35,17 @@ export default class ProfileMainPage extends Page {
      */
     initListeners() {
         this.initListener('profileMyOffersPreviews', 'click', this._handlePreviewClick);
+        this.initListener('profileBlockMyOffersButton', 'click', this._handleMyOffersButton);
+    }
+
+    /**
+     * @function _handleCardClick
+     * @description Метод обработки клика по карточке объявления.
+     * @param {Event} event событие
+     */
+    _handleMyOffersButton(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/profile/offers');
     }
 
     /**
