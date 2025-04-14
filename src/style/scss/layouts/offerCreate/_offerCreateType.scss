@@ -1,0 +1,17 @@
+.offerCreate__type-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+.offerCreate__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  &-col {
+    display: flex;
+    flex-direction: row;
+    gap: 20%;
+  }
+}

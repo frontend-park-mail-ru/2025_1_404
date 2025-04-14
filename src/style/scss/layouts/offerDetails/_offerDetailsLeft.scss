@@ -1,0 +1,39 @@
+@use "../../abstracts/variables" as *;
+.offerDetails__left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-description {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &-title {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    &-text {
+      color: $grey;
+      line-height: 24px;
+    }
+  }
+
+  &-map {
+    width: 100%;
+    height: 30em;
+  }
+}

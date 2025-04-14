@@ -1,0 +1,11 @@
+@use "../abstracts/variables" as *;
+.error {
+  color: $red;
+  margin-top: 5px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.error__visible {
+  opacity: 1;
+}

@@ -1,0 +1,24 @@
+@use "../abstracts/variables" as *;
+.profile__data {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &-change {
+    display: block;
+    font-weight: 700;
+    color: $blue-link;
+
+    &:disabled {
+      color: $light-grey;
+      cursor: default;
+    }
+  }
+}

@@ -1,0 +1,71 @@
+@use "../abstracts/variables" as *;
+.card {
+  width: calc(100% / 4 - 20px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  position: relative;
+  border: 1px solid $light-grey;
+  transition: .2s linear;
+
+  &:hover {
+    border-color: $blue-hover;
+  }
+
+  &__heart {
+    position: absolute;
+    z-index: 1;
+    right: 8px;
+    top: 8px;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  &__photo {
+    position: relative;
+    height: 0;
+    padding-bottom: 75%;
+    background-color: #fff;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    &-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-top-left-radius: 11px;
+      border-top-right-radius: 11px;
+    }
+  }
+
+  &__content {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+  }
+
+  &__price {
+    font-size: 1.375em;
+    font-weight: 700;
+  }
+
+  &__info ul {
+    display: flex;
+    gap: 0.35em;
+  }
+
+  &__metro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__address {
+    color: $grey;
+  }
+}

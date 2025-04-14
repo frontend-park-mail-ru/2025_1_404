@@ -1,0 +1,84 @@
+@use "../abstracts/variables" as *;
+.overlay {
+  z-index: 1001;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.login {
+  z-index: 1001;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  transform: translate(-50%, -50%) scale(1);
+  width: 22.5em;
+  padding: 3.125em;
+  background-color: $white;
+  border-radius: 12px;
+
+  &.active {
+    top: 50%;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    text-align: center;
+    cursor: pointer;
+    color: $grey;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $black-text;
+    }
+  }
+
+  &__title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.375em;
+  }
+
+  &__inner, &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+  }
+
+  &__form {
+    width: 100%;
+
+    &-img {
+      height: 80px;
+      width: 80px;
+    }
+
+    &-register {
+      width: 100%;
+    }
+
+    &-submit {
+      width: 100%;
+    }
+  }
+}

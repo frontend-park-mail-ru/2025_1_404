@@ -1,0 +1,46 @@
+@use "../abstracts/variables" as *;
+.radio-button {
+  position: relative;
+  display: flex;
+  background-color: $white;
+  z-index: 5;
+  border-radius: 6px;
+  width: 18.75em;
+
+  input {
+    display: none;
+  }
+
+  label {
+    text-align: center;
+    z-index: 2;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.radio-bg {
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  width: 50%;
+  height: 100%;
+  background-color: $bluish;
+  filter: drop-shadow(0px 3px 1px rgba(0, 0, 0, 0.12));
+  border-radius: 6px;
+  position: absolute;
+  z-index: -1;
+}
+
+#rad1:checked ~ .radio-bg {
+  transform: translateX(0);
+  transition: transform 0.5s ease-in-out;
+}
+#rad2:checked ~ .radio-bg {
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
+}

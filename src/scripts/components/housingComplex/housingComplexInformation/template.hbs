@@ -1,0 +1,136 @@
+<div class="housingComplex__info">
+    <div class="housingComplex__info-main">
+        <div class="housingComplex__info-block">
+            <div class="housingComplex__info-block-header">
+                <span>Расположение</span>
+            </div>
+            <div class="housingComplex__info-block-address">
+                <span>{{address}}</span>
+            </div>
+            <div class="housingComplex__info-block-metro">
+                
+            </div>
+        </div>
+        <div class="housingComplex__info-block">
+            <div class="housingComplex__info-block-header">
+                <span>Харакетиристики</span>
+            </div>
+            <div class="housingComplex__info-block-characteristics">
+
+                <div class="housingComplex__info-characteristic">
+                    <div class="characteristic__icon">
+                        <i class="fa-solid fa-door-open"></i>
+                    </div>
+                    <div class="characteristic__text">
+                        <div class="characteristic__text-name">
+                            <span></span>
+                        </div>
+                        <div class="characteristic__text-content">
+                            <span>
+                                {{characteristics.square.lowest_square}}
+                                -
+                                {{characteristics.square.highest_square}}
+                                м²
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-star" label="Класс" content=characteristics.class}}
+
+                <div class="housingComplex__info-characteristic">
+                    <div class="characteristic__icon">
+                        <i class="fa-solid fa-stairs"></i>
+                    </div>
+                    <div class="characteristic__text">
+                        <div class="characteristic__text-name">
+                            <span>Количество этажей</span>
+                        </div>
+                        <div class="characteristic__text-content">
+                            <span>
+                                {{characteristics.floors.lowest_floor}}
+                                -
+                                {{characteristics.floors.highest_floor}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="housingComplex__info-characteristic">
+                    <div class="characteristic__icon">
+                        <i class="fa-solid fa-arrows-up-down"></i>
+                    </div>
+                    <div class="characteristic__text">
+                        <div class="characteristic__text-name">
+                            <span>Высота потолков</span>
+                        </div>
+                        <div class="characteristic__text-content">
+                            <span>
+                                {{characteristics.ceiling_height.lowest_height}}
+                                -
+                                {{characteristics.ceiling_height.highest_height}}
+                                м
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-paint-roller" label="Виды отделок" content=(join characteristics.decoration) }}
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-building" label="Количество корпусов" content='-'}}
+            </div>
+        </div>
+        <div class="housingComplex__info-block">
+            <div class="housingComplex__info-block-header">
+                <span>Квартиры от застройщика</span>
+            </div>
+            <div class="housingComplex__info-apartments">
+                {{#each apartments.items}}
+                    <div class="housingComplex__info-apartment">
+                        <div class="housingComplex__info-apartment-info">
+                            <span class="housingComplex__info-apartment-square">{{rooms}}-комн. от {{minSquare}} м²</span>
+                            <span class="housingComplex__info-apartment-price">от {{lowestPrice}} до {{highestPrice}} ₽</span>
+                        </div>
+                        <div class="housingComplex__info-apartment-offers">
+                            <span>Предложений: {{offers}}</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="housingComplex__info-block">
+            <div class="housingComplex__info-block-header">
+                <span>Описание</span>
+            </div>
+            <div class="housingComplex__info-description">
+                <span>{{breakLines description}}</span>
+            </div>
+        </div>
+
+        <div class="housingComplex__info-block">
+            <div class="housingComplex__info-block-header">
+                <span>Карта</span>
+            </div>
+            <div id="housingComplexMap" class="housingComplex__info-map"></div>
+        </div>
+
+        <div class="housingComplex__info-block">
+            <div class="housingComplex__info-block-header">
+                <span>Отзывы</span>
+            </div>
+            {{> HousingComplexReviews reviews=reviews}}
+        </div>
+
+    </div>
+    <aside class="housingComplex__info-aside">
+        <div class="housingComplex__info-aside-header">
+            <span>Застройщик</span>
+        </div>
+        <div class="housingComplex__info-aside-developer">
+            <span>{{contacts.developer}}</span>
+        </div>
+        <div class="housingComplex__info-aside-btns">
+            {{> PrimaryButton name="Контакты застройщика" id="asideDeveloperPhone" class="housingComplex__info-aside-btn"}}
+            {{> LightButton name="Рассчитать ипотеку" id="mortgageCalculation" class="housingComplex__info-aside-btn"}}
+        </div>
+    </aside>
+</div>

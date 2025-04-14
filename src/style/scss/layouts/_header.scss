@@ -1,0 +1,67 @@
+@use "../abstracts/variables" as *;
+.header {
+  background-color: $white;
+  position: sticky;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+}
+
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4.375em;
+}
+
+
+.header__right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2.5em;
+  gap: 1em;
+}
+
+.header__icons {
+  height: 2em;
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  font-size: 20px;
+  align-items: center;
+}
+
+.header__icons a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: $grey;
+  transition: color 0.2s ease;
+}
+
+.header__icons a:hover {
+  color: $black-text;
+}
+
+.header__favour-href, .header__notice-href {
+  width: 20px;
+  height: 20px;
+}
+
+.header__auth {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+}
+
+.header__auth button {
+  padding: 0 0.625em;
+  height: 2em;
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+}

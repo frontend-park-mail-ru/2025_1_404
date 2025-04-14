@@ -1,0 +1,53 @@
+@use "../../abstracts/variables" as *;
+.offerCreate__price {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  &-calculation {
+    background-color: $profile-bg;
+    padding: 22px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &-title {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    &-block {
+      border: 1px solid $blue;
+      border-radius: 8px;
+      padding: 15px 15px;
+      display: flex;
+      gap: 225px;
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &-price {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    &-label {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &-input {
+    max-width: 40%;
+  }
+}

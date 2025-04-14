@@ -1,0 +1,27 @@
+<div class="housingComplex__reviews">
+    {{#if reviews.quantity}}
+        {{#each reviews.items}}
+            <div class="housingComplex__review">
+                <div class="housingComplex__review-header">
+                    <div class="housingComplex__review-profile">
+                        <div class="housingComplex__review-profile-avatar">
+                            <img src="{{avatar}}" alt="avatar">
+                        </div>
+                        <div class="review__profile__name">{{name}}</div>
+                    </div>
+                    <div class="housingComplex__review-rating">
+                        {{renderRating rating}}
+                    </div>
+                </div>
+                <div class="housingComplex__review-text">
+                    <span>{{text}}</span>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+      <div class="housingComplex__reviews-empty">
+        <span>Тут пока нет отзывов</span>
+      </div>
+    {{/if}}
+    {{> BackgroundlessButton name="Показать ещё" id="loadReviews" class="housingComplex__reviews-load" }}
+ </div>

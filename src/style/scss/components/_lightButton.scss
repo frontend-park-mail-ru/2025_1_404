@@ -1,0 +1,13 @@
+@use "../abstracts/variables" as *;
+.light-btn {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  background-color: $bluish;
+  color: $darker-blue;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: $bluish-hover;
+  }
+}

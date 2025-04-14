@@ -1,0 +1,29 @@
+@use "../abstracts/variables" as *;
+.characteristic {
+
+  &__icon{
+    background-color: $light-grey;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    font-size: 14px;
+
+    &-name {
+      color: $grey;
+    }
+  }
+
+}

@@ -1,0 +1,39 @@
+@use "../../abstracts/variables" as *;
+.offerCreate__nav {
+  background-color: $white;
+  padding: 42px 60px;
+  border-radius: 10px;
+
+  &-stage {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    &-point-disabled {
+      cursor: inherit;
+    }
+
+    &-title-disabled {
+      color: $grey;
+    }
+  }
+
+  &-rect {
+    border: 1px solid $light-grey;
+    height: 100%;
+    margin-right: 107px;
+
+    &-fill {
+      border-color: $blue;
+    }
+  }
+}
+
+.fa-regular.fa-circle-dot, .fa-solid.fa-circle-check {
+  color: $blue;
+}
+
+.fa-regular.fa-circle{
+  color: $light-grey;
+}

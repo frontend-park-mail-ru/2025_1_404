@@ -1,0 +1,51 @@
+@use "../../abstracts/variables" as *;
+.profile {
+  background-color: $profile-bg;
+
+  &__inner {
+    padding-top: 1.25em;
+    height: 100%;
+    padding-bottom: 4em;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    position: relative;
+
+    &-upload {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+
+      &-remove {
+        display: none;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 25px;
+        height: 25px;
+
+        :hover > & {
+          display: block;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    &-wrapper input {
+      display: none;
+    }
+  }
+}

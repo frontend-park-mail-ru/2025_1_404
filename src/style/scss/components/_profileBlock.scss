@@ -1,0 +1,29 @@
+@use "../abstracts/variables" as *;
+.profile__block {
+  display: inline-flex;
+  height: min-content;
+  width: 100%;
+  flex-direction: column;
+  background-color: $white;
+  border-radius: 12px;
+  padding: 10px 15px;
+
+  &-title {
+    margin-bottom: 15px;
+  }
+
+  &-previews {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &-button {
+    margin-top: 20px;
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}

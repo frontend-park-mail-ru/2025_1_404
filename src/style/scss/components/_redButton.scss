@@ -1,0 +1,13 @@
+@use "../abstracts/variables" as *;
+.red-btn {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  background-color: $milk;
+  color: $red;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+
+  //&:hover {
+  //  background-color: $;
+  //}
+}

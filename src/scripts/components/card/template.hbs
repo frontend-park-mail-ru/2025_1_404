@@ -1,0 +1,27 @@
+<div class="card">
+    <a class="card__link" href="/offer/details/{{id}}" data-id="{{id}}">
+        <div class="card__heart">
+            {{> HeartButton }}
+        </div>
+
+        <div class="card__photo">
+            <img class="card__photo-img" src="{{image}}" alt="">
+        </div>
+        <div class="card__content">
+            <h3 class="card__price">{{cardTitle}}</h3>
+            <div class="card__info">
+                <ul>
+                    <li>{{rooms}}-комн. кв.</li>
+                    <li>{{square}} м²</li>
+                    <li>{{floor}}/{{totalFloors}} этаж</li>
+                </ul>
+            </div>
+            <div class="card__metro">
+                {{> MetroStation metroColor=metroColor metroStation=metroStation}}
+            </div>
+            <div class="card__address">
+                <span>{{address}}</span>
+            </div>
+        </div>
+    </a>
+</div>

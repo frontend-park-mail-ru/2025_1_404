@@ -1,0 +1,45 @@
+@use "../../abstracts/variables" as *;
+.offerDetails {
+  padding-top: 1.25em;
+  padding-bottom: 3.5em;
+  height: 100%;
+
+  &__inner {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &-title {
+      font-size: 38px;
+      font-weight: 600;
+    }
+
+    &-info {
+      display: flex;
+      gap: 20px;
+
+      ul {
+        display: flex;
+        gap: 0.35em;
+      }
+    }
+
+    &-address {
+      color: $grey;
+    }
+  }
+
+  &__main {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
+}

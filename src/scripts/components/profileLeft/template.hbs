@@ -1,0 +1,33 @@
+<div class="profile__left">
+    <div class="profile__left-info">
+        <div class="profile__avatar-wrapper">
+            {{> UserAvatar id="profileAvatar" class="profile__avatar" class="profile__avatar" avatar="/img/userAvatar/unknown.svg" enableUpload=true }}
+            <input id="profileAvatarInput" type="file" accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG">
+        </div>
+
+        <form id="profileData" class="profile__data">
+            <div class="profile__data-field">
+                <span class="profile__data-field-label">Имя</span>
+                {{> ProfileDataInput id="profileFirstName" type="text" name="firstName" placeholder="Имя" maxlength="16"}}
+            </div>
+            <div class="profile__data-field">
+                <span class="profile__data-field-label">Фамилия</span>
+                {{> ProfileDataInput id="profileLastName" type="text" name="lastName" placeholder="Фамилия" maxlength="16"}}
+            </div>
+            <div class="profile__data-field">
+                <span class="profile__data-field-label">Email</span>
+                {{> ProfileDataInput id="profileEmail" type="email" name="email" placeholder="Email" maxlength="32"}}
+            </div>
+            <div id="profile-api-error" class="error"></div>
+            <button id="profileDataSave" class="profile__data-change" disabled="disabled">Сохранить данные</button>
+        </form>
+
+    </div>
+    <div class="profile__left-nav">
+        <button class="profile__left-nav-btn" id="profileMainButton">Профиль</button>
+        <button class="profile__left-nav-btn">Избранное</button>
+        <button class="profile__left-nav-btn" id="offerCreateButton">Создать объявление</button>
+        <button class="profile__left-nav-btn" id="profileMyOffersButton">Мои объявления</button>
+    </div>
+    <button class="profile__left-nav-btn profile__left-nav-logout" id="profileLogoutButton">Выйти</button>
+</div>

@@ -1,0 +1,77 @@
+@use "../../abstracts/variables" as *;
+.offerDetails__right {
+  position: sticky;
+  top: 70px;
+  width: 45%;
+  height: fit-content;
+  border: 1px solid $light-grey;
+  border-radius: 12px;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  &-price {
+    font-weight: 700;
+    font-size: 36px;
+  }
+
+  &-info {
+    display: grid;
+    row-gap: 15px;
+    column-gap: 15px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  &-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &-btn {
+    padding: 10px 0;
+  }
+
+  &-seller {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+
+    &-avatar {
+      height: 60px;
+      width: 60px;
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+
+      &-small {
+        font-size: 12px;
+      }
+    }
+
+    &-rating {
+      display: flex;
+      align-items: center;
+    }
+
+    &-name {
+      color: $blue;
+    }
+
+  }
+
+  &-characteristic {
+    flex: 1 1 33%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+  }
+}

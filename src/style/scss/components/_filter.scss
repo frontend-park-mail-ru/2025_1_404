@@ -1,0 +1,37 @@
+@use "../abstracts/variables" as *;
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__bottom {
+    display: flex;
+    justify-content: flex-end;
+
+    &-input {
+
+      input {
+        border-radius: 0;
+        height: 3em;
+      }
+
+      div {
+        background-color: $white;
+        padding: 5px;
+        margin-top: 0;
+      }
+    }
+  }
+
+  &__first {
+    width: 100%;
+    display: flex;
+  }
+
+  &__submit {
+    padding: 0.75em 2.5em;
+    min-width: 240px;
+    font-size: 1em;
+    border-radius: 8px;
+  }
+}

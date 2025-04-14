@@ -1,0 +1,27 @@
+{{#> ProfileLayout}}
+    <div class="profile__right-blocks">
+        <div class="profile__block">
+            <h2 class="profile__block-title">Мои объявления</h2>
+            <div id="profileMyOffersPreviews" class="profile__block-previews"></div>
+            {{> PrimaryButton class="profile__block-button" id="profileBlockMyOffersButton" name="Показать все объявления" }}
+        </div>
+        <div class="profile__block">
+            <h2 class="profile__block-title">Избранное</h2>
+            <div class="profile__block-previews">
+                {{> ProfilePreview image="/img/card/undefined.webp" title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                {{> ProfilePreview image="/img/card/undefined.webp" title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+                {{> ProfilePreview image="/img/card/undefined.webp" title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
+            </div>
+            {{> PrimaryButton class="profile__block-button active" id="profileBlockFavoursButton" name="Показать все объявления" }}
+        </div>
+    </div>
+    <div class="profile__right-promotion">
+        <h2 class="profile__right-promotion-title">
+            Платное продвижение
+        </h2>
+        <span class="profile__right-promotion-text">
+            Подключите платное продвижение, чтобы ваше объявление стало заметнее для потенциальных покупателей или арендаторов. Услуга увеличивает просмотры, повышает количество звонков и помогает быстрее закрыть сделку. Ваше объявление будет выделяться в поиске и на главной странице, привлекая больше внимания. Воспользоваться продвижением может любой пользователь, разместивший объявление.
+        </span>
+        {{> PrimaryButton class="profile__right-promotion-btn" name="Выбрать объявление" }}
+    </div>
+{{/ProfileLayout}}

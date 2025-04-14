@@ -1,0 +1,10 @@
+@use "../abstracts/variables" as *;
+.backgroundless-button {
+  color: $blue-link;
+  font-size: 1em;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $blue-link-hover;
+  }
+}

@@ -1,0 +1,32 @@
+<div class="profile__offer" data-id="{{id}}">
+    <div class="profile__offer-left">
+        <img src="{{image}}" alt="" class="profile__offer-img">
+    </div>
+    <div class="profile__offer-right">
+        <h2 class="profile__offer-title">
+            <a class="profile__offer-link" href="/offer/details/{{id}}">{{title}}</a>
+        </h2>
+        <span class="profile__offer-address">
+            {{address}}
+        </span>
+        <div class="profile__offer-info">
+            <ul>
+                <li>{{rooms}}-комн. кв.</li>
+                <li>{{square}} м²</li>
+                <li>{{floor}}/{{totalFloors}} этаж</li>
+            </ul>
+        </div>
+        <div class="profile__offer-metro">
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="black" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.6135 9.69889L11.8759 0.239685L8.71426 5.76928L5.56546 0.239685L1.81506 9.69889H0.714264V11.1325H6.37187V9.69889H5.52706L6.34626 7.34368L8.71426 11.2349L11.0823 7.34368L11.9015 9.69889H11.0567V11.1325H16.7143V9.69889H15.6135Z" fill="{{metroColor}}"/>
+            </svg>
+            <span>{{metroStation}}</span>
+<!--            <span>4 мин.</span>-->
+        </div>
+        <div class="profile__offer-btns">
+            {{> PrimaryButton name="Платное продвижение" }}
+            {{> LightButton name="Изменить" }}
+            {{> RedButton name="Удалить" }}
+        </div>
+    </div>
+</div>

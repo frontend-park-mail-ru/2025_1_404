@@ -1,0 +1,37 @@
+@use "../../abstracts/variables" as *;
+.offerCreate__description {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 40px;
+
+  &-title {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  &-textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    color: $black-text;
+    font-size: 1em;
+    padding: 1em;
+    border: 1px solid $light-grey;
+    border-radius: 6px;
+    transition:
+            border-color 0.3s ease,
+            box-shadow 0.3s ease;
+
+    &:hover{
+      border-color: $black-text;
+      box-shadow: 0 0 0px;
+    }
+
+    &:focus {
+      border-color: $darker-blue;
+      box-shadow: 0 0 4px $blue-shadow;
+    }
+  }
+}

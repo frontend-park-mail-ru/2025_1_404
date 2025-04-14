@@ -1,0 +1,24 @@
+{{#> OfferEditLayout }}
+<div id="offerCreateParams" class="offerCreate__params">
+    <div class="offerCreate__params-row">
+        <div class="offerCreate__params-rooms">
+            {{> ChoiceButtons label="Количество комнат" name="input-rooms" choices=(split '1;2;3;4')}}
+        </div>
+        <div class="offerCreate__params-square">
+            <div class="offerCreate__input">
+                <label for="input-square" class="offerCreate__input-label">Площадь, м²</label>
+                {{> Input id="input-square" name="offer_square" type="text"}}
+            </div>
+        </div>
+        <div class="offerCreate__params-square">
+            <div class="offerCreate__input">
+                <label for="input-ceiling-height" class="offerCreate__input-label">Высота потолков</label>
+                {{> Input id="input-ceiling-height" name="offer_ceiling_height" type="text"}}
+            </div>
+        </div>
+    </div>
+    <div class="offerCreate__params-renovation">
+        {{> ChoiceButtons label="Тип ремонта" name="input-renovation" choices=(split 'Современный ремонт;Косметический ремонт;Черновая отделка;Нужен полный ремонт;Нужен частичный ремонт;Улучшенная черновая') }}
+    </div>
+</div>
+{{/ OfferEditLayout }}

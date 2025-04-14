@@ -1,0 +1,18 @@
+@use "../abstracts/variables" as *;
+.offerCreate__btns {
+  border-top: 1px solid $grey;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  &-section {
+    display: flex;
+    gap: 25px;
+
+    button {
+      font-weight: 600;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+}

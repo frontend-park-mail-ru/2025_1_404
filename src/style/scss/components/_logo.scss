@@ -1,0 +1,20 @@
+@use "../abstracts/variables" as *;
+.logo {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.logo-href {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo__title {
+  font-size: 1.75em;
+  font-weight: 500;
+  align-content: center;
+}
+
+
