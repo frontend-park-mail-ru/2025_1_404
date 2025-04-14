@@ -11,6 +11,7 @@ import housingComplexSliderTemplate from "../../components/housingComplex/housin
 import template from "./template.precompiled.js";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
+import PageManager from "../../managers/pageManager.ts";
 
 
 /**
@@ -91,7 +92,8 @@ export default class HousingComplexPage extends Page {
         return this._layout?.makeRequest(getHousingComplex, id)
         .then((data) => data)
         .catch (() => {
-            RouteManager.navigateTo('/');
+            PageManager.renderPage('404');
+            throw new Error('Error while getting housing complex information');
         });
     }
 }

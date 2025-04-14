@@ -10,6 +10,7 @@ import OfferDetailsLeft from "../../components/offerDetailsLeft";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
+import PageManager from "../../managers/pageManager.ts";
 
 /**
  * @class offerDetailsPage
@@ -75,7 +76,8 @@ export default class OfferDetailsPage extends Page {
         return this._layout.makeRequest(getOfferById, id)
             .then((data) => data)
             .catch ((error) => {
-                console.warn(error);
+                PageManager.renderPage('404');
+                throw error;
             });
     }
 }

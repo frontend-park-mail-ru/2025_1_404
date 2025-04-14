@@ -2,6 +2,7 @@
 import {RouteNode} from "./routeNode.ts";
 import {UnknownRoute} from "../../routes/unknownRoute.ts";
 import BaseRoute from "../../routes/baseRoute.ts";
+import PageManager from "../pageManager.ts";
 
 /**
  * @class RouteManager
@@ -127,7 +128,9 @@ class RouteManager {
         const {route, params} = this._processRoute(preparedPathStr);
         if (route !== null) {
             route.process(params);
+            return;
         }
+        PageManager.renderPage('404');
     }
 
     /**
