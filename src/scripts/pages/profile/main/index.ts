@@ -90,7 +90,6 @@ export default class ProfileMainPage extends Page {
                 offer.parseJSON(offerData);
                 myOffersCnt++;
                 if (myOffersCnt > 3) {
-                    console.log(myOffersButtton);
                     myOffersButtton.classList.add('active');
                 } else {
                     myOffersList.innerHTML += profilePreviewTemplate({

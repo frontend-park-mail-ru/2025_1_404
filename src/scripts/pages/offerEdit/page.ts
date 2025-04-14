@@ -90,7 +90,7 @@ export default class OfferPage extends Page {
             return false;
         }
         for (const key in this._offerData) {
-            if (this._offerData[key] === '') { console.log(key); isFilled = false; return isFilled;}
+            if (this._offerData[key] === '') { isFilled = false; return isFilled;}
         }
         return isFilled;
     }

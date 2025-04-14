@@ -178,8 +178,6 @@ export default class OfferEditPhotosPage extends OfferPage {
                     id: data.image_id,
                 }
                 OfferCreate.setImages(this._uploadedImages);
-                console.log(this._offerData)
-                console.log(this._uploadedImages)
             }
         }).catch((err) => {
             console.error(err);
@@ -254,7 +252,6 @@ export default class OfferEditPhotosPage extends OfferPage {
         const _offerData = this._offerData;
         this._offerData = {};
         Object.keys(_offerData).forEach(photo => {
-            console.log(_offerData, photo, this._uploadedImages)
             this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);
         })
     }

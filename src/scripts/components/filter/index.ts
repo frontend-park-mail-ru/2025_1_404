@@ -163,7 +163,6 @@ export default class Filter extends BaseComponent {
             if (!this._submitButton) {
                 return;
             }
-            console.log(this._filterValid[button.name]);
             if (this._filterValid[button.name]) {
                 button.classList.remove('red');
                 this._isValid = true;
