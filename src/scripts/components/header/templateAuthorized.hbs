@@ -12,8 +12,12 @@
                     </a>
                 </div>
                 <div class="header__auth">
-                    <span class ="header__name"></span>
-                    <a href="#" id="profile-href">{{> UserAvatar class="header__avatar" avatar="/img/userAvatar/unknown.svg" }}</a>
+                    <a href="/profile" id="profile-href">
+                        <div class="header__auth">
+                            <span class ="header__name"></span>
+                            {{> UserAvatar class="header__avatar" avatar="/img/userAvatar/unknown.svg" }}
+                        </div>
+                    </a>
                     {{> LightButton name="Выйти" id="logoutButton"}}
                 </div>
             </div>

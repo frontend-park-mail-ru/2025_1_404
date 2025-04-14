@@ -1,3 +1,4 @@
+@use "../abstracts/variables" as *;
 .profile__data {
   display: flex;
   flex-direction: column;
@@ -11,10 +12,13 @@
   }
 
   &-change {
-    color: $blue-link;
+    display: block;
     font-weight: 700;
-    display: none;
+    color: $blue-link;
 
-    &.active {display: block}
+    &:disabled {
+      color: $light-grey;
+      cursor: default;
+    }
   }
 }

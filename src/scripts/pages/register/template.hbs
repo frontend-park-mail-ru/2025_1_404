@@ -5,7 +5,7 @@
     </div>
     <div class="register__form">
         <div class = "register__form-header">
-            <a class="register__form-logo" id="register-form-header-clickable" href="#">
+            <a class="register__form-logo" id="register-form-header-clickable" href="/register">
                 <img class="logo-img" src="/img/logo/logo.svg" alt="Логотип">
             </a>
             <h2>
@@ -19,7 +19,7 @@
             </div>
             {{> Input id="registerEmail" type="email" name="email" placeholder="Email" maxlength="32"}}
             {{> Input id="registerPassword" type="password" name="password" placeholder="Пароль" maxlength="32"}}
-            {{> Input id="registerConfirmPassword" type="password" name="confirmPassword" placeholder="Подтвердите пароль" maxlength="32"}}
+            {{> Input id="registerConfirmPassword" type="password" name="confirm_password" placeholder="Подтвердите пароль" maxlength="32"}}
 
             {{> PrimaryButton name="Зарегистрироваться" class="register__form-fields-submit" id="registerSubmitButton"}}
             {{> BackgroundlessButton name="Уже есть аккаунт?" id="redirectJoinButton" }}

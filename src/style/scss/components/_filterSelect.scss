@@ -1,0 +1,69 @@
+@use "../abstracts/variables" as *;
+.filter__select {
+  flex: 0 0 200px;
+  max-width: 200px;
+  position: relative;
+
+  &-button {
+    position: relative;
+    padding: 0.625em 1em;
+    height: 3em;
+    background-color: $white;
+    color: $black-text;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    border: 1px solid $light-grey;
+
+    &.red {
+      color: $red;
+    }
+
+    &:hover {
+      border-color: $black-text;
+      box-shadow: 0 0 0px;
+    }
+
+    &:focus {
+      border-color: $darker-blue;
+      box-shadow: 0 0 4px $blue-shadow;
+    }
+
+    &.active {
+      &::after {
+        transform: translateY(-50%) rotate(225deg);
+      }
+    }
+
+    &::after {
+      display: block;
+      position: absolute;
+      content: "";
+      top: 50%;
+      right: 16px;
+      transform: translateY(-50%) rotate(45deg);
+      border-right: 2px solid $black-text;
+      border-bottom: 2px solid $black-text;
+      width: 6px;
+      height: 6px;
+      transition: transform .3s;
+    }
+  }
+
+  &-popup {
+    display: none;
+    position: absolute;
+    left: 0;
+    z-index: 5;
+    margin-top: 10px;
+    border-radius: 6px;
+    background-color: $white;
+    padding: 16px;
+    min-width: 300px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+    &.active {
+      display: block;
+    }
+  }
+}

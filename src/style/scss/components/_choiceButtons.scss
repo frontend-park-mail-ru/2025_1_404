@@ -1,0 +1,17 @@
+@use "../abstracts/variables" as *;
+.choice__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &-label {
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  &-btns {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+}

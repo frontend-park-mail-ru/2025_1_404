@@ -11,8 +11,8 @@
     "preview": "vite preview",
     "prestart": "npm run build",
     "start": "node deploy/main.js",
-    "compile": "node tools/compileAll.js",
-    "eslint": "npx eslint src/scripts"
+    "compile": "npx tsx tools/compileAll.ts",
+    "eslint": "npx eslint src/scripts tools"
   },
   "repository": {
     "type": "git",
@@ -25,16 +25,25 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2025_1_404#readme",
   "dependencies": {
+    "@types/leaflet": "^1.9.17",
+    "@types/node": "^22.14.0",
+    "@types/serviceworker": "^0.0.127",
     "express": "^4.21.2",
     "handlebars": "^4.7.8",
-    "leaflet": "^1.9.4"
+    "leaflet": "^1.9.4",
+    "ts-node": "^10.9.2",
+    "typescript-eslint": "^8.29.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@vitejs/plugin-legacy": "^6.0.2",
     "eslint": "^9.21.0",
+    "eslint-plugin-jsdoc": "^50.6.9",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "sass-embedded": "^1.86.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
     "vite": "^6.2.0"
   }
 }

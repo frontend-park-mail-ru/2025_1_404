@@ -1,0 +1,24 @@
+<div class="slider__images-wrapper">
+    <div id="sliderImages" class="slider__images">
+        {{#each images}}
+            <div class="slider__images-image">
+                <img src="{{this}}" alt="{{../alt}}">
+            </div>
+        {{/each}}
+    </div>
+    <div class="slider__images-controls">
+        {{> ChevronLeft id="sliderImagesChevronLeft"}}
+        {{> ChevronRight id="sliderImagesChevronRight" }}
+    </div>
+</div>
+<div class="slider__previews-wrapper">
+    {{> ChevronLeft id="sliderPreviewsChevronLeft" class="slider__previews-control" }}
+    <div class="slider__previews {{previews}}">
+        {{#each images}}
+            <div id="sliderPreview-{{@index}}" class="slider__previews-preview">
+                <img src="{{this}}" alt="{{../alt}}">
+            </div>
+        {{/each}}
+    </div>
+    {{> ChevronRight id="sliderPreviewsChevronRight" class="slider__previews-control" }}
+</div>

@@ -1,3 +1,4 @@
+@use "../abstracts/variables" as *;
 .loader {
   &__spinner {
     border: 12px solid $white;

@@ -2,13 +2,8 @@
     <div class="profile__right-blocks">
         <div class="profile__block">
             <h2 class="profile__block-title">Мои объявления</h2>
-            <div class="profile__block-previews">
-                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-                {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
-            </div>
-
-            {{> PrimaryButton name="Показать все объявления" }}
+            <div id="profileMyOffersPreviews" class="profile__block-previews"></div>
+            {{> PrimaryButton class="profile__block-button" id="profileBlockMyOffersButton" name="Показать все объявления" }}
         </div>
         <div class="profile__block">
             <h2 class="profile__block-title">Избранное</h2>
@@ -17,7 +12,7 @@
                 {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
                 {{> ProfilePreview title="Покупка 5-комн. кв., 94750000₽" address="Олимпийский проспект, д. 12, Москва"}}
             </div>
-            {{> PrimaryButton name="Показать все объявления" }}
+            {{> PrimaryButton class="profile__block-button active" id="profileBlockFavoursButton" name="Показать все объявления" }}
         </div>
     </div>
     <div class="profile__right-promotion">

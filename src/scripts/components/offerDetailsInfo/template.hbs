@@ -1,33 +1,35 @@
 <h2 class="offerDetails__right-price">
-    {{Price}}
+    {{price}}
 </h2>
 <div class="offerDetails__right-info">
-    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-door-open" label="Комнат" content=Rooms}}
-    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-layer-group" label="Площадь" content=Area}}
-    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-stairs" label="Этаж" content=Floor}}
-    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-key" label="Тип сделки" content=OfferType}}
-    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-paint-roller" label="Ремонт" content="!Какой-то ремонт!"}}
-    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-house" label="Тип жилья" content=PropertyType}}
+    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-door-open" label="Комнат" content=rooms}}
+    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-layer-group" label="Площадь" content=area}}
+    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-stairs" label="Этаж" content=floor}}
+    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-key" label="Тип сделки" content=offerType}}
+    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-paint-roller" label="Ремонт" content=renovation}}
+    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-house" label="Тип жилья" content=propertyType}}
 </div>
 <div class="offerDetails__right-btns">
     {{> PrimaryButton class="offerDetails__right-btn" name="Позвонить"}}
     {{> LightButton class="offerDetails__right-btn" name="Написать"}}
 </div>
 <div class="offerDetails__right-seller">
-    {{> UserAvatar class="offerDetails__right-seller-avatar" avatar="../../img/userAvatar/unknown.svg" }}
+    {{> UserAvatar class="offerDetails__right-seller-avatar" avatar=sellerAvatar }}
     <div class="offerDetails__right-seller-info">
         <span class="offerDetails__right-seller-name">
-            {{Seller}}
+            {{seller}}
         </span>
-        <div class="offerDetails__right-seller-rating">
-            <div class="offerDetails__right-seller-rating-icon">
-                <i class="fa-regular fa-star"></i>
-            </div>
-            <span>!4.7!</span>
-        </div>
+        <span class="offerDetails__right-seller-info-small">На квартируме с {{registerDate}}</span>
+
+        <!--        <div class="offerDetails__right-seller-rating">-->
+<!--            <div class="offerDetails__right-seller-rating-icon">-->
+<!--                <i class="fa-regular fa-star"></i>-->
+<!--            </div>-->
+<!--            <span>!4.7!</span>-->
+<!--        </div>-->
     </div>
-    <div class="offerDetails__right-seller-info">
-        <span class="offerDetails__right-seller-info-small">!На квартируме с 01.01.2017!</span>
-        <span class="offerDetails__right-seller-info-small">(!42 успешных объявлений!)</span>
-    </div>
+<!--    <div class="offerDetails__right-seller-info">-->
+<!--        <span class="offerDetails__right-seller-info-small">!На квартируме с {{registerDate}}!</span>-->
+<!--&lt;!&ndash;        <span class="offerDetails__right-seller-info-small">(!42 успешных объявлений!)</span>&ndash;&gt;-->
+<!--    </div>-->
 </div>

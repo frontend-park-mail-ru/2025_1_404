@@ -1,1 +1,8 @@
-<div id="{{id}}" class="{{class}}" href="#"><img class="user__avatar-img" alt="Аватарка" src="{{avatar}}"></div>
+<div id="{{id}}" class="{{class}}" href="/profile">
+    <img class="user__avatar-img" alt="Аватарка" src="{{avatar}}">
+    {{#if enableUpload}}
+        <div class="profile__avatar-upload" id="profileAvatarUpload">
+            <img src="/img/userAvatar/cross.svg" class="profile__avatar-upload-remove" id="profileAvatarRemove">
+        </div>
+    {{/if}}
+</div>

@@ -1,3 +1,4 @@
+@use "../abstracts/variables" as *;
 .card {
   width: calc(100% / 4 - 20px);
   display: flex;
