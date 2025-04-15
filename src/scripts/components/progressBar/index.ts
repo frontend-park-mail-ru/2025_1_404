@@ -34,10 +34,12 @@ export default class ProgressBar extends BaseComponent {
         const correctedPercent = Math.min(Math.max(percent, 0), 100);
         const progressBar = document.getElementsByClassName('progressBar__line')[0] as HTMLElement;
         if (correctedPercent === 100) {
+            console.log('set listener');
             progressBar.addEventListener('transitionend', function reset() {
                 if (progressBar.style.width !== '100%') {
                     return;
                 }
+                console.log('set zero');
                 progressBar.style.width = '0%';
                 progressBar.removeEventListener('transitionend', reset);
             });

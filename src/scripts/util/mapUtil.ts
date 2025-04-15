@@ -123,6 +123,14 @@ class MapUtil {
         return placeMark;
     }
 
+    getIcon({image, size, offset}: {image: string, size: [number, number], offset: [number, number]}) {
+        return L.icon({
+            iconUrl: image,
+            iconSize: size,
+            iconAnchor: offset
+        });
+    }
+
     /**
      * @function removePlacemark
      * @description Метод для удаления метки с карты.

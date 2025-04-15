@@ -37,7 +37,7 @@ const init = function() {
 }
 
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('load', init);
 } else {
     init();
 }

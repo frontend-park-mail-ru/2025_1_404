@@ -11,6 +11,8 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import PageManager from "../../managers/pageManager.ts";
+import {sign} from "node:crypto";
+import User from "../../models/user.ts";
 
 /**
  * @class offerDetailsPage
@@ -32,9 +34,11 @@ export default class OfferDetailsPage extends Page {
         if (!props || typeof props.id !== 'number') {
             return;
         }
+
         this._layout = layout;
         root.innerHTML = template();
         super.render({layout, root});
+
         this._getOfferById(props.id)
         .then ((data) => {
             const offer = new Offer();
@@ -59,7 +63,7 @@ export default class OfferDetailsPage extends Page {
                     this.map.addHouse({coords});
                 }
             });
-        })
+        });
     }
 
     /**
@@ -69,12 +73,14 @@ export default class OfferDetailsPage extends Page {
      * @returns {Promise<null | void>} промис с данными объявления.
      * @private
      */
-    _getOfferById(id: number) {
+    _getOfferById(id: number){
         if (!this._layout) {
             return Promise.reject(new Error('Layout is not defined'));
         }
         return this._layout.makeRequest(getOfferById, id)
-            .then((data) => data)
+            .then((data) => {
+                return data;
+            })
             .catch ((error) => {
                 PageManager.renderPage('404');
                 throw error;

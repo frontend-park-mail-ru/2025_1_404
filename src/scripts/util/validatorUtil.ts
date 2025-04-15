@@ -61,7 +61,7 @@ const validatePassword = function(password: string, additionalChecks=false) {
  * @returns {string} Результат валидации
  */
 const validateDoubleNumeric = function(number: string) {
-    const num = parseInt(number, 10);
+    const num = Number(number);
     return !isNaN(num) && num >= 1 && num <= 99 ? '' : 'От 1 до 99';
 }
 
@@ -72,7 +72,7 @@ const validateDoubleNumeric = function(number: string) {
  * @returns {string} Результат валидации
  */
 const validateTripleNumeric = function(number: string) {
-    const num = parseInt(number, 10);
+    const num = Number(number);
     return !isNaN(num) && num >= 1 && num <= 999 ? '' : 'От 1 до 999';
 }
 
@@ -103,7 +103,7 @@ const validateAddress = function(address: string) {
  * @returns {string} Результат валидации
  */
 const validateNumeric = function(number: string) {
-    const num = parseInt(number, 10);
+    const num = Number(number);
     return isNaN(num) ? 'Неправильно введена цена' : '';
 }
 
