@@ -11,6 +11,8 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import PageManager from "../../managers/pageManager.ts";
+import {sign} from "node:crypto";
+import User from "../../models/user.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import user from "../../models/user.ts";
 import {DomEvent} from "leaflet";
@@ -37,6 +39,7 @@ export default class OfferDetailsPage extends Page {
         if (!props || typeof props.id !== 'number') {
             return;
         }
+
         this._layout = layout;
         root.innerHTML = template();
         super.render({layout, root});
@@ -54,7 +57,7 @@ export default class OfferDetailsPage extends Page {
             }
 
             const offerDetailsInfo = document.getElementById("offerDetailsInfo") as HTMLElement;
-            offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
+            offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({propertyType: offer.propertyType.toLowerCase(), inMultipleForm: offer.propertyType.toLowerCase() === 'апартаменты', isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
             offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms: offer.rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
 
             this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
@@ -76,7 +79,7 @@ export default class OfferDetailsPage extends Page {
             } else {
                 offerUserBtns.classList.add("active");
             }
-        })
+        });
     }
 
     /**
@@ -104,12 +107,14 @@ export default class OfferDetailsPage extends Page {
      * @returns {Promise<null | void>} промис с данными объявления.
      * @private
      */
-    _getOfferById(id: number) {
+    _getOfferById(id: number){
         if (!this._layout) {
             return Promise.reject(new Error('Layout is not defined'));
         }
         return this._layout.makeRequest(getOfferById, id)
-            .then((data) => data)
+            .then((data) => {
+                return data;
+            })
             .catch ((error) => {
                 PageManager.renderPage('404');
                 throw error;

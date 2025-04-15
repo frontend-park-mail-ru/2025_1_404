@@ -59,8 +59,10 @@ interface RemovePlacemarkInterface {
  */
 export default class Map {
     private _zoom: number;
+    private _placeMarkSize: number;
     private center: [number, number];
     private _map: LeafletMap;
+    private _houses: Marker[] = [];
     /**
      * @description Конструктор класса карты.
      * @param {string} id id карты.
@@ -69,8 +71,17 @@ export default class Map {
      */
     constructor({id, center, zoom}: MapConstructorInterface) {
         this._zoom = zoom;
+        this._placeMarkSize = zoom * 3;
         this.center = center;
         this._map = MapUtil.createMap({center, id, zoom});
+
+        this._map.on('zoomend', () => {
+            this._zoom = this._map.getZoom();
+            this._placeMarkSize = this._zoom * 3;
+            this._houses.forEach((house) => {
+                this.updateHouseSize(house);
+            });
+        })
     }
 
     /**
@@ -81,13 +92,18 @@ export default class Map {
      * @returns {object} объект с информацией о доме.
      */
     addHouse({coords}: AddHouseInterface) {
-        const placeMarkSize = 50;
-        return this.addPlacemark({
+        const house = this.addPlacemark({
             coords,
             image: '/img/map/housePlacemark.svg',
             map: this._map,
-            size: [placeMarkSize, placeMarkSize]
+            size: [this._placeMarkSize, this._placeMarkSize]
         });
+        this._houses.push(house);
+        return house;
+    }
+
+    updateHouseSize(house: Marker) {
+        house.setIcon(MapUtil.getIcon({image: '/img/map/housePlacemark.svg', size: [this._placeMarkSize, this._placeMarkSize], offset: [0, 0]}));
     }
 
     /**

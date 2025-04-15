@@ -75,8 +75,11 @@ class RouteManager {
      * @private
      */
     _updateHistory(pathStr: string) {
-        history.pushState(null, "", pathStr);
-        this.lastPath = pathStr;
+        if (this.lastPath !== pathStr) {
+            history.pushState(null, "", pathStr);
+            this.lastPath = pathStr;
+            return;
+        }
     }
 
     /**
@@ -139,6 +142,7 @@ class RouteManager {
      */
     navigateToPageByCurrentURL() {
         const path = window.location.pathname;
+        this.lastPath = path;
         this.navigateTo(path);
     }
 }
