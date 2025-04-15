@@ -17,6 +17,7 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
 import user from "../../models/user.ts";
 import {DomEvent} from "leaflet";
 import off = DomEvent.off;
+import OfferDetailsInfo from "../../components/offerDetailsInfo";
 
 /**
  * @class offerDetailsPage
@@ -26,6 +27,7 @@ import off = DomEvent.off;
 export default class OfferDetailsPage extends Page {
     private map: Map | undefined;
     private _offerDetailsLeft: OfferDetailsLeft | undefined;
+    private _offerDetailsInfo: OfferDetailsInfo | undefined;
     private _layout: BaseLayout | undefined;
     private _offerId: number | null | undefined;
     /**
@@ -58,9 +60,10 @@ export default class OfferDetailsPage extends Page {
 
             const offerDetailsInfo = document.getElementById("offerDetailsInfo") as HTMLElement;
             offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({propertyType: offer.propertyType.toLowerCase(), inMultipleForm: offer.propertyType.toLowerCase() === 'апартаменты', isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
-            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms: offer.rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
+            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({offerId: offer.id, price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms: offer.rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
 
             this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
+            this._offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
 
             let coords: [number, number] = [55.557729, 37.313484];
             this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
@@ -80,24 +83,6 @@ export default class OfferDetailsPage extends Page {
                 offerUserBtns.classList.add("active");
             }
         });
-    }
-
-    /**
-     * @function initListeners
-     * @description Метод инициализации слушателей событий.
-     */
-    initListeners() {
-        this.initListener('offerDetailsChangeButton', 'click', this._offerChangeButtonHandler);
-    }
-
-    /**
-     * @function _offerChangeButtonHandler
-     * @description Метод обработки клика по ссылке на страницу изменения объявления.
-     * @param {Event} event событие
-     */
-    _offerChangeButtonHandler(event: Event) {
-        event.preventDefault();
-        RouteManager.navigateTo(`/offer/edit/${this._offerId}/type`);
     }
 
     /**
