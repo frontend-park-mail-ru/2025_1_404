@@ -53,6 +53,11 @@
     color: $grey;
   }
 
+  &-metro {
+    display: flex;
+    gap: 5px;
+  }
+
   &-info {
     display: flex;
     flex-direction: column;

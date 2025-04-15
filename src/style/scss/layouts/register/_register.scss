@@ -18,12 +18,16 @@
 
   &__form {
     flex: 0 0 40%;
-    padding: 0 50px 0 50px;
+    padding: 0 5%;
     display: flex;
     flex-direction: column;
     gap: 60px;
     align-items: center;
     justify-content: center;
+
+    @media (min-width: 1920px) {
+      padding: 0 8%;
+    }
 
     &-header, &-fields {
       display: flex;
@@ -31,6 +35,7 @@
       gap: 20px;
       align-items: center;
       justify-content: center;
+      width: 100%;
     }
 
     &-logo {

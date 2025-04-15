@@ -28,11 +28,19 @@
                 </ul>
             </div>
             <div class="search__results-offer-metro">
-                <svg width="17" height="12" viewBox="0 0 17 12" fill="black" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.6135 9.69889L11.8759 0.239685L8.71426 5.76928L5.56546 0.239685L1.81506 9.69889H0.714264V11.1325H6.37187V9.69889H5.52706L6.34626 7.34368L8.71426 11.2349L11.0823 7.34368L11.9015 9.69889H11.0567V11.1325H16.7143V9.69889H15.6135Z" fill="{{metroColor}}"/>
-                </svg>
-                <span>{{metroStation}}</span>
-                <span>4 мин.</span>
+                <div class="search__results-offer-metro-station">
+                    <svg width="17" height="12" viewBox="0 0 17 12" fill="black" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.6135 9.69889L11.8759 0.239685L8.71426 5.76928L5.56546 0.239685L1.81506 9.69889H0.714264V11.1325H6.37187V9.69889H5.52706L6.34626 7.34368L8.71426 11.2349L11.0823 7.34368L11.9015 9.69889H11.0567V11.1325H16.7143V9.69889H15.6135Z" fill="{{metroColor}}"/>
+                    </svg>
+                    <span>{{metroStation}}</span>
+                </div>
+                <div class="search__results-offer-metro-time">
+                    <div class="search__results-offer-metro-time-img">
+                        <i class="fa-solid fa-person-walking fa-sm"></i>
+                        <span>Нет</span>
+                    </div>
+                </div>
+
             </div>
             <span class="search__results-offer-description">
                 {{breakLines description}}

@@ -24,9 +24,16 @@
   }
 
   &-btns {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+    &-wrapper {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+
+      &.active {
+        display: flex;
+      }
+    }
   }
 
   &-btn {

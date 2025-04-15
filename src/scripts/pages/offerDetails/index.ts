@@ -11,6 +11,10 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import PageManager from "../../managers/pageManager.ts";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
+import user from "../../models/user.ts";
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
 
 /**
  * @class offerDetailsPage
@@ -21,6 +25,7 @@ export default class OfferDetailsPage extends Page {
     private map: Map | undefined;
     private _offerDetailsLeft: OfferDetailsLeft | undefined;
     private _layout: BaseLayout | undefined;
+    private _offerId: number | null | undefined;
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -35,19 +40,22 @@ export default class OfferDetailsPage extends Page {
         this._layout = layout;
         root.innerHTML = template();
         super.render({layout, root});
+
         this._getOfferById(props.id)
         .then ((data) => {
             const offer = new Offer();
+            this._offerId = offer.id;
             offer.parseJSON(data);
             const offerDetailsHeader = document.getElementById("offerDetailsHeader") as HTMLElement;
             const offerDetailsLeft = document.getElementById("offerDetailsLeft") as HTMLElement;
+
             if (this._offerDetailsLeft !== null) {
                 offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images});
             }
 
             const offerDetailsInfo = document.getElementById("offerDetailsInfo") as HTMLElement;
             offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
-            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms: offer.rooms, area: offer.area, floor: offer.floor, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
+            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms: offer.rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
 
             this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
 
@@ -59,7 +67,34 @@ export default class OfferDetailsPage extends Page {
                     this.map.addHouse({coords});
                 }
             });
+
+            const offerSellerBtns = document.getElementById("offerDetailsSellerBtns") as HTMLElement;
+            const offerUserBtns = document.getElementById("offerDetailsUserBtns") as HTMLElement;
+
+            if (user.getData()?.id === offer.seller.id) {
+                offerSellerBtns.classList.add("active");
+            } else {
+                offerUserBtns.classList.add("active");
+            }
         })
+    }
+
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
+    initListeners() {
+        this.initListener('offerDetailsChangeButton', 'click', this._offerChangeButtonHandler);
+    }
+
+    /**
+     * @function _offerChangeButtonHandler
+     * @description Метод обработки клика по ссылке на страницу изменения объявления.
+     * @param {Event} event событие
+     */
+    _offerChangeButtonHandler(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo(`/offer/edit/${this._offerId}/type`);
     }
 
     /**

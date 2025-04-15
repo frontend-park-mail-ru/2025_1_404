@@ -26,12 +26,16 @@
     }
 
     &-controls {
+      display: none;
       width: 100%;
       position: absolute;
       top: 50%;
-      display: flex;
       justify-content: space-between;
       transform: translateY(-50%);
+
+      &.active {
+        display: flex;
+      }
     }
 
   }
@@ -46,9 +50,13 @@
     &-wrapper {
       overflow: hidden;
       position: relative;
-      display: flex;
+      display: none;
       justify-content: center;
       width: 100%;
+
+      &.active {
+        display: flex;
+      }
     }
 
     &-preview {

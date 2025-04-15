@@ -1,5 +1,6 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import PicturesCarouselPreviews from "../picturesCarouselPreviews";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
 
 /**
  * @class OfferDetailsLeft
@@ -16,6 +17,24 @@ export default class OfferDetailsLeft extends BaseComponent {
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
         this._carousel = new PicturesCarouselPreviews({page, layout});
+    }
+
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
+    initListeners() {
+        this.initListener('offerDetailsHousingComplex', 'click', this._housingComplexHrefHandler);
+    }
+
+    /**
+     * @function _housingComplexHrefHandler
+     * @description Метод обработки клика по ссылке на страницу жилого комплекса.
+     * @param {Event} event событие
+     */
+    _housingComplexHrefHandler(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/zhk/1');
     }
 
     /**

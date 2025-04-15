@@ -194,10 +194,20 @@ export default class SearchPage extends Page {
                 return;
             }
             const title = document.getElementById('search-result-title') as HTMLElement;
+            const emptyTitle = document.getElementById('searchResultsEmpty') as HTMLElement;
             if (!title) {
                 return;
             }
-            title.textContent = `Найдено ${offers.length} объявлений`;
+            if (offers.length > 0) {
+                title.textContent = `Найдено ${offers.length} объявлений`;
+                title.classList.add('active');
+                emptyTitle.classList.remove('active')
+            } else {
+                emptyTitle.classList.add('active');
+                title.classList.remove('active')
+            }
+
+
             Array.from(offers).forEach((offerData) => {
                 const offer = new Offer();
                 offer.parseJSON(offerData);

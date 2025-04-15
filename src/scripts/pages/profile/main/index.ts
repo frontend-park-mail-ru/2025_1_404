@@ -7,6 +7,7 @@ import Offer from "../../../models/offer.ts";
 import profilePreviewTemplate from "../../../components/profilePreview/template.precompiled.js";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
 import RouteManager from "../../../managers/routeManager/routeManager.ts";
+import OfferCreateLayout from "../../../layouts/offerCreate";
 
 /**
  * @class ProfileMainPage
@@ -35,6 +36,7 @@ export default class ProfileMainPage extends Page {
      */
     initListeners() {
         this.initListener('profileMyOffersPreviews', 'click', this._handlePreviewClick);
+        this.initListener('profileBlockCreateOfferButton', 'click', this._handleCreateOfferButton);
         this.initListener('profileBlockMyOffersButton', 'click', this._handleMyOffersButton);
     }
 
@@ -47,6 +49,13 @@ export default class ProfileMainPage extends Page {
         event.preventDefault();
         RouteManager.navigateTo('/profile/offers');
     }
+
+    _handleCreateOfferButton(event: Event) {
+        event.preventDefault();
+        OfferCreateLayout.init();
+        RouteManager.navigateTo('/offer/create/type');
+    }
+
 
     /**
      * @function _handleTabClick
@@ -82,7 +91,8 @@ export default class ProfileMainPage extends Page {
      */
     _updateMyOffers() {
         const myOffersList = document.getElementById('profileMyOffersPreviews') as HTMLElement;
-        const myOffersButtton = document.getElementById('profileBlockMyOffersButton') as HTMLElement;
+        const myOffersButton = document.getElementById('profileBlockMyOffersButton') as HTMLElement;
+        const createOfferButton = document.getElementById('profileBlockCreateOfferButton') as HTMLElement;
         if (!myOffersList || !this._layout) {
             return;
         }
@@ -101,7 +111,7 @@ export default class ProfileMainPage extends Page {
                 offer.parseJSON(offerData);
                 myOffersCnt++;
                 if (myOffersCnt > 3) {
-                    myOffersButtton.classList.add('active');
+                    myOffersButton.classList.add('active');
                 } else {
                     myOffersList.innerHTML += profilePreviewTemplate({
                         id: offer.id,
@@ -111,6 +121,9 @@ export default class ProfileMainPage extends Page {
                     });
                 }
             });
+            if (myOffersCnt == 0) {
+                createOfferButton.classList.add('active');
+            }
         }).catch((error) => {
             console.error('Error fetching myOffers:', error);
         })

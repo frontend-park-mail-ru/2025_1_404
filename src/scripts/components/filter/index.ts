@@ -54,6 +54,7 @@ export default class Filter extends BaseComponent {
             }
             const target = event.target as HTMLElement;
             if (!this._openPopupButton.nextElementSibling.contains(target)) {
+                console.log("AAA")
                 this._filterSelectClosePopup(this._openPopupButton);
                 this._openPopupButton = null;
             }
@@ -106,9 +107,15 @@ export default class Filter extends BaseComponent {
         const currentTarget = event.currentTarget as HTMLInputElement;
         this._filterValid[currentTarget.name] = this._page.formInputHandler(event, false)
 
+        const button = document.getElementsByName(currentTarget.name)[0] as HTMLButtonElement;
+        if (button !== null) {
+            this._checkValidation(button);
+        }
+
         if (typeof this._filterData[currentTarget.id] === 'string') {
             this._filterData[currentTarget.id] = currentTarget.value;
         }
+
     }
 
     /**
@@ -159,20 +166,7 @@ export default class Filter extends BaseComponent {
     _filterSelectClosePopup(button: HTMLButtonElement) {
         button.classList.remove('active');
 
-        if (Object.hasOwn(this._filterValid, button.name)) {
-            if (!this._submitButton) {
-                return;
-            }
-            if (this._filterValid[button.name]) {
-                button.classList.remove('red');
-                this._isValid = true;
-                this._submitButton.removeAttribute('disabled');
-            } else {
-                button.classList.add('red');
-                this._isValid = false;
-                this._submitButton.setAttribute('disabled', 'disabled');
-            }
-        }
+        this._checkValidation(button);
 
         if (!button.nextElementSibling) {
             return;
@@ -194,7 +188,7 @@ export default class Filter extends BaseComponent {
             this._filterSelectClosePopup(this._openPopupButton);
         }
         this._openPopupButton = event.target as HTMLButtonElement;
-        this._openPopupButton.classList.toggle('active');
+
         if (this._openPopupButton.nextElementSibling) {
             this._openPopupButton.nextElementSibling.classList.toggle('active');
         }
@@ -245,5 +239,23 @@ export default class Filter extends BaseComponent {
             }
         });
 
+    }
+
+    _checkValidation(button: HTMLButtonElement) {
+
+        if (Object.hasOwn(this._filterValid, button.name)) {
+            if (!this._submitButton) {
+                return;
+            }
+            if (this._filterValid[button.name]) {
+                button.classList.remove('red');
+                if (!Object.values(this._filterValid).includes(false)) {
+                    this._submitButton.removeAttribute('disabled');
+                }
+            } else {
+                button.classList.add('red');
+                this._submitButton.setAttribute('disabled', 'disabled');
+            }
+        }
     }
 }

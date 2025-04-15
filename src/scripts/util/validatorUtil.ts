@@ -34,7 +34,7 @@ const validateNickname = function(name: string) {
  * @returns {string} Результат валидации
  */
 const validateName = function(value: string, fieldName: string): string {
-    return validateNickname(value) ? '' : `Неправильно введено ${fieldName === 'first_name' ? 'имя' : 'фамилия'}`;
+    return validateNickname(value) ? '' : (fieldName === 'first_name' ? 'Неправильно введено имя' : 'Неправильно введена фамилия');
 }
 
 /**

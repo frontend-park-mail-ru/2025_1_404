@@ -16,14 +16,22 @@
     }
   }
 
-  &-description {
+  &-block {
     display: flex;
     flex-direction: column;
     gap: 10px;
 
-    &-title {
+    &-title, &-href {
       font-size: 28px;
       font-weight: 600;
+    }
+
+    &-href {
+      color: $blue;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     &-text {

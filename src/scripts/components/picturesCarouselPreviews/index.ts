@@ -8,8 +8,10 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 export default class PicturesCarouselPreviews extends BaseComponent {
     private _carousel: HTMLElement | null;
     private _images: NodeListOf<Element>;
+    private _imagesControls: HTMLElement | null;
     private _previewsCarousel: HTMLElement | null;
     private _previewsImages: NodeListOf<Element>;
+    private _previews: HTMLElement | null;
     private _imagesIndex: number;
     private _previewsIndex: number;
     private _imagePerClick: number;
@@ -23,14 +25,31 @@ export default class PicturesCarouselPreviews extends BaseComponent {
         super({page, layout});
         this._carousel = document.querySelector('.slider__images');
         this._images = document.querySelectorAll('.slider__images img');
+        this._imagesControls = document.getElementById("sliderImagesControls");
         this._previewsCarousel = document.querySelector('.slider__previews');
         this._previewsImages = document.querySelectorAll('.slider__previews img');
+        this._previews = document.getElementById("sliderPreviewsWrapper");
         this._imagesIndex = 0;
         this._previewsIndex = 0;
         this._imagePerClick = 1;
         this._previewsPerClick = 1;
+
+        if (this._images.length > 1) {
+            this._enableSlider();
+        }
+
         this._toggleActivePreview(this._previewsIndex);
     }
+
+    _enableSlider() {
+        if (this._previews !== null) {
+            this._previews.classList.add('active');
+        }
+        if (this._imagesControls !== null) {
+            this._imagesControls.classList.add('active');
+        }
+    }
+
 
     /**
      * @function _getMaxTranslateX

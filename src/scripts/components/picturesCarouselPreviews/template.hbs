@@ -6,12 +6,12 @@
             </div>
         {{/each}}
     </div>
-    <div class="slider__images-controls">
+    <div id="sliderImagesControls" class="slider__images-controls">
         {{> ChevronLeft id="sliderImagesChevronLeft"}}
         {{> ChevronRight id="sliderImagesChevronRight" }}
     </div>
 </div>
-<div class="slider__previews-wrapper">
+<div id="sliderPreviewsWrapper" class="slider__previews-wrapper">
     {{> ChevronLeft id="sliderPreviewsChevronLeft" class="slider__previews-control" }}
     <div class="slider__previews {{previews}}">
         {{#each images}}
