@@ -72,6 +72,10 @@ interface AddOfferInterface {
      * @property {string} seller_last_name Фамилия продавца
      */
     seller_last_name: string;
+    /**
+     * @property {string} propertyType Тип недвижимости (например, "квартира", "дом")
+     */
+    propertyType: string;
 }
 
 /**
@@ -137,6 +141,7 @@ export default class SearchPage extends Page {
      * @function _addOffer
      * @description Метод добавления предложения в список предложений
      * @param {number} id ID объекта недвижимости
+     * @param propertyType
      * @param {number} price Цена объекта недвижимости
      * @param {string} address Адрес объекта недвижимости
      * @param {number} rooms Количество комнат
@@ -152,19 +157,27 @@ export default class SearchPage extends Page {
      * @param {string} firstName Имя продавца
      * @param {string} lastName Фамилия продавца
      */
-     _addOffer({id, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName}: AddOfferInterface) {
+     _addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName}: AddOfferInterface) {
          if (!this._offerList) {
              return;
          }
 
-        let title = `${rooms}-комн. квартира, ${square} м²`;
+        let title = `${rooms}-комн. ${propertyType.toLowerCase()}, ${square} м²`;
         const priceTitle = `${price.toLocaleString('ru-RU')} ₽`;
         if (offerType === 'аренда') {
-            title = 'Сдается в аренду: ' + title;
+            let prefix = 'Сдается в аренду: ';
+            if (propertyType.toLowerCase() === 'апартаменты') {
+                prefix = 'Сдаются в аренду: ';
+            }
+            title = prefix + title;
             title += `/${rentType === 'долгосрок' ? 'мес.' : 'сут.'}`
         }
         else {
-            title = 'Продается: ' + title;
+            let prefix = 'Продается: ';
+            if (propertyType.toLowerCase() === 'апартаменты') {
+                prefix = 'Продаются: ';
+            }
+            title = prefix + title;
         }
         this._offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName}));
     }
@@ -221,6 +234,7 @@ export default class SearchPage extends Page {
                     seller_last_name: offer.seller.lastName,
                     seller_name: offer.seller.firstName,
                     description: offer.description,
+                    propertyType: offer.propertyType
                 });
             });
         }).catch((error) => {
