@@ -25,14 +25,7 @@ class OfferCreate {
      * @description Конструктор класса.
      */
     constructor() {
-        this._filledPages = {
-            'type': true,
-            'address': false,
-            'params': false,
-            'price': false,
-            'photos': false,
-            'description': false,
-        };
+        this.reset();
     }
 
     /**
@@ -190,7 +183,7 @@ class OfferCreate {
                 file
             };
         }).catch((err) => {
-            console.log(err)
+            console.error(err)
         })
     }
 
@@ -207,9 +200,13 @@ class OfferCreate {
             'photos': false,
             'description': false,
         };
-
         this._offerData = {
-            'type': {},
+            'type': {
+                'input-offer-type': 'Аренда',
+                'input-rent-type': 'Долгосрок',
+                'input-purchase-type': 'Новостройка',
+                'input-property-type': 'Апартаменты'
+            },
             'address': {},
             'params': {},
             'price': {},
@@ -290,8 +287,8 @@ class OfferCreate {
     _parseAddressData(data: any) {
         this._offerData.address['input-floor'] = data.offer.floor.toString();
         this._offerData.address['input-total-floors'] = data.offer.total_floors.toString();
-        this._offerData.address['input-address'] = data.offer.address;
-        this._offerData.address['input-flat'] = data.offer.flat.toString();
+        this._offerData.address['input-address__input'] = data.offer.address;
+        this._offerData.address['input-flat'] = '1';
     }
 
     /**
@@ -323,6 +320,7 @@ class OfferCreate {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async _parsePhotos(data: any) {
         this._uploadedImages = {};
+        this._offerData.photos = {};
 
         if (!data.offer_data.offer_images) {
             return;
@@ -345,7 +343,7 @@ class OfferCreate {
                 const result = await this.fileToString(file);
                 this._offerData.photos[i.toString()] = result;
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         }
     }

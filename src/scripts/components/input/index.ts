@@ -15,4 +15,6 @@ export default class Input extends BaseComponent {
     render() {
         return template();
     }
+
+
 }

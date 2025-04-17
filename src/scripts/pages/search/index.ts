@@ -141,7 +141,7 @@ export default class SearchPage extends Page {
      * @function _addOffer
      * @description Метод добавления предложения в список предложений
      * @param {number} id ID объекта недвижимости
-     * @param propertyType
+     * @param {string} propertyType Тип недвижимости (например, "квартира", "дом")
      * @param {number} price Цена объекта недвижимости
      * @param {string} address Адрес объекта недвижимости
      * @param {number} rooms Количество комнат
@@ -195,13 +195,13 @@ export default class SearchPage extends Page {
         }
         const {offerTypeId, propertyTypeId} = this._getFilterIds(filterData);
         await searchOffers({
-            'min_area': filterData.filterSquareLeft,
-            'max_area': filterData.filterSquareRight,
-            'min_price': filterData.filterPriceLeft,
-            'max_price': filterData.filterPriceRight,
+            'min_area': filterData.filterSquareLeft__input,
+            'max_area': filterData.filterSquareRight__input,
+            'min_price': filterData.filterPriceLeft__input,
+            'max_price': filterData.filterPriceRight__input,
             'offer_type_id': offerTypeId,
             'property_type_id': propertyTypeId,
-            'address': filterData.filterInputAddress,
+            'address': filterData.filterInputAddress__input,
         }).then((offers) => {
             if (!offers || !Array.isArray(offers)) {
                 return;
@@ -239,7 +239,7 @@ export default class SearchPage extends Page {
                     offer_type: offer.offerType,
                     image,
                     rent_type: offer.rentType,
-                    rooms: offer.rooms,
+                    rooms: parseInt(offer.rooms, 10),
                     total_floors: offer.totalFloors,
                     seller_last_name: offer.seller.lastName,
                     seller_name: offer.seller.firstName,
@@ -248,7 +248,7 @@ export default class SearchPage extends Page {
                 });
             });
         }).catch((error) => {
-            console.error(error)
+            this._layout?.addPopup('Ошибка сервера', error.message);
         })
     }
 

@@ -156,6 +156,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
         if (event.target) {
             const target = event.target as HTMLInputElement;
             const files = Array.from(target.files ?? []);
+            target.value = '';
             this._uploadFiles(files);
         }
     }

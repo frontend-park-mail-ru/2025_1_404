@@ -12,11 +12,11 @@ class FilterModel {
         this._filterData = {
             "filterOfferType": '',
             "filterPropertyType": '',
-            "filterPriceLeft": '',
-            "filterPriceRight": '',
-            "filterSquareLeft": '',
-            "filterSquareRight": '',
-            "filterInputAddress": '',
+            "filterPriceLeft__input": '',
+            "filterPriceRight__input": '',
+            "filterSquareLeft__input": '',
+            "filterSquareRight__input": '',
+            "filterInputAddress__input": '',
         };
     }
 

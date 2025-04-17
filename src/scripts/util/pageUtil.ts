@@ -43,14 +43,14 @@ export default function registerPages() {
     PageManager.registerPage('offers', ProfileLayout.process(new ProfileMyOffersPage()));
 
     PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type", 4)));
-    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 4)));
+    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 3)));
     PageManager.registerPage('params', OfferCreateLayout.process(new OfferCreateParamsPage("params", 4)));
     PageManager.registerPage('price', OfferCreateLayout.process(new OfferCreatePricePage("price", 1)));
     PageManager.registerPage('photos', OfferCreateLayout.process(new OfferCreatePhotosPage("photos")));
     PageManager.registerPage('description', OfferCreateLayout.process(new OfferCreateDescriptionPage("description", 1)));
 
     PageManager.registerPage('edit_type', OfferEditLayout.process(new OfferEditTypePage("type", 4)));
-    PageManager.registerPage('edit_address', OfferEditLayout.process(new OfferEditAddressPage("address", 4)));
+    PageManager.registerPage('edit_address', OfferEditLayout.process(new OfferEditAddressPage("address", 3)));
     PageManager.registerPage('edit_params', OfferEditLayout.process(new OfferEditParamsPage("params", 4)));
     PageManager.registerPage('edit_price', OfferEditLayout.process(new OfferEditPricePage("price", 1)));
     PageManager.registerPage('edit_photos', OfferEditLayout.process(new OfferEditPhotosPage("photos")));

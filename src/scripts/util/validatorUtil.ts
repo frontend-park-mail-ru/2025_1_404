@@ -34,7 +34,10 @@ const validateNickname = function(name: string) {
  * @returns {string} Результат валидации
  */
 const validateName = function(value: string, fieldName: string): string {
-    return validateNickname(value) ? '' : (fieldName === 'first_name' ? 'Неправильно введено имя' : 'Неправильно введена фамилия');
+    if (validateNickname(value)) {
+        return '';
+    }
+    return fieldName === 'first_name' ? 'Неправильно введено имя' : 'Неправильно введена фамилия';
 }
 
 /**
@@ -45,11 +48,11 @@ const validateName = function(value: string, fieldName: string): string {
  * @returns {string} Результат валидации
  */
 const validatePassword = function(password: string, additionalChecks=false) {
-    if (password.length < MIN_PASSWORD_LENGTH) {
-        return 'Пароль должен быть не меньше 8 символов';
-    }
     if (additionalChecks) {
         return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/u.test(password) ? '' : 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
+    }
+    if (password.length < MIN_PASSWORD_LENGTH) {
+        return 'Пароль должен быть не меньше 8 символов';
     }
     return String(password).length > EMPTY_LENGTH ? '' : 'Пароль не может быть пустым';
 }
@@ -104,7 +107,7 @@ const validateAddress = function(address: string) {
  */
 const validateNumeric = function(number: string) {
     const num = Number(number);
-    return isNaN(num) ? 'Неправильно введена цена' : '';
+    return (isNaN(num) || num < 1) ? 'Неправильно введена цена' : '';
 }
 
 /**
@@ -138,7 +141,7 @@ export const validateFormInput = function ({value, name:valueName}: ValidateForm
         return required ? 'Это поле обязательное' : '';
     }
     let password = '';
-    const passwordDocument = document.getElementById('registerPassword') as HTMLInputElement | null;
+    const passwordDocument = document.getElementById('registerPassword__input') as HTMLInputElement | null;
     if (passwordDocument) {
         password = passwordDocument.value;
     }

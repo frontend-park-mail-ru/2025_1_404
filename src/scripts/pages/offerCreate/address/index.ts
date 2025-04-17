@@ -4,6 +4,7 @@ import OfferPage from "../page.ts";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
 import {Marker} from "leaflet";
+import ClearInput from "../../../components/clearInput";
 
 /**
  * @class OfferCreateAddressPage
@@ -32,6 +33,12 @@ export default class OfferCreateAddressPage extends OfferPage {
         if (this._offerData && Object.keys(this._offerData).length !== 0) {
             this._setDataFromModel();
         }
+
+        new ClearInput({
+            page: this,
+            layout,
+            id: 'input-address'
+        });
     }
 
     /**
@@ -69,7 +76,7 @@ export default class OfferCreateAddressPage extends OfferPage {
         inputs.forEach(input => {
             input.value = this._offerData[input.id] || '';
 
-            if (input.id === 'input-address') {
+            if (input.id === 'input-address__input') {
                 this._changeMap(input);
             }
         })
@@ -86,7 +93,7 @@ export default class OfferCreateAddressPage extends OfferPage {
     _offerDataChange(event: Event) {
         const response = super._offerDataChange(event);
         if (response.result) {
-            if (response.input.id === 'input-address') {
+            if (response.input.id === 'input-address__input') {
                 this._changeMap(response.input);
             }
         }

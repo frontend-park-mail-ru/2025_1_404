@@ -4,6 +4,8 @@ import ProgressBar from "../components/progressBar";
 import RouteManager from "../managers/routeManager/routeManager.ts";
 import User from "../models/user.ts";
 import {updateCSRF} from "../util/apiUtil.ts";
+import SubmitModal from "../components/baseModal";
+import Popup from "../components/popup";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EventCallback = (...args: any[]) => void;
@@ -17,6 +19,8 @@ export class BaseLayout {
     private handlers: Array<{ element: HTMLElement; handler: EventListenerOrEventListenerObject; type: keyof HTMLElementEventMap | string }>;
     private _progressBar: ProgressBar | undefined;
     private _loader: Loader | undefined;
+    private _page: Page | undefined;
+    protected _submitForm: SubmitModal | undefined;
     /**
      * @description Конструктор класса.
      */
@@ -38,10 +42,10 @@ export class BaseLayout {
                 page.destroy();
             },
             render: ({root, props}: PageRenderInterface) => {
-                this.initListeners();
-
                 this._progressBar = new ProgressBar({layout: this, page});
                 this._loader = new Loader({layout: this, page});
+                this._submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
+                this._page = page;
 
                 page.render({
                     layout: this,
@@ -49,6 +53,7 @@ export class BaseLayout {
                     root
                 });
 
+                this.initListeners();
                 this.loadUser();
             },
             handlers: page.handlers,
@@ -79,6 +84,35 @@ export class BaseLayout {
                 RouteManager.navigateToPageByCurrentURL();
             });
         })
+    }
+
+    /**
+     * @function addPopup
+     * @description Метод добавления попапа.
+     * @param {string} title - заголовок попапа.
+     * @param {string} details - детали попапа.
+     */
+    addPopup(title: string, details: string) {
+        if (!this._page) {
+            return;
+        }
+        const popup = new Popup({
+            layout: this,
+            page: this._page
+        });
+        const popups = document.querySelector('.popups');
+        if (!popups) {
+            return;
+        }
+        const totalPopups = popups.querySelectorAll('.popup');
+        if (totalPopups.length >= 3) {
+            const firstPopup = totalPopups[0];
+            firstPopup.remove();
+        }
+        popups.insertAdjacentHTML('beforeend', popup.render({
+            title,
+            details
+        }));
     }
 
     /**
@@ -118,6 +152,7 @@ export class BaseLayout {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
+        this.initListener('popups', 'click', this.onPopupClickHandler);
     }
 
     /**
@@ -150,6 +185,24 @@ export class BaseLayout {
     }
 
     /**
+     * @function onPopupClickHandler
+     * @description Метод обработки клика по попапу.
+     * @param {Event} event событие.
+     */
+    onPopupClickHandler(event: Event) {
+        let target = event.target as HTMLElement;
+        while (target.parentElement && !(target.classList.contains('popup') || target.classList.contains('popup__close'))) {
+            target = target.parentElement;
+        }
+        if (target.classList.contains('popup__close')) {
+            const popup = target.closest('.popup');
+            if (popup) {
+                popup.remove();
+            }
+        }
+    }
+
+    /**
      * @function makeRequest
      * @description Метод выполнения запроса.
      * @param {Function} func функция запроса.
@@ -170,5 +223,4 @@ export class BaseLayout {
                 }
             })
     }
-
 }

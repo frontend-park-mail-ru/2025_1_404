@@ -4,6 +4,8 @@ import Login from "../../components/login";
 import {Page, PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
+import SubmitModal from "../../components/submitModal";
+import {deleteOffer} from "../../util/apiUtil.ts";
 
 /**
  * @class MainLayout
@@ -16,23 +18,62 @@ export default class MainLayout extends BaseLayout {
     /**
      * @description Конструктор класса.
      */
+    // eslint-disable-next-line max-lines-per-function
     constructor() {
         super();
 
         this.on('showLogin', () => {
             if (this._loginForm) {
-                this._loginForm.setShowLogin(true);
+                this._loginForm.setShowModal(true);
             }
-        })
+        });
 
         this.on('logout', () => {
             this.setHeaderStatus(false);
             RouteManager.navigateTo('/');
-        })
+        });
 
         this.on('login', () => {
             this.setHeaderStatus(true);
-        })
+        });
+
+        this.on('tryExit', () => {
+            if (this._submitForm && this._submitForm instanceof SubmitModal) {
+                this._submitForm.showSubmitForm({
+                    title: 'Вы точно хотите выйти?',
+                    submitButtonName: 'Выйти',
+                    denyButtonName: 'Отмена',
+                    onSubmit: () => {
+                        this.makeRequest(User.logout.bind(User)).then(() => {
+                            this.emit('logout');
+                        }).catch((e: Error) => {
+                            this?.addPopup('Ошибка сервера', e.message);
+                        });
+                    }
+                });
+            }
+        });
+
+        this.on('editOffer', (id: number) => {
+            RouteManager.navigateTo(`/offer/edit/${id}/type`);
+        });
+
+        this.on('tryDelete', (id: number) => {
+            if (this._submitForm && this._submitForm instanceof SubmitModal) {
+                this._submitForm.showSubmitForm({
+                    title: 'Вы точно хотите удалить объявление?',
+                    submitButtonName: 'Удалить',
+                    denyButtonName: 'Отмена',
+                    onSubmit: () => {
+                        this.makeRequest(deleteOffer, id).then(() => {
+                            RouteManager.navigateTo('/');
+                        }).catch((e: Error) => {
+                            this?.addPopup('Ошибка сервера', e.message);
+                        })
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -58,17 +99,15 @@ export default class MainLayout extends BaseLayout {
                 super.process(page).render({props, root});
 
                 this._header = new Header({layout: this, page});
-                this._loginForm = new Login({layout: this, page});
+                this._loginForm = new Login({layout: this, page, id: 'login'});
+                this._submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
 
                 this.setHeaderStatus(User.isAuthenticated());
 
                 if (props && props.showLogin) {
-                    const passwordInput = document.querySelector('#passwordInput') as HTMLInputElement;
-                    passwordInput.value = '';
-                    const login = document.querySelector(".login") as HTMLElement;
-                    const overlay = document.querySelector(".overlay") as HTMLElement;
-                    login.classList.add('active');
-                    overlay.classList.add('active');
+                    if (this._loginForm) {
+                        this._loginForm.setShowModal(true);
+                    }
                 }
             },
             handlers: page.handlers,

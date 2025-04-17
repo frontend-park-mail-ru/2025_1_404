@@ -50,6 +50,11 @@ export default class ProfileMainPage extends Page {
         RouteManager.navigateTo('/profile/offers');
     }
 
+    /**
+     * @function _handleCreateOfferButton
+     * @description Метод обработки клика по кнопке создания объявления.
+     * @param {Event} event событие
+     */
     _handleCreateOfferButton(event: Event) {
         event.preventDefault();
         OfferCreateLayout.init();
@@ -121,11 +126,11 @@ export default class ProfileMainPage extends Page {
                     });
                 }
             });
-            if (myOffersCnt == 0) {
+            if (myOffersCnt === 0) {
                 createOfferButton.classList.add('active');
             }
         }).catch((error) => {
-            console.error('Error fetching myOffers:', error);
+            this._layout?.addPopup('Ошибка сервера', error.message);
         })
     }
 }

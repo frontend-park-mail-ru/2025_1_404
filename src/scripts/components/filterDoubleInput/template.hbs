@@ -1,11 +1,11 @@
 <div class="filter__double-input-main">
     <div class="filter__double-input-wrapper">
         <div class="filter__double-input">
-            <input id="{{id}}Left" type="{{type}}" name="{{name}}" placeholder="От" maxlength="{{maxlength}}">
+            {{> ClearInput id=(concat id "Left") name=name type=type placeholder="От"}}
             <div id="{{id}}__error" class="input-error error"></div>
         </div>
         <div class="filter__double-input">
-            <input id="{{id}}Right" type="{{type}}" name="{{name}}" placeholder="До" maxlength="{{maxlength}}">
+            {{> ClearInput id=(concat id "Right") name=name type=type placeholder="До"}}
             <div id="{{id}}__error" class="input-error error"></div>
         </div>
     </div>

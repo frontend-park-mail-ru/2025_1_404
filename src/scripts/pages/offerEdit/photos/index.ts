@@ -129,11 +129,7 @@ export default class OfferEditPhotosPage extends OfferPage {
                     }
                     const target = event.target as FileReader;
                     if (target.result) {
-                        this._addPhotoPreview(file, target.result.toString());
-                        OfferCreate.setData(this._pageName, this._offerData);
-
-                        await this._handleAddImage(file);
-
+                        await this._handleAddImage(file, target.result.toString());
                         this._markAsFullfilled(Object.keys(this._offerData).length > 0);
                     }
                 };
@@ -154,7 +150,7 @@ export default class OfferEditPhotosPage extends OfferPage {
         await this._layout?.makeRequest(deleteOfferImage,
             this._uploadedImages[localId].id
         ).catch((err) => {
-            console.error(err);
+            this._layout?.addPopup('Ошибка сервера', err.message);
         })
     }
 
@@ -162,8 +158,9 @@ export default class OfferEditPhotosPage extends OfferPage {
      * @function _handleAddImage
      * @description Метод обработки события добавления фото
      * @param {File} file файл
+     * @param {string} source адрес фото
      */
-    async _handleAddImage(file: File) {
+    async _handleAddImage(file: File, source: string) {
         if (typeof this._photosPreviewsCounter !== 'number') {
             return;
         }
@@ -173,6 +170,8 @@ export default class OfferEditPhotosPage extends OfferPage {
             image: file
         }).then((data) => {
             if (data) {
+                this._addPhotoPreview(file, source);
+                OfferCreate.setData(this._pageName, this._offerData);
                 this._uploadedImages[localId] = {
                     file,
                     id: data.image_id,
@@ -180,7 +179,7 @@ export default class OfferEditPhotosPage extends OfferPage {
                 OfferCreate.setImages(this._uploadedImages);
             }
         }).catch((err) => {
-            console.error(err);
+            this._layout?.addPopup('Ошибка сервера', err.message);
         })
     }
 
@@ -204,6 +203,7 @@ export default class OfferEditPhotosPage extends OfferPage {
         if (event.target) {
             const target = event.target as HTMLInputElement;
             const files = Array.from(target.files ?? []);
+            target.value = '';
             this._uploadFiles(files);
         }
     }
@@ -250,6 +250,8 @@ export default class OfferEditPhotosPage extends OfferPage {
      */
     _setDataFromModel() {
         const _offerData = this._offerData;
+        console.log(this._offerData)
+        console.log(this._uploadedImages)
         this._offerData = {};
         Object.keys(_offerData).forEach(photo => {
             this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);

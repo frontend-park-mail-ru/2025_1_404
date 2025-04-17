@@ -8,6 +8,7 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
 import {getOfferById} from "../../util/apiUtil.ts";
 import Loader from "../../components/loader";
+import User from "../../models/user.ts";
 
 /**
  * @class OfferEditLayout
@@ -27,7 +28,7 @@ class OfferEditLayout extends MainLayout {
      */
     constructor() {
         super();
-        this.reset()
+        this.reset();
         this.on('goToPage', this._handlePageChange.bind(this));
         this.on('nextPage', this._handleNextPage.bind(this));
         this.on('prevPage', this._handlePrevPage.bind(this));
@@ -91,15 +92,23 @@ class OfferEditLayout extends MainLayout {
      */
     _getOfferById(page: OfferPage, props: Record<string, unknown>) {
         const loader = new Loader({page, layout: this});
-        if (this._offerId === null) {
+        if (this._offerId !== props.id) {
             loader.setLoaderStatus(true);
             this.makeRequest(getOfferById, props.id as number).then((data) => {
                 if (data) {
+                    if (data.offer.seller_id !== User.getData()?.id) {
+                        RouteManager.navigateTo('/');
+                        this?.addPopup('Ошибка безопасности', 'Вы не можете редактировать чужое объявление');
+                        return;
+                    }
                     this._offerId = data.offer.id;
                     OfferCreate.parseJSON(data).then(() => {
                         RouteManager.navigateToPageByCurrentURL();
                     })
                 }
+            }).catch((e: Error) => {
+                RouteManager.navigateTo('/');
+                this?.addPopup('Ошибка сервера', e.message);
             }).finally(() => {
                 loader.setLoaderStatus(false);
             })
@@ -234,6 +243,8 @@ class OfferEditLayout extends MainLayout {
             if (typeof offerId === 'number') {
                 RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
             }
+        }).catch((e: Error) => {
+            this?.addPopup('Ошибка сервера', e.message);
         });
     }
 

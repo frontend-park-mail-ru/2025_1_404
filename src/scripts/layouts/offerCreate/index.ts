@@ -217,6 +217,8 @@ class OfferCreateLayout extends MainLayout {
             if (typeof offerId === 'number') {
                 RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
             }
+        }).catch((e: Error) => {
+            this?.addPopup('Ошибка сервера', e.message);
         });
     }
 

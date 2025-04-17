@@ -8,7 +8,6 @@ import Offer from "../../../models/offer.ts";
 import getMetroColorByLineName from "../../../util/metroUtil.ts";
 import RouteManager from "../../../managers/routeManager/routeManager.ts";
 import User from "../../../models/user.ts";
-import OfferEditLayout from "../../../layouts/offerEdit/index.ts";
 
 /**
  * @class ProfileMyOffersPage
@@ -67,8 +66,7 @@ export default class ProfileMyOffersPage extends Page {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
         if (target.classList.contains("light-btn")) {
-            OfferEditLayout.reset();
-            RouteManager.navigateTo(`/offer/edit/${offerId}/type`);
+            this._layout?.emit('editOffer', offerId);
         }
         if (target.classList.contains("red-btn")) {
            this._deleteOffer(offerId);
@@ -87,7 +85,7 @@ export default class ProfileMyOffersPage extends Page {
         this._layout.makeRequest(deleteOffer, offerId).then(() => {
             this._updateContent(this._offerStatus);
         }).catch((error) => {
-            console.error('Error deleting offer:', error);
+            this._layout?.addPopup('Ошибка сервера', error.message);
         });
     }
 
@@ -143,7 +141,7 @@ export default class ProfileMyOffersPage extends Page {
                 });
             });
         }).catch((error) => {
-            console.error('Error fetching offers:', error);
+            this._layout?.addPopup('Ошибка сервера', error.message);
         })
     }
 

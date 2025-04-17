@@ -10,9 +10,9 @@
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-house" label="Тип жилья" content=propertyType}}
 </div>
 <div class="offerDetails__right-btns">
-    <div id="offerDetailsSellerBtns" class="offerDetails__right-btns-wrapper">
-        {{> PrimaryButton id="offerDetailsChangeButton" class="offerDetails__right-btn" name="Изменить" data-id=offerId}}
-<!--        {{> RedButton id="offerDetailsDeleteButton" class="offerDetails__right-btn" name="Удалить"}}-->
+    <div id="offerDetailsSellerBtns" class="offerDetails__right-btns-wrapper" data-id="{{offerId}}">
+        {{> PrimaryButton id="offerDetailsChangeButton" class="offerDetails__right-btn" name="Изменить"}}
+        {{> RedButton id="offerDetailsDeleteButton" class="offerDetails__right-btn" name="Удалить"}}
     </div>
     <div id="offerDetailsUserBtns" class="offerDetails__right-btns-wrapper">
         {{> PrimaryButton class="offerDetails__right-btn" name="Позвонить"}}

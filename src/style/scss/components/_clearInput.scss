@@ -1,0 +1,24 @@
+@use "../abstracts/variables" as *;
+.clearInput {
+    &__input {
+        position: relative;
+    }
+
+    &__clearButton {
+        position: absolute;
+        top: 50%;
+        right: 0.5em;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: $grey;
+        transition: color 0.3s ease;
+
+        &:hover {
+        color: $black-text;
+        }
+
+        &__hidden {
+            display: none !important;
+        }
+    }
+}

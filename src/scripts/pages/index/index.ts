@@ -90,13 +90,16 @@ export default class IndexPage extends Page {
             if (!offers || !Array.isArray(offers)) {
                 return;
             }
+            if (this._cardsList) {
+                this._cardsList.innerHTML = '';
+            }
             Array.from(offers).forEach((offerData) => {
                 const offer = new Offer();
                 offer.parseJSON(offerData);
                 this._addCard(offer);
             });
         }).catch((error) => {
-            console.error(error)
+            this._layout?.addPopup('Ошибка сервера', error.message);
         })
     }
 
@@ -122,6 +125,10 @@ export default class IndexPage extends Page {
             parentElement = parentElement.parentElement;
         }
         if (heart.classList.contains('heart')) {
+            if (!User.isAuthenticated()) {
+                this._layout?.emit('showLogin');
+                return;
+            }
             heart.classList.toggle('active');
             return;
         }

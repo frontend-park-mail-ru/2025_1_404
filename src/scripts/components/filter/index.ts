@@ -2,6 +2,7 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import FilterModel from "../../models/filterModel"
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import {Page} from "../../pages/page.ts";
+import ClearInput from "../clearInput";
 /**
  * @class Filter
  * @description Компонент фильтра.
@@ -21,6 +22,7 @@ export default class Filter extends BaseComponent {
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
      */
+    // eslint-disable-next-line max-lines-per-function
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
         this._page = page;
@@ -37,11 +39,11 @@ export default class Filter extends BaseComponent {
         this._filterData = {
             "filterOfferType": '',
             "filterPropertyType": '',
-            "filterPriceLeft": '',
-            "filterPriceRight": '',
-            "filterSquareLeft": '',
-            "filterSquareRight": '',
-            "filterInputAddress": '',
+            "filterPriceLeft__input": '',
+            "filterPriceRight__input": '',
+            "filterSquareLeft__input": '',
+            "filterSquareRight__input": '',
+            "filterInputAddress__input": '',
         }
         this._filterValid = {
             "offer_price": true,
@@ -54,11 +56,40 @@ export default class Filter extends BaseComponent {
             }
             const target = event.target as HTMLElement;
             if (!this._openPopupButton.nextElementSibling.contains(target)) {
-                console.log("AAA")
                 this._filterSelectClosePopup(this._openPopupButton);
                 this._openPopupButton = null;
             }
         }
+
+        new ClearInput({
+            page: this._page,
+            layout,
+            id: 'filterInputAddress',
+        });
+
+        new ClearInput({
+            page: this._page,
+            layout,
+            id: 'filterPriceLeft',
+        });
+
+         new ClearInput({
+            page: this._page,
+            layout,
+            id: 'filterPriceRight',
+        });
+
+        new ClearInput({
+            page: this._page,
+            layout,
+            id: 'filterSquareLeft',
+        })
+
+        new ClearInput({
+            page: this._page,
+            layout,
+            id: 'filterSquareRight',
+        })
     }
 
     /**
@@ -68,12 +99,25 @@ export default class Filter extends BaseComponent {
     initListeners() {
         this.initListenerForClass('filter__select-button', 'click', this._filterSelectOpenPopup);
         this.initListenerForClass('filter__check-elem', 'click', this._filterCheckListElem);
-        this.initListener('filterPriceLeft', 'input', this._filterInputChange);
-        this.initListener('filterPriceRight', 'input', this._filterInputChange);
-        this.initListener('filterSquareLeft', 'input', this._filterInputChange);
-        this.initListener('filterSquareRight', 'input', this._filterInputChange);
-        this.initListener('filterInputAddress', 'input', this._filterInputChange);
+        this.initListener('filterPriceLeft__input', 'input', this._filterInputChange);
+        this.initListener('filterPriceRight__input', 'input', this._filterInputChange);
+        this.initListener('filterSquareLeft__input', 'input', this._filterInputChange);
+        this.initListener('filterSquareRight__input', 'input', this._filterInputChange);
+        this.initListener('filterInputAddress__input', 'input', this._filterInputChange);
+        this.initListener('filterInputAddress__input', 'keyup', this._filterSubmitKey);
         this.initListener('filterSubmitButton', 'click', this._filterSubmit);
+    }
+
+    /**
+     * @function _filterSubmitKey
+     * @description Метод обработки нажатия клавиши Enter в поле ввода фильтра.
+     * @param {Event} event событие нажатия клавиши.
+     */
+    _filterSubmitKey(event: Event) {
+        event.preventDefault();
+        if (event instanceof KeyboardEvent && event.key === 'Enter') {
+            this._filterSubmit(event);
+        }
     }
 
     /**
@@ -100,7 +144,6 @@ export default class Filter extends BaseComponent {
      */
     _filterInputChange(event: Event) {
         event.preventDefault();
-
         if (!event.currentTarget) {
             return;
         }
@@ -241,6 +284,11 @@ export default class Filter extends BaseComponent {
 
     }
 
+    /**
+     * @function _checkValidation
+     * @description Метод проверки валидности полей фильтра.
+     * @param {HTMLButtonElement} button кнопка, которая открыла всплывающее окно селекта.
+     */
     _checkValidation(button: HTMLButtonElement) {
 
         if (Object.hasOwn(this._filterValid, button.name)) {

@@ -1,7 +1,6 @@
 @use "../../abstracts/variables" as *;
 .profile {
-  background-color: $profile-bg;
-
+  background-color: $grey3;
   &__inner {
     padding-top: 1.25em;
     height: 100%;

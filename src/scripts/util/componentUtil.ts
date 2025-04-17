@@ -43,6 +43,12 @@ import RedButton from "../components/redButton/template.precompiled.js";
 import SearchOffer from "../components/searchOffer/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
 import PicturesCarouselPreviews from "../components/picturesCarouselPreviews/template.precompiled.js";
+import BaseModal from "../components/baseModal/template.precompiled.js";
+import SubmitModal from "../components/submitModal/template.precompiled.js";
+import PasswordInput from "../components/passwordInput/template.precompiled.js";
+import ClearInput from "../components/clearInput/template.precompiled.js";
+import Popup from "../components/popup/template.precompiled.js";
+import Popups from "../components/popups/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -52,11 +58,13 @@ import PicturesCarouselPreviews from "../components/picturesCarouselPreviews/tem
 export default function registerComponents() {
     const components: [Handlebars.TemplateDelegate, string][] = [
         [BackgroundlessButton, 'BackgroundlessButton'],
+        [BaseModal, 'BaseModal'],
         [Card, 'Card'],
         [Characteristic, 'Characteristic'],
         [ChevronLeft, 'ChevronLeft'],
         [ChevronRight, 'ChevronRight'],
         [ChoiceButtons, 'ChoiceButtons'],
+        [ClearInput, 'ClearInput'],
         [Filter, 'Filter'],
         [FilterCheckList, 'FilterCheckList'],
         [FilterCheckListSelect, 'FilterCheckListSelect'],
@@ -83,7 +91,11 @@ export default function registerComponents() {
         [OfferDetailsHeader, 'OfferDetailsHeader'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],
         [OfferDetailsLeft, 'OfferDetailsLeft'],
+        [PasswordInput, 'PasswordInput'],
         [PicturesCarousel, 'PicturesCarousel'],
+        [PicturesCarouselPreviews, 'PicturesCarouselPreviews'],
+        [Popup, 'Popup'],
+        [Popups, 'Popups'],
         [PrimaryButton, 'PrimaryButton'],
         [ProfileDataInput, 'ProfileDataInput'],
         [ProfileLeft, 'ProfileLeft'],
@@ -92,8 +104,8 @@ export default function registerComponents() {
         [ProgressBar, 'ProgressBar'],
         [RedButton, 'RedButton'],
         [SearchOffer, 'SearchOffer'],
+        [SubmitModal, 'SubmitModal'],
         [UserAvatar, 'UserAvatar'],
-        [PicturesCarouselPreviews, 'PicturesCarouselPreviews'],
     ];
 
     components.forEach(([component, name]) => {

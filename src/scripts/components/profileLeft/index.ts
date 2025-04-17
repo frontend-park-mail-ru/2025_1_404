@@ -189,7 +189,10 @@ export default class ProfileLeft extends BaseComponent {
             .querySelectorAll('input');
         inputFields.forEach((input) => {
             const errorText = validateFormInput(input, true);
-            const errorField = input.nextElementSibling;
+            let errorField = target.nextElementSibling;
+            if ((target.dataset.clearfield || target.dataset.passwordfield) && target.parentElement) {
+                errorField = target.parentElement.nextElementSibling;
+            }
             if (errorField !== null && errorText !== "") {
                 isValid = false;
                 input.classList.add('input__invalid');
@@ -236,7 +239,10 @@ export default class ProfileLeft extends BaseComponent {
         saveButton.disabled = !this.isDataChanged()
 
         const errorText = validateFormInput(inputElement, true);
-        const errorField = inputElement.nextElementSibling;
+        let errorField = inputElement.nextElementSibling;
+        if ((inputElement.dataset.clearfield || inputElement.dataset.passwordfield) && inputElement.parentElement) {
+            errorField = inputElement.parentElement.nextElementSibling;
+        }
         if (!errorField) {
             return;
         }
@@ -366,11 +372,6 @@ export default class ProfileLeft extends BaseComponent {
         if (!this.layout) {
             return;
         }
-        this.layout.makeRequest(User.logout.bind(User)).finally(() => {
-            if (!this.layout) {
-                return;
-            }
-            this.layout.emit('logout');
-        });
+        this.layout.emit('tryExit');
     }
 }

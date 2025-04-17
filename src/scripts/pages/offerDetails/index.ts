@@ -11,12 +11,7 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import PageManager from "../../managers/pageManager.ts";
-import {sign} from "node:crypto";
 import User from "../../models/user.ts";
-import RouteManager from "../../managers/routeManager/routeManager.ts";
-import user from "../../models/user.ts";
-import {DomEvent} from "leaflet";
-import off = DomEvent.off;
 import OfferDetailsInfo from "../../components/offerDetailsInfo";
 
 /**
@@ -47,6 +42,7 @@ export default class OfferDetailsPage extends Page {
         super.render({layout, root});
 
         this._getOfferById(props.id)
+            // eslint-disable-next-line max-statements
         .then ((data) => {
             const offer = new Offer();
             this._offerId = offer.id;
@@ -61,6 +57,8 @@ export default class OfferDetailsPage extends Page {
             const offerDetailsInfo = document.getElementById("offerDetailsInfo") as HTMLElement;
             offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({propertyType: offer.propertyType.toLowerCase(), inMultipleForm: offer.propertyType.toLowerCase() === 'апартаменты', isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
             offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({offerId: offer.id, price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms: offer.rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
+
+            super.render({layout, root});
 
             this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
             this._offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
@@ -77,12 +75,53 @@ export default class OfferDetailsPage extends Page {
             const offerSellerBtns = document.getElementById("offerDetailsSellerBtns") as HTMLElement;
             const offerUserBtns = document.getElementById("offerDetailsUserBtns") as HTMLElement;
 
-            if (user.getData()?.id === offer.seller.id) {
+            if (User.getData()?.id === offer.seller.id) {
                 offerSellerBtns.classList.add("active");
             } else {
                 offerUserBtns.classList.add("active");
             }
         });
+    }
+
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
+    initListeners() {
+        this.initListener('offerDetailsSellerBtns', 'click', this._offerSellerBtnsHandler);
+        this.initListener('offerDetailsUserBtns', 'click', this._offerUserBtnsHandler);
+    }
+
+    /**
+     * @function _offerUserBtnsHandler
+     * @description Метод обработки клика по кнопкам пользователя.
+     * @param {Event} event событие
+     */
+    _offerUserBtnsHandler(event: Event) {
+        event.preventDefault();
+        const target = event.target as HTMLElement;
+        if (!target) {
+            return;
+        }
+        if (!User.isAuthenticated()) {
+            this._layout?.emit('showLogin');
+        }
+    }
+
+    /**
+     * @function _offerSellerBtnsHandler
+     * @description Метод обработки клика по кнопкам продавца.
+     * @param {Event} event событие
+     */
+    _offerSellerBtnsHandler(event: Event) {
+        event.preventDefault();
+        const target = event.target as HTMLElement;
+        if (!target) {
+            return;
+        }
+        if (!User.isAuthenticated()) {
+            this._layout?.emit('showLogin');
+        }
     }
 
     /**
@@ -97,9 +136,7 @@ export default class OfferDetailsPage extends Page {
             return Promise.reject(new Error('Layout is not defined'));
         }
         return this._layout.makeRequest(getOfferById, id)
-            .then((data) => {
-                return data;
-            })
+            .then((data) => data)
             .catch ((error) => {
                 PageManager.renderPage('404');
                 throw error;

@@ -4,6 +4,7 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
 import template from './template.precompiled.js';
 import {BaseLayout} from "../../layouts/baseLayout.ts";
+import PasswordInput from "../../components/passwordInput";
 
 interface RegisterInterface extends Record<string, string> {
     email: string;
@@ -28,6 +29,18 @@ export default class RegisterPage extends Page {
     render({root, layout}: PageRenderInterface) {
         this._layout = layout;
         root.innerHTML = template();
+
+        new PasswordInput({
+            layout,
+            page: this,
+            id: 'registerPassword'
+        });
+        new PasswordInput({
+            layout,
+            page: this,
+            id: 'registerConfirmPassword'
+        });
+
         super.render({root, layout});
     }
 

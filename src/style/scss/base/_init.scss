@@ -60,4 +60,14 @@ button {
   max-width: 1600px;
   margin: 0 auto;
   padding: 0 125px;
+  height: 100%;
+}
+
+.main {
+  min-height: 90%;
+  max-height: 100%;
+
+  &__grey {
+    background-color: $grey3;
+  }
 }

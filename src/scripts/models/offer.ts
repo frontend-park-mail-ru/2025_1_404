@@ -57,7 +57,7 @@ export default class Offer {
     description: string = '';
     floor: number = 1;
     totalFloors: number = 1;
-    rooms: number = 1;
+    rooms: string = '1';
     address: string = '';
     flat: number = 1;
     area: number = 1;
@@ -86,9 +86,9 @@ export default class Offer {
         this.description = createOfferData.description['input-description'];
         this.floor = Number(createOfferData.address['input-floor']);
         this.totalFloors = Number(createOfferData.address['input-total-floors']);
-        this.rooms = Number(createOfferData.params['input-rooms']);
-        this.address = createOfferData.address['input-address'];
-        this.flat = Number(createOfferData.address['input-flat']);
+        this.rooms = createOfferData.params['input-rooms'];
+        this.address = createOfferData.address['input-address__input'];
+        this.flat = 1;
         this.area = Number(createOfferData.params['input-square']);
         this.ceilingHeight = Number(createOfferData.params['input-ceiling-height']);
         this.offerType = createOfferData.type['input-offer-type'];
@@ -123,7 +123,10 @@ export default class Offer {
         this.description = json.offer.description;
         this.floor = json.offer.floor;
         this.totalFloors = json.offer.total_floors;
-        this.rooms = json.offer.rooms;
+        this.rooms = json.offer.rooms.toString();
+        if (this.rooms === '4') {
+            this.rooms += '+';
+        }
         this.address = json.offer.address;
         this.flat = json.offer.flat;
         this.area = json.offer.area;
@@ -155,7 +158,7 @@ export default class Offer {
             description: this.description,
             floor: this.floor,
             totalFloors: this.totalFloors,
-            rooms: this.rooms,
+            rooms: parseInt(this.rooms, 10),
             address: this.address,
             flat: this.flat,
             area: this.area,
@@ -199,7 +202,7 @@ export default class Offer {
             description: this.description,
             floor: this.floor,
             totalFloors: this.totalFloors,
-            rooms: this.rooms,
+            rooms: parseInt(this.rooms, 10),
             address: this.address,
             flat: this.flat,
             area: this.area,

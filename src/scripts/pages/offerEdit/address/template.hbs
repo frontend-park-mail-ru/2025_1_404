@@ -1,9 +1,9 @@
-{{#> OfferEditLayout }}
+{{#> OfferEditLayout grey=true}}
 <div class="offerCreate__address">
     <div id="offerCreateAddressForm" class="offerCreate__address-form">
         <div class="offerCreate__input offerCreate__address-address">
             <label for="input-address" class="offerCreate__input-label">Адрес</label>
-            {{> Input id="input-address" name="offer_address" type="text" placeholder="Город, улица, дом"}}
+            {{> ClearInput id="input-address" name="offer_address" type="text" placeholder="Город, улица, дом"}}
         </div>
         <div class="offerCreate__input offerCreate__address-floor">
             <label for="input-floor" class="offerCreate__input-label">Этаж</label>
@@ -13,10 +13,10 @@
                 {{> Input id="input-total-floors" type="text" name="offer_total_floors"}}
             </div>
         </div>
-        <div class="offerCreate__input offerCreate__address-flat">
-            <label for="input-flat" class="offerCreate__input-label">Квартира</label>
-            {{> Input id="input-flat" name="offer_flat" type="text"}}
-        </div>
+<!--        <div class="offerCreate__input offerCreate__address-flat">-->
+<!--            <label for="input-flat" class="offerCreate__input-label">Квартира</label>-->
+<!--            {{> Input id="input-flat" name="offer_flat" type="text"}}-->
+<!--        </div>-->
     </div>
     <div id="offerCreateMap" class="offerCreate__address-map"></div>
 </div>

@@ -1,7 +1,4 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
-import template from './template.precompiled.js';
-import PicturesCarouselPreviews from "../picturesCarouselPreviews";
-import RouteManager from "../../managers/routeManager/routeManager.ts";
 
 /**
  * @class OfferDetailsInfo
@@ -23,21 +20,27 @@ export default class OfferDetailsInfo extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerDetailsChangeButton', 'click', this._offerChangeButtonHandler);
+        this.initListener('offerDetailsSellerBtns', 'click', this._offerDetailsSellerBtnsHandler);
     }
 
     /**
-     * @function _offerChangeButtonHandler
-     * @description Метод обработки клика по ссылке на страницу изменения объявления.
+     * @function _offerDetailsSellerBtnsHandler
+     * @description Метод обработки клика по ссылкем на кнопки в блоке информации о продавце
      * @param {Event} event событие
      */
-    _offerChangeButtonHandler(event: Event) {
+    _offerDetailsSellerBtnsHandler(event: Event) {
         event.preventDefault();
-        console.log("AAA");
         const target = event.target as HTMLElement;
-        if (target && target.dataset.id) {
-            const offerId = target.dataset.id;
-            RouteManager.navigateTo(`/offer/edit/${offerId}/type`);
+        if (target && target.parentElement) {
+            const parent = target.parentElement;
+            if (!parent.dataset.id) {
+                return;
+            }
+            if (target.id === 'offerDetailsChangeButton') {
+                this.layout?.emit('editOffer', parent.dataset.id)
+                return;
+            }
+            this.layout?.emit('tryDelete', parent.dataset.id);
         }
     }
 }

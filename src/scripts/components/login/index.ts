@@ -1,7 +1,8 @@
-import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
 import {validateFormInput} from "../../util/validatorUtil.ts";
+import BaseModal, {BaseModalInterface} from "../baseModal";
+import PasswordInput from "../passwordInput";
 
 interface LoginInterface extends Record<string, string> {
     email: string;
@@ -13,16 +14,27 @@ interface LoginInterface extends Record<string, string> {
  * @description Компонент авторизации.
  * @augments BaseComponent
  */
-export default class Login extends BaseComponent {
-    private _overlay: HTMLElement;
+export default class Login extends BaseModal {
+    private loginButton: HTMLButtonElement | undefined;
+    private passwordInput: PasswordInput | undefined;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
+     * @param {string} id - идентификатор компонента.
      */
-    constructor({page, layout}: BaseComponentInterface) {
-        super({layout, page});
-        this._overlay = document.querySelector('.overlay') as HTMLElement;
+    constructor({page, layout, id}: BaseModalInterface) {
+        super({layout, page, id});
+        const root = document.getElementById(this._id);
+        if (!root) {
+            return;
+        }
+        this.loginButton = root.querySelector('#loginSubmitButton') as HTMLButtonElement;
+        this.passwordInput = new PasswordInput({
+            layout,
+            page,
+            id: 'loginPassword'
+        })
     }
 
     /**
@@ -30,39 +42,34 @@ export default class Login extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('loginCloseButton', 'click', this._loginCloseButtonHandler);
-        this.initListener('login-form', 'submit', this._loginFormHandler);
-        this.initListener('login-form', 'input', this._loginFormInputHandler);
-        this.initListener('registerHrefButton', 'click', this._loginFormRegisterButtonHandler);
-        this.initListener('overlay', 'click', this._overlayHandler);
+        super.initListeners();
+        this.initListenerFromElement({root: this._id, elementId: 'login-form', type: 'submit', handler: this._loginFormHandler});
+        this.initListenerFromElement({
+            root: this._id,
+            elementId: 'login-form',
+            type: 'input',
+            handler: this._loginFormInputHandler
+        });
+        this.initListenerFromElement({
+            root: this._id,
+            elementId: 'registerHrefButton',
+            type: 'click',
+            handler: this._loginFormRegisterButtonHandler
+        });
     }
 
     /**
-     * @function setShowLogin
+     * @function setShowModal
      * @description Метод установки состояния окна авторизации.
      * @param {boolean} isShow - состояние окна авторизации.c
      */
-    setShowLogin(isShow: boolean) {
-        const login = document.querySelector(".login") as HTMLElement;
-        const overlay = document.querySelector(".overlay") as HTMLElement;
-        if (isShow) {
-            const passwordInput = document.querySelector('#passwordInput') as HTMLInputElement;
+    setShowModal(isShow: boolean) {
+        if (isShow && this.passwordInput) {
+            const passwordInput = document.querySelector('#loginPassword__input') as HTMLInputElement;
             passwordInput.value = '';
-            login.classList.add('active');
-            overlay.classList.add('active');
-            return;
+            this.passwordInput.setVisibility(false);
         }
-        login.classList.remove('active');
-        overlay.classList.remove('active');
-    }
-
-    /**
-     * @function _loginCloseButtonHandler
-     * @description Обработчик события закрытия окна входа
-     * @private
-     */
-    _loginCloseButtonHandler() {
-        this.setShowLogin(false);
+        super.setShowModal(isShow);
     }
 
     /**
@@ -82,16 +89,21 @@ export default class Login extends BaseComponent {
      */
     _loginFormHandler(event: Event) {
         event.preventDefault();
+        if (!this.loginButton) {
+            return;
+        }
 
         this._resetApiError();
 
         const target = event.target as HTMLElement;
-        const loginButton = target.querySelector('#loginSubmitButton') as HTMLButtonElement;
-        loginButton.disabled = true;
+        if (target.classList.contains('passwordInput__eye')) {
+            return;
+        }
+        this.loginButton.disabled = true;
 
         const isValid = this._validateFormFields(target);
         if (!isValid) {
-            loginButton.disabled = false;
+            this.loginButton.disabled = false;
             return;
         }
         const values = this._getFormValues(target);
@@ -103,11 +115,14 @@ export default class Login extends BaseComponent {
                 return;
             }
             this.layout.emit('login');
-            this._loginCloseButtonHandler();
+            this._submitCancelButtonHandler();
         }).catch((error: Error) => {
             this._showApiError(error);
         }).finally(() => {
-            loginButton.disabled = false;
+            if (!this.loginButton) {
+                return;
+            }
+            this.loginButton.disabled = false;
         })
     }
 
@@ -143,7 +158,10 @@ export default class Login extends BaseComponent {
 
         inputFields.forEach((input) => {
             const errorText = validateFormInput(input, false);
-            const errorField = input.nextElementSibling;
+            let errorField = input.nextElementSibling;
+            if ((input.dataset.clearfield || input.dataset.passwordfield) && input.parentElement) {
+                errorField = input.parentElement.nextElementSibling;
+            }
 
             if (!errorField) {
                 return;
@@ -154,7 +172,6 @@ export default class Login extends BaseComponent {
                 this._showFieldError(input, errorField, errorText);
             }
         });
-
         return isValid;
     }
 
@@ -206,7 +223,10 @@ export default class Login extends BaseComponent {
         }
 
         const errorText = validateFormInput(target);
-        const errorField = target.nextElementSibling;
+        let errorField = target.nextElementSibling;
+        if ((target.dataset.clearfield || target.dataset.passwordfield) && target.parentElement) {
+            errorField = target.parentElement.nextElementSibling;
+        }
         if (!errorField) {
             return;
         }
@@ -219,17 +239,5 @@ export default class Login extends BaseComponent {
         target.classList.add('input__invalid');
         errorField.classList.add('error__visible');
         errorField.textContent = errorText;
-    }
-
-    /**
-     * @function _overlayHandler
-     * @description Обработчик события клика на затемненное пространство
-     * @param {Event} event событие клика
-     * @private
-     */
-    _overlayHandler(event: Event) {
-        if (event.target === this._overlay) {
-            this._loginCloseButtonHandler();
-        }
     }
 }

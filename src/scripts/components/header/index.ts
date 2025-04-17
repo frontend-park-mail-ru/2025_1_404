@@ -1,6 +1,5 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
-import User from "../../models/user.ts";
 
 /**
  * @class Header
@@ -81,11 +80,6 @@ export default class Header extends BaseComponent {
         if (!this.layout) {
             return;
         }
-        this.layout.makeRequest(User.logout.bind(User)).finally(() => {
-            if (!this.layout) {
-                return;
-            }
-            this.layout.emit('logout');
-        });
+        this.layout.emit('tryExit');
     }
 }

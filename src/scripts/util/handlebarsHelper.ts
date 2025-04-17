@@ -49,6 +49,10 @@ const breakLines = function(text: string) {
     return new Handlebars.SafeString(withBreaks);
 }
 
+const concat = function(s1: string, s2: string) {
+    return s1 + s2;
+}
+
 /**
  * @function registerHandlebarsHelpers
  * @description Регистрация хелперов Handlebars
@@ -56,6 +60,7 @@ const breakLines = function(text: string) {
 export default function registerHandlebarsHelpers() {
     Handlebars.registerHelper('renderRating', renderRating);
     Handlebars.registerHelper('split', split);
+    Handlebars.registerHelper('concat', concat);
     Handlebars.registerHelper('join', join);
     Handlebars.registerHelper('breakLines', breakLines);
 }
