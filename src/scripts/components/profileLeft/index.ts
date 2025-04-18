@@ -164,7 +164,7 @@ export default class ProfileLeft extends BaseComponent {
      */
     _showApiError(error: Error) {
         const apiError = document.getElementById('profile-api-error') as HTMLElement;
-        apiError.textContent = error.message;
+        apiError.textContent = 'Ошибка: '.concat(error.message);
         apiError.classList.add('error__visible');
     }
 

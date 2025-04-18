@@ -8,6 +8,7 @@ import Offer from "../../../models/offer.ts";
 import getMetroColorByLineName from "../../../util/metroUtil.ts";
 import RouteManager from "../../../managers/routeManager/routeManager.ts";
 import User from "../../../models/user.ts";
+import OfferEditLayout from "../../../layouts/offerEdit";
 
 /**
  * @class ProfileMyOffersPage
@@ -66,6 +67,7 @@ export default class ProfileMyOffersPage extends Page {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
         if (target.classList.contains("light-btn")) {
+            OfferEditLayout.reset();
             this._layout?.emit('editOffer', offerId);
         }
         if (target.classList.contains("red-btn")) {
@@ -127,9 +129,17 @@ export default class ProfileMyOffersPage extends Page {
             response.forEach((offerData: any) => {
                 const offer = new Offer();
                 offer.parseJSON(offerData);
+                let cardTitle = `${offer.price.toLocaleString('ru-RU')} ₽`;
+                if (offer.offerType === 'Аренда') {
+                    cardTitle = 'Аренда: ' + cardTitle;
+                    cardTitle += `/${offer.rentType === 'Долгосрок' ? 'мес.' : 'сут.'}`
+                }
+                else {
+                    cardTitle = 'Продажа: ' + cardTitle;
+                }
                 offerList.innerHTML += profileOfferTemplate({
                     id: offer.id,
-                    title: `${offer.offerType === 'Продажа' ? 'Продажа' : 'Сдача'} ${offer.rooms}-комн. ${offer.propertyType.toLowerCase()}, ${offer.area} м²`,
+                    title: cardTitle,
                     metroStation: offer.metroStation || 'Нет',
                     address: offer.address,
                     rooms: offer.rooms,

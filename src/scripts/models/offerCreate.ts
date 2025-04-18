@@ -319,6 +319,7 @@ class OfferCreate {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async _parsePhotos(data: any) {
+        console.log('parse?')
         this._uploadedImages = {};
         this._offerData.photos = {};
 

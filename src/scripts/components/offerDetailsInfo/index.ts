@@ -1,4 +1,5 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
+import OfferEditLayout from "../../layouts/offerEdit/index.ts";
 
 /**
  * @class OfferDetailsInfo
@@ -37,6 +38,7 @@ export default class OfferDetailsInfo extends BaseComponent {
                 return;
             }
             if (target.id === 'offerDetailsChangeButton') {
+                OfferEditLayout.reset();
                 this.layout?.emit('editOffer', parent.dataset.id)
                 return;
             }

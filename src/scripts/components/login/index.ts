@@ -131,7 +131,7 @@ export default class Login extends BaseModal {
      * @description Метод сброса ошибки API
      */
     _resetApiError() {
-        const apiError = document.getElementById('api-error') as HTMLElement;
+        const apiError = document.getElementById('login-api-error') as HTMLElement;
         apiError.classList.remove('error__visible');
     }
 
@@ -141,8 +141,8 @@ export default class Login extends BaseModal {
      * @param {Error} error ошибка API
      */
     _showApiError(error: Error) {
-        const apiError = document.getElementById('api-error') as HTMLElement;
-        apiError.textContent = error.message;
+        const apiError = document.getElementById('login-api-error') as HTMLElement;
+        apiError.textContent = 'Ошибка: '.concat(error.message);
         apiError.classList.add('error__visible');
     }
 

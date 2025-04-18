@@ -107,7 +107,10 @@ const validateAddress = function(address: string) {
  */
 const validateNumeric = function(number: string) {
     const num = Number(number);
-    return (isNaN(num) || num < 1) ? 'Неправильно введена цена' : '';
+    if (isNaN(num) || num < 1) {
+        return 'Неправильно введена цена';
+    }
+    return num > 10000000000 ? 'Цена слишком большая' : '';
 }
 
 /**

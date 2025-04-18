@@ -16,6 +16,10 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    &-center {
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &-button {

@@ -100,7 +100,8 @@ export class Page {
      */
     showApiError(error: Error) {
         const apiError = document.getElementById('api-error') as HTMLElement;
-        apiError.textContent = error.message;
+        console.log(apiError)
+        apiError.textContent = 'Ошибка: '.concat(error.message);
         apiError.classList.add('error__visible');
     }
 

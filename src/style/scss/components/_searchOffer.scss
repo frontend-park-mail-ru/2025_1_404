@@ -51,6 +51,7 @@
 
   &-address, &-description {
     color: $grey;
+    overflow-wrap: break-word;
   }
 
   &-metro {

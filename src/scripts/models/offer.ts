@@ -125,7 +125,7 @@ export default class Offer {
         this.totalFloors = json.offer.total_floors;
         this.rooms = json.offer.rooms.toString();
         if (this.rooms === '4') {
-            this.rooms += '+';
+            this.rooms = 'много'
         }
         this.address = json.offer.address;
         this.flat = json.offer.flat;
@@ -153,12 +153,16 @@ export default class Offer {
      * @returns {Promise<number>} id объявления
      */
     async create() {
+        let rooms = this.rooms;
+        if (rooms === 'много') {
+            rooms = '4';
+        }
         const response = await createOffer({
             price: this.price,
             description: this.description,
             floor: this.floor,
             totalFloors: this.totalFloors,
-            rooms: parseInt(this.rooms, 10),
+            rooms: parseInt(rooms, 10),
             address: this.address,
             flat: this.flat,
             area: this.area,

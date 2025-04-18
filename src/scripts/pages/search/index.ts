@@ -161,23 +161,22 @@ export default class SearchPage extends Page {
          if (!this._offerList) {
              return;
          }
-
-        let title = `${rooms}-комн. ${propertyType.toLowerCase()}, ${square} м²`;
-        const priceTitle = `${price.toLocaleString('ru-RU')} ₽`;
-        if (offerType === 'аренда') {
+         let title = `${rooms}-комн. ${propertyType.toLowerCase()}, ${square} м²`;
+         const priceTitle = `${price.toLocaleString('ru-RU')} ₽`;
+         if (offerType === 'аренда') {
             let prefix = 'Сдается в аренду: ';
             if (propertyType.toLowerCase() === 'апартаменты') {
                 prefix = 'Сдаются в аренду: ';
             }
             title = prefix + title;
             title += `/${rentType === 'долгосрок' ? 'мес.' : 'сут.'}`
-        }
-        else {
-            let prefix = 'Продается: ';
-            if (propertyType.toLowerCase() === 'апартаменты') {
-                prefix = 'Продаются: ';
-            }
-            title = prefix + title;
+         }
+         else {
+             let prefix = 'Продается: ';
+             if (propertyType.toLowerCase() === 'апартаменты') {
+                 prefix = 'Продаются: ';
+             }
+             title = prefix + title;
         }
         this._offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName}));
     }
