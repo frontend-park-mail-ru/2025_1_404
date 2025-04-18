@@ -123,6 +123,14 @@ class MapUtil {
         return placeMark;
     }
 
+    /**
+     * @function getIcon
+     * @description Метод для получения иконки метки.
+     * @param {string} image путь к изображению метки.
+     * @param {[number, number]} size размер метки.
+     * @param {[number, number]} offset смещение метки.
+     * @returns {Icon} экземпляр иконки.
+     */
     getIcon({image, size, offset}: {image: string, size: [number, number], offset: [number, number]}) {
         return L.icon({
             iconUrl: image,
@@ -149,7 +157,7 @@ class MapUtil {
      */
     async geocode(address: string) {
         const domain = 'https://nominatim.openstreetmap.org';
-        const response = await fetch(domain.concat('/search?format=json&q=', address));
+        const response = await fetch(domain.concat('/search?format=json&addressdetails=1&limit=5&q=', address));
         if (!response.ok) {
             throw new Error('Failed to geocode address');
         }

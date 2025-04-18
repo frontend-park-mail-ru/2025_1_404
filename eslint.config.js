@@ -40,6 +40,7 @@ export default [
             "no-console": "off",
             "no-empty-function": "off",
             "no-magic-numbers": "off",
+            "no-new": "off",
             "no-inline-comments": "off",
             "no-plusplus": "off",
             "no-ternary": "off",

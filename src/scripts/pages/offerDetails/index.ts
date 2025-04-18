@@ -32,6 +32,7 @@ export default class OfferDetailsPage extends Page {
      * @param {BaseLayout} layout макет страницы
      * @param {Record<string, unknown>} props параметры страницы
      */
+    // eslint-disable-next-line max-lines-per-function
     render({layout, root, props}: PageRenderInterface) {
         if (!props || typeof props.id !== 'number') {
             return;

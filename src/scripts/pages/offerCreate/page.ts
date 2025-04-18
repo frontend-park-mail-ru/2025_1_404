@@ -110,7 +110,6 @@ export default class OfferPage extends Page {
             this._offerData[input.id] = '';
             result = this.formInputHandler(event);
             if (result) {
-                console.log(input.value)
                 this._offerData[input.id] = input.value;
             }
             OfferCreate.setData(this._pageName, this._offerData);

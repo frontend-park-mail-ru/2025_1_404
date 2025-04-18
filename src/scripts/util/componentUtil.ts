@@ -47,6 +47,7 @@ import BaseModal from "../components/baseModal/template.precompiled.js";
 import SubmitModal from "../components/submitModal/template.precompiled.js";
 import PasswordInput from "../components/passwordInput/template.precompiled.js";
 import ClearInput from "../components/clearInput/template.precompiled.js";
+import AddressInput from "../components/addressInput/template.precompiled.js";
 import Popup from "../components/popup/template.precompiled.js";
 import Popups from "../components/popups/template.precompiled.js";
 
@@ -57,6 +58,7 @@ import Popups from "../components/popups/template.precompiled.js";
 // eslint-disable-next-line max-lines-per-function
 export default function registerComponents() {
     const components: [Handlebars.TemplateDelegate, string][] = [
+        [AddressInput, 'AddressInput'],
         [BackgroundlessButton, 'BackgroundlessButton'],
         [BaseModal, 'BaseModal'],
         [Card, 'Card'],

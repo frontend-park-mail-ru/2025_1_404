@@ -250,8 +250,6 @@ export default class OfferEditPhotosPage extends OfferPage {
      */
     _setDataFromModel() {
         const _offerData = this._offerData;
-        console.log(this._offerData)
-        console.log(this._uploadedImages)
         this._offerData = {};
         Object.keys(_offerData).forEach(photo => {
             this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);

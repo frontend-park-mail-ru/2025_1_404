@@ -4,7 +4,7 @@
         {{> FilterCheckListSelect id="filterPropertyType" label="Тип недвижимости" choices="Квартира;Дом;Апартаменты" }}
         {{> FilterDoubleInputSelect id="filterPrice" name="offer_price" label="Цена"}}
         {{> FilterDoubleInputSelect id="filterSquare" name="offer_square" label="Площадь"}}
-        {{> ClearInput class="filter__bottom-input" id="filterInputAddress" name="offer_address" type="text" placeholder="Город, улица, дом"}}
+        {{> AddressInput class="filter__bottom-input" id="filterInputAddress" name="offer_address" type="text" placeholder="Город, улица, дом"}}
     </div>
     <div class="filter__bottom">
         <button type="submit">

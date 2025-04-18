@@ -92,6 +92,9 @@ class OfferEditLayout extends MainLayout {
      */
     _getOfferById(page: OfferPage, props: Record<string, unknown>) {
         const loader = new Loader({page, layout: this});
+        if (!User.isLoaded()) {
+            return;
+        }
         if (this._offerId !== props.id) {
             loader.setLoaderStatus(true);
             this.makeRequest(getOfferById, props.id as number).then((data) => {

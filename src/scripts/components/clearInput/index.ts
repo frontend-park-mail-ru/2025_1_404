@@ -22,7 +22,7 @@ export interface ClearInputInterface {
  */
 export default class ClearInput extends BaseComponent {
     private clearButton: HTMLButtonElement;
-    private input: HTMLInputElement;
+    protected input: HTMLInputElement;
     private id: string | null = null;
     /**
      * @description Конструктор класса.

@@ -84,8 +84,8 @@ export default class Offer {
         this.status = 1;
         this.price = Number(createOfferData.price['input-price']);
         this.description = createOfferData.description['input-description'];
-        this.floor = Number(createOfferData.address['input-floor']);
-        this.totalFloors = Number(createOfferData.address['input-total-floors']);
+        this.floor = Number(createOfferData.address['input-floorLeft__input']);
+        this.totalFloors = Number(createOfferData.address['input-floorRight__input']);
         this.rooms = createOfferData.params['input-rooms'];
         this.address = createOfferData.address['input-address__input'];
         this.flat = 1;

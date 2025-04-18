@@ -102,6 +102,11 @@ export default class Map {
         return house;
     }
 
+    /**
+     * @function updateHouseSize
+     * @description Метод обновления размера дома на карте.
+     * @param {Marker} house дом.
+     */
     updateHouseSize(house: Marker) {
         house.setIcon(MapUtil.getIcon({image: '/img/map/housePlacemark.svg', size: [this._placeMarkSize, this._placeMarkSize], offset: [0, 0]}));
     }

@@ -71,7 +71,7 @@ export default class ProfileMyOffersPage extends Page {
             this._layout?.emit('editOffer', offerId);
         }
         if (target.classList.contains("red-btn")) {
-           this._deleteOffer(offerId);
+            this._layout?.emit('tryDelete', offerId);
         }
     }
 

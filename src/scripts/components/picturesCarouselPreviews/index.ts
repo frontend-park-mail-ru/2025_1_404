@@ -41,6 +41,10 @@ export default class PicturesCarouselPreviews extends BaseComponent {
         this._toggleActivePreview(this._previewsIndex);
     }
 
+    /**
+     * @function _enableSlider
+     * @description Метод активации карусели.
+     */
     _enableSlider() {
         if (this._previews !== null) {
             this._previews.classList.add('active');

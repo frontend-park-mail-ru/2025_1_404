@@ -78,7 +78,6 @@ class RouteManager {
         if (this.lastPath !== pathStr) {
             history.pushState(null, "", pathStr);
             this.lastPath = pathStr;
-            return;
         }
     }
 

@@ -4,7 +4,7 @@ import OfferPage from "../page.ts";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
 import {Marker} from "leaflet";
-import ClearInput from "../../../components/clearInput";
+import AddressInput from "../../../components/addressInput";
 
 /**
  * @class OfferEditAddressPage
@@ -34,7 +34,7 @@ export default class OfferEditAddressPage extends OfferPage {
             this._setDataFromModel();
         }
 
-        new ClearInput({
+        new AddressInput({
             page: this,
             layout,
             id: 'input-address'
@@ -60,6 +60,7 @@ export default class OfferEditAddressPage extends OfferPage {
      */
     initListeners() {
         this.initListener('offerCreateAddressForm', 'input', this._offerDataChange);
+        this.initListener('input-address__input', 'input', this._offerDataChange);
     }
 
     /**

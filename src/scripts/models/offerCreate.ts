@@ -285,8 +285,8 @@ class OfferCreate {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     _parseAddressData(data: any) {
-        this._offerData.address['input-floor'] = data.offer.floor.toString();
-        this._offerData.address['input-total-floors'] = data.offer.total_floors.toString();
+        this._offerData.address['input-floorLeft__input'] = data.offer.floor.toString();
+        this._offerData.address['input-floorRight__input'] = data.offer.total_floors.toString();
         this._offerData.address['input-address__input'] = data.offer.address;
         this._offerData.address['input-flat'] = '1';
     }
@@ -319,7 +319,6 @@ class OfferCreate {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async _parsePhotos(data: any) {
-        console.log('parse?')
         this._uploadedImages = {};
         this._offerData.photos = {};
 

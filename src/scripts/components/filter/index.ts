@@ -3,6 +3,7 @@ import FilterModel from "../../models/filterModel"
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import {Page} from "../../pages/page.ts";
 import ClearInput from "../clearInput";
+import AddressInput from "../addressInput";
 /**
  * @class Filter
  * @description Компонент фильтра.
@@ -17,6 +18,7 @@ export default class Filter extends BaseComponent {
     private _isValid: boolean;
     private _submitButton: HTMLElement | null;
     private _page: Page
+    private addressInput: AddressInput;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -61,7 +63,7 @@ export default class Filter extends BaseComponent {
             }
         }
 
-        new ClearInput({
+        this.addressInput = new AddressInput({
             page: this._page,
             layout,
             id: 'filterInputAddress',
@@ -106,6 +108,17 @@ export default class Filter extends BaseComponent {
         this.initListener('filterInputAddress__input', 'input', this._filterInputChange);
         this.initListener('filterInputAddress__input', 'keyup', this._filterSubmitKey);
         this.initListener('filterSubmitButton', 'click', this._filterSubmit);
+    }
+
+    /**
+     * @function destroy
+     * @description Метод уничтожения компонента фильтра.
+     */
+    destroy() {
+        super.destroy();
+        if (this.addressInput) {
+            this.addressInput.destroy();
+        }
     }
 
     /**
