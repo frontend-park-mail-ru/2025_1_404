@@ -163,7 +163,7 @@ export default class SearchPage extends Page {
          }
          let title = `${rooms}-комн. ${propertyType.toLowerCase()}, ${square} м²`;
          const priceTitle = `${price.toLocaleString('ru-RU')} ₽`;
-         if (offerType === 'аренда') {
+         if (offerType === 'Аренда') {
             let prefix = 'Сдается в аренду: ';
             if (propertyType.toLowerCase() === 'апартаменты') {
                 prefix = 'Сдаются в аренду: ';
