@@ -48,8 +48,8 @@ const validateName = function(value: string, fieldName: string): string {
  * @returns {string} Результат валидации
  */
 const validatePassword = function(password: string, additionalChecks=false) {
-    if (additionalChecks) {
-        return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/u.test(password) ? '' : 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
+    if (additionalChecks && !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/u.test(password)) {
+        return 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
     }
     if (password.length < MIN_PASSWORD_LENGTH) {
         return 'Пароль должен быть не меньше 8 символов';
@@ -110,7 +110,7 @@ const validateNumeric = function(number: string) {
     if (isNaN(num) || num < 1) {
         return 'Неправильно введена цена';
     }
-    return num > 10000000000 ? 'Цена слишком большая' : '';
+    return num > 2000000000 ? 'Цена слишком большая' : '';
 }
 
 /**

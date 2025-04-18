@@ -64,6 +64,7 @@ export default class OfferEditTypePage extends OfferPage {
                 inputElement.checked = true;
             }
         })
+        this._handleRentType();
     }
 
     /**

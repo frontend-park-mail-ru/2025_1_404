@@ -109,6 +109,7 @@ export default class AddressInput extends ClearInput {
     findAddresses(address: string) {
         this.layout?.makeRequest(MapUtil.geocode, address).then((data) => {
             this.addresses = [];
+            console.log(data)
             for (const item of data) {
                 const addressDetails: AddressDetails = {
                     displayName: item.display_name,

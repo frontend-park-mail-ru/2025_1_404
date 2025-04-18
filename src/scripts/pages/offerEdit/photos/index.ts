@@ -60,13 +60,19 @@ export default class OfferEditPhotosPage extends OfferPage {
      * @description Метод добавления превью фото в список
      * @param {File} file адрес фото
      * @param {string} source объект FileReader
+     * @param {number | undefined} id id фото
      * @private
      */
-    _addPhotoPreview(file: File, source: string) {
+    _addPhotoPreview(file: File, source: string, id: number | null) {
         if (typeof this._photosPreviewsCounter !== 'number' || !this._photosPreviewsList) {
             return;
         }
-        this._photosPreviewsCounter += 1;
+        if (id === null) {
+            this._photosPreviewsCounter += 1;
+        }
+        else {
+            this._photosPreviewsCounter = id;
+        }
         this._offerData[this._photosPreviewsCounter] = source;
         this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));
     }
@@ -164,18 +170,20 @@ export default class OfferEditPhotosPage extends OfferPage {
         if (typeof this._photosPreviewsCounter !== 'number') {
             return;
         }
-        const localId = this._photosPreviewsCounter;
         await this._layout?.makeRequest(uploadOfferImage, {
             offerId: this._offerId,
             image: file
         }).then((data) => {
             if (data) {
-                this._addPhotoPreview(file, source);
+                this._addPhotoPreview(file, source, null);
+                const localId = this._photosPreviewsCounter;
                 OfferCreate.setData(this._pageName, this._offerData);
                 this._uploadedImages[localId] = {
                     file,
                     id: data.image_id,
                 }
+                console.log(this._offerData)
+                console.log(this._uploadedImages)
                 OfferCreate.setImages(this._uploadedImages);
             }
         }).catch((err) => {
@@ -252,7 +260,7 @@ export default class OfferEditPhotosPage extends OfferPage {
         const _offerData = this._offerData;
         this._offerData = {};
         Object.keys(_offerData).forEach(photo => {
-            this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);
+            this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo], Number(photo));
         })
     }
 }

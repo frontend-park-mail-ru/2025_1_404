@@ -1,7 +1,8 @@
 @use "../abstracts/variables" as *;
 .search {
+  height: 100%;
   background-color: $grey3;
-  height: calc(100vh - 4.375em);
+  //height: calc(100vh - 4.375em);
 
   &__inner {
     display: flex;

@@ -25,9 +25,9 @@ interface AddOfferInterface {
      */
     address: string;
     /**
-     * @property {number} rooms Количество комнат
+     * @property {string} rooms Количество комнат
      */
-    rooms: number;
+    rooms: string;
     /**
      * @property {number} floor Этаж
      */
@@ -194,6 +194,7 @@ export default class SearchPage extends Page {
         }
         const {offerTypeId, propertyTypeId} = this._getFilterIds(filterData);
         await searchOffers({
+            'offer_status_id': '1',
             'min_area': filterData.filterSquareLeft__input,
             'max_area': filterData.filterSquareRight__input,
             'min_price': filterData.filterPriceLeft__input,
@@ -238,7 +239,7 @@ export default class SearchPage extends Page {
                     offer_type: offer.offerType,
                     image,
                     rent_type: offer.rentType,
-                    rooms: parseInt(offer.rooms, 10),
+                    rooms: offer.rooms,
                     total_floors: offer.totalFloors,
                     seller_last_name: offer.seller.lastName,
                     seller_name: offer.seller.firstName,
