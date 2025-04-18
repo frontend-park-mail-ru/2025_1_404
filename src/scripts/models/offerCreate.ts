@@ -213,6 +213,8 @@ class OfferCreate {
             'photos': {},
             'description': {},
         };
+        console.log('reset??')
+        this._uploadedImages = {};
     }
 
     /**

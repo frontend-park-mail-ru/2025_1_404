@@ -31,6 +31,7 @@ export default class OfferCreatePhotosPage extends OfferPage {
         if (Object.keys(this._offerData).length !== 0) {
             this._setDataFromModel();
         }
+        this._uploadedImages = {}
     }
 
     /**
