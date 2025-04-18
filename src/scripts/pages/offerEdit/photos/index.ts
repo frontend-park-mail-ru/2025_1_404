@@ -182,8 +182,6 @@ export default class OfferEditPhotosPage extends OfferPage {
                     file,
                     id: data.image_id,
                 }
-                console.log(this._offerData)
-                console.log(this._uploadedImages)
                 OfferCreate.setImages(this._uploadedImages);
             }
         }).catch((err) => {
