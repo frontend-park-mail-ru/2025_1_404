@@ -7,6 +7,10 @@
     margin-top: 20px;
     padding-bottom: 50px;
 
+    @media (max-width: 1060px) {
+        flex-direction: column-reverse;
+    }
+
     &-main {
         flex: 1 1 75%;
         display: flex;
@@ -20,13 +24,21 @@
         gap: 10px;
 
         &-header {
-            color: $grey;
+            color: $black-text;
             font-size: 22px;
+
+            @media (max-width: 500px) {
+                font-size: 18px;
+            }
         }
 
         &-address {
             font-size: 28px;
             font-weight: bold;
+
+            @media (max-width: 500px) {
+                font-size: 22px;
+            }
         }
 
         &-metro {
@@ -37,10 +49,14 @@
         }
 
         &-characteristics {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            row-gap: 10px;
+            display: grid;
+            row-gap: 15px;
+            column-gap: 15px;
+            grid-template-columns: 1fr 1fr 1fr;
+
+            @media (max-width: 730px) {
+                grid-template-columns: 1fr 1fr;
+            }
         }
     }
 
@@ -50,6 +66,11 @@
         align-items: center;
         gap: 10px;
         padding: 10px 0;
+
+        @media (max-width: 500px) {
+            gap: 5px;
+            flex-direction: column;
+        }
     }
 
     &-apartments {
@@ -88,6 +109,10 @@
 
     &-description {
         line-height: 2;
+
+        @media (max-width: 500px) {
+            font-size: 14px;
+        }
     }
 
     &-aside {
@@ -98,6 +123,11 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+
+        @media (max-width: 1060px) {
+            position: initial;
+            top: 0;
+        }
 
         &-developer {
             font-size: 16px;

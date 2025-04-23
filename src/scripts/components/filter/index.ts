@@ -107,7 +107,7 @@ export default class Filter extends BaseComponent {
         this.initListener('filterSquareRight__input', 'input', this._filterInputChange);
         this.initListener('filterInputAddress__input', 'input', this._filterInputChange);
         this.initListener('filterInputAddress__input', 'keyup', this._filterSubmitKey);
-        this.initListener('filterSubmitButton', 'click', this._filterSubmit);
+        this.initListener('filterListSubmitButton', 'click', this._filterListSubmit);
     }
 
     /**
@@ -129,17 +129,17 @@ export default class Filter extends BaseComponent {
     _filterSubmitKey(event: Event) {
         event.preventDefault();
         if (event instanceof KeyboardEvent && event.key === 'Enter') {
-            this._filterSubmit(event);
+            this._filterListSubmit(event);
         }
     }
 
     /**
-     * @function _filterSubmit
-     * @description Метод обработки отправки формы фильтра.
+     * @function _filterListSubmit
+     * @description Метод обработки отправки формы фильтра на страницу со списком объявлений.
      * @param {Event} event событие отправки формы.
      * @private
      */
-    _filterSubmit(event: Event) {
+    _filterListSubmit(event: Event) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -244,6 +244,7 @@ export default class Filter extends BaseComponent {
             this._filterSelectClosePopup(this._openPopupButton);
         }
         this._openPopupButton = event.target as HTMLButtonElement;
+        this._openPopupButton.classList.toggle('active');
 
         if (this._openPopupButton.nextElementSibling) {
             this._openPopupButton.nextElementSibling.classList.toggle('active');

@@ -7,6 +7,10 @@
   border-right: 1px solid $grey;
   padding-right: 10px;
 
+  @media (max-width: 1000px)  {
+    display: none;
+  }
+
   &-info {
     display: flex;
     flex-direction: column;

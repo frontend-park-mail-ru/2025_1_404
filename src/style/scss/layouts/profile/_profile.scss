@@ -8,6 +8,10 @@
     display: flex;
     justify-content: space-between;
     gap: 20px;
+
+    @media (max-width: 730px) {
+      padding-bottom: 5em;
+    }
   }
 
   &__avatar {

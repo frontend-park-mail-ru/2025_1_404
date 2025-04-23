@@ -14,6 +14,16 @@
     grid-template-areas:
     'title nav'
     'main nav';
+
+    @media (max-width: 1050px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      column-gap: 0;
+    }
+
+    @media (max-width: 730px) {
+      padding-bottom: 5em;
+    }
   }
 
   &__nav {
@@ -28,15 +38,24 @@
   &__title {
     grid-area: title;
 
+    @media (max-width: 500px) {
+      font-size: 22px;
+    }
+
     &-start {
       font-size: 28px;
       font-weight: 600;
+
+      @media (max-width: 500px) {
+        font-size: 22px;
+      }
     }
   }
 
   &__main {
     grid-area: main;
     display: flex;
+    gap: 25px;
     flex-direction: column;
     justify-content: space-between;
   }
@@ -45,5 +64,10 @@
     background-color: $white;
     padding: 25px 35px;
     border-radius: 10px;
+
+    @media (max-width: 500px) {
+      //padding: 10px 20px;
+    }
   }
+
 }

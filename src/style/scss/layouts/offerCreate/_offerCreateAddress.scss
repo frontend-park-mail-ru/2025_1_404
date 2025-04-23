@@ -6,28 +6,40 @@
   gap: 20px;
 
   &-form {
-    display: grid;
-    grid-template-columns: 45% 30% 15%;
+    display: flex;
+    gap: 20px;
     justify-content: space-between;
+
+    @media (max-width: 730px) {
+      flex-direction: column;
+    }
+  }
+
+  &-address {
+    width: 60%;
+
+    @media (max-width: 500px) {
+      width: 100%;
+    }
   }
 
   &-inputs-floor {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    width: 100%;
+    width: 60%;
     align-content: center;
     justify-content: center;
     vertical-align: center;
+
+    @media (max-width: 500px) {
+      width: 100%;
+    }
 
     span {
       font-size: 32px;
       color: $grey;
     }
-  }
-
-  &-floor {
-
   }
 
   &-map {

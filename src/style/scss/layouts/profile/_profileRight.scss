@@ -10,6 +10,10 @@
     display: flex;
     justify-content: space-between;
     gap: 20px;
+
+    @media (max-width: 730px) {
+      flex-direction: column;
+    }
   }
 
   &-promotion {
@@ -21,12 +25,18 @@
     padding: 10px 15px;
     width: 100%;
 
+    &-title {
+      @media (max-width: 730px) {
+        font-size: 22px;
+      }
+    }
+
     &-text {
       line-height: 25px;
     }
 
     &-btn {
-      width: 25%;
+      width: 100%;
     }
   }
 

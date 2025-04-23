@@ -1,28 +1,31 @@
 <div class="housingComplex__slider">
     {{> PicturesCarousel images=header.images alt="Фото ЖК"}}
-    <div class="housingComplex__slider-information">
-        <div class="housingComplex__slider-information-row">
-            <div class="housingComplex__slider-text housingComplex__slider-information-rating">
-                {{reviews.total_rating}}
-                <div class="rating-star">
-                    <i class="fa-regular fa-star"></i>
+    <div class="housingComplex__slider-wrapper">
+        <div class="housingComplex__slider-information">
+            <div class="housingComplex__slider-information-row">
+                <div class="housingComplex__slider-text housingComplex__slider-information-rating">
+                    {{reviews.total_rating}}
+                    <div class="rating-star">
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                    <span>Отзывов: {{reviews.quantity}}</span>
                 </div>
-                <span>Отзывов: {{reviews.quantity}}</span>
+                <div class="housingComplex__slider-text housingComplex__slider-information-class">
+                    {{characteristics.class}}
+                </div>
             </div>
-            <div class="housingComplex__slider-text housingComplex__slider-information-class">
-                {{characteristics.class}}
+            <div class="housingComplex__slider-text housingComplex__slider-information-name">
+                {{header.name}}
+            </div>
+            <div class="housingComplex__slider-text housingComplex__slider-information-prices">
+                <span>от <span id='lowestPrice'>{{header.lowest_price}} </span> до <span id='highestPrice'>{{header.highest_price}}</span> ₽</span>
             </div>
         </div>
-        <div class="housingComplex__slider-text housingComplex__slider-information-name">
-            {{header.name}}
-        </div>
-        <div class="housingComplex__slider-text housingComplex__slider-information-prices">
-            <span>от <span id='lowestPrice'>{{header.lowest_price}} </span> до <span id='highestPrice'>{{header.highest_price}}</span> ₽</span>
+        <div class="housingComplex__slider-controls">
+            {{> ChevronLeft id="housingComplexSliderChevronLeft" }}
+            <span class="housingComplex__slider-text housingComplex__slider-controls-counter" data-length="{{header.images_size}}">1/{{header.images_size}}</span>
+            {{> ChevronRight id="housingComplexSliderChevronRight" }}
         </div>
     </div>
-    <div class="housingComplex__slider-controls">
-        {{> ChevronLeft id="housingComplexSliderChevronLeft" }}
-        <span class="housingComplex__slider-text housingComplex__slider-controls-counter" data-length="{{header.images_size}}">1/{{header.images_size}}</span>
-        {{> ChevronRight id="housingComplexSliderChevronRight" }}
-    </div>
+
 </div>

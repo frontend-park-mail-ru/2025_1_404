@@ -18,5 +18,13 @@
     font-weight: 700;
     color: $white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+
+    @media (max-width: 950px) {
+      font-size: 2em;
+    }
+
+    @media (max-width: 760px) {
+      font-size: 1.8em;
+    }
   }
 }

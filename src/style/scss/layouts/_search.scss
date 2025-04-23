@@ -10,6 +10,10 @@
     gap: 20px;
     padding-top: 1.25em;
     padding-bottom: 3.5em;
+
+    @media (max-width: 730px) {
+      padding-bottom: 5em;
+    }
   }
 
   &__results {

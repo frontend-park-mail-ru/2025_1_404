@@ -4,6 +4,10 @@
   padding: 42px 60px;
   border-radius: 10px;
 
+  @media (max-width: 1050px) {
+    display: none;
+  }
+
   &-stage {
     width: 100%;
     display: flex;

@@ -5,12 +5,17 @@
     display: flex;
     transition: transform 0.5s ease-in-out;
     height: 100%;
+    align-items: center;
 
     &-wrapper {
       flex-basis: auto;
       position: relative;
       overflow: hidden;
       width: 100%;
+
+      @media (max-width: 1000px) {
+        width: 80%;
+      }
     }
 
     &-image {
@@ -56,6 +61,10 @@
 
       &.active {
         display: flex;
+
+        @media (max-width: 730px) {
+          display: none;
+        }
       }
     }
 
@@ -64,6 +73,10 @@
       min-width: 100px;
       min-height: 80px;
       transition: scale 0.5s ease-in-out;
+
+      @media (max-width: 730px) {
+        min-width: 80px;
+      }
 
       &:hover img {
         border: 1.5px solid $blue;
