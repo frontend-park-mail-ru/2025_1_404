@@ -1,3 +1,5 @@
+// eslint-disable-next-line init-declarations
+declare const self: ServiceWorkerGlobalScope;
 const CACHE_NAME = 'offline';
 
 const isUrlInCacheWhitelist = (url: string) => {

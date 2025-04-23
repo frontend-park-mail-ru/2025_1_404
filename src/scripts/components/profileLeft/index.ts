@@ -39,14 +39,14 @@ export default class ProfileLeft extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('profileMainButton', 'click', this._mainPageButtonHandler);
-        this.initListener('offerCreateButton', 'click', this._offerCreatePageButtonHandler);
-        this.initListener('profileMyOffersButton', 'click', this._myOffersButtonHandler);
-        this.initListener('profileLogoutButton', 'click', this._logoutButtonHandler);
-        this.initListener('profileAvatarUpload', 'click', this._processAvatarHandler);
-        this.initListener('profileAvatarInput', 'change', this._getAvatarAfterChooseClickHandler);
-        this.initListener('profileData', 'submit', this._profileDataHandler);
-        this.initListener('profileData', 'input', this._profileDataInputHandler);
+        this.initListener('profileMainButton', 'click', this.mainPageButtonHandler);
+        this.initListener('offerCreateButton', 'click', this.offerCreatePageButtonHandler);
+        this.initListener('profileMyOffersButton', 'click', this.myOffersButtonHandler);
+        this.initListener('profileLogoutButton', 'click', this.logoutButtonHandler);
+        this.initListener('profileAvatarUpload', 'click', this.processAvatarHandler);
+        this.initListener('profileAvatarInput', 'change', this.getAvatarAfterChooseClickHandler);
+        this.initListener('profileData', 'submit', this.profileDataHandler);
+        this.initListener('profileData', 'input', this.profileDataInputHandler);
     }
 
     /**
@@ -71,7 +71,7 @@ export default class ProfileLeft extends BaseComponent {
             profileEmail.value = userData.email || "";
         }
         if (userData && userData.avatar) {
-            this._addAvatar(userData.avatar);
+            this.addAvatar(userData.avatar);
         }
     }
 
@@ -93,12 +93,12 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @function _addAvatar
+     * @function addAvatar
      * @description Метод добавления аватара в профиль.
      * @param {string} source источник изображения аватара.
      * @private
      */
-    _addAvatar(source: string) {
+    private addAvatar(source: string) {
         const profileAvatar = document.getElementById('profileAvatar') as HTMLImageElement;
         if (!profileAvatar.firstElementChild) {
             return;
@@ -107,26 +107,26 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @function _removeAvatarHandler
+     * @function removeAvatarHandler
      * @description Метод удаления аватара из профиля.
      * @private
      */
-    _removeAvatarHandler() {
-        this._resetApiError();
+    private removeAvatarHandler() {
+        this.resetApiError();
         User.removeAvatar().then(() => {
             RouteManager.navigateToPageByCurrentURL();
         }).catch((err: Error) => {
-            this._showApiError(err);
+            this.showApiError(err);
         })
     }
 
     /**
-     * @function _uploadAvatar
+     * @function uploadAvatar
      * @description Метод загрузки аватара.
      * @param {File} file файл аватара.
      * @private
      */
-    _uploadAvatar(file: File) {
+    private uploadAvatar(file: File) {
         if (file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onload = (event) => {
@@ -134,14 +134,14 @@ export default class ProfileLeft extends BaseComponent {
                     return;
                 }
                 const source = event.target.result.toString();
-                this._addAvatar(source);
+                this.addAvatar(source);
 
-                this._resetApiError();
+                this.resetApiError();
 
                 User.updateAvatar({avatar: file}).then(() => {
                     RouteManager.navigateToPageByCurrentURL();
                 }).catch((err) => {
-                    this._showApiError(err);
+                    this.showApiError(err);
                 })
             };
             reader.readAsDataURL(file);
@@ -149,32 +149,32 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @function _resetApiError
+     * @function resetApiError
      * @description Метод сброса ошибки API
      */
-    _resetApiError() {
+    private resetApiError() {
         const apiError = document.getElementById('profile-api-error') as HTMLElement;
         apiError.classList.remove('error__visible');
     }
 
     /**
-     * @function _showApiError
+     * @function showApiError
      * @description Метод отображения ошибки API
      * @param {Error} error ошибка API
      */
-    _showApiError(error: Error) {
+    private showApiError(error: Error) {
         const apiError = document.getElementById('profile-api-error') as HTMLElement;
         apiError.textContent = 'Ошибка: '.concat(error.message);
         apiError.classList.add('error__visible');
     }
 
     /**
-     * @function _profileDataHandler
+     * @function profileDataHandler
      * @description Обработчик события отправки формы данных профиля.
      * @param {Event} event событие отправки формы
      * @private
      */
-    _profileDataHandler(event: Event) {
+    private profileDataHandler(event: Event) {
         event.preventDefault();
 
         if (!event.target) {
@@ -209,7 +209,7 @@ export default class ProfileLeft extends BaseComponent {
         if (!this.currentData || !this.layout) {
             return;
         }
-        this._resetApiError();
+        this.resetApiError();
         this.layout.makeRequest(User.updateProfile.bind(User), {
             first_name: this.currentData.firstName,
             last_name: this.currentData.lastName,
@@ -217,19 +217,19 @@ export default class ProfileLeft extends BaseComponent {
         } as ProfileInterface).then(() => {
             RouteManager.navigateToPageByCurrentURL();
         }).catch((err: Error) => {
-            this._showApiError(err);
+            this.showApiError(err);
         })
     }
 
     /**
-     * @function _profileDataInputHandler
+     * @function profileDataInputHandler
      * @description Обработчик события отпускания input
      * @param {Event} event событие отпускания input
      * @private
      */
-    _profileDataInputHandler(event: Event) {
+    private profileDataInputHandler(event: Event) {
         event.preventDefault();
-        const inputElement = this._getValidInputElement(event);
+        const inputElement = this.getValidInputElement(event);
         if (!inputElement || !this.currentData) {
             return;
         }
@@ -257,12 +257,12 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @function _getValidInputElement
+     * @function getValidInputElement
      * @description Метод получения валидного элемента input.
      * @param {Event} event событие
      * @returns {HTMLInputElement | null} валидный элемент input или null
      */
-    _getValidInputElement(event: Event): HTMLInputElement | null {
+    private getValidInputElement(event: Event): HTMLInputElement | null {
         if (!event.target) {
             return null;
         }
@@ -272,23 +272,23 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @function _processAvatarHandler
+     * @function processAvatarHandler
      * @description Метод обработки событий, связанных с аватаром профиля.
      * @param {Event} event событие, инициировавшее обработку
      * @private
      */
-    _processAvatarHandler(event: Event) {
+    private processAvatarHandler(event: Event) {
         if (!event.target) {
             return;
         }
         const target = event.target as HTMLElement;
         switch (target.id) {
             case 'profileAvatarUpload': {
-                this._chooseAvatarClickHandler();
+                this.chooseAvatarClickHandler();
                 break;
             }
             case 'profileAvatarRemove': {
-                this._removeAvatarHandler();
+                this.removeAvatarHandler();
                 break;
             }
             default: {
@@ -298,22 +298,22 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @function _chooseAvatarClickHandler
+     * @function chooseAvatarClickHandler
      * @description Обработчик события клика по аватару профиля.
      * @private
      */
-    _chooseAvatarClickHandler() {
+    private chooseAvatarClickHandler() {
         const profileAvatarInput = document.getElementById('profileAvatarInput') as HTMLElement;
         profileAvatarInput.click();
     }
 
     /**
-     * @function _getAvatarAfterChooseClickHandler
+     * @function getAvatarAfterChooseClickHandler
      * @description Обработчик события выбора аватара.
      * @param {Event} event событие выбора файла
      * @private
      */
-    _getAvatarAfterChooseClickHandler(event: Event) {
+    private getAvatarAfterChooseClickHandler(event: Event) {
         if (!event.target) {
             return;
         }
@@ -321,8 +321,8 @@ export default class ProfileLeft extends BaseComponent {
         if (!target.files) {
             return;
         }
-        const [file] = target.files;
-        this._uploadAvatar(file);
+        const [file] = Array.from(target.files);
+        this.uploadAvatar(file);
     }
 
     /**
@@ -335,40 +335,40 @@ export default class ProfileLeft extends BaseComponent {
     }
 
     /**
-     * @function _mainPageButtonHandler
+     * @function mainPageButtonHandler
      * @description Обработчик события перехода на главную страницу профиля
      * @private
      */
-    _mainPageButtonHandler() {
+    private mainPageButtonHandler() {
         RouteManager.navigateTo('/profile');
     }
 
     /**
-     * @function _offerCreatePageButtonHandler
+     * @function offerCreatePageButtonHandler
      * @description Обработчик события перехода на страницу создания объявления
      * @private
      */
-    _offerCreatePageButtonHandler() {
+    private offerCreatePageButtonHandler() {
         OfferCreate.reset();
         OfferCreateLayout.init();
         RouteManager.navigateTo('/offer/create/type');
     }
 
     /**
-     * @function _myOffersButtonHandler
+     * @function myOffersButtonHandler
      * @description Обработчик события перехода на страницу "мои объявления"
      * @private
      */
-    _myOffersButtonHandler() {
+    private myOffersButtonHandler() {
         RouteManager.navigateTo('/profile/offers');
     }
 
     /**
-     * @function _logoutButtonHandler
+     * @function logoutButtonHandler
      * @description Обработчик события кнопки выхода из аккаунта на странице профиля
      * @private
      */
-    _logoutButtonHandler() {
+    private logoutButtonHandler() {
         if (!this.layout) {
             return;
         }

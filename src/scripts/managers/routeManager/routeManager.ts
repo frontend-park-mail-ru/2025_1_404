@@ -51,13 +51,13 @@ class RouteManager {
     }
 
     /**
-     * @function _preparePathStr
+     * @function preparePathStr
      * @description Предобработка строки пути.
      * @param {string} pathStr путь URL
      * @returns {*} подготовленная строка пути
      * @private
      */
-    _preparePathStr(pathStr: string) {
+    private preparePathStr(pathStr: string) {
         const minimumPathLength = 1;
 
         let preparedPath = pathStr;
@@ -69,12 +69,12 @@ class RouteManager {
     }
 
     /**
-     * @function _updateHistory
+     * @function updateHistory
      * @description Обновление истории браузера.
      * @param {string} pathStr путь URL
      * @private
      */
-    _updateHistory(pathStr: string) {
+    private updateHistory(pathStr: string) {
         if (this.lastPath !== pathStr) {
             history.pushState(null, "", pathStr);
             this.lastPath = pathStr;
@@ -82,27 +82,27 @@ class RouteManager {
     }
 
     /**
-     * @function _getSegmentsAndParams
+     * @function getSegmentsAndParams
      * @description Получение сегментов и параметров из строки пути.
      * @param {string} pathStr путь URL
      * @returns {{params: {}, segments: *}} объект с параметрами и сегментами
      * @private
      */
-    _getSegmentsAndParams(pathStr: string) {
+    private getSegmentsAndParams(pathStr: string) {
         const segments = pathStr.split('/').slice(this.PATH_START_INDEX);
         const params: Record<string, string> = {};
         return {params, segments}
     }
 
     /**
-     * @function _processRoute
+     * @function processRoute
      * @description Обработка маршрута.
      * @param {string} pathStr путь URL
      * @returns {{params: {}, route: null}|{params: {}, route: UnknownRoute}} объект с параметрами и маршрутом
      * @private
      */
-    _processRoute(pathStr: string) {
-        const {params, segments} = this._getSegmentsAndParams(pathStr);
+    private processRoute(pathStr: string) {
+        const {params, segments} = this.getSegmentsAndParams(pathStr);
         let current = this.root;
         for (const segment of segments) {
             if (current.children[segment]) {
@@ -125,9 +125,9 @@ class RouteManager {
      * @param {string} pathStr путь URL
      */
     navigateTo(pathStr: string) {
-        const preparedPathStr = this._preparePathStr(pathStr);
-        this._updateHistory(pathStr);
-        const {route, params} = this._processRoute(preparedPathStr);
+        const preparedPathStr = this.preparePathStr(pathStr);
+        this.updateHistory(pathStr);
+        const {route, params} = this.processRoute(preparedPathStr);
         if (route !== null) {
             route.process(params);
             return;

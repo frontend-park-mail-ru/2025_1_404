@@ -43,8 +43,8 @@ export interface UserDataInterface {
  * @description Модель пользователя.
  */
 class User {
-    private _isAuthenticated: boolean;
-    private _isLoaded: boolean;
+    private isAuthenticatedVal: boolean;
+    private isLoadedVal: boolean;
 
     private userData: UserDataInterface = {};
 
@@ -52,8 +52,8 @@ class User {
      * @description Конструктор класса.
      */
     constructor() {
-        this._isAuthenticated = false;
-        this._isLoaded = false;
+        this.isAuthenticatedVal = false;
+        this.isLoadedVal = false;
     }
 
     /**
@@ -62,7 +62,7 @@ class User {
      * @returns {boolean} статус загрузки данных пользователя.
      */
     isLoaded() {
-        return this._isLoaded;
+        return this.isLoadedVal;
     }
 
     /**
@@ -71,7 +71,7 @@ class User {
      * @returns {boolean} статус авторизации пользователя.
      */
     isAuthenticated() {
-        return this._isAuthenticated;
+        return this.isAuthenticatedVal;
     }
 
     /**
@@ -80,7 +80,7 @@ class User {
      * @returns {*} данные пользователя.
      */
     getData(): UserDataInterface | null {
-        if (!this._isAuthenticated) {
+        if (!this.isAuthenticatedVal) {
             return null;
         }
         return {...this.userData};
@@ -95,12 +95,12 @@ class User {
      * @returns {Promise<void>}
      */
     async updateProfile({email, first_name, last_name}: UpdateProfileInterface) {
-        if (!this._isAuthenticated) {
+        if (!this.isAuthenticatedVal) {
             throw new Error('User is not authenticated');
         }
         await updateProfile({email, first_name, last_name})
             .then((response) => {
-                this._parseData(response);
+                this.parseData(response);
                 this.getData();
             })
             .catch((error) => {
@@ -116,11 +116,11 @@ class User {
      * @returns {Promise<void>}
      */
     async updateAvatar({avatar}: UpdateAvatarInterface) {
-        if (!this._isAuthenticated) {
+        if (!this.isAuthenticatedVal) {
             throw new Error('User is not authenticated');
         }
         await updateAvatar({avatar}).then((response) => {
-            this._parseData(response);
+            this.parseData(response);
             return this.getData();
         }
         ).catch((error) => {
@@ -133,11 +133,11 @@ class User {
      * @description Метод удаления аватара пользователя на сервере.
      */
     async removeAvatar() {
-        if (!this._isAuthenticated) {
+        if (!this.isAuthenticatedVal) {
             throw new Error('User is not authenticated');
         }
         await removeAvatar().then((response) => {
-            this._parseData(response);
+            this.parseData(response);
             return this.getData();
         })
     }
@@ -153,13 +153,13 @@ class User {
                 return this.getData();
             }
             const userResponse = response as UserResponseInterface;
-            this._isAuthenticated = true;
-            this._parseData(userResponse);
+            this.isAuthenticatedVal = true;
+            this.parseData(userResponse);
             return this.getData();
         }).catch((error) => {
             throw error;
         }).finally(() => {
-            this._isLoaded = true;
+            this.isLoadedVal = true;
         });
     }
 
@@ -177,8 +177,8 @@ class User {
                     return this.getData();
                 }
                 const userResponse = response as UserResponseInterface;
-                this._isAuthenticated = true;
-                this._parseData(userResponse);
+                this.isAuthenticatedVal = true;
+                this.parseData(userResponse);
                 updateCSRF();
                 return this.getData();
             }).catch((error) => {
@@ -193,7 +193,7 @@ class User {
      */
     async logout() {
         await logout().then(() => {
-            this._resetData();
+            this.resetData();
         })
     }
 
@@ -209,8 +209,8 @@ class User {
     async register({email, password, first_name, last_name}: RegisterAccountInterface) {
         await registerAccount({email, first_name, last_name, password})
             .then((response) => {
-                this._isAuthenticated = true;
-                this._parseData(response);
+                this.isAuthenticatedVal = true;
+                this.parseData(response);
                 updateCSRF();
                 return this.getData();
             }).catch((error) => {
@@ -219,12 +219,12 @@ class User {
     }
 
     /**
-     * @function _parseData
+     * @function parseData
      * @description Метод парсинга данных пользователя, полученных с сервера.
      * @param {UserResponseInterface} data объект с данными пользователя, полученными с сервера.
      * @private
      */
-    _parseData(data: UserResponseInterface) {
+    private parseData(data: UserResponseInterface) {
         this.userData.id = data.id;
         this.userData.email = data.email;
         this.userData.firstName = data.first_name;
@@ -233,12 +233,12 @@ class User {
     }
 
     /**
-     * @function _resetData
+     * @function resetData
      * @description Метод сброса данных пользователя в начальное состояние.
      * @private
      */
-    _resetData() {
-        this._isAuthenticated = false;
+    private resetData() {
+        this.isAuthenticatedVal = false;
         this.userData.id = null;
         this.userData.email = null;
         this.userData.firstName = null;

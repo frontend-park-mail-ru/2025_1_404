@@ -6,16 +6,16 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
  * @augments BaseComponent
  */
 export default class PicturesCarouselPreviews extends BaseComponent {
-    private _carousel: HTMLElement | null;
-    private _images: NodeListOf<Element>;
-    private _imagesControls: HTMLElement | null;
-    private _previewsCarousel: HTMLElement | null;
-    private _previewsImages: NodeListOf<Element>;
-    private _previews: HTMLElement | null;
-    private _imagesIndex: number;
-    private _previewsIndex: number;
-    private _imagePerClick: number;
-    private _previewsPerClick: number;
+    private carousel: HTMLElement | null;
+    private images: NodeListOf<Element>;
+    private imagesControls: HTMLElement | null;
+    private previewsCarousel: HTMLElement | null;
+    private previewsImages: NodeListOf<Element>;
+    private previews: HTMLElement | null;
+    private imagesIndex: number;
+    private previewsIndex: number;
+    private imagePerClick: number;
+    private previewsPerClick: number;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -23,48 +23,48 @@ export default class PicturesCarouselPreviews extends BaseComponent {
      */
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this._carousel = document.querySelector('.slider__images');
-        this._images = document.querySelectorAll('.slider__images img');
-        this._imagesControls = document.getElementById("sliderImagesControls");
-        this._previewsCarousel = document.querySelector('.slider__previews');
-        this._previewsImages = document.querySelectorAll('.slider__previews img');
-        this._previews = document.getElementById("sliderPreviewsWrapper");
-        this._imagesIndex = 0;
-        this._previewsIndex = 0;
-        this._imagePerClick = 1;
-        this._previewsPerClick = 1;
+        this.carousel = document.querySelector('.slider__images');
+        this.images = document.querySelectorAll('.slider__images img');
+        this.imagesControls = document.getElementById("sliderImagesControls");
+        this.previewsCarousel = document.querySelector('.slider__previews');
+        this.previewsImages = document.querySelectorAll('.slider__previews img');
+        this.previews = document.getElementById("sliderPreviewsWrapper");
+        this.imagesIndex = 0;
+        this.previewsIndex = 0;
+        this.imagePerClick = 1;
+        this.previewsPerClick = 1;
 
-        if (this._images.length > 1) {
-            this._enableSlider();
+        if (this.images.length > 1) {
+            this.enableSlider();
         }
 
-        this._toggleActivePreview(this._previewsIndex);
+        this.toggleActivePreview(this.previewsIndex);
     }
 
     /**
-     * @function _enableSlider
+     * @function enableSlider
      * @description Метод активации карусели.
      */
-    _enableSlider() {
-        if (this._previews !== null) {
-            this._previews.classList.add('active');
+    private enableSlider() {
+        if (this.previews !== null) {
+            this.previews.classList.add('active');
         }
-        if (this._imagesControls !== null) {
-            this._imagesControls.classList.add('active');
+        if (this.imagesControls !== null) {
+            this.imagesControls.classList.add('active');
         }
     }
 
 
     /**
-     * @function _getMaxTranslateX
+     * @function getMaxTranslateX
      * @description Метод получения максимального значения сдвига карусели.
      * @returns {number} максимальное значение сдвига карусели.
      */
-    _getMaxTranslateX() {
-        if (!this._previewsCarousel) {
+    private getMaxTranslateX() {
+        if (!this.previewsCarousel) {
             return 0;
         }
-        return (this._previewsCarousel.scrollWidth - this._previewsCarousel.clientWidth) / this._previewsCarousel.clientWidth * 100;
+        return (this.previewsCarousel.scrollWidth - this.previewsCarousel.clientWidth) / this.previewsCarousel.clientWidth * 100;
     }
 
     /**
@@ -72,94 +72,94 @@ export default class PicturesCarouselPreviews extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('sliderImagesChevronRight', 'click', this._slideImagesToRight);
-        this.initListener('sliderImagesChevronLeft', 'click', this._slideImagesToLeft);
-        this.initListener('sliderPreviewsChevronRight', 'click', this._slidePreviewsToRight);
-        this.initListener('sliderPreviewsChevronLeft', 'click', this._slidePreviewsToLeft);
-        this.initListenerForClass('slider__previews-preview', 'click', this._clickOnPreview);
+        this.initListener('sliderImagesChevronRight', 'click', this.slideImagesToRight);
+        this.initListener('sliderImagesChevronLeft', 'click', this.slideImagesToLeft);
+        this.initListener('sliderPreviewsChevronRight', 'click', this.slidePreviewsToRight);
+        this.initListener('sliderPreviewsChevronLeft', 'click', this.slidePreviewsToLeft);
+        this.initListenerForClass('slider__previews-preview', 'click', this.clickOnPreview);
     }
 
     /**
-     * @function _updateCarousel
+     * @function updateImagesCarousel
      * @description Метод обновления карусели.
      * @private
      */
-    _updateImagesCarousel() {
-        if (!this._carousel) {
+    private updateImagesCarousel() {
+        if (!this.carousel) {
             return;
         }
         const slidePercent = 100;
-        this._carousel.style.transform = `translateX(${-(this._imagesIndex * slidePercent)}%)`;
+        this.carousel.style.transform = `translateX(${-(this.imagesIndex * slidePercent)}%)`;
     }
 
     /**
-     * @function _updatePreviewsCarousel
+     * @function updatePreviewsCarousel
      * @description Метод обновления карусели превью.
      */
-    _updatePreviewsCarousel() {
-        if (!this._previewsCarousel) {
+    private updatePreviewsCarousel() {
+        if (!this.previewsCarousel) {
             return;
         }
         const slidePercent = 25;
-        const maxTranslateValue = this._getMaxTranslateX();
-        const calculatedTranslateValue = Math.min(this._previewsIndex * slidePercent, maxTranslateValue);
-        this._previewsCarousel.style.transform = `translateX(${-calculatedTranslateValue}%)`;
+        const maxTranslateValue = this.getMaxTranslateX();
+        const calculatedTranslateValue = Math.min(this.previewsIndex * slidePercent, maxTranslateValue);
+        this.previewsCarousel.style.transform = `translateX(${-calculatedTranslateValue}%)`;
     }
 
     /**
-     * @function _slideImagesToRight
+     * @function slideImagesToRight
      * @description Метод сдвига карусели картинок вправо.
      * @private
      */
-    _slideImagesToRight() {
-        this._imagesIndex = (this._imagesIndex + this._imagePerClick) % this._images.length;
-        this._toggleActivePreview(this._imagesIndex);
-        this._updateImagesCarousel();
-        this._updatePreviewsCarousel();
+    private slideImagesToRight() {
+        this.imagesIndex = (this.imagesIndex + this.imagePerClick) % this.images.length;
+        this.toggleActivePreview(this.imagesIndex);
+        this.updateImagesCarousel();
+        this.updatePreviewsCarousel();
     }
 
     /**
-     * @function _slideImagesToLeft
+     * @function slideImagesToLeft
      * @description Метод сдвига карусели картинок влево.
      * @private
      */
-    _slideImagesToLeft() {
-        this._imagesIndex = (this._imagesIndex - this._imagePerClick + this._images.length) % this._images.length;
-        this._toggleActivePreview(this._imagesIndex);
-        this._updateImagesCarousel();
-        this._updatePreviewsCarousel();
+    private slideImagesToLeft() {
+        this.imagesIndex = (this.imagesIndex - this.imagePerClick + this.images.length) % this.images.length;
+        this.toggleActivePreview(this.imagesIndex);
+        this.updateImagesCarousel();
+        this.updatePreviewsCarousel();
     }
 
     /**
-     * @function _slidePreviewsToRight
+     * @function slidePreviewsToRight
      * @description Метод сдвига карусели превью вправо.
      */
-    _slidePreviewsToRight() {
-        const newIndex = (this._previewsIndex + this._previewsPerClick) % this._images.length;
-        this._toggleActivePreview(newIndex);
-        this._imagesIndex = this._previewsIndex;
-        this._updatePreviewsCarousel();
-        this._updateImagesCarousel();
+    private slidePreviewsToRight() {
+        const newIndex = (this.previewsIndex + this.previewsPerClick) % this.images.length;
+        this.toggleActivePreview(newIndex);
+        this.imagesIndex = this.previewsIndex;
+        this.updatePreviewsCarousel();
+        this.updateImagesCarousel();
     }
 
     /**
-     * @function _slidePreviewsToLeft
+     * @function slidePreviewsToLeft
      * @description Метод сдвига карусели превью влево.
      */
-    _slidePreviewsToLeft() {
-        const newIndex = (this._previewsIndex - this._previewsPerClick + this._images.length) % this._images.length;
-        this._toggleActivePreview(newIndex);
-        this._imagesIndex = this._previewsIndex;
-        this._updatePreviewsCarousel();
-        this._updateImagesCarousel();
+    private slidePreviewsToLeft() {
+        const newIndex = (this.previewsIndex - this.previewsPerClick + this.images.length) % this.images.length;
+        this.toggleActivePreview(newIndex);
+        this.imagesIndex = this.previewsIndex;
+        this.updatePreviewsCarousel();
+        this.updateImagesCarousel();
     }
 
     /**
-     * @function _clickOnPreview
+     * @function clickOnPreview
      * @description Метод обработки клика на превью.
      * @param {Event} event - событие клика.
      */
-    _clickOnPreview(event: Event) {
+    private clickOnPreview(event: Event) {
         if (!event.target) {
             return;
         }
@@ -172,23 +172,23 @@ export default class PicturesCarouselPreviews extends BaseComponent {
         if (isNaN(previewIndex)) {
             return;
         }
-        this._imagesIndex = previewIndex;
-        this._toggleActivePreview(previewIndex);
-        this._updateImagesCarousel();
+        this.imagesIndex = previewIndex;
+        this.toggleActivePreview(previewIndex);
+        this.updateImagesCarousel();
     }
 
     /**
-     * @function _toggleActivePreview
+     * @function toggleActivePreview
      * @description Метод переключения активного превью.
      * @param {number} newId - индекс превью.
      */
-    _toggleActivePreview(newId: number) {
+    private toggleActivePreview(newId: number) {
         const previews = document.querySelectorAll('.slider__previews-preview');
         if (previews.length < newId + 1) {
             return;
         }
-        previews[this._previewsIndex].classList.remove('active')
+        previews[this.previewsIndex].classList.remove('active')
         previews[newId].classList.add('active');
-        this._previewsIndex = newId;
+        this.previewsIndex = newId;
     }
 }

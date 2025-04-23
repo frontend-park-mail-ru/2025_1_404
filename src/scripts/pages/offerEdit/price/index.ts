@@ -18,8 +18,8 @@ export default class OfferEditPricePage extends OfferPage {
         root.innerHTML = template();
         super.render({layout, root});
 
-        if (Object.keys(this._offerData).length !== 0) {
-            this._setDataFromModel();
+        if (Object.keys(this.offerData).length !== 0) {
+            this.setDataFromModel();
         }
     }
 
@@ -28,17 +28,17 @@ export default class OfferEditPricePage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('input-price', 'input', this._offerDataChange);
+        this.initListener('input-price', 'input', this.offerDataChange);
     }
 
     /**
-     * @function _setDataFromModel
+     * @function setDataFromModel
      * @description Метод установки данных из модели в инпуты.
      * @private
      */
-    _setDataFromModel() {
+    setDataFromModel() {
         const input = document
             .getElementById('input-price') as HTMLInputElement
-        input.value = this._offerData[input.id] || '';
+        input.value = this.offerData[input.id] || '';
     }
 }

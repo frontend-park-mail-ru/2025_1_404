@@ -25,7 +25,7 @@ export default class Login extends BaseModal {
      */
     constructor({page, layout, id}: BaseModalInterface) {
         super({layout, page, id});
-        const root = document.getElementById(this._id);
+        const root = document.getElementById(this.id);
         if (!root) {
             return;
         }
@@ -43,18 +43,18 @@ export default class Login extends BaseModal {
      */
     initListeners() {
         super.initListeners();
-        this.initListenerFromElement({root: this._id, elementId: 'login-form', type: 'submit', handler: this._loginFormHandler});
+        this.initListenerFromElement({root: this.id, elementId: 'login-form', type: 'submit', handler: this.loginFormHandler});
         this.initListenerFromElement({
-            root: this._id,
+            root: this.id,
             elementId: 'login-form',
             type: 'input',
-            handler: this._loginFormInputHandler
+            handler: this.loginFormInputHandler
         });
         this.initListenerFromElement({
-            root: this._id,
+            root: this.id,
             elementId: 'registerHrefButton',
             type: 'click',
-            handler: this._loginFormRegisterButtonHandler
+            handler: this.loginFormRegisterButtonHandler
         });
     }
 
@@ -73,27 +73,27 @@ export default class Login extends BaseModal {
     }
 
     /**
-     * @function _loginFormRegisterButtonHandler
+     * @function loginFormRegisterButtonHandler
      * @description Обработчик события перехода на страницу регистрации
      * @private
      */
-    _loginFormRegisterButtonHandler() {
+    private loginFormRegisterButtonHandler() {
         RouteManager.navigateTo('/register');
     }
 
     /**
-     * @function _loginFormHandler
+     * @function loginFormHandler
      * @description Обработчик события формы входа
      * @param {Event} event событие отправки формы
      * @private
      */
-    _loginFormHandler(event: Event) {
+    private loginFormHandler(event: Event) {
         event.preventDefault();
         if (!this.loginButton) {
             return;
         }
 
-        this._resetApiError();
+        this.resetApiError();
 
         const target = event.target as HTMLElement;
         if (target.classList.contains('passwordInput__eye')) {
@@ -101,12 +101,12 @@ export default class Login extends BaseModal {
         }
         this.loginButton.disabled = true;
 
-        const isValid = this._validateFormFields(target);
+        const isValid = this.validateFormFields(target);
         if (!isValid) {
             this.loginButton.disabled = false;
             return;
         }
-        const values = this._getFormValues(target);
+        const values = this.getFormValues(target);
         if (!this.layout) {
             return;
         }
@@ -115,9 +115,9 @@ export default class Login extends BaseModal {
                 return;
             }
             this.layout.emit('login');
-            this._submitCancelButtonHandler();
+            this.submitCancelButtonHandler();
         }).catch((error: Error) => {
-            this._showApiError(error);
+            this.showApiError(error);
         }).finally(() => {
             if (!this.loginButton) {
                 return;
@@ -127,32 +127,32 @@ export default class Login extends BaseModal {
     }
 
     /**
-     * @function _resetApiError
+     * @function resetApiError
      * @description Метод сброса ошибки API
      */
-    _resetApiError() {
+    private resetApiError() {
         const apiError = document.getElementById('login-api-error') as HTMLElement;
         apiError.classList.remove('error__visible');
     }
 
     /**
-     * @function _showApiError
+     * @function showApiError
      * @description Метод отображения ошибки API
      * @param {Error} error ошибка API
      */
-    _showApiError(error: Error) {
+    private showApiError(error: Error) {
         const apiError = document.getElementById('login-api-error') as HTMLElement;
         apiError.textContent = 'Ошибка: '.concat(error.message);
         apiError.classList.add('error__visible');
     }
 
     /**
-     * @function _validateFormFields
+     * @function validateFormFields
      * @description Метод валидации полей формы
      * @param {HTMLElement} formElement элемент формы
      * @returns {boolean} true, если форма валидна, иначе false
      */
-    _validateFormFields(formElement: HTMLElement): boolean {
+    validateFormFields(formElement: HTMLElement): boolean {
         let isValid = true;
         const inputFields = formElement.querySelectorAll('input');
 
@@ -169,32 +169,32 @@ export default class Login extends BaseModal {
 
             if (errorText !== "") {
                 isValid = false;
-                this._showFieldError(input, errorField, errorText);
+                this.showFieldError(input, errorField, errorText);
             }
         });
         return isValid;
     }
 
     /**
-     * @function _showFieldError
+     * @function showFieldError
      * @description Метод отображения ошибки в поле ввода
      * @param {HTMLInputElement} input поле ввода
      * @param {Element} errorField элемент ошибки
      * @param {string} errorText текст ошибки
      */
-    _showFieldError(input: HTMLInputElement, errorField: Element, errorText: string) {
+    private showFieldError(input: HTMLInputElement, errorField: Element, errorText: string) {
         input.classList.add('input__invalid');
         errorField.classList.add('error__visible');
         errorField.textContent = errorText;
     }
 
     /**
-     * @function _getFormValues
+     * @function getFormValues
      * @description Метод получения значений полей формы
      * @param {HTMLElement} formElement элемент формы
      * @returns {Record<string, string>} объект с именами полей и их значениями
      */
-    _getFormValues(formElement: HTMLElement): Record<string, string> {
+    private getFormValues(formElement: HTMLElement): Record<string, string> {
         const inputFields = formElement.querySelectorAll('input');
         return Array.from(inputFields).reduce((acc: Record<string, string>, field) => {
             if (field.name !== 'confirmPassword') {
@@ -205,12 +205,12 @@ export default class Login extends BaseModal {
     }
 
     /**
-     * @function _loginFormInputHandler
+     * @function loginFormInputHandler
      * @description Обработчик события отпускания input
      * @param {Event} event событие отпускания клавиши
      * @private
      */
-    _loginFormInputHandler(event: Event) {
+    private loginFormInputHandler(event: Event) {
         event.preventDefault();
 
         if (!event.target) {

@@ -8,7 +8,7 @@ import {Page, PageRenderInterface} from "../../pages/page.ts";
  * @augments MainLayout
  */
 class ProfileLayout extends MainLayout {
-    private _profileLeft: ProfileLeft | undefined;
+    private profileLeft: ProfileLeft | undefined;
     /**
      * @function process
      * @description Метод обработки страницы.
@@ -22,9 +22,9 @@ class ProfileLayout extends MainLayout {
             },
             render: ({root, props}: PageRenderInterface) => {
                 super.process(page).render({props, root});
-                this._profileLeft = new ProfileLeft({page, layout: this});
+                this.profileLeft = new ProfileLeft({page, layout: this});
                 if (props && typeof props.activeProfileTabIndex === 'number') {
-                    this._profileLeft.setActiveProfileTab(props.activeProfileTabIndex as number);
+                    this.profileLeft.setActiveProfileTab(props.activeProfileTabIndex as number);
                 }
             },
             handlers: page.handlers,

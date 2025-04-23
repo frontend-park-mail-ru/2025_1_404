@@ -90,16 +90,6 @@ const validateFlat = function(flatNumber: string) {
 }
 
 /**
- * @function validateAddress
- * @description Функция для валидации адреса.
- * @param {string} address Адрес
- * @returns {string} Результат валидации
- */
-const validateAddress = function(address: string) {
-    return /^(?<city>[А-Яа-яЁё\s-]+)[,\s]+(?<street>(?:[А-Яа-яЁё0-9\s-]+\s+(?:ул\.?|улица|пр\.?|проспект|бульвар|пер\.?|переулок|проезд|шоссе|набережная|аллея|площадь)|(?:ул\.?|улица|пр\.?|проспект|бульвар|пер\.?|переулок|проезд|шоссе|набережная|аллея|площадь)\s+[А-Яа-яЁё0-9\s-]+))[,\s]+(?<houseNumber>(?:д\.?|дом)?\s*\d+(?:\s*[А-Яа-яЁё]?)(?:\/\d+)?)$/iu.test(address) ? '' : 'Неправильный формат адреса';
-}
-
-/**
  * @function validateNumeric
  * @description Функция для валидации чисел.
  * @param {string} number Число
@@ -173,7 +163,7 @@ const getValidatorForField = function ({fieldName, password}: ValidatorIntarface
         'offer_floor': (value) => validateDoubleNumeric(value),
         'offer_total_floors': (value) => validateDoubleNumeric(value),
         'offer_flat': (value) => validateFlat(value),
-        'offer_address': (value) => validateAddress(value),
+        // 'offer_address': (value) => validateAddress(value),
         'offer_ceiling_height': (value) => validateDoubleNumeric(value),
         'offer_square': (value) => validateTripleNumeric(value),
         'offer_price': (value) => validateNumeric(value),

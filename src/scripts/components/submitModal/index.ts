@@ -3,7 +3,9 @@ import BaseModal, {BaseModalInterface} from "../baseModal";
 export interface SubmitFormInterface {
     title: string;
     submitButtonName: string;
+    submitButtonClass: string;
     denyButtonName: string;
+    denyButtonClass: string;
     onSubmit?: () => void;
     onDeny?: () => void;
 }
@@ -34,35 +36,35 @@ export default class SubmitModal extends BaseModal {
     initListeners() {
         super.initListeners();
         this.initListenerFromElement({
-            root: this._id,
+            root: this.id,
             elementId: 'submitModal-denyButton',
             type: 'click',
-            handler: this._submitCancelButtonHandler
+            handler: this.submitCancelButtonHandler
         });
         this.initListenerFromElement({
-            root: this._id,
+            root: this.id,
             elementId: 'submitModal-submitButton',
             type: 'click',
-            handler: this._submitButtonHandler
+            handler: this.submitButtonHandler
         });
     }
 
     /**
-     * @function _submitCancelButtonHandler
+     * @function submitCancelButtonHandler
      * @description Метод обработки события нажатия на кнопку отмены.
      */
-    _submitCancelButtonHandler() {
+    submitCancelButtonHandler() {
         if (this.onDenyButtonHandler) {
             this.onDenyButtonHandler();
         }
-        super._submitCancelButtonHandler();
+        super.submitCancelButtonHandler();
     }
 
     /**
-     * @function _submitButtonHandler
+     * @function submitButtonHandler
      * @description Метод обработки события нажатия на кнопку отправки.
      */
-    _submitButtonHandler() {
+    private submitButtonHandler() {
         if (this.onSubmitButtonHandler) {
             this.onSubmitButtonHandler();
         }
@@ -91,10 +93,12 @@ export default class SubmitModal extends BaseModal {
         }
         const submitButton = submitModal.querySelector('#submitModal-submitButton') as HTMLButtonElement;
         if (submitButton) {
+            submitButton.className = `${options.submitButtonClass}-btn`;
             submitButton.textContent = options.submitButtonName;
         }
         const denyButton = submitModal.querySelector('#submitModal-denyButton') as HTMLButtonElement;
         if (denyButton) {
+            denyButton.className = `${options.denyButtonClass}-btn`;
             denyButton.textContent = options.denyButtonName;
         }
         this.onSubmitButtonHandler = options.onSubmit;

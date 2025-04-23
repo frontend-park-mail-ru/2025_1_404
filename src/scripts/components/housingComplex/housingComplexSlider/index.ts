@@ -7,7 +7,7 @@ import PicturesCarousel from "../../picturesCarousel";
  * @augments BaseComponent
  */
 export default class HousingComplexSlider extends BaseComponent {
-    private _carousel: PicturesCarousel;
+    private carousel: PicturesCarousel;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -15,7 +15,7 @@ export default class HousingComplexSlider extends BaseComponent {
      */
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this._carousel = new PicturesCarousel({page, layout});
+        this.carousel = new PicturesCarousel({page, layout});
     }
 
     /**
@@ -23,6 +23,6 @@ export default class HousingComplexSlider extends BaseComponent {
      * @description Метод уничтожения компонента.
      */
     destroy() {
-        this._carousel.destroy();
+        this.carousel.destroy();
     }
 }

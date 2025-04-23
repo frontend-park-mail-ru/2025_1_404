@@ -1,5 +1,7 @@
 import MapUtil from "../util/mapUtil.ts";
-import {Map as LeafletMap, Marker} from "leaflet";
+import {YMap, YMapListener, YMapMarker} from "../lib/ymaps.ts";
+import HouseMarker from "../components/houseMarker";
+import {DomEventHandler} from "@yandex/ymaps3-types";
 
 interface MapConstructorInterface {
     /**
@@ -29,28 +31,20 @@ interface AddPlacemarkInterface {
      */
     coords: [number, number];
     /**
-     * @property {string} image путь к изображению метки.
+     * @property {HTMLElement} element элемент метки, который будет отображаться на карте.
      */
-    image: string;
+    element: HTMLElement;
     /**
-     * @property {LeafletMap} map карта, на которую добавляется метка.
+     * @property {YMap} map карта, на которую добавляется метка.
      */
-    map: LeafletMap;
-    /**
-     * @property {Array} size размер метки.
-     */
-    size: [number, number];
-    /**
-     * @property {Array} offset смещение метки.
-     */
-    offset?: [number, number];
+    map: YMap;
 }
 
 interface RemovePlacemarkInterface {
     /**
-     * @property {Marker} placemark метка, которую нужно удалить с карты.
+     * @property {Placemark} placemark метка, которую нужно удалить с карты.
      */
-    placemark: Marker;
+    placemark: YMapMarker;
 }
 
 /**
@@ -58,11 +52,11 @@ interface RemovePlacemarkInterface {
  * @description Класс карты.
  */
 export default class Map {
-    private _zoom: number;
-    private _placeMarkSize: number;
+    private zoom: number;
+    private placeMarkSize: number;
     private center: [number, number];
-    private _map: LeafletMap;
-    private _houses: Marker[] = [];
+    private map: YMap | null;
+    private houses: YMapMarker[] = [];
     /**
      * @description Конструктор класса карты.
      * @param {string} id id карты.
@@ -70,18 +64,10 @@ export default class Map {
      * @param {number} zoom уровень зума карты.
      */
     constructor({id, center, zoom}: MapConstructorInterface) {
-        this._zoom = zoom;
-        this._placeMarkSize = zoom * 3;
+        this.zoom = zoom;
+        this.placeMarkSize = zoom * 3;
         this.center = center;
-        this._map = MapUtil.createMap({center, id, zoom});
-
-        this._map.on('zoomend', () => {
-            this._zoom = this._map.getZoom();
-            this._placeMarkSize = this._zoom * 3;
-            this._houses.forEach((house) => {
-                this.updateHouseSize(house);
-            });
-        })
+        this.map = MapUtil.createMap({center, id, zoom});
     }
 
     /**
@@ -92,23 +78,35 @@ export default class Map {
      * @returns {object} объект с информацией о доме.
      */
     addHouse({coords}: AddHouseInterface) {
+        if (!this.map) {
+            return undefined;
+        }
+        const houseMarker = new HouseMarker({});
+        const houseElement = document.createElement('div');
+        houseElement.innerHTML = houseMarker.render();
         const house = this.addPlacemark({
             coords,
-            image: '/img/map/housePlacemark.svg',
-            map: this._map,
-            size: [this._placeMarkSize, this._placeMarkSize]
+            element: houseElement,
+            map: this.map,
         });
-        this._houses.push(house);
+        if (!house) {
+            return undefined;
+        }
+        this.houses.push(house);
         return house;
     }
 
     /**
-     * @function updateHouseSize
-     * @description Метод обновления размера дома на карте.
-     * @param {Marker} house дом.
+     * @function removeAllHouses
+     * @description Метод удаления всех домов с карты.
      */
-    updateHouseSize(house: Marker) {
-        house.setIcon(MapUtil.getIcon({image: '/img/map/housePlacemark.svg', size: [this._placeMarkSize, this._placeMarkSize], offset: [0, 0]}));
+    removeAllHouses() {
+        this.houses.forEach((house) => {
+            if (this.map) {
+                MapUtil.removePlacemark({map: this.map, placemark: house});
+            }
+        });
+        this.houses = [];
     }
 
     /**
@@ -116,13 +114,15 @@ export default class Map {
      * @description Метод добавления метки на карту.
      * @param {object} data данные о метке.
      * @param {Array} data.coords координаты метки.
-     * @param {string} data.image изображение метки.
-     * @param {Array} data.size размер метки.
-     * @param {Array} data.offset смещение метки.
+     * @param {HTMLElement} data.element элемент метки, который будет отображаться на карте.
      * @returns {*} метка.
      */
-    addPlacemark({image, coords, size, offset}: AddPlacemarkInterface) {
-        return MapUtil.addPlacemark({coords, image, map: this._map, offset, size});
+    addPlacemark({element, coords}: AddPlacemarkInterface) {
+        if (!this.map) {
+            return null;
+        }
+
+        return MapUtil.addPlacemark({coords, element, map: this.map});
     }
 
     /**
@@ -132,7 +132,25 @@ export default class Map {
      * @param {object} data.placemark метка.
      */
     removePlacemark({placemark}: RemovePlacemarkInterface) {
-        MapUtil.removePlacemark({map: this._map, placemark});
+        if (!this.map) {
+            return;
+        }
+        MapUtil.removePlacemark({map: this.map, placemark});
+    }
+
+    /**
+     * @function registerClickHandler
+     * @description Метод регистрации обработчика клика по карте.
+     * @param {DomEventHandler} handler обработчик события клика.
+     */
+    registerClickHandler(handler: DomEventHandler) {
+        const mapListener = new YMapListener({
+            layer: 'any',
+            onClick: handler
+        });
+        if (this.map) {
+            this.map.addChild(mapListener);
+        }
     }
 
     /**
@@ -142,9 +160,26 @@ export default class Map {
      * @returns {Promise<void>}
      */
     async geoCode(address: string) {
+        if (!this.map) {
+            return;
+        }
         const data = await MapUtil.geocode(address);
-        this.center = [data[0].lat, data[0].lon];
-        this._map.setView(this.center, this._zoom);
+        if (data.length === 0) {
+            return;
+        }
+        const object = data[0];
+        const posStr = object.GeoObject.Point.pos;
+        if (typeof(posStr) !== 'string') {
+            return;
+        }
+        const pos = posStr.split(' ').map((item) => parseFloat(item));
+        this.center = [pos[0], pos[1]];
+        this.map.update({
+            location: {
+                center: this.center,
+                zoom: this.map.zoom
+            }
+        })
     }
 
     /**

@@ -21,15 +21,15 @@ export default class OfferDetailsInfo extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerDetailsSellerBtns', 'click', this._offerDetailsSellerBtnsHandler);
+        this.initListener('offerDetailsSellerBtns', 'click', this.offerDetailsSellerBtnsHandler);
     }
 
     /**
-     * @function _offerDetailsSellerBtnsHandler
+     * @function offerDetailsSellerBtnsHandler
      * @description Метод обработки клика по ссылкем на кнопки в блоке информации о продавце
      * @param {Event} event событие
      */
-    _offerDetailsSellerBtnsHandler(event: Event) {
+    private offerDetailsSellerBtnsHandler(event: Event) {
         event.preventDefault();
         const target = event.target as HTMLElement;
         if (target && target.parentElement) {

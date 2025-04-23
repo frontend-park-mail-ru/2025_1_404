@@ -16,13 +16,6 @@ export interface AddressInputInterface {
     layout: BaseLayout | undefined;
 }
 
-export interface AddressDetails {
-    displayName: string;
-    city: string | undefined;
-    street: string | undefined;
-    house: string | undefined;
-}
-
 /**
  * @class AddressInput
  * @description Компонент поля ввода с возможностью очистки.
@@ -33,7 +26,7 @@ export default class AddressInput extends ClearInput {
     private oldAddress: string | null = null;
     private addressList: HTMLElement | null = null;
     private isInputInFocus: boolean = false;
-    private addresses: AddressDetails[] = [];
+    private addresses: string[] = [];
     private timeSinceLastCharacter: number = 0;
 
     /**
@@ -47,7 +40,7 @@ export default class AddressInput extends ClearInput {
         if (this.addressTimeout) {
             clearInterval(this.addressTimeout);
         }
-        this.addressTimeout = setInterval(this.onAddressCheck.bind(this), 1000);
+        this.addressTimeout = setInterval(this.onAddressCheck.bind(this), 300);
         this.addressList = document.getElementById(`${id}__address__list`);
         this.initListeners();
     }
@@ -65,11 +58,14 @@ export default class AddressInput extends ClearInput {
     /**
      * @function addAddressButton
      * @description Метод добавления кнопки адреса в список адресов.
-     * @param {AddressDetails} args - объект с данными адреса.
+     * @param {string} address - адрес.
      * @param {number} index - индекс адреса.
      */
-    addAddressButton(args: AddressDetails, index: number) {
-        const addressButton = new AddressButton({page: this.page, layout: this.layout, displayName: args.displayName, index});
+    addAddressButton(address: string, index: number) {
+        if (!this.page) {
+            return;
+        }
+        const addressButton = new AddressButton({page: this.page, layout: this.layout, address, index});
         if (this.addressList) {
             this.addressList.insertAdjacentHTML('beforeend', addressButton.render());
         }
@@ -91,7 +87,7 @@ export default class AddressInput extends ClearInput {
      * @description Метод проверки адреса.
      */
     onAddressCheck() {
-        if (Date.now() - this.timeSinceLastCharacter < 1000) {
+        if (Date.now() - this.timeSinceLastCharacter < 300) {
             return;
         }
         const currentAddress = this.input.value;
@@ -107,17 +103,8 @@ export default class AddressInput extends ClearInput {
      * @param {string} address - адрес для поиска.
      */
     findAddresses(address: string) {
-        this.layout?.makeRequest(MapUtil.geocode, address).then((data) => {
-            this.addresses = [];
-            for (const item of data) {
-                const addressDetails: AddressDetails = {
-                    displayName: item.display_name,
-                    city: item.address.city || null,
-                    street: item.address.road || null,
-                    house: item.address.house_number || null,
-                };
-                this.addresses.push(addressDetails);
-            }
+        this.layout?.makeRequest(MapUtil.suggest, address).then((addresses) => {
+            this.addresses = addresses;
             if (this.isInputInFocus) {
                 this.clearAddressList();
                 for (let i = 0; i < this.addresses.length; i++) {
@@ -146,6 +133,9 @@ export default class AddressInput extends ClearInput {
      */
     onInputFocus() {
         this.isInputInFocus = true;
+        if (this.addresses.length > 0) {
+            this.setAddressListVisible(true);
+        }
     }
 
     /**
@@ -172,6 +162,19 @@ export default class AddressInput extends ClearInput {
     }
 
     /**
+     * @function setAddress
+     * @description Метод установки адреса в поле ввода.
+     * @param {string} address - адрес для установки.
+     */
+    setAddress(address: string) {
+        if (this.input) {
+            this.input.value = address;
+            this.input.dataset.filled = 'true';
+            this.input.dispatchEvent(new Event('input'));
+        }
+    }
+
+    /**
      * @function onAddressClick
      * @description Метод обработки события клика по адресу.
      * @param {Event} event - событие клика.
@@ -187,18 +190,7 @@ export default class AddressInput extends ClearInput {
         }
         const index = Number(target.dataset.index);
         const address = this.addresses[index];
-        let addressStr = '';
-        if (address.city) {
-            addressStr += address.city;
-        }
-        if (address.street) {
-            addressStr += ' '.concat(address.street);
-        }
-        if (address.house) {
-            addressStr += ' д. '.concat(address.house);
-        }
-        this.input.value = addressStr;
-        this.input.dispatchEvent(new Event('input'));
+        this.setAddress(address);
         this.setAddressListVisible(false);
     }
 
@@ -208,6 +200,26 @@ export default class AddressInput extends ClearInput {
      */
     onKeyUp() {
         this.timeSinceLastCharacter = Date.now();
+        this.addresses = [];
+        this.input.dataset.filled = 'false';
+    }
+
+    /**
+     * @function isFilled
+     * @description Метод проверки заполненности поля ввода.
+     * @returns {boolean} true, если поле ввода заполнено, иначе false.
+     */
+    isFilled() {
+        return this.input.dataset.filled === 'true';
+    }
+
+    /**
+     * @function isEmpty
+     * @description Метод проверки пустоты поля ввода.
+     * @returns {boolean} true, если поле ввода пустое, иначе false.
+     */
+    isEmpty() {
+        return this.input.value.length === 0;
     }
 
     /**

@@ -2,7 +2,7 @@
 import {Page, PageRenderInterface} from '../../page';
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
-import {deleteOffer, searchOffers} from "../../../util/apiUtil.ts";
+import {searchOffers} from "../../../util/apiUtil.ts";
 import profileOfferTemplate from "../../../components/profileOffer/template.precompiled.js"
 import Offer from "../../../models/offer.ts";
 import getMetroColorByLineName from "../../../util/metroUtil.ts";
@@ -16,8 +16,8 @@ import OfferEditLayout from "../../../layouts/offerEdit";
  * @augments Page
  */
 export default class ProfileMyOffersPage extends Page {
-    private _layout: BaseLayout | undefined;
-    private _offerStatus: string = '';
+    private layout: BaseLayout | undefined;
+    private offerStatus: string = '';
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -25,11 +25,11 @@ export default class ProfileMyOffersPage extends Page {
      * @param {BaseLayout} layout макет страницы
      */
     render({layout, root} : PageRenderInterface) {
-        this._layout = layout;
+        this.layout = layout;
         root.innerHTML = template();
-        this._offerStatus = '';
+        this.offerStatus = '';
         super.render({layout, root});
-        this._updateContent(this._offerStatus);
+        this.updateContent(this.offerStatus);
     }
 
     /**
@@ -37,16 +37,16 @@ export default class ProfileMyOffersPage extends Page {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('profile-right-nav', 'click', this._handleTabClick);
-        this.initListener('profile-right-list', 'click', this._handleCardClick);
+        this.initListener('profile-right-nav', 'click', this.handleTabClick);
+        this.initListener('profile-right-list', 'click', this.handleCardClick);
     }
 
     /**
-     * @function _handleCardClick
+     * @function handleCardClick
      * @description Метод обработки клика по карточке объявления.
      * @param {Event} event событие
      */
-    _handleCardClick(event: Event) {
+    private handleCardClick(event: Event) {
         const target = event.target as HTMLElement;
         if (!target) {
             return;
@@ -68,52 +68,36 @@ export default class ProfileMyOffersPage extends Page {
         }
         if (target.classList.contains("light-btn")) {
             OfferEditLayout.reset();
-            this._layout?.emit('editOffer', offerId);
+            this.layout?.emit('editOffer', offerId);
         }
         if (target.classList.contains("red-btn")) {
-            this._layout?.emit('tryDelete', offerId);
+            this.layout?.emit('tryDelete', offerId);
         }
     }
 
     /**
-     * @function _deleteOffer
-     * @description Метод удаления объявления.
-     * @param {number} offerId ID объявления
-     */
-    _deleteOffer(offerId: number) {
-        if (!this._layout) {
-            return;
-        }
-        this._layout.makeRequest(deleteOffer, offerId).then(() => {
-            this._updateContent(this._offerStatus);
-        }).catch((error) => {
-            this._layout?.addPopup('Ошибка сервера', error.message);
-        });
-    }
-
-    /**
-     * @function _handleTabClick
+     * @function handleTabClick
      * @description Метод обработки клика по вкладке.
      * @param {Event} event событие
      */
-    _handleTabClick(event: Event) {
+    private handleTabClick(event: Event) {
         const target = event.target as HTMLElement;
         if (target.classList.contains('profile__right-nav-href') && target.dataset && target.dataset.tab && target.dataset.offerstatus) {
             event.preventDefault();
-            this._offerStatus = target.dataset.offerstatus;
-            this._setActiveTab(parseInt(target.dataset.tab, 10));
-            this._updateContent(this._offerStatus);
+            this.offerStatus = target.dataset.offerstatus;
+            this.setActiveTab(parseInt(target.dataset.tab, 10));
+            this.updateContent(this.offerStatus);
         }
     }
 
     /**
-     * @function _updateContent
+     * @function updateContent
      * @description Метод обновления контента страницы.
      * @param {number} offerType тип объявления
      */
-    _updateContent(offerType: string) {
+    private updateContent(offerType: string) {
         const offerList = document.querySelector('.profile__right-list') as HTMLElement;
-        if (!offerList || !this._layout) {
+        if (!offerList || !this.layout) {
             return;
         }
         offerList.innerHTML = '';
@@ -121,7 +105,7 @@ export default class ProfileMyOffersPage extends Page {
         if (!user || typeof user.id !== 'number') {
             return;
         }
-        this._layout.makeRequest(searchOffers, {
+        this.layout.makeRequest(searchOffers, {
             'seller_id': user.id.toString(),
             'offer_type_id': offerType,
             'offer_status_id': '1'
@@ -152,16 +136,16 @@ export default class ProfileMyOffersPage extends Page {
                 });
             });
         }).catch((error) => {
-            this._layout?.addPopup('Ошибка сервера', error.message);
+            this.layout?.addPopup('Ошибка сервера', error.message);
         })
     }
 
     /**
-     * @function _setActiveTab
+     * @function setActiveTab
      * @description Метод установки активной вкладки.
      * @param {number} tabIndex индекс вкладки
      */
-    _setActiveTab(tabIndex: number) {
+    private setActiveTab(tabIndex: number) {
         const tabs = document.querySelectorAll('.profile__right-nav-href');
         tabs.forEach((tab, index) => {
             if (index === tabIndex) {

@@ -105,7 +105,7 @@ export class Page {
     }
 
     /**
-     * @function _validateFormFields
+     * @function validateFormFields
      * @description Метод валидации полей формы
      * @param {HTMLElement} formElement элемент формы
      * @returns {boolean} true, если форма валидна, иначе false

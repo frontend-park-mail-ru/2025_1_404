@@ -14,8 +14,8 @@ export interface BaseModalInterface {
  * @augments BaseComponent
  */
 export default class BaseModal extends BaseComponent {
-    private _overlay: HTMLElement;
-    protected _id: string;
+    private overlay: HTMLElement;
+    protected id: string;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -24,8 +24,8 @@ export default class BaseModal extends BaseComponent {
      */
     constructor({page, layout, id}: BaseModalInterface) {
         super({layout, page});
-        this._overlay = document.querySelector('.overlay') as HTMLElement;
-        this._id = id;
+        this.overlay = document.querySelector('.overlay') as HTMLElement;
+        this.id = id;
         this.initListeners();
     }
 
@@ -34,12 +34,12 @@ export default class BaseModal extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('overlay', 'click', this._overlayHandler);
+        this.initListener('overlay', 'click', this.overlayHandler);
         this.initListenerFromElement({
-            root: this._id,
+            root: this.id,
             elementId: 'modalCloseButton',
             type: 'click',
-            handler: this._submitCancelButtonHandler
+            handler: this.submitCancelButtonHandler
         });
     }
 
@@ -49,7 +49,7 @@ export default class BaseModal extends BaseComponent {
      * @param {boolean} isShow - состояние модального окна.
      */
     setShowModal(isShow: boolean) {
-        const modal = document.getElementById(this._id) as HTMLElement;
+        const modal = document.getElementById(this.id) as HTMLElement;
         const overlay = document.querySelector(".overlay") as HTMLElement;
         if (isShow) {
             modal.classList.add('active');
@@ -61,23 +61,23 @@ export default class BaseModal extends BaseComponent {
     }
 
     /**
-     * @function _submitCancelButtonHandler
+     * @function submitCancelButtonHandler
      * @description Обработчик события закрытия модального окна
      * @private
      */
-    _submitCancelButtonHandler() {
+    protected submitCancelButtonHandler() {
         this.setShowModal(false);
     }
 
     /**
-     * @function _overlayHandler
+     * @function overlayHandler
      * @description Обработчик события клика на затемненное пространство
      * @param {Event} event событие клика
      * @private
      */
-    _overlayHandler(event: Event) {
-        if (event.target === this._overlay) {
-            this._submitCancelButtonHandler();
+    private overlayHandler(event: Event) {
+        if (event.target === this.overlay) {
+            this.submitCancelButtonHandler();
         }
     }
 }

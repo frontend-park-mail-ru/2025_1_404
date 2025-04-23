@@ -43,6 +43,7 @@ export default [
             "no-new": "off",
             "no-inline-comments": "off",
             "no-plusplus": "off",
+            "no-undefined": "off",
             "no-ternary": "off",
             "no-underscore-dangle": "off",
             "no-unused-vars": "off",

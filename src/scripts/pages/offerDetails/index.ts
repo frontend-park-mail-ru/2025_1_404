@@ -21,10 +21,10 @@ import OfferDetailsInfo from "../../components/offerDetailsInfo";
  */
 export default class OfferDetailsPage extends Page {
     private map: Map | undefined;
-    private _offerDetailsLeft: OfferDetailsLeft | undefined;
-    private _offerDetailsInfo: OfferDetailsInfo | undefined;
-    private _layout: BaseLayout | undefined;
-    private _offerId: number | null | undefined;
+    private offerDetailsLeft: OfferDetailsLeft | undefined;
+    private offerDetailsInfo: OfferDetailsInfo | undefined;
+    private layout: BaseLayout | undefined;
+    private offerId: number | null | undefined;
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -38,20 +38,20 @@ export default class OfferDetailsPage extends Page {
             return;
         }
 
-        this._layout = layout;
+        this.layout = layout;
         root.innerHTML = template();
         super.render({layout, root});
 
-        this._getOfferById(props.id)
+        this.getOfferById(props.id)
             // eslint-disable-next-line max-statements
         .then ((data) => {
             const offer = new Offer();
-            this._offerId = offer.id;
+            this.offerId = offer.id;
             offer.parseJSON(data);
             const offerDetailsHeader = document.getElementById("offerDetailsHeader") as HTMLElement;
             const offerDetailsLeft = document.getElementById("offerDetailsLeft") as HTMLElement;
 
-            if (this._offerDetailsLeft !== null) {
+            if (this.offerDetailsLeft !== null) {
                 offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images});
             }
 
@@ -65,14 +65,15 @@ export default class OfferDetailsPage extends Page {
 
             super.render({layout, root});
 
-            this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
-            this._offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
+            this.offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
+            this.offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
 
-            let coords: [number, number] = [55.557729, 37.313484];
+            let coords: [number, number] = [37.313484, 55.557729];
             this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
             this.map.geoCode(offer.address).then(() => {
                 if (this.map) {
                     coords = this.map.getCenter();
+                    this.map.removeAllHouses();
                     this.map.addHouse({coords});
                 }
             });
@@ -93,54 +94,54 @@ export default class OfferDetailsPage extends Page {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerDetailsSellerBtns', 'click', this._offerSellerBtnsHandler);
-        this.initListener('offerDetailsUserBtns', 'click', this._offerUserBtnsHandler);
+        this.initListener('offerDetailsSellerBtns', 'click', this.offerSellerBtnsHandler);
+        this.initListener('offerDetailsUserBtns', 'click', this.offerUserBtnsHandler);
     }
 
     /**
-     * @function _offerUserBtnsHandler
+     * @function offerUserBtnsHandler
      * @description Метод обработки клика по кнопкам пользователя.
      * @param {Event} event событие
      */
-    _offerUserBtnsHandler(event: Event) {
+    private offerUserBtnsHandler(event: Event) {
         event.preventDefault();
         const target = event.target as HTMLElement;
         if (!target) {
             return;
         }
         if (!User.isAuthenticated()) {
-            this._layout?.emit('showLogin');
+            this.layout?.emit('showLogin');
         }
     }
 
     /**
-     * @function _offerSellerBtnsHandler
+     * @function offerSellerBtnsHandler
      * @description Метод обработки клика по кнопкам продавца.
      * @param {Event} event событие
      */
-    _offerSellerBtnsHandler(event: Event) {
+    private offerSellerBtnsHandler(event: Event) {
         event.preventDefault();
         const target = event.target as HTMLElement;
         if (!target) {
             return;
         }
         if (!User.isAuthenticated()) {
-            this._layout?.emit('showLogin');
+            this.layout?.emit('showLogin');
         }
     }
 
     /**
-     * @function _getOfferById
+     * @function getOfferById
      * @description Метод получения объявления по id.
      * @param {number} id id объявления
      * @returns {Promise<null | void>} промис с данными объявления.
      * @private
      */
-    _getOfferById(id: number){
-        if (!this._layout) {
+    private getOfferById(id: number){
+        if (!this.layout) {
             return Promise.reject(new Error('Layout is not defined'));
         }
-        return this._layout.makeRequest(getOfferById, id)
+        return this.layout.makeRequest(getOfferById, id)
             .then((data) => data)
             .catch ((error) => {
                 PageManager.renderPage('404');

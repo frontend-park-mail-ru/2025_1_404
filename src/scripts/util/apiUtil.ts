@@ -1,15 +1,15 @@
+import {HttpMethod, createRequestOptions, makeRequest} from "./httpUtil.ts";
 
-const BACKEND_URL = 'http://localhost:8001/api/v1';
-
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+console.log(BACKEND_URL)
 
 let csrfToken: string | null = null;
 
 /**
- * @interface MakeRequestInterface
- * @description Интерфейс для параметров функции makeRequest.
+ * @interface makeAPIRequestInterface
+ * @description Интерфейс для параметров функции makeAPIRequest.
  */
-interface MakeRequestInterface {
+interface makeAPIRequestInterface {
     /**
      * @property {string} endpoint URL-адрес API
      */
@@ -25,7 +25,7 @@ interface MakeRequestInterface {
     /**
      * @property {string} query Query параметры
      */
-    query?: string;
+    query?: Record<string, string>;
     /**
      * @property {object} files Файлы для загрузки
      */
@@ -60,7 +60,7 @@ export interface UserResponseInterface {
 }
 
 export const updateCSRF = async () => {
-    await makeRequest({
+    await makeAPIRequest({
         method: 'GET',
         endpoint: '/users/csrf'
     }).then((data) => {
@@ -69,42 +69,30 @@ export const updateCSRF = async () => {
 }
 
 /**
- * @function makeRequest
+ * @function makeAPIRequest
  * @description Функция для выполнения запроса к бэкенду.
  * @param {string} endpoint URL-адрес API
  * @param {string} method HTTP-метод (GET, POST и т.д.)
  * @param {Record<string, string|number>} body Тело запроса
- * @param {string} query Query параметры
+ * @param {Record<string, string>} query Query параметры
  * @param {Record<string, File>} files Файлы для загрузки
  * @returns {Promise<*>} Ответ от сервера
  */
-const makeRequest = async ({endpoint, method='GET', body={}, query='', files={}}: MakeRequestInterface) => {
+const makeAPIRequest = async ({endpoint, method='GET', body={}, query={}, files={}}: makeAPIRequestInterface) => {
     const options = createRequestOptions(method);
+    options.mode = 'cors';
+    options.credentials = 'include';
     addCsrfToken(options);
 
-    if (shouldUseFormData(files)) {
-        options.body = createFormData(body, files);
-    } else if (shouldUseJsonBody(body)) {
-        setJsonContentType(options);
-        options.body = JSON.stringify(body);
-    }
-
-    const endpointUrl = buildEndpointUrl(endpoint, query);
-    return await fetchAndHandleResponse(endpointUrl, options);
+    return await makeRequest({
+        url: `${BACKEND_URL}${endpoint}`,
+        method,
+        body,
+        query,
+        files,
+        options 
+    })
 }
-
-/**
- * @function createRequestOptions
- * @description Функция для создания параметров запроса.
- * @param {HttpMethod} method HTTP-метод (GET, POST и т.д.)
- * @returns {RequestInit} Параметры запроса
- */
-const createRequestOptions = (method: HttpMethod): RequestInit => ({
-    credentials: 'include',
-    headers: {},
-    method,
-    mode: 'cors',
-});
 
 /**
  * @function addCsrfToken
@@ -121,89 +109,13 @@ const addCsrfToken = (options: RequestInit) => {
 }
 
 /**
- * @function shouldUseFormData
- * @description Функция для проверки, нужно ли использовать FormData.
- * @param {object} files Файлы для загрузки
- * @returns {boolean} true, если нужно использовать FormData, иначе false
- */
-const shouldUseFormData = (files: object): boolean => files && Object.keys(files).length > 0;
-
-/**
- * @function shouldUseJsonBody
- * @description Функция для проверки, нужно ли использовать JSON в теле запроса.
- * @param {object} body Тело запроса
- * @returns {boolean} true, если нужно использовать JSON, иначе false
- */
-const shouldUseJsonBody = (body: object): boolean => body && Object.keys(body).length > 0;
-
-/**
- * @function createFormData
- * @param {Record<string, string|number>} body Тело запроса
- * @param {Record<string, File>} files Файлы для загрузки
- * @returns {FormData} FormData объект
- */
-const createFormData = (body: Record<string, string|number>, files: Record<string, File>): FormData => {
-    const formData = new FormData();
-
-    Object.keys(body).forEach(key => {
-        if (typeof body[key] === 'string') {
-            formData.append(key, body[key]);
-        }
-    });
-
-    Object.keys(files).forEach(key => {
-        formData.append(key, files[key]);
-    });
-
-    return formData;
-}
-
-/**
- * @function setJsonContentType
- * @description Функция для установки заголовка Content-Type в JSON.
- * @param {RequestInit} options Параметры запроса
- */
-const setJsonContentType = (options: RequestInit) => {
-    options.headers = {
-        ...options.headers,
-        'Content-Type': 'application/json'
-    };
-}
-
-/**
- * @function buildEndpointUrl
- * @description Функция для построения URL-адреса конечной точки.
- * @param {string} endpoint URL-адрес API
- * @param {string} query Query параметры
- * @returns {string} Полный URL-адрес конечной точки
- */
-const buildEndpointUrl = (endpoint: string, query: string): string => query ? `${endpoint}?${query}` : endpoint;
-
-/**
- *
- * @function fetchAndHandleResponse
- * @description Функция для выполнения запроса к бэкенду.
- * @param {string} endpointUrl URL-адрес API
- * @param {RequestInit} options Параметры запроса
- * @returns {Promise<*>} Ответ от сервера
- */
-const fetchAndHandleResponse = async(endpointUrl: string, options: RequestInit) => {
-    const response = await fetch(`${BACKEND_URL}${endpointUrl}`, options);
-    if (!response.ok) {
-        const json = await response.json();
-        throw new Error(json.error);
-    }
-    return await response.json();
-}
-
-/**
  * @function getOffers
  * @description Функция для получения списка предложений.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const getOffers = async() => await makeRequest({
+export const getOffers = async() => await makeAPIRequest({
     endpoint: '/offers',
-    method: 'GET',
+    method: 'GET'
 });
 
 /**
@@ -212,10 +124,10 @@ export const getOffers = async() => await makeRequest({
  * @param {Record<string, string>} filters Фильтры для поиска
  * @returns {Promise<*>} Ответ от сервера
  */
-export const searchOffers = async (filters: Record<string, string>) => await makeRequest({
+export const searchOffers = async (filters: Record<string, string>) => await makeAPIRequest({
     endpoint: '/offers',
     method: 'GET',
-    query: _fromObjectToQuery(filters)
+    query: filters
 })
 
 /**
@@ -250,7 +162,7 @@ export interface RegisterAccountInterface {
  * @param {string} password Пароль
  * @returns {Promise<*>} Ответ от сервера
  */
-export const registerAccount = async ({email, first_name, last_name,  password}: RegisterAccountInterface) => await makeRequest({
+export const registerAccount = async ({email, first_name, last_name,  password}: RegisterAccountInterface) => await makeAPIRequest({
     endpoint: '/auth/register',
     method: 'POST',
     body: {email, first_name, last_name, password}
@@ -262,7 +174,7 @@ export const registerAccount = async ({email, first_name, last_name,  password}:
  * @description Функция для получения профиля.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const getProfile = async () => await makeRequest({
+export const getProfile = async () => await makeAPIRequest({
     endpoint: '/auth/me',
     method: 'POST'
 });
@@ -294,7 +206,7 @@ export interface UpdateProfileInterface {
  * @param {string} last_name Фамилия
  * @returns {Promise<*>} Ответ от сервера
  */
-export const updateProfile = async ({email, first_name, last_name}: UpdateProfileInterface) => await makeRequest({
+export const updateProfile = async ({email, first_name, last_name}: UpdateProfileInterface) => await makeAPIRequest({
     endpoint: '/users/update',
     method: 'PUT',
     body: {email, first_name, last_name}
@@ -317,7 +229,7 @@ export interface UpdateAvatarInterface {
  * @param {File} avatar Файл аватара
  * @returns {Promise<*>} Ответ от сервера
  */
-export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await makeRequest({
+export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await makeAPIRequest({
     endpoint: '/users/image',
     method: 'PUT',
     files: {avatar}
@@ -328,7 +240,7 @@ export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await mak
  * @description Функция для удаления аватара пользователя.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const removeAvatar = async () => await makeRequest({
+export const removeAvatar = async () => await makeAPIRequest({
     endpoint: '/users/image',
     method: 'DELETE'
 });
@@ -353,7 +265,7 @@ export const getZhkLine = async () => await ({"metroLine": 'Некрасовск
  * @param {number} id ID объявления
  * @returns {Promise<null>} Ответ от сервера
  */
-export const getOfferById =  async (id: number) => await makeRequest({
+export const getOfferById =  async (id: number) => await makeAPIRequest({
     endpoint: '/offers/'.concat(id.toString()),
     method: 'GET'
 });
@@ -441,7 +353,7 @@ export interface CreateOfferInterface {
     images: Array<File>;
 }
 
-export const createOffer = async ({...args}: CreateOfferInterface) => await makeRequest({
+export const createOffer = async ({...args}: CreateOfferInterface) => await makeAPIRequest({
     endpoint: '/offers',
     method: 'POST',
     body: {
@@ -463,7 +375,7 @@ export const createOffer = async ({...args}: CreateOfferInterface) => await make
     }
 });
 
-export const updateOffer = async ({...args}: CreateOfferInterface) => await makeRequest({
+export const updateOffer = async ({...args}: CreateOfferInterface) => await makeAPIRequest({
     endpoint: `/offers/${args.id}`,
     method: 'PUT',
     body: {
@@ -484,7 +396,7 @@ export const updateOffer = async ({...args}: CreateOfferInterface) => await make
     }
 })
 
-export const deleteOffer = async (id: number) => await makeRequest({
+export const deleteOffer = async (id: number) => await makeAPIRequest({
     endpoint: `/offers/${id}`,
     method: 'DELETE'
 });
@@ -511,7 +423,7 @@ interface UploadOfferImageInterface {
  * @param {File} image Файл изображения
  * @returns {Promise<*>} Ответ от сервера
  */
-export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterface) => await makeRequest({
+export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterface) => await makeAPIRequest({
     endpoint: `/offers/${offerId}/image`,
     method: 'POST',
     files: {
@@ -519,12 +431,12 @@ export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterfac
     }
 });
 
-export const deleteOfferImage = async (imageId: number) => await makeRequest({
+export const deleteOfferImage = async (imageId: number) => await makeAPIRequest({
     endpoint: `/images/${imageId}`,
     method: 'DELETE'
 })
 
-export const publishOffer = async (offerId: number) => await makeRequest({
+export const publishOffer = async (offerId: number) => await makeAPIRequest({
     endpoint: `/offers/${offerId}/publish`,
     method: 'POST'
 })
@@ -535,7 +447,7 @@ export const publishOffer = async (offerId: number) => await makeRequest({
  * @param {number} id ID ЖК
  * @returns {Promise<null>} Ответ от сервера
  */
-export const getHousingComplex = async (id: number) => await makeRequest({
+export const getHousingComplex = async (id: number) => await makeAPIRequest({
     endpoint: '/zhk/'.concat(id.toString()),
     method: 'GET'
 });
@@ -562,7 +474,7 @@ export interface LoginInterface {
  * @param {string} password Пароль
  * @returns {Promise<*>} Ответ от сервера
  */
-export const login = async ({email, password}: LoginInterface) => await makeRequest({
+export const login = async ({email, password}: LoginInterface) => await makeAPIRequest({
     endpoint: '/auth/login',
     method: 'POST',
     body: {email, password}
@@ -573,20 +485,7 @@ export const login = async ({email, password}: LoginInterface) => await makeRequ
  * @description Функция для выхода из аккаунта.
  * @returns {Promise<boolean>} Ответ от сервера
  */
-export const logout = async () => await makeRequest({
+export const logout = async () => await makeAPIRequest({
     endpoint: '/auth/logout',
     method: 'POST'
 });
-
-const _fromObjectToQuery = function(object: Record<string, string>): string {
-    let queryParams = '';
-    Object.keys(object).forEach((key: string) => {
-        queryParams += `${key}=${object[key]}&`;
-    });
-
-    if (queryParams.endsWith('&')) {
-        queryParams = queryParams.slice(0, -1);
-    }
-
-    return queryParams;
-}
