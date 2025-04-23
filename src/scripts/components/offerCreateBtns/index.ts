@@ -7,9 +7,9 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
  * @augments BaseComponent
  */
 export default class OfferCreateBtns extends BaseComponent {
-    private _nextButton: HTMLElement | null;
-    private _backButton: HTMLElement | null;
-    private _submitButton: HTMLElement | null;
+    private nextButton: HTMLElement | null;
+    private backButton: HTMLElement | null;
+    private submitButton: HTMLElement | null;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -18,9 +18,9 @@ export default class OfferCreateBtns extends BaseComponent {
     constructor({page, layout}: BaseComponentInterface) {
         super({layout, page});
 
-        this._nextButton = document.getElementById('offerCreateBtnsNext');
-        this._backButton = document.getElementById('offerCreateBtnsBack');
-        this._submitButton = document.getElementById('offerCreateBtnsSubmit');
+        this.nextButton = document.getElementById('offerCreateBtnsNext');
+        this.backButton = document.getElementById('offerCreateBtnsBack');
+        this.submitButton = document.getElementById('offerCreateBtnsSubmit');
     }
 
     /**
@@ -28,37 +28,37 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreateBtnsDelete', 'click', this._deleteButtonClickHandler);
-        this.initListener('offerCreateBtnsSave', 'click', this._saveButtonClickHandler);
-        this.initListener('offerCreateBtnsBack', 'click', this._backButtonClickHandler);
-        this.initListener('offerCreateBtnsNext', 'click', this._nextButtonClickHandler);
-        this.initListener('offerCreateBtnsSubmit', 'click', this._submitButtonClickHandler);
+        this.initListener('offerCreateBtnsDelete', 'click', this.deleteButtonClickHandler);
+        this.initListener('offerCreateBtnsSave', 'click', this.saveButtonClickHandler);
+        this.initListener('offerCreateBtnsBack', 'click', this.backButtonClickHandler);
+        this.initListener('offerCreateBtnsNext', 'click', this.nextButtonClickHandler);
+        this.initListener('offerCreateBtnsSubmit', 'click', this.submitButtonClickHandler);
     }
 
     /**
-     * @function _deleteButtonClickHandler
+     * @function deleteButtonClickHandler
      * @description Обработчик клика по кнопке удаления объявления.
      * @private
      */
-    _deleteButtonClickHandler() {
+    private deleteButtonClickHandler() {
 
     }
 
     /**
-     * @function _saveButtonClickHandler
+     * @function saveButtonClickHandler
      * @description Обработчик клика по кнопке сохранения объявления.
      * @private
      */
-    _saveButtonClickHandler() {
+    private saveButtonClickHandler() {
 
     }
 
     /**
-     * @function _submitButtonClickHandler
+     * @function submitButtonClickHandler
      * @description Обработчик клика по кнопке отправки объявления.
      * @private
      */
-    _submitButtonClickHandler() {
+    private submitButtonClickHandler() {
         if (!this.layout) {
             return;
         }
@@ -66,11 +66,11 @@ export default class OfferCreateBtns extends BaseComponent {
     }
 
     /**
-     * @function _backButtonClickHandler
+     * @function backButtonClickHandler
      * @description Обработчик клика по кнопке назад.
      * @private
      */
-    _backButtonClickHandler() {
+    private backButtonClickHandler() {
         if (!this.layout) {
             return;
         }
@@ -78,11 +78,11 @@ export default class OfferCreateBtns extends BaseComponent {
     }
 
     /**
-     * @function _nextButtonClickHandler
+     * @function nextButtonClickHandler
      * @description Обработчик клика по кнопке далее.
      * @private
      */
-    _nextButtonClickHandler() {
+    private nextButtonClickHandler() {
         if (!this.layout) {
             return;
         }
@@ -94,10 +94,10 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод активации кнопки завершения.
      */
     enableSubmitButton() {
-        if (!this._submitButton) {
+        if (!this.submitButton) {
             return;
         }
-        this._submitButton.removeAttribute('disabled');
+        this.submitButton.removeAttribute('disabled');
     }
 
     /**
@@ -105,10 +105,10 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод деактивации кнопки завершения.
      */
     disableSubmitButton() {
-        if (!this._submitButton) {
+        if (!this.submitButton) {
             return;
         }
-        this._submitButton.setAttribute('disabled', 'disabled');
+        this.submitButton.setAttribute('disabled', 'disabled');
     }
 
     /**
@@ -116,10 +116,10 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод активации кнопки далее.
      */
     enableNextButton() {
-        if (!this._nextButton) {
+        if (!this.nextButton) {
             return;
         }
-        this._nextButton.removeAttribute('disabled');
+        this.nextButton.removeAttribute('disabled');
     }
 
     /**
@@ -127,10 +127,10 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод деактивации кнопки далее.
      */
     disableNextButton() {
-        if (!this._nextButton) {
+        if (!this.nextButton) {
             return;
         }
-        this._nextButton.setAttribute('disabled', 'disabled');
+        this.nextButton.setAttribute('disabled', 'disabled');
     }
 
     /**
@@ -138,10 +138,10 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод активации кнопки назад.
      */
     enableBackButton() {
-        if (!this._backButton) {
+        if (!this.backButton) {
             return;
         }
-        this._backButton.removeAttribute('disabled');
+        this.backButton.removeAttribute('disabled');
     }
 
     /**
@@ -149,9 +149,9 @@ export default class OfferCreateBtns extends BaseComponent {
      * @description Метод деактивации кнопки назад.
      */
     disableBackButton() {
-        if (!this._backButton) {
+        if (!this.backButton) {
             return;
         }
-        this._backButton.setAttribute('disabled', 'disabled');
+        this.backButton.setAttribute('disabled', 'disabled');
     }
 }

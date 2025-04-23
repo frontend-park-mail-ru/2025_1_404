@@ -3,8 +3,8 @@ import {BaseLayout} from "../layouts/baseLayout.ts";
 import {Page} from "../pages/page.ts";
 
 export interface BaseComponentInterface {
-    page: Page;
-    layout: BaseLayout | undefined;
+    page?: Page;
+    layout?: BaseLayout;
 }
 
 interface HandlerInterface {
@@ -25,7 +25,7 @@ interface InitListenerFromElementInterface {
  * @description Базовый класс компонента.
  */
 export class BaseComponent {
-    protected page: Page;
+    protected page?: Page;
     protected layout: BaseLayout | undefined;
     private handlers: HandlerInterface[];
     /**

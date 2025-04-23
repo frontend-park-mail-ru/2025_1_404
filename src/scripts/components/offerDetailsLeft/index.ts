@@ -8,7 +8,7 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
  * @augments BaseComponent
  */
 export default class OfferDetailsLeft extends BaseComponent {
-    private _carousel: PicturesCarouselPreviews;
+    private carousel: PicturesCarouselPreviews;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -16,7 +16,7 @@ export default class OfferDetailsLeft extends BaseComponent {
      */
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this._carousel = new PicturesCarouselPreviews({page, layout});
+        this.carousel = new PicturesCarouselPreviews({page, layout});
     }
 
     /**
@@ -24,15 +24,15 @@ export default class OfferDetailsLeft extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerDetailsHousingComplex', 'click', this._housingComplexHrefHandler);
+        this.initListener('offerDetailsHousingComplex', 'click', this.housingComplexHrefHandler);
     }
 
     /**
-     * @function _housingComplexHrefHandler
+     * @function housingComplexHrefHandler
      * @description Метод обработки клика по ссылке на страницу жилого комплекса.
      * @param {Event} event событие
      */
-    _housingComplexHrefHandler(event: Event) {
+    private housingComplexHrefHandler(event: Event) {
         event.preventDefault();
         RouteManager.navigateTo('/zhk/1');
     }
@@ -42,6 +42,6 @@ export default class OfferDetailsLeft extends BaseComponent {
      * @description Метод уничтожения компонента.
      */
     destroy() {
-        this._carousel.destroy();
+        this.carousel.destroy();
     }
 }

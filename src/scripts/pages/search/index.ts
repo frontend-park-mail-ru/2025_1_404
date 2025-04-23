@@ -84,9 +84,9 @@ interface AddOfferInterface {
  * @augments Page
  */
 export default class SearchPage extends Page {
-    private _filter: Filter | undefined;
-    private _layout: BaseLayout | undefined;
-    private _offerList: Element | null | undefined;
+    private filter: Filter | undefined;
+    private layout: BaseLayout | undefined;
+    private offerList: Element | null | undefined;
     /**
      * @function render
      * @description Метод рендеринга компонента
@@ -96,13 +96,13 @@ export default class SearchPage extends Page {
         root.innerHTML = template();
         super.render({root, layout});
 
-        this._layout = layout;
-        this._filter = new Filter({page: this, layout});
-        this._filter._filterSetData();
+        this.layout = layout;
+        this.filter = new Filter({page: this, layout});
+        this.filter.filterSetData();
 
-        this._offerList = document.getElementById("searchResults")
+        this.offerList = document.getElementById("searchResults")
 
-        this._getOffers(FilterModel.getFilterData());
+        this.getOffers(FilterModel.getFilterData());
     }
 
     /**
@@ -110,15 +110,15 @@ export default class SearchPage extends Page {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('searchResults', 'click', this._handleCardClick);
+        this.initListener('searchResults', 'click', this.handleCardClick);
     }
 
     /**
-     * @function _handleCardClick
+     * @function handleCardClick
      * @description Метод обработки клика по карточке объявления.
      * @param {Event} event событие
      */
-    _handleCardClick(event: Event) {
+    private handleCardClick(event: Event) {
         const target = event.target as HTMLElement;
         if (!target) {
             return;
@@ -138,7 +138,7 @@ export default class SearchPage extends Page {
     }
 
     /**
-     * @function _addOffer
+     * @function addOffer
      * @description Метод добавления предложения в список предложений
      * @param {number} id ID объекта недвижимости
      * @param {string} propertyType Тип недвижимости (например, "квартира", "дом")
@@ -157,8 +157,8 @@ export default class SearchPage extends Page {
      * @param {string} firstName Имя продавца
      * @param {string} lastName Фамилия продавца
      */
-     _addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName}: AddOfferInterface) {
-         if (!this._offerList) {
+     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName}: AddOfferInterface) {
+         if (!this.offerList) {
              return;
          }
          let title = `${rooms}-комн. ${propertyType.toLowerCase()}, ${square} м²`;
@@ -178,21 +178,21 @@ export default class SearchPage extends Page {
              }
              title = prefix + title;
         }
-        this._offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName}));
+        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName}));
     }
 
     /**
-     * @function _getOffers
+     * @function getOffers
      * @description Получение предложений по фильтру
      * @param {Record<string, string>} filterData Данные фильтра
      * @private
      */
     // eslint-disable-next-line max-lines-per-function
-    async _getOffers(filterData: Record<string, string>) {
-        if (!User.isLoaded() || !this._layout) {
+    private async getOffers(filterData: Record<string, string>) {
+        if (!User.isLoaded() || !this.layout) {
             return;
         }
-        const {offerTypeId, propertyTypeId} = this._getFilterIds(filterData);
+        const {offerTypeId, propertyTypeId} = this.getFilterIds(filterData);
         await searchOffers({
             'offer_status_id': '1',
             'min_area': filterData.filterSquareLeft__input,
@@ -228,7 +228,7 @@ export default class SearchPage extends Page {
                 if (offer.images.length > 0 && typeof offer.images[0] === 'string') {
                     image = offer.images[0];
                 }
-                this._addOffer({
+                this.addOffer({
                     id: offer.id || 0,
                     price: offer.price,
                     address: offer.address,
@@ -248,17 +248,17 @@ export default class SearchPage extends Page {
                 });
             });
         }).catch((error) => {
-            this._layout?.addPopup('Ошибка сервера', error.message);
+            this.layout?.addPopup('Ошибка сервера', error.message);
         })
     }
 
     /**
-     * @function _getFilterIds
+     * @function getFilterIds
      * @description Метод получения ID типов предложения и недвижимости
      * @param {Record<string, string>} filterData Данные фильтра
      * @returns {Record<string, string>} ID типов предложения и недвижимости
      */
-    _getFilterIds(filterData: Record<string, string>) {
+    private getFilterIds(filterData: Record<string, string>) {
         const offerTypes: Record<string, number> = {
             'Продажа': 1,
             'Аренда': 2

@@ -2,8 +2,8 @@
     <div class="submitModal__inner">
         <h3 class="submitModal__title" id="submitModal-title">{{submitButtonTitle}}</h3>
         <div class="submitModal__buttons" id="submitModal-buttons">
-            {{> PrimaryButton name=submitButtonName id="submitModal-submitButton"}}
-            {{> RedButton name=denyButtonName id="submitModal-denyButton"}}
+            <button class="{{submitButtonClass}}-btn" id="submitModal-submitButton">{{submitButtonName}}</button>
+            <button class="{{denyButtonClass}}-btn" id="submitModal-denyButton">{{denyButtonName}}</button>
         </div>
     </div>
 {{/BaseModal}}

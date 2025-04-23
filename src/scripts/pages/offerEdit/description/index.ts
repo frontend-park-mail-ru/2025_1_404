@@ -20,9 +20,9 @@ export default class OfferEditDescriptionPage extends OfferPage {
         root.innerHTML = template();
         super.render({layout, root});
 
-        this._getDataFromModel();
-        if (Object.keys(this._offerData).length !== 0) {
-            this._setDataFromModel();
+        this.getDataFromModel();
+        if (Object.keys(this.offerData).length !== 0) {
+            this.setDataFromModel();
         }
     }
 
@@ -31,41 +31,40 @@ export default class OfferEditDescriptionPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('input-description', 'input', this._offerDescriptionTextareaChange);
+        this.initListener('input-description', 'input', this.offerDescriptionTextareaChange);
     }
 
     /**
-     * @function _isInputsFilled
+     * @function isInputsFilled
      * @returns {boolean} true, если все инпуты заполнены
      * @private
      */
-    _isInputsFilled() {
+    isInputsFilled() {
         let isFilled = true;
-        for (const key in this._offerData) {
-            if (this._offerData[key] === '') {isFilled = false; return isFilled;}
+        for (const key in this.offerData) {
+            if (this.offerData[key] === '') {isFilled = false; return isFilled;}
         }
         return isFilled;
     }
 
     /**
-     * @function _setDataFromModel
+     * @function setDataFromModel
      * @description Метод установки данных из модели в инпуты.
      * @private
      */
-    _setDataFromModel() {
+    setDataFromModel() {
         const input = document
             .getElementById('input-description') as HTMLInputElement
-        input.value = this._offerData[input.id] || '';
+        input.value = this.offerData[input.id] || '';
     }
 
     /**
-     * @function _offerDescriptionTextareaChange
+     * @function offerDescriptionTextareaChange
      * @description Метод обработки события изменения текста в текстовом поле.
      * @param {Event} event событие изменения текста
-     * @param {HTMLElement} target элемент, вызвавший событие
      * @private
      */
-    _offerDescriptionTextareaChange(event: Event) {
+    private offerDescriptionTextareaChange(event: Event) {
         event.preventDefault();
 
         if (!event.target) {
@@ -78,8 +77,8 @@ export default class OfferEditDescriptionPage extends OfferPage {
             return;
         }
 
-        this._offerData[target.id] = target.value;
-        OfferCreate.setData(this._pageName, this._offerData);
-        this._markAsFullfilled(this._isInputsFilled());
+        this.offerData[target.id] = target.value;
+        OfferCreate.setData(this.pageName, this.offerData);
+        this.markAsFullfilled(this.isInputsFilled());
     }
 }

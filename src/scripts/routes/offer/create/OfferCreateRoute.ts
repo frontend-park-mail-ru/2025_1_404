@@ -8,14 +8,14 @@ import PageManager from "../../../managers/pageManager.ts";
  * @augments BaseRoute
  */
 export class OfferCreateRoute extends BaseRoute {
-    _pageName: string;
+    public pageName: string;
     /**
      * @description Конструктор класса.c
      * @param {string} pageName имя страницы
      */
     constructor(pageName: string) {
         super();
-        this._pageName = pageName;
+        this.pageName = pageName;
     }
 
     /**
@@ -23,6 +23,6 @@ export class OfferCreateRoute extends BaseRoute {
      * @description Метод, который вызывается при обработке маршрута.
      */
     process() {
-        PageManager.renderPage(this._pageName, {});
+        PageManager.renderPage(this.pageName, {});
     }
 }

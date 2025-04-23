@@ -16,14 +16,14 @@ interface OfferEditRouteParams {
  * @augments BaseRoute
  */
 export class OfferEditRoute extends BaseRoute {
-    _pageName: string;
+    private pageName: string;
     /**
      * @description Конструктор класса.c
      * @param {string} pageName имя страницы
      */
     constructor(pageName: string) {
         super();
-        this._pageName = pageName;
+        this.pageName = pageName;
     }
 
     /**
@@ -37,6 +37,6 @@ export class OfferEditRoute extends BaseRoute {
             RouteManager.navigateTo('/');
             return;
         }
-        PageManager.renderPage(this._pageName, {id: idNumber});
+        PageManager.renderPage(this.pageName, {id: idNumber});
     }
 }

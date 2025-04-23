@@ -9,7 +9,7 @@ import metroStationTemplate from "../../metroStation/template.precompiled.js";
  * @augments BaseComponent
  */
 export default class HousingComplexInformation extends BaseComponent {
-    private _phoneButton: HTMLButtonElement | null;
+    private phoneButton: HTMLButtonElement | null;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -17,9 +17,9 @@ export default class HousingComplexInformation extends BaseComponent {
      */
     constructor({page, layout} : BaseComponentInterface) {
         super({page, layout});
-        this._phoneButton = document.getElementById('asideDeveloperPhone') as HTMLButtonElement;
+        this.phoneButton = document.getElementById('asideDeveloperPhone') as HTMLButtonElement;
         
-        this._addSubway();
+        this.addSubway();
     }
 
     /**
@@ -27,15 +27,15 @@ export default class HousingComplexInformation extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('asideDeveloperPhone', 'click', this._getPhone);
+        this.initListener('asideDeveloperPhone', 'click', this.getPhone);
     }
 
     /**
-     * @function _addSubway
+     * @function addSubway
      * @description Метод добавления информации о метро.
      * @private
      */
-    _addSubway() {
+    private addSubway() {
         const station = document.querySelector('.housingComplex__info-block-metro') as HTMLElement;
         getZhkLine()
         .then ((data) => {
@@ -44,18 +44,18 @@ export default class HousingComplexInformation extends BaseComponent {
     }
 
     /**
-     * @function _getPhone
+     * @function getPhone
      * @description Метод получения телефона застройщика.
      * @private
      */
-    _getPhone() {
+    private getPhone() {
         getZhkPhone()
         .then((data) => {
-            if (!this._phoneButton) {
+            if (!this.phoneButton) {
                 return;
             }
-            this._phoneButton.textContent = data.phone;
-            this._phoneButton.disabled=true;
+            this.phoneButton.textContent = data.phone;
+            this.phoneButton.disabled=true;
         })
     }
 }

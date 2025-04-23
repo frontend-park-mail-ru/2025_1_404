@@ -9,7 +9,7 @@ import {Page} from "../../pages/page.ts";
  * @augments BaseComponent
  */
 export default class AddressButton extends BaseComponent {
-    private displayName: string;
+    private address: string;
     private index: number;
 
     /**
@@ -18,13 +18,13 @@ export default class AddressButton extends BaseComponent {
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
      * @param {number} index - индекс компонента.
-     * @param {string} displayName - имя компонента.
+     * @param {string} address - адрес
      * @returns {string} HTML-строка с разметкой компонента.
      */
-    constructor({page, layout, index, displayName}: {page: Page, layout: BaseLayout | undefined, displayName: string, index: number}) {
+    constructor({page, layout, index, address}: {page: Page, layout: BaseLayout | undefined, address: string, index: number}) {
         super({page, layout});
         this.index = index;
-        this.displayName = displayName;
+        this.address = address;
     }
 
     /**
@@ -33,6 +33,6 @@ export default class AddressButton extends BaseComponent {
      * @returns {string} HTML-строка с разметкой компонента.
      */
     render() {
-        return template({name: this.displayName, index: this.index});
+        return template({name: this.address, index: this.index});
     }
 }

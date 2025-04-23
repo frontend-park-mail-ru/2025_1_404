@@ -17,10 +17,10 @@ type EventCallback = (...args: any[]) => void;
 export class BaseLayout {
     private events: Record<string, EventCallback | null>;
     private handlers: Array<{ element: HTMLElement; handler: EventListenerOrEventListenerObject; type: keyof HTMLElementEventMap | string }>;
-    private _progressBar: ProgressBar | undefined;
-    private _loader: Loader | undefined;
-    private _page: Page | undefined;
-    protected _submitForm: SubmitModal | undefined;
+    private progressBar: ProgressBar | undefined;
+    private loader: Loader | undefined;
+    private page: Page | undefined;
+    protected submitForm: SubmitModal | undefined;
     /**
      * @description Конструктор класса.
      */
@@ -42,10 +42,10 @@ export class BaseLayout {
                 page.destroy();
             },
             render: ({root, props}: PageRenderInterface) => {
-                this._progressBar = new ProgressBar({layout: this, page});
-                this._loader = new Loader({layout: this, page});
-                this._submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
-                this._page = page;
+                this.progressBar = new ProgressBar({layout: this, page});
+                this.loader = new Loader({layout: this, page});
+                this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
+                this.page = page;
 
                 page.render({
                     layout: this,
@@ -69,6 +69,17 @@ export class BaseLayout {
     }
 
     /**
+     * @function setLoaderStatus
+     * @description Метод установки статуса загрузчика.
+     * @param {boolean} status статус загрузчика.
+     */
+    setLoaderStatus(status: boolean) {
+        if (this.loader) {
+            this.loader.setLoaderStatus(status);
+        }
+    }
+
+    /**
      * @function loadUser
      * @description Метод загрузки пользователя.
      */
@@ -76,8 +87,8 @@ export class BaseLayout {
         if (User.isLoaded()) {
             return;
         }
-        if (this._loader) {
-            this._loader.setLoaderStatus(true);
+        if (this.loader) {
+            this.loader.setLoaderStatus(true);
         }
         updateCSRF().finally(() => {
             User.update().finally(() => {
@@ -93,12 +104,12 @@ export class BaseLayout {
      * @param {string} details - детали попапа.
      */
     addPopup(title: string, details: string) {
-        if (!this._page) {
+        if (!this.page) {
             return;
         }
         const popup = new Popup({
             layout: this,
-            page: this._page
+            page: this.page
         });
         const popups = document.querySelector('.popups');
         if (!popups) {
@@ -210,16 +221,16 @@ export class BaseLayout {
      * @returns {Promise<void>} Promise, который будет выполнен после завершения запроса.
      */
     async makeRequest<TArgs extends unknown[], TReturn>(func: (...args: TArgs) => Promise<TReturn>, ...args: TArgs) {
-        if (this._progressBar) {
-            this._progressBar.setPercentage(30);
+        if (this.progressBar) {
+            this.progressBar.setPercentage(30);
         }
         return await func(...args)
             .then((data) => data)
             .catch((err: Error) => {
                 throw err;
             }).finally(() => {
-                if (this._progressBar) {
-                    this._progressBar.setPercentage(100);
+                if (this.progressBar) {
+                    this.progressBar.setPercentage(100);
                 }
             })
     }

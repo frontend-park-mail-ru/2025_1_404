@@ -21,50 +21,50 @@ export default class Header extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListenerForClass('logo-href', 'click', this._logoHrefHandler);
-        this.initListener('profile-href', 'click', this._profileHrefHandler);
-        this.initListener('registerButton', 'click', this._registerButtonHandler);
-        this.initListener('loginButton', 'click', this._loginButtonHandler);
-        this.initListener('logoutButton', 'click', this._logoutButtonHandler);
+        this.initListenerForClass('logo-href', 'click', this.logoHrefHandler);
+        this.initListener('profile-href', 'click', this.profileHrefHandler);
+        this.initListener('registerButton', 'click', this.registerButtonHandler);
+        this.initListener('loginButton', 'click', this.loginButtonHandler);
+        this.initListener('logoutButton', 'click', this.logoutButtonHandler);
     }
 
     /**
-     * @function _profileHrefHandler
+     * @function profileHrefHandler
      * @description Обработчик клика по ссылке на профиль в шапке
      * @param {Event} event событие клика
      * @private
      */
-    _profileHrefHandler(event: Event) {
+    private profileHrefHandler(event: Event) {
         event.preventDefault();
         RouteManager.navigateTo('/profile');
     }
 
     /**
-     * @function _logoHrefHandler
+     * @function logoHrefHandler
      * @description Обработчик клика по логотипу в шапке
      * @param {Event} event событие клика
      * @private
      */
-    _logoHrefHandler(event: Event) {
+    private logoHrefHandler(event: Event) {
         event.preventDefault();
         RouteManager.navigateTo('/');
     }
 
     /**
-     * @function _registerButtonHandler
+     * @function registerButtonHandler
      * @description Обработчик события перехода на страницу регистрации
      * @private
      */
-    _registerButtonHandler() {
+    private registerButtonHandler() {
         RouteManager.navigateTo('/register');
     }
 
     /**
-     * @function _loginButtonHandler
+     * @function loginButtonHandler
      * @description Обработчик события открытия окна входа
      * @private
      */
-    _loginButtonHandler() {
+    private loginButtonHandler() {
         if (!this.layout) {
             return;
         }
@@ -72,11 +72,11 @@ export default class Header extends BaseComponent {
     }
 
     /**
-     * @function _logoutButtonHandler
+     * @function logoutButtonHandler
      * @description Обработчик события кнопки выхода из аккаунта
      * @private
      */
-    _logoutButtonHandler() {
+    private logoutButtonHandler() {
         if (!this.layout) {
             return;
         }

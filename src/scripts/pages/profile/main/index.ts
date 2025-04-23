@@ -15,7 +15,7 @@ import OfferCreateLayout from "../../../layouts/offerCreate";
  * @augments Page
  */
 export default class ProfileMainPage extends Page {
-    private _layout: BaseLayout | undefined;
+    private layout: BaseLayout | undefined;
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -24,10 +24,10 @@ export default class ProfileMainPage extends Page {
      */
     render({layout, root} : PageRenderInterface) {
         root.innerHTML = template();
-        this._layout = layout;
+        this.layout = layout;
         super.render({layout, root});
 
-        this._updateMyOffers();
+        this.updateMyOffers();
     }
 
     /**
@@ -35,27 +35,27 @@ export default class ProfileMainPage extends Page {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('profileMyOffersPreviews', 'click', this._handlePreviewClick);
-        this.initListener('profileBlockCreateOfferButton', 'click', this._handleCreateOfferButton);
-        this.initListener('profileBlockMyOffersButton', 'click', this._handleMyOffersButton);
+        this.initListener('profileMyOffersPreviews', 'click', this.handlePreviewClick);
+        this.initListener('profileBlockCreateOfferButton', 'click', this.handleCreateOfferButton);
+        this.initListener('profileBlockMyOffersButton', 'click', this.handleMyOffersButton);
     }
 
     /**
-     * @function _handleCardClick
-     * @description Метод обработки клика по карточке объявления.
+     * @function handleMyOffersButton
+     * @description Метод обработки клика по кнопке "Мои объявления".
      * @param {Event} event событие
      */
-    _handleMyOffersButton(event: Event) {
+    private handleMyOffersButton(event: Event) {
         event.preventDefault();
         RouteManager.navigateTo('/profile/offers');
     }
 
     /**
-     * @function _handleCreateOfferButton
+     * @function handleCreateOfferButton
      * @description Метод обработки клика по кнопке создания объявления.
      * @param {Event} event событие
      */
-    _handleCreateOfferButton(event: Event) {
+    private handleCreateOfferButton(event: Event) {
         event.preventDefault();
         OfferCreateLayout.init();
         RouteManager.navigateTo('/offer/create/type');
@@ -63,11 +63,11 @@ export default class ProfileMainPage extends Page {
 
 
     /**
-     * @function _handleTabClick
-     * @description Метод обработки клика по вкладке.
+     * @function handlePreviewClick
+     * @description Метод обработки клика по превью объявления.
      * @param {Event} event событие
      */
-    _handlePreviewClick(event: Event) {
+    private handlePreviewClick(event: Event) {
         const target = event.target as HTMLElement;
         if (!target) {
             return;
@@ -94,11 +94,11 @@ export default class ProfileMainPage extends Page {
      * @function initListeners
      * @description Метод инициализации слушателей событий.
      */
-    _updateMyOffers() {
+    private updateMyOffers() {
         const myOffersList = document.getElementById('profileMyOffersPreviews') as HTMLElement;
         const myOffersButton = document.getElementById('profileBlockMyOffersButton') as HTMLElement;
         const createOfferButton = document.getElementById('profileBlockCreateOfferButton') as HTMLElement;
-        if (!myOffersList || !this._layout) {
+        if (!myOffersList || !this.layout) {
             return;
         }
         myOffersList.innerHTML = '';
@@ -106,7 +106,7 @@ export default class ProfileMainPage extends Page {
         if (!user || typeof user.id !== 'number') {
             return;
         }
-        this._layout.makeRequest(searchOffers, {
+        this.layout.makeRequest(searchOffers, {
             'seller_id': user.id.toString(),
             'offer_status_id': '1'
         }).then((response) => {
@@ -131,7 +131,7 @@ export default class ProfileMainPage extends Page {
                 createOfferButton.classList.add('active');
             }
         }).catch((error) => {
-            this._layout?.addPopup('Ошибка сервера', error.message);
+            this.layout?.addPopup('Ошибка сервера', error.message);
         })
     }
 }
