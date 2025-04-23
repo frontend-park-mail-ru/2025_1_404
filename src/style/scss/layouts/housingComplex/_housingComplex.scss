@@ -1,5 +1,9 @@
 .housingComplex {
 
+    @media (max-width: 730px) {
+        padding-bottom: 5em;
+    }
+
     &__slider-wrapper {
         max-width: 1920px;
         margin: 0 auto;

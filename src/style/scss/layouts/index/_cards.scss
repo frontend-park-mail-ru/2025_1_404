@@ -1,15 +1,22 @@
 .cards {
   padding-bottom: 3.125em;
 
+  @media (max-width: 730px) {
+    padding-bottom: 5em;
+  }
+
   &__title {
     font-size: 1.75em;
     font-weight: 700;
     margin: 1.563rem 0;
+
+    @media (max-width: 760px) {
+      font-size: 1.6em;
+    }
   }
 
   &__list {
     display: flex;
-    /*justify-content: space-between;*/
     gap: 1.6em;
     flex-wrap: wrap;
   }

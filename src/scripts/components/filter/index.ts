@@ -110,6 +110,7 @@ export default class Filter extends BaseComponent {
         this.initListener('filterInputAddress__input', 'input', this.filterInputChange);
         this.initListener('filterInputAddress__input', 'keyup', this.filterSubmitKey);
         this.initListener('filterSubmitButton', 'click', this.filterSubmit);
+        this.initListener('filterListSubmitButton', 'click', this._filterListSubmit);
     }
 
     /**
@@ -246,6 +247,7 @@ export default class Filter extends BaseComponent {
             this.filterSelectClosePopup(this.openPopupButton);
         }
         this.openPopupButton = event.target as HTMLButtonElement;
+        this.openPopupButton.classList.toggle('active');
 
         if (this.openPopupButton.nextElementSibling) {
             this.openPopupButton.nextElementSibling.classList.toggle('active');

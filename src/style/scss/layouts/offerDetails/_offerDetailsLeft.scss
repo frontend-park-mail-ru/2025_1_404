@@ -5,10 +5,15 @@
   flex-direction: column;
   gap: 20px;
 
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
+
   &-slider {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
 
     img {
       width: 100%;
@@ -21,23 +26,28 @@
     flex-direction: column;
     gap: 10px;
 
-    &-title, &-href {
+    &-title {
       font-size: 28px;
       font-weight: 600;
+
+      @media (max-width: 730px) {
+        font-size: 22px;
+      }
     }
 
     &-href {
-      color: $blue;
-
-      &:hover {
-        cursor: pointer;
-      }
+      width: 50%;
+      margin: 0 auto;
     }
 
     &-text {
       color: $grey;
       line-height: 24px;
       overflow-wrap: break-word;
+
+      @media (max-width: 730px) {
+        font-size: 14px;
+      }
     }
   }
 

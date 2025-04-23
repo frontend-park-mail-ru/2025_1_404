@@ -50,6 +50,7 @@ import ClearInput from "../components/clearInput/template.precompiled.js";
 import AddressInput from "../components/addressInput/template.precompiled.js";
 import Popup from "../components/popup/template.precompiled.js";
 import Popups from "../components/popups/template.precompiled.js";
+import BottomNavigationBar from "../components/bottomNavigationBar/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -108,6 +109,7 @@ export default function registerComponents() {
         [SearchOffer, 'SearchOffer'],
         [SubmitModal, 'SubmitModal'],
         [UserAvatar, 'UserAvatar'],
+        [BottomNavigationBar, 'BottomNavigationBar'],
     ];
 
     components.forEach(([component, name]) => {
