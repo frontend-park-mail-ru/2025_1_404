@@ -3,6 +3,7 @@ import {SellDetails} from "./offer.ts";
 class OfferMock {
     private sellDetails: Record<number, SellDetails> = {};
     private userOfferVisits: Record<number, number[]> = {};
+    private userFavorites: Record<number, number[]> = {};
 
     public getSellDetails(offerId: number) : SellDetails {
         const data = this.sellDetails[offerId];
@@ -32,6 +33,29 @@ class OfferMock {
         */
         this.userOfferVisits[offerId].push(1);
         this.sellDetails[offerId].views = this.userOfferVisits[offerId].length;
+    }
+
+    public toggleFavorite(userId: number, offerId: number) {
+        if (!(userId in this.userFavorites)) {
+            this.userFavorites[userId] = [];
+        }
+        const index = this.userFavorites[userId].indexOf(offerId);
+        if (index > -1) {
+            this.userFavorites[userId].splice(index, 1);
+            this.sellDetails[offerId].favorites--;
+            return {'status': false};
+        }
+        this.userFavorites[userId].push(offerId);
+        this.sellDetails[offerId].favorites++;
+        return {'status': true};
+    }
+
+    public isOfferFavoritedByUser(userId: number, offerId: number) {
+        if (!(userId in this.userFavorites)) {
+            this.userFavorites[userId] = [];
+        }
+        const index = this.userFavorites[userId].indexOf(offerId);
+        return index > -1;
     }
 
 }

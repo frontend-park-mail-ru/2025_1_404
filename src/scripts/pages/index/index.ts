@@ -4,7 +4,7 @@ import {Page, PageRenderInterface} from '../page';
 import User from "../../models/user.ts";
 import cardTemplate from "../../components/card/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil";
-import {getOffers} from "../../util/apiUtil.ts";
+import {favourite, getOffers} from "../../util/apiUtil.ts";
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
@@ -74,7 +74,7 @@ export default class IndexPage extends Page {
         else {
             cardTitle = 'Продажа: ' + cardTitle;
         }
-        this.cardsList.insertAdjacentHTML('beforeend', cardTemplate({id: offer.id, address: offer.address, cardTitle, floor: offer.floor, image: offer.images[0], metroColor: getMetroColorByLineName(offer.metroLine), metroStation: offer.metroStation || "Нет", rooms: offer.rooms, square: offer.area, totalFloors: offer.totalFloors}));
+        this.cardsList.insertAdjacentHTML('beforeend', cardTemplate({id: offer.id, address: offer.address, cardTitle, floor: offer.floor, image: offer.images[0], metroColor: getMetroColorByLineName(offer.metroLine), metroStation: offer.metroStation || "Нет", rooms: offer.rooms, square: offer.area, totalFloors: offer.totalFloors, favorite: offer.favorite}));
     }
 
     /**
@@ -124,16 +124,23 @@ export default class IndexPage extends Page {
             }
             parentElement = parentElement.parentElement;
         }
+        if (!parentElement.classList.contains('card__link')) {
+            return;
+        }
         if (heart.classList.contains('heart')) {
             if (!User.isAuthenticated()) {
                 this.layout?.emit('showLogin');
                 return;
             }
-            heart.classList.toggle('active');
+            this.layout?.makeRequest(favourite, Number(parentElement.dataset.id)).then((data) => {
+                const status = data.status;
+                heart.classList.remove('active');
+                if (status) {
+                    heart.classList.add('active');
+                }
+            });
             return;
         }
-        if (parentElement.classList.contains('card__link')) {
-            RouteManager.navigateTo(`/offer/details/${parentElement.dataset.id}`);
-        }
+        RouteManager.navigateTo(`/offer/details/${parentElement.dataset.id}`);
     }
 }

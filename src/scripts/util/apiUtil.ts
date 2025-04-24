@@ -1,4 +1,6 @@
 import {HttpMethod, createRequestOptions, makeRequest} from "./httpUtil.ts";
+import OfferMock from "../models/offerMock.ts";
+import User from "../models/user.ts";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 console.log(BACKEND_URL)
@@ -499,3 +501,14 @@ export const logout = async () => await makeAPIRequest({
     endpoint: '/auth/logout',
     method: 'POST'
 });
+
+export const favourite = async(offerId: number) => {
+    if (!User.isAuthenticated()) {
+        return {'status': false};
+    }
+    const userData = User.getData();
+    if (!userData || userData.id === undefined || userData.id === null) {
+        return {'status': false};
+    }
+    return OfferMock.toggleFavorite(userData.id, offerId);
+}

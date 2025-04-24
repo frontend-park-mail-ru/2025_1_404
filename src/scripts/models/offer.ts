@@ -1,6 +1,7 @@
 import {createOffer, publishOffer, updateOffer, uploadOfferImage} from "../util/apiUtil.ts";
 import {ImageData} from "./offerCreate.ts";
 import OfferMock from "./offerMock.ts";
+import User from "./user.ts";
 
 const offerTypes: Record<number, string> = {
     1: 'Продажа',
@@ -64,6 +65,7 @@ export default class Offer {
         favorites: 0,
         likes: 0
     };
+    favorite: boolean = false;
     status: number = 1;
     price: number = 0;
     description: string = '';
@@ -131,6 +133,10 @@ export default class Offer {
         this.seller.avatar = json.offer_data.seller.avatar;
         this.seller.createdAt = new Date(json.offer_data.seller.created_at);
 
+        const userData = User.getData();
+        if (!userData || userData.id === null || userData.id === undefined) {
+            return;
+        }
         if (this.id === null || this.id === undefined) {
             return;
         }
@@ -138,6 +144,8 @@ export default class Offer {
         this.sellDetails.views = sellDetails.views;
         this.sellDetails.likes = sellDetails.likes;
         this.sellDetails.favorites = sellDetails.favorites;
+
+        this.favorite = OfferMock.isOfferFavoritedByUser(userData.id, this.id);
 
         this.status = json.offer.status_id;
         this.price = json.offer.price;
