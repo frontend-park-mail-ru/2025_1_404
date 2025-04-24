@@ -28,7 +28,7 @@ export default class Filter extends BaseComponent {
             this.page = page;
         }
         this.openPopupButton = null;
-        this.submitButton = document.getElementById("filterSubmitButton");
+        this.submitButton = document.getElementById("filterListSubmitButton");
         this.defaultFields = {
             "filterOfferType": "Тип сделки",
             "filterPropertyType": "Тип недвижимости",
@@ -109,7 +109,7 @@ export default class Filter extends BaseComponent {
         this.initListener('filterSquareRight__input', 'input', this.filterInputChange);
         this.initListener('filterInputAddress__input', 'input', this.filterInputChange);
         this.initListener('filterInputAddress__input', 'keyup', this.filterSubmitKey);
-        this.initListener('filterSubmitButton', 'click', this.filterSubmit);
+        this.initListener('filterListSubmitButton', 'click', this.filterListSubmit);
     }
 
     /**
@@ -131,17 +131,17 @@ export default class Filter extends BaseComponent {
     private filterSubmitKey(event: Event) {
         event.preventDefault();
         if (event instanceof KeyboardEvent && event.key === 'Enter') {
-            this.filterSubmit(event);
+            this.filterListSubmit(event);
         }
     }
 
     /**
-     * @function filterSubmit
+     * @function filterListSubmit
      * @description Метод обработки отправки формы фильтра.
      * @param {Event} event событие отправки формы.
      * @private
      */
-    private filterSubmit(event: Event) {
+    private filterListSubmit(event: Event) {
         event.preventDefault();
         event.stopPropagation();
 

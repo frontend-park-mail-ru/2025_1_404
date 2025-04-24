@@ -9,6 +9,7 @@ import getMetroColorByLineName from "../../../util/metroUtil.ts";
 import RouteManager from "../../../managers/routeManager/routeManager.ts";
 import User from "../../../models/user.ts";
 import OfferEditLayout from "../../../layouts/offerEdit";
+import OfferMock from "../../../models/offerMock.ts";
 
 /**
  * @class ProfileMyOffersPage
@@ -132,7 +133,10 @@ export default class ProfileMyOffersPage extends Page {
                     floor: offer.floor,
                     totalFloors: offer.totalFloors,
                     metroColor: getMetroColorByLineName(offer.metroLine),
-                    image: offer.images[0]
+                    image: offer.images[0],
+                    views: offer.sellDetails.views,
+                    favorites: offer.sellDetails.favorites,
+                    likes: offer.sellDetails.likes
                 });
             });
         }).catch((error) => {

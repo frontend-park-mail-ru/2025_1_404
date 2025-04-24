@@ -13,6 +13,7 @@ import getMetroColorByLineName from "../../util/metroUtil.ts";
 import PageManager from "../../managers/pageManager.ts";
 import User from "../../models/user.ts";
 import OfferDetailsInfo from "../../components/offerDetailsInfo";
+import OfferMock from "../../models/offerMock.ts";
 
 /**
  * @class offerDetailsPage
@@ -142,7 +143,10 @@ export default class OfferDetailsPage extends Page {
             return Promise.reject(new Error('Layout is not defined'));
         }
         return this.layout.makeRequest(getOfferById, id)
-            .then((data) => data)
+            .then((data) => {
+                OfferMock.updateVisit(User.getData()?.id, id);
+                return data;
+            })
             .catch ((error) => {
                 PageManager.renderPage('404');
                 throw error;

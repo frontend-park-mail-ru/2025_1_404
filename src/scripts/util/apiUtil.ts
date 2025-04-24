@@ -83,6 +83,8 @@ const makeAPIRequest = async ({endpoint, method='GET', body={}, query={}, files=
     options.mode = 'cors';
     options.credentials = 'include';
     addCsrfToken(options);
+    /* Для будущей фишки бэка с передачей requestId с фронта
+    addRequestId(options);*/
 
     return await makeRequest({
         url: `${BACKEND_URL}${endpoint}`,
@@ -105,6 +107,14 @@ const addCsrfToken = (options: RequestInit) => {
             ...options.headers,
             'X-CSRF-Token': csrfToken
         }
+    }
+}
+
+const addRequestId = (options: RequestInit) => {
+    const requestId = crypto.randomUUID();
+    options.headers = {
+        ...options.headers,
+        'X-request-id': requestId
     }
 }
 

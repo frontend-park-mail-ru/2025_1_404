@@ -1,5 +1,6 @@
 import {createOffer, publishOffer, updateOffer, uploadOfferImage} from "../util/apiUtil.ts";
 import {ImageData} from "./offerCreate.ts";
+import OfferMock from "./offerMock.ts";
 
 const offerTypes: Record<number, string> = {
     1: 'Продажа',
@@ -39,6 +40,12 @@ interface Seller {
     createdAt: Date;
 }
 
+export interface SellDetails {
+    views: number;
+    favorites: number;
+    likes: number;
+}
+
 /**
  * @class Offer
  * @description Класс объявления
@@ -51,6 +58,11 @@ export default class Offer {
         lastName: '',
         avatar: '',
         createdAt: new Date(),
+    };
+    sellDetails: SellDetails = {
+        views: 0,
+        favorites: 0,
+        likes: 0
     };
     status: number = 1;
     price: number = 0;
@@ -118,6 +130,15 @@ export default class Offer {
         this.seller.lastName = json.offer_data.seller.seller_last_name;
         this.seller.avatar = json.offer_data.seller.avatar;
         this.seller.createdAt = new Date(json.offer_data.seller.created_at);
+
+        if (this.id === null || this.id === undefined) {
+            return;
+        }
+        const sellDetails = OfferMock.getSellDetails(this.id);
+        this.sellDetails.views = sellDetails.views;
+        this.sellDetails.likes = sellDetails.likes;
+        this.sellDetails.favorites = sellDetails.favorites;
+
         this.status = json.offer.status_id;
         this.price = json.offer.price;
         this.description = json.offer.description;
