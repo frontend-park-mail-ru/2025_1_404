@@ -41,6 +41,7 @@ export default class ProfileLeft extends BaseComponent {
     initListeners() {
         this.initListener('profileMainButton', 'click', this.mainPageButtonHandler);
         this.initListener('offerCreateButton', 'click', this.offerCreatePageButtonHandler);
+        this.initListener('profileFavoritesButton', 'click', this.favoritesButtonHandler);
         this.initListener('profileMyOffersButton', 'click', this.myOffersButtonHandler);
         this.initListener('profileLogoutButton', 'click', this.logoutButtonHandler);
         this.initListener('profileAvatarUpload', 'click', this.processAvatarHandler);
@@ -352,6 +353,15 @@ export default class ProfileLeft extends BaseComponent {
         OfferCreate.reset();
         OfferCreateLayout.init();
         RouteManager.navigateTo('/offer/create/type');
+    }
+
+    /**
+     * @function favoritesButtonHandler
+     * @description Обработчик события перехода на страницу избранного
+     * @private
+     */
+    private favoritesButtonHandler() {
+        RouteManager.navigateTo('/profile/favorites');
     }
 
     /**

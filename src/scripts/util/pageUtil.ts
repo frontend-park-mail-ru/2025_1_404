@@ -25,6 +25,7 @@ import OfferEditParamsPage from "../pages/offerEdit/params";
 import OfferEditPricePage from "../pages/offerEdit/price";
 import OfferEditPhotosPage from "../pages/offerEdit/photos";
 import OfferEditDescriptionPage from "../pages/offerEdit/description";
+import ProfileFavoritesPage from "../pages/profile/favorites";
 
 /**
  * @function registerPages
@@ -41,6 +42,7 @@ export default function registerPages() {
 
     PageManager.registerPage('main', ProfileLayout.process(new ProfileMainPage()));
     PageManager.registerPage('offers', ProfileLayout.process(new ProfileMyOffersPage()));
+    PageManager.registerPage('favorites', ProfileLayout.process(new ProfileFavoritesPage()));
 
     PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type", 4)));
     PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 3)));
