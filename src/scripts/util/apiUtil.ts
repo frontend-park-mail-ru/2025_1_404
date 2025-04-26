@@ -131,6 +131,16 @@ export const getOffers = async() => await makeAPIRequest({
 });
 
 /**
+ * @function getCsatAnswers
+ * @description Функция для получения списка ответов по вопросу из CSAT опросов.
+ * @returns {Promise<*>} Ответ от сервера
+ */
+export const getCsatAnswers = async(id: number) => await makeAPIRequest({
+    endpoint: '/csat/stats/'.concat(id.toString()),
+    method: 'GET'
+});
+
+/**
  * @function searchOffers
  * @description Функция для поиска предложений по фильтрам.
  * @param {Record<string, string>} filters Фильтры для поиска

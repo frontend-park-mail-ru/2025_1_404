@@ -53,6 +53,7 @@ import Popup from "../components/popup/template.precompiled.js";
 import Popups from "../components/popups/template.precompiled.js";
 import BottomNavigationBar from "../components/bottomNavigationBar/template.precompiled.js";
 import Csat from "../components/csat/template.precompiled.js"
+import CsatStatsAvg from "../components/csatStatsAvg/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -114,6 +115,7 @@ export default function registerComponents() {
         [UserAvatar, 'UserAvatar'],
         [BottomNavigationBar, 'BottomNavigationBar'],
         [Csat, 'Csat'],
+        [CsatStatsAvg, 'CsatStatsAvg'],
     ];
 
     components.forEach(([component, name]) => {

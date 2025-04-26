@@ -32,29 +32,56 @@ interface EventResponse {
     questions: Question[];
 }
 
-interface StatsRespomse {
+interface StatsResponse {
     answers: Answer[];
 }
 
 class CSATUtil {
 
-    private CSAT_URL = "http://localhost:8002";
+    private CSAT_URL = "http://localhost:8002/api/v1";
 
-    async getEventDetails(event: string) {
+
+    /**
+     * @function getEventDetails
+     * @description Функция для получения списка событий вызова CSAT опросов.
+     * @returns {Promise<*>} Ответ от сервера
+     */
+    async getEventDetails() {
         const data = await this.makeCSATRequest({
-            endpoint: '/csat',
-            query: {
-                event
-            }
+            endpoint: '/csat/events',
         });
         return data as EventResponse;
     }
 
-    async getQuestionsStats() {
+
+    /**
+     * @function getQuestionsStats
+     * @description Функция для получения списка вопросов по событию вызова CSAT опросов.
+     * @returns {Promise<*>} Ответ от сервера
+     */
+    async getQuestionsStats(event: string) {
+        const data = await this.makeCSATRequest({
+            endpoint: '/csat',
+            query: {
+                event_name: event,
+            }
+        });
+        return data as StatsResponse;
+    }
+
+    /**
+     * @function getCsatAnswers
+     * @description Функция для получения списка ответов по вопросу из CSAT опросов.
+     * @returns {Promise<*>} Ответ от сервера
+     */
+    async getAnswersStats(questionId: string) {
         const data = await this.makeCSATRequest({
             endpoint: '/csat/stats',
+            query: {
+                question_id: questionId,
+            }
         });
-        return data as StatsRespomse;
+        return data;
     }
 
     async answerToQuestion(questionId: number, rating: number) {

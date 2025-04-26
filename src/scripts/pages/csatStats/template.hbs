@@ -2,20 +2,30 @@
     <div class="csatStats">
         <div class="container">
             <div class="csatStats__inner">
+                <h2 class="csatStats__title">
+                    Статистика по CSAT опросам:
+                </h2>
                 <div class="csatStats__menu">
-                    <div class="csatStats__menu-events">
-                        {{> LightButton name="create__offer" }}
-                        {{> LightButton name="view__offer" }}
+                    <div class="csatStats__menu-block">
+                        <span class="csatStats__menu-block-title">
+                            Выберите событие:
+                        </span>
+                        <div id="eventsList" class="csatStats__menu-block-btns"></div>
                     </div>
-                    <div class="csatStats__menu-questions">
-                        {{> LightButton name="Как дела?" }}
-                        {{> LightButton name="Как жена?" }}
+                    <div class="csatStats__menu-block">
+                        <span id="chooseQuestionTitle" class="csatStats__menu-unactive csatStats__menu-block-title">
+                            Выберите вопрос:
+                        </span>
+                        <div id="questionsList" class="csatStats__menu-block-btns"></div>
                     </div>
                 </div>
 
                 <div id="csatStatsResults" class="csatStats__results">
-                    <div class="csatStats__results-mid">
-                        <div class="csatStats__results-answers">
+                    <div class="csatStats__results-list">
+                        <div id="statsList" class="csatStats__results-avg">
+
+                        </div>
+                        <div id="answersList" class="csatStats__results-answers">
 
                         </div>
                     </div>
