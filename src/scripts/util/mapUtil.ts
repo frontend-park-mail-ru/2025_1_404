@@ -1,9 +1,9 @@
-import {
-    YMap,
-    YMapDefaultFeaturesLayer,
-    YMapDefaultSchemeLayer,
-    YMapMarker
-} from '../lib/ymaps';
+// import {
+//     YMap,
+//     YMapDefaultFeaturesLayer,
+//     YMapDefaultSchemeLayer,
+//     YMapMarker
+// } from '../lib/ymaps';
 import {makeRequest} from "./httpUtil.ts";
 
 const GEOCODE_TOKEN = import.meta.env.VITE_GEOCODE_TOKEN;
@@ -36,7 +36,7 @@ interface AddPlacemarkInterface {
     /**
      * @property {YMap} map экземпляр карты, на которую будет добавлена метка.
      */
-    map: YMap;
+    // map: YMap;
     /**
      * @property {HTMLElement} element элемент метки, который будет отображаться на карте.
      */
@@ -55,11 +55,11 @@ interface RemovePlacemarkInterface {
     /**
      * @property {YMap} map экземпляр карты, с которой будет удалена метка.
      */
-    map: YMap;
+    // map: YMap;
     /**
      * @property {YMapMarker} placemark экземпляр метки, которую нужно удалить.
      */
-    placemark: YMapMarker;
+    // placemark: YMapMarker;
 }
 
 /**
@@ -75,22 +75,22 @@ class MapUtil {
      * @param {number} zoom уровень масштабирования карты.
      * @returns {Map} экземпляр карты.
      */
-    createMap({id, center, zoom}: CreateMapInterface): YMap | null {
-        const mapElement = document.getElementById(id) as HTMLElement;
-        if (!mapElement) {
-            return null;
-        }
-        const map = new YMap(mapElement, {
-            location: {
-                center,
-                zoom
-            }
-        }, [
-            new YMapDefaultSchemeLayer({}),
-            new YMapDefaultFeaturesLayer({})
-        ]);
-        return map;
-    }
+    // createMap({id, center, zoom}: CreateMapInterface): YMap | null {
+    //     const mapElement = document.getElementById(id) as HTMLElement;
+    //     if (!mapElement) {
+    //         return null;
+    //     }
+    //     const map = new YMap(mapElement, {
+    //         location: {
+    //             center,
+    //             zoom
+    //         }
+    //     }, [
+    //         new YMapDefaultSchemeLayer({}),
+    //         new YMapDefaultFeaturesLayer({})
+    //     ]);
+    //     return map;
+    // }
 
     /**
      * @function addPlacemark
@@ -100,13 +100,13 @@ class MapUtil {
      * @param {Array} coords координаты метки.
      * @returns {Map} экземпляр метки.
      */
-    addPlacemark({map, element, coords}: AddPlacemarkInterface): YMapMarker | null {
-        const placeMark = new YMapMarker({
-            coordinates: coords,
-        }, element);
-        map.addChild(placeMark);
-        return placeMark;
-    }
+    // addPlacemark({map, element, coords}: AddPlacemarkInterface): YMapMarker | null {
+    //     const placeMark = new YMapMarker({
+    //         coordinates: coords,
+    //     }, element);
+    //     map.addChild(placeMark);
+    //     return placeMark;
+    // }
 
     /**
      * @function removePlacemark
@@ -114,9 +114,9 @@ class MapUtil {
      * @param {*} map экземпляр карты.
      * @param {*} placemark экземпляр метки.
      */
-    removePlacemark({map, placemark}: RemovePlacemarkInterface) {
-        map.removeChild(placemark);
-    }
+    // removePlacemark({map, placemark}: RemovePlacemarkInterface) {
+    //     map.removeChild(placemark);
+    // }
 
     /**
      * @function geocode

@@ -3,7 +3,7 @@ import OfferPage from "../page.ts";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
 import AddressInput from "../../../components/addressInput";
-import {YMapMarker} from "../../../lib/ymaps.ts";
+// import {YMapMarker} from "../../../lib/ymaps.ts";
 import {DomEvent, DomEventHandlerObject} from "@yandex/ymaps3-types/imperative/YMapListener";
 import MapUtil from "../../../util/mapUtil.ts";
 
@@ -14,7 +14,7 @@ import MapUtil from "../../../util/mapUtil.ts";
  */
 export default class OfferCreateAddressPage extends OfferPage {
     private map?: Map;
-    private house?: YMapMarker;
+    // private house?: YMapMarker;
     private addressInput?: AddressInput;
     /**
      * @function render
@@ -30,7 +30,7 @@ export default class OfferCreateAddressPage extends OfferPage {
 
         this.map = new Map({center: coords, id: 'offerCreateMap', zoom: 15});
         this.map.registerClickHandler(this.onMapClick.bind(this));
-        this.house = this.map.addHouse({coords});
+        // this.house = this.map.addHouse({coords});
 
         this.getDataFromModel();
         if (this.offerData && Object.keys(this.offerData).length !== 0) {
@@ -74,11 +74,11 @@ export default class OfferCreateAddressPage extends OfferPage {
      * @param {[number, number]} coords координаты дома
      */
     changeHousePos(coords: [number, number]) {
-        if (!this.map || !this.house) {
-            return;
-        }
-        this.map.removePlacemark({placemark: this.house});
-        this.house = this.map.addHouse({coords});
+        // if (!this.map || !this.house) {
+        //     return;
+        // }
+        // this.map.removePlacemark({placemark: this.house});
+        // this.house = this.map.addHouse({coords});
     }
 
     /**
