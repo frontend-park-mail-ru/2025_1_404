@@ -26,6 +26,7 @@ import OfferEditPricePage from "../pages/offerEdit/price";
 import OfferEditPhotosPage from "../pages/offerEdit/photos";
 import OfferEditDescriptionPage from "../pages/offerEdit/description";
 import ProfileFavoritesPage from "../pages/profile/favorites";
+import CSATPage from "../pages/csat";
 
 /**
  * @function registerPages
