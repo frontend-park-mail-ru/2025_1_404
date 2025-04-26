@@ -6,6 +6,8 @@ import User from "../models/user.ts";
 import {updateCSRF} from "../util/apiUtil.ts";
 import SubmitModal from "../components/baseModal";
 import Popup from "../components/popup";
+import CsatUtil from "../util/csatUtil.ts";
+import Csat, {CSATType} from "../components/csat";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EventCallback = (...args: any[]) => void;
@@ -21,6 +23,7 @@ export class BaseLayout {
     private loader: Loader | undefined;
     private page: Page | undefined;
     protected submitForm: SubmitModal | undefined;
+    private csat: Csat | undefined;
     /**
      * @description Конструктор класса.
      */
@@ -46,6 +49,7 @@ export class BaseLayout {
                 this.loader = new Loader({layout: this, page});
                 this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
                 this.page = page;
+                this.csat = new Csat({page, layout: this});
 
                 page.render({
                     layout: this,
@@ -66,6 +70,16 @@ export class BaseLayout {
             showFieldError: page.showFieldError,
             validateFormFields: page.validateFormFields,
         }
+    }
+
+    processCSAT({type, event}: {type: CSATType, event: string}) {
+        this.makeRequest(CsatUtil.getEventDetails, event).then((data) => {
+            if (data.questions.length === 0) {
+                return;
+            }
+            // this.csat.show({type, title})
+
+        })
     }
 
     /**

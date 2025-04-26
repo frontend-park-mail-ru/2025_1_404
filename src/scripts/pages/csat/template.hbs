@@ -1,1 +1,21 @@
-{{>Csat}}
+<div class="csat__wrapper">
+    <div class="csat__header">
+        <span class="csat__header-text">
+            Насколько вы удовлетворены процессом создания объявлений?
+        </span>
+        <div id="csatCloseButton" class="csat__header-close delete__cross">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+        </div>
+    </div>
+    <div class="csat__select-wrapper">
+        <i class="csat__select-star csat__select-star-marked fa-solid fa-star"></i>
+        <i class="csat__select-star csat__select-star-marked fa-solid fa-star"></i>
+        <i class="csat__select-star fa-solid fa-star"></i>
+        <i class="csat__select-star fa-solid fa-star"></i>
+        <i class="csat__select-star fa-solid fa-star"></i>
+    </div>
+    <div class="csat__btns">
+        {{> LightButton id="csatNextButton" name="Далее"}}
+        {{> RedButton id="csatBackButton" name="Назад"}}
+    </div>
+</div>
