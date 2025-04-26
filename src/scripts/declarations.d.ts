@@ -6,7 +6,9 @@ declare module "*.precompiled.js" {
 }
 
 interface ImportMetaEnv {
-    readonly VITE_BACKEND_URL: string;
+    readonly VITE_BACKEND_AUTH_URL: string;
+    readonly VITE_BACKEND_OFFER_URL: string;
+    readonly VITE_BACKEND_ZHK_URL: string;
     readonly VITE_GEOCODE_TOKEN: string;
     readonly VITE_SUGGEST_TOKEN: string;
 }
