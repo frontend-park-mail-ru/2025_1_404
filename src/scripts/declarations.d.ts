@@ -9,6 +9,7 @@ interface ImportMetaEnv {
     readonly VITE_BACKEND_URL: string;
     readonly VITE_GEOCODE_TOKEN: string;
     readonly VITE_SUGGEST_TOKEN: string;
+    readonly VITE_CSAT_URL: string;
 }
 
 interface ImportMeta {

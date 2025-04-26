@@ -36,7 +36,7 @@ interface StatsRespomse {
 
 class CSATUtil {
 
-    private CSAT_URL = "http://localhost:8002/api/v1";
+    private CSAT_URL = import.meta.env.VITE_CSAT_URL;
 
     async getEventDetails(event: string) {
         const data = await this.makeCSATRequest({
