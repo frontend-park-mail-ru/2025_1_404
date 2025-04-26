@@ -17,7 +17,8 @@ import ProfileLayout from "../layouts/profile/index.ts";
 import ProfileMainPage from "../pages/profile/main/index.ts";
 import ProfileMyOffersPage from "../pages/profile/offers/index.ts";
 import RegisterPage from "../pages/register/index.ts";
-import SearchPage from "../pages/search/index.ts";
+import SearchListPage from "../pages/searchList/index.ts";
+import SearchMapPage from "../pages/searchMap/index.ts"
 import UnknownPage from "../pages/404/index.ts";
 import OfferEditTypePage from "../pages/offerEdit/type";
 import OfferEditAddressPage from "../pages/offerEdit/address";
@@ -64,7 +65,8 @@ export default function registerPages() {
 
     PageManager.registerPage('offerDetails', mainLayout.process(new OfferDetailsPage()));
 
-    PageManager.registerPage('search', mainLayout.process(new SearchPage()));
+    PageManager.registerPage('searchList', mainLayout.process(new SearchListPage()));
+    PageManager.registerPage('searchMap', mainLayout.process(new SearchMapPage()));
 
     PageManager.registerPage('csatStats', mainLayout.process(new CsatStatsPage()));
 }

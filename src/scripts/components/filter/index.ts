@@ -110,6 +110,7 @@ export default class Filter extends BaseComponent {
         this.initListener('filterInputAddress__input', 'input', this.filterInputChange);
         this.initListener('filterInputAddress__input', 'keyup', this.filterSubmitKey);
         this.initListener('filterListSubmitButton', 'click', this.filterListSubmit);
+        this.initListener('filterMapSubmitButton', 'click', this.filterMapSubmit);
     }
 
     /**
@@ -137,7 +138,7 @@ export default class Filter extends BaseComponent {
 
     /**
      * @function filterListSubmit
-     * @description Метод обработки отправки формы фильтра.
+     * @description Метод обработки отправки формы фильтра и навигации на страницу со списком.
      * @param {Event} event событие отправки формы.
      * @private
      */
@@ -148,7 +149,23 @@ export default class Filter extends BaseComponent {
         for (const [key, value] of Object.entries(this.filterData)) {
             FilterModel.setData(key, value);
         }
-        RouteManager.navigateTo('/search');
+        RouteManager.navigateTo('/searchList');
+    }
+
+    /**
+     * @function filterMapSubmit
+     * @description Метод обработки отправки формы фильтра и навигации на страницу с картой.
+     * @param {Event} event событие отправки формы.
+     * @private
+     */
+    private filterMapSubmit(event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        for (const [key, value] of Object.entries(this.filterData)) {
+            FilterModel.setData(key, value);
+        }
+        RouteManager.navigateTo('/searchMap');
     }
 
     /**

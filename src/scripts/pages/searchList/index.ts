@@ -5,7 +5,7 @@ import template from './template.precompiled.js';
 import User from "../../models/user.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import {searchOffers} from "../../util/apiUtil.ts";
-import searchOfferTemplate from "../../components/searchOffer/template.precompiled.js";
+import searchOfferTemplate from "../../components/searchListOffer/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import FilterModel from "../../models/filterModel.ts";
 import Offer from "../../models/offer.ts";
@@ -79,11 +79,11 @@ interface AddOfferInterface {
 }
 
 /**
- * @class SearchPage
+ * @class searchListPage
  * @description Страница поиска объявлений
  * @augments Page
  */
-export default class SearchPage extends Page {
+export default class searchListPage extends Page {
     private filter: Filter | undefined;
     private layout: BaseLayout | undefined;
     private offerList: Element | null | undefined;
@@ -100,7 +100,7 @@ export default class SearchPage extends Page {
         this.filter = new Filter({page: this, layout});
         this.filter.filterSetData();
 
-        this.offerList = document.getElementById("searchResults")
+        this.offerList = document.getElementById("searchListResults")
 
         this.getOffers(FilterModel.getFilterData());
     }
@@ -110,7 +110,7 @@ export default class SearchPage extends Page {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('searchResults', 'click', this.handleCardClick);
+        this.initListener('searchListResults', 'click', this.handleCardClick);
     }
 
     /**
@@ -124,7 +124,7 @@ export default class SearchPage extends Page {
             return;
         }
         let parent = target;
-        while (parent && parent.parentElement && !parent.classList.contains('search__results-offer')) {
+        while (parent && parent.parentElement && !parent.classList.contains('searchList__results-offer')) {
             parent = parent.parentElement;
         }
         const offerId = parent.dataset.id;
@@ -132,7 +132,7 @@ export default class SearchPage extends Page {
             return;
         }
         event.preventDefault()
-        if (target.id === 'search-link') {
+        if (target.id === 'searchList-link') {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
     }
@@ -206,8 +206,8 @@ export default class SearchPage extends Page {
             if (!offers || !Array.isArray(offers)) {
                 return;
             }
-            const title = document.getElementById('search-result-title') as HTMLElement;
-            const emptyTitle = document.getElementById('searchResultsEmpty') as HTMLElement;
+            const title = document.getElementById('searchList-result-title') as HTMLElement;
+            const emptyTitle = document.getElementById('searchListResultsEmpty') as HTMLElement;
             if (!title) {
                 return;
             }

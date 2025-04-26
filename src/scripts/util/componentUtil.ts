@@ -41,7 +41,7 @@ import ProfileOffer from "../components/profileOffer/template.precompiled.js";
 import ProfilePreview from "../components/profilePreview/template.precompiled.js";
 import ProgressBar from "../components/progressBar/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
-import SearchOffer from "../components/searchOffer/template.precompiled.js";
+import SearchListOffer from "../components/searchListOffer/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
 import PicturesCarouselPreviews from "../components/picturesCarouselPreviews/template.precompiled.js";
 import BaseModal from "../components/baseModal/template.precompiled.js";
@@ -110,7 +110,7 @@ export default function registerComponents() {
         [ProfilePreview, 'ProfilePreview'],
         [ProgressBar, 'ProgressBar'],
         [RedButton, 'RedButton'],
-        [SearchOffer, 'SearchOffer'],
+        [SearchListOffer, 'SearchListOffer'],
         [SubmitModal, 'SubmitModal'],
         [UserAvatar, 'UserAvatar'],
         [BottomNavigationBar, 'BottomNavigationBar'],

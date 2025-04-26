@@ -1,5 +1,5 @@
-@use "../abstracts/variables" as *;
-.search {
+@use "../../abstracts/variables" as *;
+.searchMap {
   height: 100%;
   background-color: $grey3;
   //height: calc(100vh - 4.375em);
@@ -36,11 +36,22 @@
       text-align: center;
     }
 
+    &-wrapper {
+      display: flex;
+      gap: 25px;
+    }
+
     &-list {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      row-gap: 20px;
+      width: 50%;
+    }
+
+    &-map {
+      width: 50%;
+      height: 100%;
     }
   }
 }

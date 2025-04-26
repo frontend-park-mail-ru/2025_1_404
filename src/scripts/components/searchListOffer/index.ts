@@ -2,11 +2,11 @@ import {BaseComponent} from "../baseComponent.ts";
 import template from './template.precompiled.js';
 
 /**
- * @class SearchOffer
+ * @class searchListOffer
  * @description Компонент объявления в поиске.
  * @augments BaseComponent
  */
-export default class SearchOffer extends BaseComponent {
+export default class searchListOffer extends BaseComponent {
     /**
      * @function render
      * @description Метод рендеринга компонента.

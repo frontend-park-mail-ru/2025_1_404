@@ -19,6 +19,11 @@ interface makeCSATRequestInterface {
     query?: Record<string, string>;
 }
 
+interface Event {
+    id: number;
+    name: string;
+}
+
 interface Question {
     id: number;
     csat_id: number;
@@ -62,7 +67,7 @@ class CSATUtil {
         const data = await this.makeCSATRequest({
             endpoint: '/csat/events',
         });
-        return data as Question[];
+        return data as Event[];
     }
 
 
