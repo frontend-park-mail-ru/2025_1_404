@@ -13,8 +13,12 @@ export default defineConfig({
     },
     build: {
         outDir: 'deploy/public',
+        target: 'esnext'
     },
     esbuild: {
-        target: 'esnext'
+        target: 'esnext',
+        supported: {
+            'top-level-await': true
+        },
     }
 })
