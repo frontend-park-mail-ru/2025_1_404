@@ -294,7 +294,7 @@ export default class CsatStatsPage extends Page {
             return;
         }
 
-        await CSATUtil.getEventDetails().then((events) => {
+        await CSATUtil.getEventsDetails().then((events) => {
             events = (events as any)["events"];
             if (!events || !Array.isArray(events)) {
                 return;
@@ -386,7 +386,7 @@ export default class CsatStatsPage extends Page {
             }
 
             console.log(answers);
-            const avgRating = answers.avg_rating;
+            const avgRating = parseFloat(answers.avg_rating).toFixed(2);
 
             const fiveStarStat = answers.five_star_stat;
             const fiveStarStatAmount = fiveStarStat.Amount;

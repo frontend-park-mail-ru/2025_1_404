@@ -43,7 +43,22 @@ class CSATUtil {
      * @description Функция для получения списка событий вызова CSAT опросов.
      * @returns {Promise<*>} Ответ от сервера
      */
-    async getEventDetails() {
+    async getEventDetails(event: string) {
+        const data = await this.makeCSATRequest({
+            endpoint: '/csat',
+            query: {
+                event_name: event
+            }
+        });
+        return data as Question[];
+    }
+
+    /**
+     * @function getEventDetails
+     * @description Функция для получения списка событий вызова CSAT опросов.
+     * @returns {Promise<*>} Ответ от сервера
+     */
+    async getEventsDetails() {
         const data = await this.makeCSATRequest({
             endpoint: '/csat/events',
         });
