@@ -4,28 +4,50 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
+  width: 350px;
+  height: 200px;
+  background-color: $white;
+  box-shadow: 0 0 10px $black;
 
   &__wrapper {
-    width: calc(100% / 6);
-    height: calc(100% / 6);
+    width: 100%;
+    height: 100%;
     padding: 10px;
     border-radius: 6px;
-    box-shadow: 0 0 4px $black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  &__text {
-    font-size: 22px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    &-text {
+      font-size: 18px;
+      width: 100%;
+      height: 100%;
+    }
+
   }
 
   &__select {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &-star {
+      font-size: 32px;
+
+      &-marked {
+        color: $orange;
+      }
+    }
   }
 
   &__btns {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 25px;
   }
 }
