@@ -131,12 +131,12 @@ export default class MainLayout extends BaseLayout {
      * @param {boolean} isAuthorized - авторизован ли пользователь
      */
     setHeaderStatus(isAuthorized: boolean) {
-        const header = document.getElementById('header');
-        const authorizedHeader = document.getElementById('header-authorized') as HTMLElement;
-        if (header && authorizedHeader) {
+        const unauthorizedHeader = document.getElementById('header-unauth') as HTMLElement;
+        const authorizedHeader = document.getElementById('header-auth') as HTMLElement;
+        if (unauthorizedHeader && authorizedHeader) {
             if (isAuthorized) {
-                header.style.display = 'none';
-                authorizedHeader.style.display = 'block';
+                unauthorizedHeader.style.display = 'none';
+                authorizedHeader.style.display = '';
                 const userData = User.getData();
                 if (!userData) {
                     return;
@@ -148,7 +148,7 @@ export default class MainLayout extends BaseLayout {
                     avatar.src = userData.avatar;
                 }
             } else {
-                header.style.display = 'block';
+                unauthorizedHeader.style.display = '';
                 authorizedHeader.style.display = 'none';
             }
         }

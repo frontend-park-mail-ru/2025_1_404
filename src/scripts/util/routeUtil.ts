@@ -22,6 +22,7 @@ import {OfferEditParamsRoute} from "../routes/offer/edit/offerEditParamsRoute.ts
 import {OfferEditPriceRoute} from "../routes/offer/edit/offerEditPriceRoute.ts";
 import {OfferEditPhotosRoute} from "../routes/offer/edit/offerEditPhotosRoute.ts";
 import {OfferEditDescriptionRoute} from "../routes/offer/edit/offerEditDescriptionRoute.ts";
+import {ProfileFavoritesRoute} from "../routes/profile/profileFavoritesRoute.ts";
 /**
  * @function registerRoutes
  * @description Регистрация маршрутов
@@ -36,6 +37,7 @@ export default function registerRoutes() {
 
     RouteManager.registerRoute('profile', authMiddleware.check(new ProfileMainRoute()));
     RouteManager.registerRoute('profile/offers', authMiddleware.check(new ProfileOffersRoute()));
+    RouteManager.registerRoute('profile/favorites', authMiddleware.check(new ProfileFavoritesRoute()));
 
     RouteManager.registerRoute('offer/create/type', OfferCreateMiddleware.check(new OfferCreateTypeRoute()));
     RouteManager.registerRoute('offer/create/address', OfferCreateMiddleware.check(new OfferCreateAddressRoute()));

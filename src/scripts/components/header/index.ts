@@ -1,5 +1,6 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
+import User from "../../models/user.ts";
 
 /**
  * @class Header
@@ -25,7 +26,7 @@ export default class Header extends BaseComponent {
         this.initListener('profile-href', 'click', this.profileHrefHandler);
         this.initListener('registerButton', 'click', this.registerButtonHandler);
         this.initListener('loginButton', 'click', this.loginButtonHandler);
-        this.initListener('logoutButton', 'click', this.logoutButtonHandler);
+        this.initListener('favoritesButton', 'click', this.favoritesButtonHandler);
     }
 
     /**
@@ -72,14 +73,17 @@ export default class Header extends BaseComponent {
     }
 
     /**
-     * @function logoutButtonHandler
-     * @description Обработчик события кнопки выхода из аккаунта
+     * @function favoritesButtonHandler
+     * @description Обработчик события перехода на страницу избранного
+     * @param {Event} e событие клика
      * @private
      */
-    private logoutButtonHandler() {
-        if (!this.layout) {
+    private favoritesButtonHandler(e: Event) {
+        e.preventDefault();
+        if (User.isAuthenticated()) {
+            RouteManager.navigateTo('/profile/favorites');
             return;
         }
-        this.layout.emit('tryExit');
+        this.layout?.emit('showLogin');
     }
 }

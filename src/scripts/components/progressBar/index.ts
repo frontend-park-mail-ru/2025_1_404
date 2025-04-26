@@ -38,7 +38,11 @@ export default class ProgressBar extends BaseComponent {
                 if (progressBar.style.width !== '100%') {
                     return;
                 }
-                progressBar.style.width = '0%';
+                progressBar.style.opacity = '0';
+                setTimeout(() => {
+                    progressBar.style.width = '0%';
+                    progressBar.style.opacity = '1';
+                }, 500);
                 progressBar.removeEventListener('transitionend', reset);
             });
         }

@@ -4,7 +4,7 @@
             {{> Logo }}
             <div class="header__right">
                 <div class="header__icons">
-                    <a class="header__favour-href" href="/">
+                    <a class="header__favour-href" id="favoritesButton" href="/profile/favorites">
                         <i class="fa-regular fa-heart"></i>
                     </a>
                     <a class="header__notice-href" href="/">
@@ -12,13 +12,7 @@
                     </a>
                 </div>
                 <div class="header__auth">
-                    <a href="/profile" id="profile-href">
-                        <div class="header__auth">
-                            <span class ="header__name"></span>
-                            {{> UserAvatar class="header__avatar" avatar="/img/userAvatar/unknown.svg" }}
-                        </div>
-                    </a>
-                    {{> LightButton name="Выйти" id="logoutButton"}}
+
                 </div>
             </div>
         </div>

@@ -35,6 +35,7 @@ import OfferDetailsLeft from "../components/offerDetailsLeft/template.precompile
 import PicturesCarousel from '../components/picturesCarousel/template.precompiled.js';
 import PrimaryButton from '../components/primaryButton/template.precompiled.js';
 import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
+import ProfileFavorite from "../components/profileFavorite/template.precompiled.js";
 import ProfileLeft from '../components/profileLeft/template.precompiled.js';
 import ProfileOffer from "../components/profileOffer/template.precompiled.js";
 import ProfilePreview from "../components/profilePreview/template.precompiled.js";
@@ -101,6 +102,7 @@ export default function registerComponents() {
         [Popups, 'Popups'],
         [PrimaryButton, 'PrimaryButton'],
         [ProfileDataInput, 'ProfileDataInput'],
+        [ProfileFavorite, 'ProfileFavorite'],
         [ProfileLeft, 'ProfileLeft'],
         [ProfileOffer, 'ProfileOffer'],
         [ProfilePreview, 'ProfilePreview'],

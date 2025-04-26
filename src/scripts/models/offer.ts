@@ -133,10 +133,6 @@ export default class Offer {
         this.seller.avatar = json.offer_data.seller.avatar;
         this.seller.createdAt = new Date(json.offer_data.seller.created_at);
 
-        const userData = User.getData();
-        if (!userData || userData.id === null || userData.id === undefined) {
-            return;
-        }
         if (this.id === null || this.id === undefined) {
             return;
         }
@@ -145,7 +141,10 @@ export default class Offer {
         this.sellDetails.likes = sellDetails.likes;
         this.sellDetails.favorites = sellDetails.favorites;
 
-        this.favorite = OfferMock.isOfferFavoritedByUser(userData.id, this.id);
+        const userData = User.getData();
+        if (userData && userData.id !== null && userData.id !== undefined) {
+            this.favorite = OfferMock.isOfferFavoritedByUser(userData.id, this.id);
+        }
 
         this.status = json.offer.status_id;
         this.price = json.offer.price;
