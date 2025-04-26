@@ -13,7 +13,13 @@ export default defineConfig({
     },
     build: {
         outDir: 'deploy/public',
-        target: 'esnext'
+        target: 'esnext',
+        rollupOptions: {
+            input: {
+                app: 'index.html', // основной HTML
+                csat: 'csat.html', // второй HTML
+            }
+        }
     },
     esbuild: {
         target: 'esnext',
