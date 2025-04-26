@@ -60,5 +60,5 @@ export default function registerRoutes() {
 
     RouteManager.registerRoute('search', new SearchRoute());
 
-    RouteManager.registerRoute('csat/stats', new CsatStatsRoute());
+    RouteManager.registerRoute('csatStars/stats', new CsatStatsRoute());
 }

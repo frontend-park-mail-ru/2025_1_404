@@ -41,25 +41,32 @@ class CSATUtil {
     private CSAT_URL = "http://localhost:8002";
 
     async getEventDetails(event: string) {
-        const data = await this.makeCSATRequest({
-            endpoint: '/csat',
-            query: {
-                event
-            }
-        });
-        return data as EventResponse;
+        // const data = await this.makeCSATRequest({
+        //     endpoint: '/csatStars',
+        //     query: {
+        //         event
+        //     }
+        // });
+        // return data as EventResponse;
+        return {
+            questions: [
+                {
+                    text: 'Как вы оцениваете качество обслуживания?'
+                }
+            ]
+        }
     }
 
     async getQuestionsStats() {
         const data = await this.makeCSATRequest({
-            endpoint: '/csat/stats',
+            endpoint: '/csatStars/stats',
         });
         return data as StatsRespomse;
     }
 
     async answerToQuestion(questionId: number, rating: number) {
         await this.makeCSATRequest({
-            endpoint: '/csat',
+            endpoint: '/csatStars',
             method: 'POST',
             body: {
                 questionId,

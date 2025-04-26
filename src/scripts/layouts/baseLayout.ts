@@ -50,6 +50,7 @@ export class BaseLayout {
                 this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
                 this.page = page;
                 this.csat = new Csat({page, layout: this});
+                this.csat.hide();
 
                 page.render({
                     layout: this,
@@ -73,11 +74,14 @@ export class BaseLayout {
     }
 
     processCSAT({type, event}: {type: CSATType, event: string}) {
-        this.makeRequest(CsatUtil.getEventDetails, event).then((data) => {
+        this.makeRequest(CsatUtil.getEventDetails.bind(CsatUtil), event).then((data) => {
             if (data.questions.length === 0) {
                 return;
             }
-            // this.csat.show({type, title})
+            this.csat?.show({
+                type,
+                title: data.questions[0].text
+            })
 
         })
     }

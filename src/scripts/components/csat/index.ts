@@ -12,18 +12,45 @@ export enum CSATType {
  * @augments BaseComponent
  */
 export default class Csat extends BaseComponent {
-    private element: HTMLElement | undefined;
-
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this.element = document.getElementById('csat') as HTMLElement;
+        window.addEventListener('message', this.onCSATMessage.bind(this));
+    }
+
+    onCSATMessage(event: MessageEvent) {
+        switch (event.data) {
+            case 'close':
+                this.hide();
+                break;
+            default:
+                break;
+        }
+    }
+
+    destroy() {
+        super.destroy();
+        window.removeEventListener('message', this.onCSATMessage);
     }
 
     show({type, title} : {type: CSATType, title: string}) {
-        if (!this.element) {
+        const element = document.getElementById('csat') as HTMLIFrameElement;
+        if (!element){
             return;
         }
-        // this.element.
+        element.style.display = '';
+
+        element.contentWindow?.postMessage(JSON.stringify({
+            type,
+            title
+        }), '*')
+    }
+
+    hide() {
+        const element = document.getElementById('csat') as HTMLIFrameElement;
+        if (!element){
+            return;
+        }
+        element.style.display = 'none';
     }
 
     /**

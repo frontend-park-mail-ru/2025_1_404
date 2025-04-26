@@ -376,11 +376,11 @@ export default class ProfileLeft extends BaseComponent {
 
     /**
      * @function csatStatsButtonHandler
-     * @description Обработчик события перехода на страницу статистики csat
+     * @description Обработчик события перехода на страницу статистики csatStars
      * @private
      */
     private csatStatsButtonHandler() {
-        RouteManager.navigateTo('/csat/stats');
+        RouteManager.navigateTo('/csatStars/stats');
     }
 
     /**

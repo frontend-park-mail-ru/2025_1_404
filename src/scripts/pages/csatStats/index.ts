@@ -80,7 +80,7 @@ interface AddOfferInterface {
 
 /**
  * @class CsatStatsPage
- * @description Страница статистики опросов csat
+ * @description Страница статистики опросов csatStars
  * @augments Page
  */
 export default class CsatStatsPage extends Page {
