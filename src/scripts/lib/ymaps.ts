@@ -1,5 +1,3 @@
-await ymaps3.ready;
-
 export const {
     YMap,
     YMapMarker,

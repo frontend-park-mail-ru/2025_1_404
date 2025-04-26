@@ -13,5 +13,8 @@ export default defineConfig({
     },
     build: {
         outDir: 'deploy/public',
+    },
+    esbuild: {
+        target: 'esnext'
     }
 })
