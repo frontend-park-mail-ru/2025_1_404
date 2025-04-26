@@ -41,6 +41,7 @@ export class BaseLayout {
     process(page: Page) {
         return {
             destroy: () => {
+                this.csat?.destroy();
                 this.removeListeners();
                 page.destroy();
             },
@@ -75,12 +76,12 @@ export class BaseLayout {
 
     processCSAT({type, event}: {type: CSATType, event: string}) {
         this.makeRequest(CsatUtil.getEventDetails.bind(CsatUtil), event).then((data) => {
-            if (data.questions.length === 0) {
+            if (data.length === 0) {
                 return;
             }
             this.csat?.show({
                 type,
-                title: data.questions[0].text
+                title: data[0].text
             })
 
         })

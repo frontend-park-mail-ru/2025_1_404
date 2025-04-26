@@ -9,6 +9,7 @@ import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.p
 import {getOfferById} from "../../util/apiUtil.ts";
 import Loader from "../../components/loader";
 import User from "../../models/user.ts";
+import {CSATType} from "../../components/csat";
 
 /**
  * @class OfferEditLayout
@@ -245,6 +246,10 @@ class OfferEditLayout extends MainLayout {
         await this.makeRequest(OfferCreate.save.bind(OfferCreate), this.offerId).then((offerId) => {
             if (typeof offerId === 'number') {
                 RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
+                this.processCSAT({
+                    type: CSATType.STARS,
+                    event: 'edit_offer'
+                });
             }
         }).catch((e: Error) => {
             this?.addPopup('Ошибка сервера', e.message);

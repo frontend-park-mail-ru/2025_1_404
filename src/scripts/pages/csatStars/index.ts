@@ -30,12 +30,19 @@ export default class CSATStarsPage extends Page {
         super.initListeners();
 
         this.initListener('csatCloseButton', 'click', this.closeButtonHandler);
+        this.initListener('csatNextButton', 'click', this.nextButtonHandler);
+    }
+
+    nextButtonHandler() {
+        window.parent.postMessage(JSON.stringify({
+            'status': 'submit',
+            'rating': 5
+        }));
     }
 
     closeButtonHandler() {
-        if (!this.root) {
-            return;
-        }
-        window.parent.postMessage('close');
+        window.parent.postMessage(JSON.stringify({
+            'status': 'close'
+        }));
     }
 }

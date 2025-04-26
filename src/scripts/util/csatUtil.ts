@@ -20,6 +20,8 @@ interface makeCSATRequestInterface {
 }
 
 interface Question {
+    id: number;
+    csat_id: number;
     text: string;
 }
 
@@ -28,33 +30,22 @@ interface Answer {
     rating: number;
 }
 
-interface EventResponse {
-    questions: Question[];
-}
-
 interface StatsRespomse {
     answers: Answer[];
 }
 
 class CSATUtil {
 
-    private CSAT_URL = "http://localhost:8002";
+    private CSAT_URL = "http://localhost:8002/api/v1";
 
     async getEventDetails(event: string) {
-        // const data = await this.makeCSATRequest({
-        //     endpoint: '/csatStars',
-        //     query: {
-        //         event
-        //     }
-        // });
-        // return data as EventResponse;
-        return {
-            questions: [
-                {
-                    text: 'Как вы оцениваете качество обслуживания?'
-                }
-            ]
-        }
+        const data = await this.makeCSATRequest({
+            endpoint: '/csat',
+            query: {
+                'event_name': event
+            }
+        });
+        return data as Question[];
     }
 
     async getQuestionsStats() {

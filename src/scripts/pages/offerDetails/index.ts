@@ -144,7 +144,9 @@ export default class OfferDetailsPage extends Page {
         }
         return this.layout.makeRequest(getOfferById, id)
             .then((data) => {
-                OfferMock.updateVisit(User.getData()?.id, id);
+                if (User.isAuthenticated()) {
+                    OfferMock.updateVisit(User.getData()?.id, id);
+                }
                 return data;
             })
             .catch ((error) => {

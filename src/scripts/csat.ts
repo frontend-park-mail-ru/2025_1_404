@@ -10,6 +10,12 @@ const init = () => {
 
     PageManager.renderPage('csat_stars');
     window.addEventListener('message', onMessage);
+    window.addEventListener('beforeunload', destroy);
+}
+
+const destroy = () => {
+    window.removeEventListener('message', onMessage);
+    window.removeEventListener('beforeunload', destroy);
 }
 
 const registerPages = () => {

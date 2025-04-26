@@ -43,6 +43,7 @@ interface MakeRequestInterface {
  * @returns {Promise<*>} Ответ от сервера
  */
 export const makeRequest = async ({url, method='GET', body={}, query={}, files={}, options=null}: MakeRequestInterface) => {
+
     const totalOptions = options ? options : createRequestOptions(method);
     if (!totalOptions) {
         return null;

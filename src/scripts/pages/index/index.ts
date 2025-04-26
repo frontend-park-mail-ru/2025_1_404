@@ -39,11 +39,6 @@ export default class IndexPage extends Page {
 
         this.getOffers();
 
-        this.layout?.processCSAT({
-            type: CSATType.STARS,
-            event: 'createOffer'
-        })
-
         super.render({root, layout});
     }
 

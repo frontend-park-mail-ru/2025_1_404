@@ -6,6 +6,7 @@ import OfferPage from "../../pages/offerCreate/page.ts";
 import {PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
+import {CSATType} from "../../components/csat";
 
 /**
  * @class OfferCreateLayout
@@ -216,6 +217,10 @@ class OfferCreateLayout extends MainLayout {
         await this.makeRequest(OfferCreate.create.bind(OfferCreate)).then((offerId) => {
             if (typeof offerId === 'number') {
                 RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
+                this.processCSAT({
+                    type: CSATType.STARS,
+                    event: 'create_offer'
+                });
             }
         }).catch((e: Error) => {
             this?.addPopup('Ошибка сервера', e.message);

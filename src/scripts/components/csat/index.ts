@@ -12,14 +12,20 @@ export enum CSATType {
  * @augments BaseComponent
  */
 export default class Csat extends BaseComponent {
+    private boundOnCSATMessage = this.onCSATMessage.bind(this);
+
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        window.addEventListener('message', this.onCSATMessage.bind(this));
+        window.addEventListener('message', this.boundOnCSATMessage);
     }
 
     onCSATMessage(event: MessageEvent) {
-        switch (event.data) {
+        const data = JSON.parse(event.data);
+        switch (data.status) {
             case 'close':
+                this.hide();
+                break;
+            case 'submit':
                 this.hide();
                 break;
             default:
@@ -29,7 +35,7 @@ export default class Csat extends BaseComponent {
 
     destroy() {
         super.destroy();
-        window.removeEventListener('message', this.onCSATMessage);
+        window.removeEventListener('message', this.boundOnCSATMessage);
     }
 
     show({type, title} : {type: CSATType, title: string}) {
