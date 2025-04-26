@@ -1,0 +1,41 @@
+<div class="csat__wrapper">
+    <div class="csat__header">
+        <span class="csat__header-text">
+            {{title}}
+        </span>
+        <div id="csatCloseButton" class="csat__header-close delete__cross">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+        </div>
+    </div>
+    <div class="csat__select" id="csat-stars">
+        <input class="csat__select-star-input" type="radio" id="star5" name="rating" value="5">
+        <label class="csat__select-star-label" for="star5" data-id="5">
+            <i class="csat__select-star-label-img csat__select-star-marked fa-solid fa-star"></i>
+        </label>
+
+        <input class="csat__select-star-input" type="radio" id="star4" name="rating" value="4">
+        <label class="csat__select-star-label" for="star4" data-id="4">
+            <i class="csat__select-star-label-img csat__select-star-marked fa-solid fa-star"></i>
+        </label>
+
+        <input class="csat__select-star-input" type="radio" id="star3" name="rating" value="3">
+        <label class="csat__select-star-label" for="star3" data-id="3">
+            <i class="csat__select-star-label-img fa-solid fa-star"></i>
+        </label>
+
+        <input class="csat__select-star-input" type="radio" id="star2" name="rating" value="2">
+        <label class="csat__select-star-label" for="star2" data-id="2">
+            <i class="csat__select-star-label-img fa-solid fa-star"></i>
+        </label>
+
+        <input class="csat__select-star-input" type="radio" id="star1" name="rating" value="1" checked>
+        <label class="csat__select-star-label" for="star1" data-id="1">
+            <i class="csat__select-star-label-img fa-solid fa-star"></i>
+        </label>
+
+    </div>
+    <div class="csat__btns">
+        {{> LightButton id="csatNextButton" name="Ответить"}}
+<!--        {{> RedButton id="csatBackButton" name="Назад"}}-->
+    </div>
+</div>

@@ -3,7 +3,6 @@ import OfferMock from "../models/offerMock.ts";
 import User from "../models/user.ts";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-console.log(BACKEND_URL)
 
 let csrfToken: string | null = null;
 

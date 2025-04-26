@@ -1,5 +1,6 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import template from './template.precompiled.js';
+import CsatUtil from "../../util/csatUtil.ts";
 
 export enum CSATType {
     STARS = 'csat_stars',
@@ -12,18 +13,53 @@ export enum CSATType {
  * @augments BaseComponent
  */
 export default class Csat extends BaseComponent {
-    private element: HTMLElement | undefined;
+    private boundOnCSATMessage = this.onCSATMessage.bind(this);
 
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this.element = document.getElementById('csat') as HTMLElement;
+        window.addEventListener('message', this.boundOnCSATMessage);
     }
 
-    show({type, title} : {type: CSATType, title: string}) {
-        if (!this.element) {
+    onCSATMessage(event: MessageEvent) {
+        const data = JSON.parse(event.data);
+        switch (data.status) {
+            case 'close':
+                this.hide();
+                break;
+            case 'submit':
+                this.layout?.makeRequest(CsatUtil.answerToQuestion.bind(CsatUtil), data.questionId, data.rating)
+                this.hide();
+                break;
+            default:
+                break;
+        }
+    }
+
+    destroy() {
+        super.destroy();
+        window.removeEventListener('message', this.boundOnCSATMessage);
+    }
+
+    show({type, title, questionId} : {type: CSATType, title: string, questionId: number}) {
+        const element = document.getElementById('csat') as HTMLIFrameElement;
+        if (!element){
             return;
         }
-        // this.element.
+        element.style.display = '';
+
+        element.contentWindow?.postMessage(JSON.stringify({
+            type,
+            title,
+            questionId
+        }), '*')
+    }
+
+    hide() {
+        const element = document.getElementById('csat') as HTMLIFrameElement;
+        if (!element){
+            return;
+        }
+        element.style.display = 'none';
     }
 
     /**

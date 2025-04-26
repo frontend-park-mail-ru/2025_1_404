@@ -20,6 +20,8 @@ interface makeCSATRequestInterface {
 }
 
 interface Question {
+    id: number;
+    csat_id: number;
     text: string;
 }
 
@@ -28,18 +30,13 @@ interface Answer {
     rating: number;
 }
 
-interface EventResponse {
-    questions: Question[];
-}
-
 interface StatsResponse {
     answers: Answer[];
 }
 
 class CSATUtil {
 
-    private CSAT_URL = "http://localhost:8002/api/v1";
-
+    private CSAT_URL = import.meta.env.VITE_CSAT_URL;
 
     /**
      * @function getEventDetails
@@ -50,7 +47,7 @@ class CSATUtil {
         const data = await this.makeCSATRequest({
             endpoint: '/csat/events',
         });
-        return data as EventResponse;
+        return data as Question[];
     }
 
 
@@ -89,7 +86,7 @@ class CSATUtil {
             endpoint: '/csat',
             method: 'POST',
             body: {
-                questionId,
+                question_id: questionId,
                 rating
             }
         });

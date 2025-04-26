@@ -1,5 +1,5 @@
 import MapUtil from "../util/mapUtil.ts";
-import {YMap, YMapListener, YMapMarker} from "../lib/ymaps.ts";
+// imporct {YMap, YMapListener, YMapMarker} from "../lib/ymaps.ts";
 import HouseMarker from "../components/houseMarker";
 import {DomEventHandler} from "@yandex/ymaps3-types";
 
@@ -37,14 +37,14 @@ interface AddPlacemarkInterface {
     /**
      * @property {YMap} map карта, на которую добавляется метка.
      */
-    map: YMap;
+    // map: YMap;
 }
 
 interface RemovePlacemarkInterface {
     /**
      * @property {Placemark} placemark метка, которую нужно удалить с карты.
      */
-    placemark: YMapMarker;
+    // placemark: YMapMarker;
 }
 
 /**
@@ -55,8 +55,8 @@ export default class Map {
     private zoom: number;
     private placeMarkSize: number;
     private center: [number, number];
-    private map: YMap | null;
-    private houses: YMapMarker[] = [];
+    // private map: YMap | null;
+    // private houses: YMapMarker[] = [];
     /**
      * @description Конструктор класса карты.
      * @param {string} id id карты.
@@ -67,7 +67,7 @@ export default class Map {
         this.zoom = zoom;
         this.placeMarkSize = zoom * 3;
         this.center = center;
-        this.map = MapUtil.createMap({center, id, zoom});
+        // this.map = MapUtil.createMap({center, id, zoom});
     }
 
     /**
@@ -78,22 +78,22 @@ export default class Map {
      * @returns {object} объект с информацией о доме.
      */
     addHouse({coords}: AddHouseInterface) {
-        if (!this.map) {
-            return undefined;
-        }
-        const houseMarker = new HouseMarker({});
-        const houseElement = document.createElement('div');
-        houseElement.innerHTML = houseMarker.render();
-        const house = this.addPlacemark({
-            coords,
-            element: houseElement,
-            map: this.map,
-        });
-        if (!house) {
-            return undefined;
-        }
-        this.houses.push(house);
-        return house;
+        // if (!this.map) {
+        //     return undefined;
+        // }
+        // const houseMarker = new HouseMarker({});
+        // const houseElement = document.createElement('div');
+        // houseElement.innerHTML = houseMarker.render();
+        // const house = this.addPlacemark({
+        //     coords,
+        //     element: houseElement,
+        //     map: this.map,
+        // });
+        // if (!house) {
+        //     return undefined;
+        // }
+        // this.houses.push(house);
+        // return house;
     }
 
     /**
@@ -101,12 +101,12 @@ export default class Map {
      * @description Метод удаления всех домов с карты.
      */
     removeAllHouses() {
-        this.houses.forEach((house) => {
-            if (this.map) {
-                MapUtil.removePlacemark({map: this.map, placemark: house});
-            }
-        });
-        this.houses = [];
+        // this.houses.forEach((house) => {
+        //     if (this.map) {
+        //         // MapUtil.removePlacemark({map: this.map, placemark: house});
+        //     }
+        // });
+        // this.houses = [];
     }
 
     /**
@@ -118,11 +118,11 @@ export default class Map {
      * @returns {*} метка.
      */
     addPlacemark({element, coords}: AddPlacemarkInterface) {
-        if (!this.map) {
-            return null;
-        }
+        // if (!this.map) {
+        //     return null;
+        // }
 
-        return MapUtil.addPlacemark({coords, element, map: this.map});
+        // return MapUtil.addPlacemark({coords, element, map: this.map});
     }
 
     /**
@@ -131,12 +131,12 @@ export default class Map {
      * @param {object} data данные о метке.
      * @param {object} data.placemark метка.
      */
-    removePlacemark({placemark}: RemovePlacemarkInterface) {
-        if (!this.map) {
-            return;
-        }
-        MapUtil.removePlacemark({map: this.map, placemark});
-    }
+    // removePlacemark({placemark}: RemovePlacemarkInterface) {
+        // if (!this.map) {
+        //     return;
+        // }
+        // MapUtil.removePlacemark({map: this.map, placemark});
+    // }
 
     /**
      * @function registerClickHandler
@@ -144,13 +144,13 @@ export default class Map {
      * @param {DomEventHandler} handler обработчик события клика.
      */
     registerClickHandler(handler: DomEventHandler) {
-        const mapListener = new YMapListener({
-            layer: 'any',
-            onClick: handler
-        });
-        if (this.map) {
-            this.map.addChild(mapListener);
-        }
+        // const mapListener = new YMapListener({
+        //     layer: 'any',
+        //     onClick: handler
+        // });
+        // if (this.map) {
+        //     this.map.addChild(mapListener);
+        // }
     }
 
     /**
@@ -160,9 +160,9 @@ export default class Map {
      * @returns {Promise<void>}
      */
     async geoCode(address: string) {
-        if (!this.map) {
-            return;
-        }
+        // if (!this.map) {
+        //     return;
+        // }
         const data = await MapUtil.geocode(address);
         if (data.length === 0) {
             return;
@@ -174,12 +174,12 @@ export default class Map {
         }
         const pos = posStr.split(' ').map((item) => parseFloat(item));
         this.center = [pos[0], pos[1]];
-        this.map.update({
-            location: {
-                center: this.center,
-                zoom: this.map.zoom
-            }
-        })
+        // this.map.update({
+        //     location: {
+        //         center: this.center,
+        //         zoom: this.map.zoom
+        //     }
+        // })
     }
 
     /**

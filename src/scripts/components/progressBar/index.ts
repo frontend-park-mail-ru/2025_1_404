@@ -33,19 +33,19 @@ export default class ProgressBar extends BaseComponent {
     setPercentage(percent: number) {
         const correctedPercent = Math.min(Math.max(percent, 0), 100);
         const progressBar = document.getElementsByClassName('progressBar__line')[0] as HTMLElement;
+        progressBar.style.width = `${correctedPercent}%`;
         if (correctedPercent === 100) {
-            progressBar.addEventListener('transitionend', function reset() {
-                if (progressBar.style.width !== '100%') {
-                    return;
-                }
+            // Todo: сделать нормально
+            if (progressBar.style.width !== '100%') {
+                return;
+            }
+            setTimeout(() => {
                 progressBar.style.opacity = '0';
                 setTimeout(() => {
                     progressBar.style.width = '0%';
                     progressBar.style.opacity = '1';
-                }, 500);
-                progressBar.removeEventListener('transitionend', reset);
-            });
+                }, 500)
+            }, 300);
         }
-        progressBar.style.width = `${correctedPercent}%`;
     }
 }

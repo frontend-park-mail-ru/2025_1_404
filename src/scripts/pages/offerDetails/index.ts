@@ -14,6 +14,7 @@ import PageManager from "../../managers/pageManager.ts";
 import User from "../../models/user.ts";
 import OfferDetailsInfo from "../../components/offerDetailsInfo";
 import OfferMock from "../../models/offerMock.ts";
+import {CSATType} from "../../components/csat";
 
 /**
  * @class offerDetailsPage
@@ -144,10 +145,13 @@ export default class OfferDetailsPage extends Page {
         }
         return this.layout.makeRequest(getOfferById, id)
             .then((data) => {
-                OfferMock.updateVisit(User.getData()?.id, id);
+                if (User.isAuthenticated()) {
+                    // OfferMock.updateVisit(User.getData()?.id, id);
+                }
                 return data;
             })
             .catch ((error) => {
+
                 PageManager.renderPage('404');
                 throw error;
             });

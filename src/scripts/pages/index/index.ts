@@ -1,4 +1,3 @@
-
 import Filter from "../../components/filter";
 import {Page, PageRenderInterface} from '../page';
 import User from "../../models/user.ts";
@@ -9,6 +8,7 @@ import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
+import {CSATType} from "../../components/csat";
 
 /**
  * @class IndexPage
