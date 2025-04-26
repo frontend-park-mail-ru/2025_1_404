@@ -51,6 +51,7 @@ import AddressInput from "../components/addressInput/template.precompiled.js";
 import Popup from "../components/popup/template.precompiled.js";
 import Popups from "../components/popups/template.precompiled.js";
 import BottomNavigationBar from "../components/bottomNavigationBar/template.precompiled.js";
+import Csat from "../components/csat/template.precompiled.js"
 
 /**
  * @function registerComponents
@@ -110,6 +111,7 @@ export default function registerComponents() {
         [SubmitModal, 'SubmitModal'],
         [UserAvatar, 'UserAvatar'],
         [BottomNavigationBar, 'BottomNavigationBar'],
+        [Csat, 'Csat'],
     ];
 
     components.forEach(([component, name]) => {
