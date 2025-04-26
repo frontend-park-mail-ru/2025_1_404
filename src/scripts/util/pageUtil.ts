@@ -27,6 +27,7 @@ import OfferEditPhotosPage from "../pages/offerEdit/photos";
 import OfferEditDescriptionPage from "../pages/offerEdit/description";
 import ProfileFavoritesPage from "../pages/profile/favorites";
 import CSATPage from "../pages/csat";
+import CsatStatsPage from "../pages/csatStats";
 
 /**
  * @function registerPages
@@ -64,4 +65,6 @@ export default function registerPages() {
     PageManager.registerPage('offerDetails', mainLayout.process(new OfferDetailsPage()));
 
     PageManager.registerPage('search', mainLayout.process(new SearchPage()));
+
+    PageManager.registerPage('csatStats', mainLayout.process(new CsatStatsPage()));
 }

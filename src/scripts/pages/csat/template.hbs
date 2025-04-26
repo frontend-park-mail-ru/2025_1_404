@@ -7,12 +7,32 @@
             <i class="fa-solid fa-xmark fa-lg"></i>
         </div>
     </div>
-    <div class="csat__select-wrapper">
-        <i class="csat__select-star csat__select-star-marked fa-solid fa-star"></i>
-        <i class="csat__select-star csat__select-star-marked fa-solid fa-star"></i>
-        <i class="csat__select-star fa-solid fa-star"></i>
-        <i class="csat__select-star fa-solid fa-star"></i>
-        <i class="csat__select-star fa-solid fa-star"></i>
+    <div class="csat__select">
+        <input type="radio" id="csatStar5" name="rating" value="5">
+        <label class="csat__select-star-label" for="star5">
+            <i class="csat__select-star-label-img csat__select-star-marked fa-solid fa-star"></i>
+        </label>
+
+        <input type="radio" id="csatStar4" name="rating" value="4">
+        <label class="csat__select-star-label" for="star4">
+            <i class="csat__select-star-label-img csat__select-star-marked fa-solid fa-star"></i>
+        </label>
+
+        <input type="radio" id="csatStar3" name="rating" value="3">
+        <label class="csat__select-star-label" for="star3">
+            <i class="csat__select-star-label-img fa-solid fa-star"></i>
+        </label>
+
+        <input type="radio" id="csatStar2" name="rating" value="2">
+        <label class="csat__select-star-label" for="star2">
+            <i class="csat__select-star-label-img fa-solid fa-star"></i>
+        </label>
+
+        <input type="radio" id="csatStar1" name="rating" value="1">
+        <label class="csat__select-star-label" for="star1">
+            <i class="csat__select-star-label-img fa-solid fa-star"></i>
+        </label>
+
     </div>
     <div class="csat__btns">
         {{> LightButton id="csatNextButton" name="Далее"}}

@@ -43,6 +43,7 @@ export default class ProfileLeft extends BaseComponent {
         this.initListener('offerCreateButton', 'click', this.offerCreatePageButtonHandler);
         this.initListener('profileFavoritesButton', 'click', this.favoritesButtonHandler);
         this.initListener('profileMyOffersButton', 'click', this.myOffersButtonHandler);
+        this.initListener('profileCsatStatsButton', 'click', this.csatStatsButtonHandler)
         this.initListener('profileLogoutButton', 'click', this.logoutButtonHandler);
         this.initListener('profileAvatarUpload', 'click', this.processAvatarHandler);
         this.initListener('profileAvatarInput', 'change', this.getAvatarAfterChooseClickHandler);
@@ -371,6 +372,15 @@ export default class ProfileLeft extends BaseComponent {
      */
     private myOffersButtonHandler() {
         RouteManager.navigateTo('/profile/offers');
+    }
+
+    /**
+     * @function csatStatsButtonHandler
+     * @description Обработчик события перехода на страницу статистики csat
+     * @private
+     */
+    private csatStatsButtonHandler() {
+        RouteManager.navigateTo('/csat/stats');
     }
 
     /**

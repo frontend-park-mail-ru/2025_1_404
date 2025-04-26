@@ -23,6 +23,7 @@ import {OfferEditPriceRoute} from "../routes/offer/edit/offerEditPriceRoute.ts";
 import {OfferEditPhotosRoute} from "../routes/offer/edit/offerEditPhotosRoute.ts";
 import {OfferEditDescriptionRoute} from "../routes/offer/edit/offerEditDescriptionRoute.ts";
 import {ProfileFavoritesRoute} from "../routes/profile/profileFavoritesRoute.ts";
+import {CsatStatsRoute} from "../routes/csatStatsRouse.ts";
 /**
  * @function registerRoutes
  * @description Регистрация маршрутов
@@ -58,4 +59,6 @@ export default function registerRoutes() {
     RouteManager.registerRoute('offer/details/:id', new OfferDetailsRoute());
 
     RouteManager.registerRoute('search', new SearchRoute());
+
+    RouteManager.registerRoute('csat/stats', new CsatStatsRoute());
 }

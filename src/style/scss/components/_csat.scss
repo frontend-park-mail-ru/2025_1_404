@@ -33,16 +33,27 @@
   }
 
   &__select {
-    display: flex;
-    justify-content: space-between;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 20px;
     align-items: center;
 
-    &-star {
-      font-size: 32px;
+    input {
+      display: none;
+    }
 
-      &-marked {
-        color: $orange;
+    &-star-label {
+      &-img {
+        font-size: 32px;
       }
+    }
+
+    &-star-label:hover,
+    &-star-label:hover ~ &-star-label,
+    &-star-label:checked ~ &-star-label {
+      color: $orange;
+      cursor: pointer;
     }
   }
 
