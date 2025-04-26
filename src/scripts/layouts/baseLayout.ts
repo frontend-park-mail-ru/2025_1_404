@@ -81,7 +81,8 @@ export class BaseLayout {
             }
             this.csat?.show({
                 type,
-                title: data[0].text
+                title: data[0].text,
+                questionId: data[0].id
             })
 
         })

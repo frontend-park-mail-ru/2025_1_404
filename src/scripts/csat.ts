@@ -25,12 +25,14 @@ const registerPages = () => {
 interface CSATMessage {
     type: CSATType;
     title: string;
+    questionId: number;
 }
 
 const onMessage = (event: MessageEvent) => {
     const data = JSON.parse(event.data) as CSATMessage;
     PageManager.renderPage(data.type, {
-        'title': data.title
+        'title': data.title,
+        'questionId': data.questionId
     })
 }
 

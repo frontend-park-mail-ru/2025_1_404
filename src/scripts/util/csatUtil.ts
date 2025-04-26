@@ -57,10 +57,10 @@ class CSATUtil {
 
     async answerToQuestion(questionId: number, rating: number) {
         await this.makeCSATRequest({
-            endpoint: '/csatStars',
+            endpoint: '/csat',
             method: 'POST',
             body: {
-                questionId,
+                question_id: questionId,
                 rating
             }
         });

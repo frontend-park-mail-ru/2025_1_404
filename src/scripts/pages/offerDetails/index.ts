@@ -14,6 +14,7 @@ import PageManager from "../../managers/pageManager.ts";
 import User from "../../models/user.ts";
 import OfferDetailsInfo from "../../components/offerDetailsInfo";
 import OfferMock from "../../models/offerMock.ts";
+import {CSATType} from "../../components/csat";
 
 /**
  * @class offerDetailsPage

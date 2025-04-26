@@ -1,5 +1,6 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import template from './template.precompiled.js';
+import CsatUtil from "../../util/csatUtil.ts";
 
 export enum CSATType {
     STARS = 'csat_stars',
@@ -26,6 +27,7 @@ export default class Csat extends BaseComponent {
                 this.hide();
                 break;
             case 'submit':
+                this.layout?.makeRequest(CsatUtil.answerToQuestion.bind(CsatUtil), data.questionId, data.rating)
                 this.hide();
                 break;
             default:
@@ -38,7 +40,7 @@ export default class Csat extends BaseComponent {
         window.removeEventListener('message', this.boundOnCSATMessage);
     }
 
-    show({type, title} : {type: CSATType, title: string}) {
+    show({type, title, questionId} : {type: CSATType, title: string, questionId: number}) {
         const element = document.getElementById('csat') as HTMLIFrameElement;
         if (!element){
             return;
@@ -47,7 +49,8 @@ export default class Csat extends BaseComponent {
 
         element.contentWindow?.postMessage(JSON.stringify({
             type,
-            title
+            title,
+            questionId
         }), '*')
     }
 

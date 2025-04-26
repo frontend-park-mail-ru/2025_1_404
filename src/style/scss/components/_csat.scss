@@ -33,6 +33,7 @@
   }
 
   &__select {
+    position: relative;
     display: inline-flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
@@ -40,6 +41,7 @@
     align-items: center;
 
     input {
+      position: absolute;
       display: none;
     }
 
@@ -49,11 +51,12 @@
       }
     }
 
-    &-star-label:hover,
-    &-star-label:hover ~ &-star-label,
-    &-star-label:checked ~ &-star-label {
-      color: $orange;
+    &-star-input:hover,
+    &-star-input:hover ~ &-star-label,
+    &-star-input:checked,
+    &-star-input:checked ~ &-star-label {
       cursor: pointer;
+      color: $orange;
     }
   }
 
