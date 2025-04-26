@@ -2,8 +2,16 @@ import PageManager from "./managers/pageManager.ts";
 import CSATPage from "./pages/csat";
 import registerComponents from "./util/componentUtil.ts";
 
-registerComponents()
+const init = () => {
+    PageManager.emit('init');
+    registerPages();
+    registerComponents();
 
-PageManager.emit('init');
-PageManager.registerPage('csat', new CSATPage());
-PageManager.renderPage('csat');
+    PageManager.renderPage('csat');
+}
+
+const registerPages = () => {
+    PageManager.registerPage('csat', new CSATPage());
+}
+
+init();
