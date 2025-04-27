@@ -54,6 +54,7 @@ import Popups from "../components/popups/template.precompiled.js";
 import BottomNavigationBar from "../components/bottomNavigationBar/template.precompiled.js";
 import Csat from "../components/csat/template.precompiled.js"
 import CsatStatsAvg from "../components/csatStatsAvg/template.precompiled.js";
+import Cluster from "../components/cluster/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -116,6 +117,7 @@ export default function registerComponents() {
         [BottomNavigationBar, 'BottomNavigationBar'],
         [Csat, 'Csat'],
         [CsatStatsAvg, 'CsatStatsAvg'],
+        [Cluster, 'Cluster']
     ];
 
     components.forEach(([component, name]) => {

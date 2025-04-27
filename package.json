@@ -28,6 +28,7 @@
     "@types/leaflet": "^1.9.17",
     "@types/node": "^22.14.0",
     "@types/serviceworker": "^0.0.127",
+    "@yandex/ymaps3-clusterer": "^0.0.10",
     "express": "^4.21.2",
     "handlebars": "^4.7.8",
     "leaflet": "^1.9.4",

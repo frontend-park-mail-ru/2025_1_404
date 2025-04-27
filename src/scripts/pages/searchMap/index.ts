@@ -10,6 +10,9 @@ import getMetroColorByLineName from "../../util/metroUtil.ts";
 import FilterModel from "../../models/filterModel.ts";
 import Offer from "../../models/offer.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
+import Map from "../../models/map.ts";
+import mapUtil from "../../util/mapUtil.ts";
+import {LngLat} from "@yandex/ymaps3-types";
 
 interface AddOfferInterface {
     /**
@@ -72,6 +75,7 @@ interface AddOfferInterface {
  * @augments Page
  */
 export default class searchMapPage extends Page {
+    private map: Map | undefined;
     private filter: Filter | undefined;
     private layout: BaseLayout | undefined;
     private offerList: Element | null | undefined;
@@ -89,8 +93,11 @@ export default class searchMapPage extends Page {
         this.filter.filterSetData();
 
         this.offerList = document.getElementById("searchMapResults")
+        let coords: [number, number] = [37.313484, 55.557729];
+        this.map = new Map({center: coords, id: 'searchMapResultsMap', zoom: 5});
 
         this.getOffers(FilterModel.getFilterData());
+
     }
 
     /**
@@ -122,6 +129,17 @@ export default class searchMapPage extends Page {
         event.preventDefault()
         if (target.id === 'searchMap-link') {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
+        }
+    }
+
+    private async addHouseOnMap(address: string) {
+        if (this.map) {
+            const pos = await this.map.getCoords(address);
+            if (!pos) {
+                return;
+            }
+            const coords: [number, number] = [pos[0], pos[1]];
+            this.map.addHouse({coords});
         }
     }
 
@@ -180,7 +198,7 @@ export default class searchMapPage extends Page {
             'offer_type_id': offerTypeId,
             'property_type_id': propertyTypeId,
             'address': filterData.filterInputAddress__input,
-        }).then((offers) => {
+        }).then(async (offers) => {
             if (!offers || !Array.isArray(offers)) {
                 return;
             }
@@ -198,14 +216,22 @@ export default class searchMapPage extends Page {
                 title.classList.remove('active')
             }
 
+            const points: LngLat[] = [];
+            this.map?.addClusterer();
 
-            Array.from(offers).forEach((offerData) => {
+            for (const offerData of Array.from(offers)) {
                 const offer = new Offer();
                 offer.parseJSON(offerData);
                 let image = '';
                 if (offer.images.length > 0 && typeof offer.images[0] === 'string') {
                     image = offer.images[0];
                 }
+                const coords = await this.map?.getCoords(offer.address);
+                if (!coords) {
+                    continue;
+                }
+                points.push(coords);
+
                 this.addOffer({
                     id: offer.id || 0,
                     price: offer.price,
@@ -221,7 +247,8 @@ export default class searchMapPage extends Page {
                     total_floors: offer.totalFloors,
                     propertyType: offer.propertyType
                 });
-            });
+            }
+            this.map?.addClustererMarkers(points);
         }).catch((error) => {
             this.layout?.addPopup('Ошибка сервера', error.message);
         })

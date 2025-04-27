@@ -1,10 +1,16 @@
-// import {
-//     YMap,
-//     YMapDefaultFeaturesLayer,
-//     YMapDefaultSchemeLayer,
-//     YMapMarker
-// } from '../lib/ymaps';
+import {
+    clusterByGrid,
+    YMap,
+    YMapClusterer,
+    YMapDefaultFeaturesLayer,
+    YMapDefaultSchemeLayer,
+    YMapMarker
+} from '../lib/ymaps';
 import {makeRequest} from "./httpUtil.ts";
+import {LngLat, LngLatBounds, YMapLocationRequest} from "@yandex/ymaps3-types";
+import type {Feature} from '@yandex/ymaps3-clusterer';
+import HouseMarker from "../components/houseMarker";
+import Cluster from "../components/cluster";
 
 const GEOCODE_TOKEN = import.meta.env.VITE_GEOCODE_TOKEN;
 const SUGGEST_TOKEN = import.meta.env.VITE_SUGGEST_TOKEN;
@@ -36,7 +42,18 @@ interface AddPlacemarkInterface {
     /**
      * @property {YMap} map экземпляр карты, на которую будет добавлена метка.
      */
-    // map: YMap;
+    map: YMap;
+    /**
+     * @property {Array<number>} coords координаты метки в формате [широта, долгота].
+     */
+    coords: [number, number];
+}
+
+/**
+ * @interface CreatePlacemarkInterface
+ * @description Интерфейс для создания метки.
+ */
+interface CreatePlacemarkInterface {
     /**
      * @property {HTMLElement} element элемент метки, который будет отображаться на карте.
      */
@@ -55,11 +72,11 @@ interface RemovePlacemarkInterface {
     /**
      * @property {YMap} map экземпляр карты, с которой будет удалена метка.
      */
-    // map: YMap;
+    map: YMap;
     /**
      * @property {YMapMarker} placemark экземпляр метки, которую нужно удалить.
      */
-    // placemark: YMapMarker;
+    placemark: YMapMarker;
 }
 
 /**
@@ -75,22 +92,72 @@ class MapUtil {
      * @param {number} zoom уровень масштабирования карты.
      * @returns {Map} экземпляр карты.
      */
-    // createMap({id, center, zoom}: CreateMapInterface): YMap | null {
-    //     const mapElement = document.getElementById(id) as HTMLElement;
-    //     if (!mapElement) {
-    //         return null;
-    //     }
-    //     const map = new YMap(mapElement, {
-    //         location: {
-    //             center,
-    //             zoom
-    //         }
-    //     }, [
-    //         new YMapDefaultSchemeLayer({}),
-    //         new YMapDefaultFeaturesLayer({})
-    //     ]);
-    //     return map;
-    // }
+
+    createMap({id, center, zoom}: CreateMapInterface): YMap | null {
+        const mapElement = document.getElementById(id) as HTMLElement;
+        if (!mapElement) {
+            return null;
+        }
+        const map = new YMap(mapElement, {
+            location: {
+                center,
+                zoom
+            }
+        }, [
+            new YMapDefaultSchemeLayer({}),
+            new YMapDefaultFeaturesLayer({})
+        ]);
+
+        return map;
+    }
+
+    createClusterer(map: YMap) {
+        const MARGIN = [100, 100, 100, 100];
+        const COMMON_LOCATION_PARAMS: Partial<YMapLocationRequest> = {easing: 'ease-in-out', duration: 2000};
+        const cluster = (coordinates: LngLat, features: Feature[]) =>
+            new YMapMarker(
+                {
+                    coordinates,
+                    // onClick() {
+                    //     const bounds = this.getBounds(features.map((feature: Feature) => feature.geometry.coordinates));
+                    //     map.update({location: {bounds, ...COMMON_LOCATION_PARAMS}});
+                    // }
+                },
+                this.clusterIcon(features.length)
+            );
+
+        const clusterer = new YMapClusterer({
+
+            method: clusterByGrid({gridSize: 16}),
+
+            cluster,
+
+            marker: (feature: Feature) => {
+                return this.createPlacemark({
+                    coords: feature.geometry.coordinates as [number, number],
+                    element: this.houseMarker()
+                });
+            },
+
+            features: []
+        });
+        map.addChild(clusterer);
+        return clusterer;
+    }
+
+    clusterIcon(count: number) {
+        const cluster = new Cluster({});
+        const clusterElement = document.createElement('div');
+        clusterElement.innerHTML = cluster.render(count);
+        return clusterElement.firstElementChild as HTMLElement;
+    }
+
+    houseMarker() {
+        const houseMarker = new HouseMarker({});
+        const houseElement = document.createElement('div');
+        houseElement.innerHTML = houseMarker.render();
+        return houseElement;
+    }
 
     /**
      * @function addPlacemark
@@ -100,13 +167,20 @@ class MapUtil {
      * @param {Array} coords координаты метки.
      * @returns {Map} экземпляр метки.
      */
-    // addPlacemark({map, element, coords}: AddPlacemarkInterface): YMapMarker | null {
-    //     const placeMark = new YMapMarker({
-    //         coordinates: coords,
-    //     }, element);
-    //     map.addChild(placeMark);
-    //     return placeMark;
-    // }
+    addPlacemark({map, coords}: AddPlacemarkInterface): YMapMarker | null {
+        const placeMark = this.createPlacemark({element: this.houseMarker(), coords});
+        if (!placeMark) {
+            return null;
+        }
+        map.addChild(placeMark);
+        return placeMark;
+    }
+
+    createPlacemark({element, coords}: CreatePlacemarkInterface): YMapMarker {
+        return new YMapMarker({
+            coordinates: coords,
+        }, element);
+    }
 
     /**
      * @function removePlacemark
@@ -114,9 +188,9 @@ class MapUtil {
      * @param {*} map экземпляр карты.
      * @param {*} placemark экземпляр метки.
      */
-    // removePlacemark({map, placemark}: RemovePlacemarkInterface) {
-    //     map.removeChild(placemark);
-    // }
+    removePlacemark({map, placemark}: RemovePlacemarkInterface) {
+        map.removeChild(placemark);
+    }
 
     /**
      * @function geocode
