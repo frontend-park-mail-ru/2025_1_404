@@ -132,7 +132,6 @@ export default class Offer {
         this.seller.lastName = json.offer_data.seller.seller_last_name;
         this.seller.avatar = json.offer_data.seller.avatar;
         this.seller.createdAt = new Date(json.offer_data.seller.created_at);
-
         if (this.id === null || this.id === undefined) {
             return;
         }

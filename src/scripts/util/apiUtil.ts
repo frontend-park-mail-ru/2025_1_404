@@ -2,7 +2,11 @@ import {HttpMethod, createRequestOptions, makeRequest} from "./httpUtil.ts";
 import OfferMock from "../models/offerMock.ts";
 import User from "../models/user.ts";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const ApiType = {
+    AUTH: import.meta.env.VITE_BACKEND_AUTH_URL,
+    OFFER: import.meta.env.VITE_BACKEND_OFFER_URL,
+    ZHK: import.meta.env.VITE_BACKEND_ZHK_URL
+}
 
 let csrfToken: string | null = null;
 
@@ -11,6 +15,7 @@ let csrfToken: string | null = null;
  * @description Интерфейс для параметров функции makeAPIRequest.
  */
 interface makeAPIRequestInterface {
+    apiUrl: string;
     /**
      * @property {string} endpoint URL-адрес API
      */
@@ -62,6 +67,7 @@ export interface UserResponseInterface {
 
 export const updateCSRF = async () => {
     await makeAPIRequest({
+        apiUrl: ApiType.AUTH,
         method: 'GET',
         endpoint: '/users/csrf'
     }).then((data) => {
@@ -79,7 +85,7 @@ export const updateCSRF = async () => {
  * @param {Record<string, File>} files Файлы для загрузки
  * @returns {Promise<*>} Ответ от сервера
  */
-const makeAPIRequest = async ({endpoint, method='GET', body={}, query={}, files={}}: makeAPIRequestInterface) => {
+const makeAPIRequest = async ({apiUrl, endpoint, method='GET', body={}, query={}, files={}}: makeAPIRequestInterface) => {
     const options = createRequestOptions(method);
     options.mode = 'cors';
     options.credentials = 'include';
@@ -88,7 +94,7 @@ const makeAPIRequest = async ({endpoint, method='GET', body={}, query={}, files=
     addRequestId(options);*/
 
     return await makeRequest({
-        url: `${BACKEND_URL}${endpoint}`,
+        url: `${apiUrl}${endpoint}`,
         method,
         body,
         query,
@@ -125,17 +131,8 @@ const addRequestId = (options: RequestInit) => {
  * @returns {Promise<*>} Ответ от сервера
  */
 export const getOffers = async() => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: '/offers',
-    method: 'GET'
-});
-
-/**
- * @function getCsatAnswers
- * @description Функция для получения списка ответов по вопросу из CSAT опросов.
- * @returns {Promise<*>} Ответ от сервера
- */
-export const getCsatAnswers = async(id: number) => await makeAPIRequest({
-    endpoint: '/csat/stats/'.concat(id.toString()),
     method: 'GET'
 });
 
@@ -146,6 +143,7 @@ export const getCsatAnswers = async(id: number) => await makeAPIRequest({
  * @returns {Promise<*>} Ответ от сервера
  */
 export const searchOffers = async (filters: Record<string, string>) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: '/offers',
     method: 'GET',
     query: filters
@@ -184,6 +182,7 @@ export interface RegisterAccountInterface {
  * @returns {Promise<*>} Ответ от сервера
  */
 export const registerAccount = async ({email, first_name, last_name,  password}: RegisterAccountInterface) => await makeAPIRequest({
+    apiUrl: ApiType.AUTH,
     endpoint: '/auth/register',
     method: 'POST',
     body: {email, first_name, last_name, password}
@@ -196,6 +195,7 @@ export const registerAccount = async ({email, first_name, last_name,  password}:
  * @returns {Promise<*>} Ответ от сервера
  */
 export const getProfile = async () => await makeAPIRequest({
+    apiUrl: ApiType.AUTH,
     endpoint: '/auth/me',
     method: 'POST'
 });
@@ -228,6 +228,7 @@ export interface UpdateProfileInterface {
  * @returns {Promise<*>} Ответ от сервера
  */
 export const updateProfile = async ({email, first_name, last_name}: UpdateProfileInterface) => await makeAPIRequest({
+    apiUrl: ApiType.AUTH,
     endpoint: '/users/update',
     method: 'PUT',
     body: {email, first_name, last_name}
@@ -251,6 +252,7 @@ export interface UpdateAvatarInterface {
  * @returns {Promise<*>} Ответ от сервера
  */
 export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await makeAPIRequest({
+    apiUrl: ApiType.AUTH,
     endpoint: '/users/image',
     method: 'PUT',
     files: {avatar}
@@ -262,6 +264,7 @@ export const updateAvatar = async ({avatar}: UpdateAvatarInterface) => await mak
  * @returns {Promise<*>} Ответ от сервера
  */
 export const removeAvatar = async () => await makeAPIRequest({
+    apiUrl: ApiType.AUTH,
     endpoint: '/users/image',
     method: 'DELETE'
 });
@@ -287,6 +290,7 @@ export const getZhkLine = async () => await ({"metroLine": 'Некрасовск
  * @returns {Promise<null>} Ответ от сервера
  */
 export const getOfferById =  async (id: number) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: '/offers/'.concat(id.toString()),
     method: 'GET'
 });
@@ -375,6 +379,7 @@ export interface CreateOfferInterface {
 }
 
 export const createOffer = async ({...args}: CreateOfferInterface) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: '/offers',
     method: 'POST',
     body: {
@@ -397,6 +402,7 @@ export const createOffer = async ({...args}: CreateOfferInterface) => await make
 });
 
 export const updateOffer = async ({...args}: CreateOfferInterface) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: `/offers/${args.id}`,
     method: 'PUT',
     body: {
@@ -418,6 +424,7 @@ export const updateOffer = async ({...args}: CreateOfferInterface) => await make
 })
 
 export const deleteOffer = async (id: number) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: `/offers/${id}`,
     method: 'DELETE'
 });
@@ -445,6 +452,7 @@ interface UploadOfferImageInterface {
  * @returns {Promise<*>} Ответ от сервера
  */
 export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterface) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: `/offers/${offerId}/image`,
     method: 'POST',
     files: {
@@ -453,11 +461,13 @@ export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterfac
 });
 
 export const deleteOfferImage = async (imageId: number) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: `/images/${imageId}`,
     method: 'DELETE'
 })
 
 export const publishOffer = async (offerId: number) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
     endpoint: `/offers/${offerId}/publish`,
     method: 'POST'
 })
@@ -469,6 +479,7 @@ export const publishOffer = async (offerId: number) => await makeAPIRequest({
  * @returns {Promise<null>} Ответ от сервера
  */
 export const getHousingComplex = async (id: number) => await makeAPIRequest({
+    apiUrl: ApiType.ZHK,
     endpoint: '/zhk/'.concat(id.toString()),
     method: 'GET'
 });
@@ -496,6 +507,7 @@ export interface LoginInterface {
  * @returns {Promise<*>} Ответ от сервера
  */
 export const login = async ({email, password}: LoginInterface) => await makeAPIRequest({
+    apiUrl: ApiType.AUTH,
     endpoint: '/auth/login',
     method: 'POST',
     body: {email, password}
@@ -507,6 +519,7 @@ export const login = async ({email, password}: LoginInterface) => await makeAPIR
  * @returns {Promise<boolean>} Ответ от сервера
  */
 export const logout = async () => await makeAPIRequest({
+    apiUrl: ApiType.AUTH,
     endpoint: '/auth/logout',
     method: 'POST'
 });
