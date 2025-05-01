@@ -1,5 +1,7 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import OfferEditLayout from "../../layouts/offerEdit/index.ts";
+import {likeOfer} from "../../util/apiUtil.ts";
+import LikeButton from "../likeButton";
 
 /**
  * @class OfferDetailsInfo
@@ -7,6 +9,7 @@ import OfferEditLayout from "../../layouts/offerEdit/index.ts";
  * @augments BaseComponent
  */
 export default class OfferDetailsInfo extends BaseComponent {
+    public likeButton: LikeButton;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -14,6 +17,7 @@ export default class OfferDetailsInfo extends BaseComponent {
      */
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
+        this.likeButton = new LikeButton({page, layout});
     }
 
     /**

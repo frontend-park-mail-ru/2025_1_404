@@ -1,17 +1,19 @@
 @use "../abstracts/variables" as *;
-.heart {
+.like {
   z-index: 1;
   background-color: rgba(18, 18, 18, 0.35);
   color: $white;
-  border-radius: 50%;
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  padding: 8px;
+  border-radius: 15px;
+  font-size: 22px;
+  //width: 40px;
+  height: 45px;
+  padding: 15px;
   display: flex;
+  flex-direction: row;
+  gap: 15px;
   justify-content: center;
   align-items: center;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition: all 0.2s ease;
 
   @media (max-width: 500px) {
     font-size: 18px;
@@ -21,9 +23,20 @@
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
   }
 
   &.active {
     color: $red;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &.disabled &:hover {
+    opacity: 0.5;
+    cursor: default;
   }
 }

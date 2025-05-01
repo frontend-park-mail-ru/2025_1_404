@@ -70,6 +70,11 @@ export default class OfferDetailsPage extends Page {
             this.offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
             this.offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
 
+            this.offerDetailsInfo?.likeButton.updateDetails({
+                isLiked: data.offer_data.offer_stat.likes_stat.is_liked,
+                count: data.offer_data.offer_stat.likes_stat.amount
+            })
+
             let coords: [number, number] = [37.313484, 55.557729];
             this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
             this.map.geoCode(offer.address).then(() => {
@@ -145,9 +150,6 @@ export default class OfferDetailsPage extends Page {
         }
         return this.layout.makeRequest(getOfferById, id)
             .then((data) => {
-                if (User.isAuthenticated()) {
-                    // OfferMock.updateVisit(User.getData()?.id, id);
-                }
                 return data;
             })
             .catch ((error) => {

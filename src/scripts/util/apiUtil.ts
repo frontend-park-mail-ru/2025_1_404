@@ -574,3 +574,14 @@ export const evaluateOffer = (offer: EvaluateOfferInterface)=> {
         }
     });
 }
+
+export const likeOfer = (offerId: number) => {
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/like`,
+        method: 'POST',
+        body: {
+            offer_id: offerId
+        }
+    });
+}

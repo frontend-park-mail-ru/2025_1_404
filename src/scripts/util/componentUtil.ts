@@ -57,6 +57,7 @@ import CsatStatsAvg from "../components/csatStatsAvg/template.precompiled.js";
 import Cluster from "../components/cluster/template.precompiled.js";
 import Balloon from "../components/balloon/template.precompiled.js";
 import OfferDetailsGraph from "../components/offerDetailsGraph/template.precompiled.js";
+import LikeButton from "../components/likeButton/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -91,6 +92,7 @@ export default function registerComponents() {
         [Loader, 'Loader'],
         [Login, 'Login'],
         [Logo, 'Logo'],
+        [LikeButton, 'LikeButton'],
         [MetroStation, 'MetroStation'],
         [OfferCreateBtns, 'OfferCreateBtns'],
         [OfferCreateNav, 'OfferCreateNav'],
