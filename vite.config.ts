@@ -12,6 +12,13 @@ export default defineConfig({
         port: 8000
     },
     build: {
+        target: "esnext",
         outDir: 'deploy/public',
+    },
+    esbuild: {
+        target: "esnext",
+        supported: {
+            'top-level-await': true
+        },
     }
 })
