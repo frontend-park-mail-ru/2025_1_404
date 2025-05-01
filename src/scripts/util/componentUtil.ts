@@ -55,6 +55,8 @@ import BottomNavigationBar from "../components/bottomNavigationBar/template.prec
 import Csat from "../components/csat/template.precompiled.js"
 import CsatStatsAvg from "../components/csatStatsAvg/template.precompiled.js";
 import Cluster from "../components/cluster/template.precompiled.js";
+import Balloon from "../components/balloon/template.precompiled.js";
+import OfferDetailsGraph from "../components/offerDetailsGraph/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -117,7 +119,9 @@ export default function registerComponents() {
         [BottomNavigationBar, 'BottomNavigationBar'],
         [Csat, 'Csat'],
         [CsatStatsAvg, 'CsatStatsAvg'],
-        [Cluster, 'Cluster']
+        [Cluster, 'Cluster'],
+        [Balloon, 'Balloon'],
+        [OfferDetailsGraph, 'OfferDetailsGraph']
     ];
 
     components.forEach(([component, name]) => {

@@ -3,7 +3,7 @@ await ymaps3.ready;
 export const {
     YMap,
     YMapMarker,
-    YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer,
+    YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapLayer, YMapFeatureDataSource,
     YMapListener,
 } = ymaps3;
 

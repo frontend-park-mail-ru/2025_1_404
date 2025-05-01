@@ -13,6 +13,9 @@ export default class Cluster extends BaseComponent {
      * @returns {string} HTML-строка с разметкой компонента.
      */
     render(count: number) {
-        return template({count});
+        const parser = new DOMParser();
+        const clusterString = template({count});
+        const doc = parser.parseFromString(clusterString, 'text/html');
+        return doc.body.firstElementChild as HTMLElement;
     }
 }

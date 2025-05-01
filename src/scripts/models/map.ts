@@ -76,12 +76,22 @@ export default class Map {
         this.clusterer = MapUtil.createClusterer(this.map);
     }
 
-    addClustererMarkers(coords: LngLat[]) {
-        const points : Feature[]  = Array.from(coords, (elem, index) => ({
-            type: 'Feature',
-            id: index.toString(),
-            geometry: {type: 'Point', coordinates: elem}
-        }));
+    addClustererMarkers(coords: LngLat[], props: Record<string, string>[]) {
+        const points : Feature[]  = Array.from(coords, (elem, index) => (
+            {
+                type: 'Feature',
+                id: index.toString(),
+                geometry: {type: 'Point', coordinates: elem},
+                properties: {
+                    id: props[index].id,
+                    img: props[index].img,
+                    title: props[index].title,
+                    price: props[index].price,
+                    area: props[index].area,
+                    address: props[index].address,
+                }
+            }
+        ));
         if (!this.clusterer) {
             return;
         }

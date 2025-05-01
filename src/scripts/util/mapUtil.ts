@@ -4,7 +4,9 @@ import {
     YMapClusterer,
     YMapDefaultFeaturesLayer,
     YMapDefaultSchemeLayer,
-    YMapMarker
+    YMapMarker,
+    YMapLayer,
+    YMapFeatureDataSource,
 } from '../lib/ymaps';
 import {makeRequest} from "./httpUtil.ts";
 import {LngLat, LngLatBounds, YMapLocationRequest} from "@yandex/ymaps3-types";
@@ -95,14 +97,16 @@ class MapUtil {
 
     createMap({id, center, zoom}: CreateMapInterface): YMap | null {
         const mapElement = document.getElementById(id) as HTMLElement;
+        const MARGIN = [100, 100, 100, 100] as [number, number, number, number];
         if (!mapElement) {
             return null;
         }
         const map = new YMap(mapElement, {
             location: {
                 center,
-                zoom
-            }
+                zoom,
+            },
+            margin: MARGIN
         }, [
             new YMapDefaultSchemeLayer({}),
             new YMapDefaultFeaturesLayer({})
@@ -112,19 +116,50 @@ class MapUtil {
     }
 
     createClusterer(map: YMap) {
-        const MARGIN = [100, 100, 100, 100];
-        const COMMON_LOCATION_PARAMS: Partial<YMapLocationRequest> = {easing: 'ease-in-out', duration: 2000};
+        const COMMON_LOCATION_PARAMS: Partial<YMapLocationRequest> = {easing: 'ease-in-out', duration: 1000};
+
         const cluster = (coordinates: LngLat, features: Feature[]) =>
             new YMapMarker(
                 {
                     coordinates,
-                    // onClick() {
-                    //     const bounds = this.getBounds(features.map((feature: Feature) => feature.geometry.coordinates));
-                    //     map.update({location: {bounds, ...COMMON_LOCATION_PARAMS}});
-                    // }
+                    onClick: () => {
+                         const bounds = this.getBounds(features.map((feature: Feature) => feature.geometry.coordinates));
+                         map.update({location: {bounds, ...COMMON_LOCATION_PARAMS}});
+                    }
                 },
                 this.clusterIcon(features.length)
             );
+
+        const marker = (feature: Feature) => {
+            if (!feature.properties) {
+                return new YMapMarker(
+                    {
+                        coordinates: feature.geometry.coordinates as [number, number],
+                    },
+                    this.houseMarker({})[0]
+                );
+            }
+            const markerData = {
+                id: feature.properties.id,
+                img: feature.properties.img,
+                title: feature.properties.title,
+                price: feature.properties.price,
+                area: feature.properties.area,
+                address: feature.properties.address,
+            } as Record<string, string>;
+
+            const [markerElement, balloonElement] = this.houseMarker(markerData);
+            this.createBalloon(map, balloonElement, feature.geometry.coordinates);
+
+            return new YMapMarker(
+                {
+                    coordinates: feature.geometry.coordinates as [number, number],
+                    zIndex:1100,
+                },
+                markerElement
+            );
+        }
+
 
         const clusterer = new YMapClusterer({
 
@@ -132,12 +167,7 @@ class MapUtil {
 
             cluster,
 
-            marker: (feature: Feature) => {
-                return this.createPlacemark({
-                    coords: feature.geometry.coordinates as [number, number],
-                    element: this.houseMarker()
-                });
-            },
+            marker,
 
             features: []
         });
@@ -145,18 +175,20 @@ class MapUtil {
         return clusterer;
     }
 
-    clusterIcon(count: number) {
-        const cluster = new Cluster({});
-        const clusterElement = document.createElement('div');
-        clusterElement.innerHTML = cluster.render(count);
-        return clusterElement.firstElementChild as HTMLElement;
+    createBalloon(map: YMap, element: HTMLElement, coords: LngLat) {
+        const {YMapMarker} = ymaps3;
+        const balloon = new YMapMarker({coordinates: coords, zIndex:1200}, element);
+        map.addChild(balloon);
     }
 
-    houseMarker() {
-        const houseMarker = new HouseMarker({});
-        const houseElement = document.createElement('div');
-        houseElement.innerHTML = houseMarker.render();
-        return houseElement;
+    clusterIcon(count: number) {
+        const cluster = new Cluster({});
+        return cluster.render(count);
+    }
+
+    houseMarker(data: Record<string, string>) {
+        const houseMarker = new HouseMarker({data});
+        return houseMarker.render();
     }
 
     /**
@@ -168,10 +200,7 @@ class MapUtil {
      * @returns {Map} экземпляр метки.
      */
     addPlacemark({map, coords}: AddPlacemarkInterface): YMapMarker | null {
-        const placeMark = this.createPlacemark({element: this.houseMarker(), coords});
-        if (!placeMark) {
-            return null;
-        }
+        const placeMark = this.createPlacemark({element: this.houseMarker({})[0], coords});
         map.addChild(placeMark);
         return placeMark;
     }
@@ -190,6 +219,28 @@ class MapUtil {
      */
     removePlacemark({map, placemark}: RemovePlacemarkInterface) {
         map.removeChild(placemark);
+    }
+
+    getBounds(coordinates: LngLat[]): LngLatBounds {
+        let minLat = Infinity,
+            minLng = Infinity;
+        let maxLat = -Infinity,
+            maxLng = -Infinity;
+
+        for (const coords of coordinates) {
+            const lat = coords[1];
+            const lng = coords[0];
+
+            if (lat < minLat) minLat = lat;
+            if (lat > maxLat) maxLat = lat;
+            if (lng < minLng) minLng = lng;
+            if (lng > maxLng) maxLng = lng;
+        }
+
+        return [
+            [minLng, minLat],
+            [maxLng, maxLat]
+        ] as LngLatBounds;
     }
 
     /**
@@ -264,6 +315,7 @@ class MapUtil {
         }
         return addresses;
     }
+
 }
 
 export default new MapUtil();

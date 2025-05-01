@@ -217,6 +217,7 @@ export default class searchMapPage extends Page {
             }
 
             const points: LngLat[] = [];
+            const props: Record<string, string>[] = [];
             this.map?.addClusterer();
 
             for (const offerData of Array.from(offers)) {
@@ -231,6 +232,16 @@ export default class searchMapPage extends Page {
                     continue;
                 }
                 points.push(coords);
+                props.push({
+                    id: offer.id?.toString() || '0',
+                    img: image,
+                    title: `${offer.offerType} ${offer.propertyType}`,
+                    price: offer.price.toString(),
+                    area: offer.area.toString(),
+                    address: offer.address,
+                })
+
+                console.log(props);
 
                 this.addOffer({
                     id: offer.id || 0,
@@ -248,7 +259,7 @@ export default class searchMapPage extends Page {
                     propertyType: offer.propertyType
                 });
             }
-            this.map?.addClustererMarkers(points);
+            this.map?.addClustererMarkers(points, props);
         }).catch((error) => {
             this.layout?.addPopup('Ошибка сервера', error.message);
         })
