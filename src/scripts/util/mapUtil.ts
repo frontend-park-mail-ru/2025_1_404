@@ -5,8 +5,6 @@ import {
     YMapDefaultFeaturesLayer,
     YMapDefaultSchemeLayer,
     YMapMarker,
-    YMapLayer,
-    YMapFeatureDataSource,
 } from '../lib/ymaps';
 import {makeRequest} from "./httpUtil.ts";
 import {LngLat, LngLatBounds, YMapLocationRequest} from "@yandex/ymaps3-types";
@@ -106,10 +104,10 @@ class MapUtil {
                 center,
                 zoom,
             },
-            margin: MARGIN
+            margin: MARGIN,
         }, [
             new YMapDefaultSchemeLayer({}),
-            new YMapDefaultFeaturesLayer({})
+            new YMapDefaultFeaturesLayer({}),
         ]);
 
         return map;
@@ -136,7 +134,7 @@ class MapUtil {
                     {
                         coordinates: feature.geometry.coordinates as [number, number],
                     },
-                    this.houseMarker({})[0]
+                    this.houseMarker({}, true)[0]
                 );
             }
             const markerData = {
@@ -148,7 +146,8 @@ class MapUtil {
                 address: feature.properties.address,
             } as Record<string, string>;
 
-            const [markerElement, balloonElement] = this.houseMarker(markerData);
+            const [markerElement, balloonElement] = this.houseMarker(markerData, true);
+
             this.createBalloon(map, balloonElement, feature.geometry.coordinates);
 
             return new YMapMarker(
@@ -186,8 +185,8 @@ class MapUtil {
         return cluster.render(count);
     }
 
-    houseMarker(data: Record<string, string>) {
-        const houseMarker = new HouseMarker({data});
+    houseMarker(data: Record<string, string>, hasBalloon: boolean) {
+        const houseMarker = new HouseMarker({data, hasBalloon});
         return houseMarker.render();
     }
 
@@ -200,7 +199,7 @@ class MapUtil {
      * @returns {Map} экземпляр метки.
      */
     addPlacemark({map, coords}: AddPlacemarkInterface): YMapMarker | null {
-        const placeMark = this.createPlacemark({element: this.houseMarker({})[0], coords});
+        const placeMark = this.createPlacemark({element: this.houseMarker({}, false)[0], coords});
         map.addChild(placeMark);
         return placeMark;
     }

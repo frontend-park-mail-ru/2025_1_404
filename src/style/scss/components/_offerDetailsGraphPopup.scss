@@ -1,0 +1,35 @@
+@use "../abstracts/variables" as *;
+
+.offerDetails__left-graph-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: $grey2;
+  padding: 5px;
+  border-radius: 6px;
+
+  &-wrapper {
+    position: absolute;
+  }
+
+  &-price {
+    font-size: 18px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &-percent {
+    display: flex;
+    gap: 5px;
+
+    .arrow-down {
+      color: $green;
+      transform: rotate(45deg);
+    }
+
+    .arrow-up {
+      color: $red;
+      transform: rotate(-45deg);
+    }
+  }
+}

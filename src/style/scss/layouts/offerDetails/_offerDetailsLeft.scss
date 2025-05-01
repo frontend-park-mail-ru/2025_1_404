@@ -55,4 +55,12 @@
     width: 100%;
     height: 30em;
   }
+
+  &-graph {
+    position: relative;
+    &-canvas {
+      width: 100%;
+      height: auto;
+    }
+  }
 }

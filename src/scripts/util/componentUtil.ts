@@ -57,6 +57,7 @@ import CsatStatsAvg from "../components/csatStatsAvg/template.precompiled.js";
 import Cluster from "../components/cluster/template.precompiled.js";
 import Balloon from "../components/balloon/template.precompiled.js";
 import OfferDetailsGraph from "../components/offerDetailsGraph/template.precompiled.js";
+import OfferDetailsGraphPopup from "../components/offerDetailsGraphPopup/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -121,7 +122,8 @@ export default function registerComponents() {
         [CsatStatsAvg, 'CsatStatsAvg'],
         [Cluster, 'Cluster'],
         [Balloon, 'Balloon'],
-        [OfferDetailsGraph, 'OfferDetailsGraph']
+        [OfferDetailsGraph, 'OfferDetailsGraph'],
+        [OfferDetailsGraphPopup, 'OfferDetailsGraphPopup']
     ];
 
     components.forEach(([component, name]) => {

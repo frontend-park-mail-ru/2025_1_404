@@ -13,6 +13,8 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
 import Map from "../../models/map.ts";
 import mapUtil from "../../util/mapUtil.ts";
 import {LngLat} from "@yandex/ymaps3-types";
+import primaryButtonTemplate from "../../components/primaryButton/template.precompiled.js";
+import PrimaryButton from "../../components/primaryButton";
 
 interface AddOfferInterface {
     /**
@@ -76,9 +78,12 @@ interface AddOfferInterface {
  */
 export default class searchMapPage extends Page {
     private map: Map | undefined;
+    private mapElement: HTMLElement | null | undefined;
     private filter: Filter | undefined;
     private layout: BaseLayout | undefined;
     private offerList: Element | null | undefined;
+    private fullscreenButton: Element | null | undefined;
+    private listHrefButton: Element | null | undefined;
     /**
      * @function render
      * @description Метод рендеринга компонента
@@ -89,12 +94,26 @@ export default class searchMapPage extends Page {
         super.render({root, layout});
 
         this.layout = layout;
+        this.mapElement = document.getElementById("searchMapResultsMap");
         this.filter = new Filter({page: this, layout});
         this.filter.filterSetData();
 
         this.offerList = document.getElementById("searchMapResults")
         let coords: [number, number] = [37.313484, 55.557729];
         this.map = new Map({center: coords, id: 'searchMapResultsMap', zoom: 5});
+
+        document.addEventListener("fullscreenchange", () => this.updateFullscreenButtonText());
+
+        this.fullscreenButton = document.getElementById("searchMapResultsFullscreen");
+        if (this.fullscreenButton !== null) {
+            this.fullscreenButton.innerHTML = primaryButtonTemplate({name: "Во весь экран"});
+            this.fullscreenButton.addEventListener('click', (event) => this.toggleFullscreen(event));
+        }
+        this.listHrefButton = document.getElementById("searchMapResultsListHref");
+        if (this.listHrefButton !== null) {
+            this.listHrefButton.innerHTML = primaryButtonTemplate({name: "Вернуться"});
+            this.listHrefButton.addEventListener('click', (event) => this.backToList(event));
+        }
 
         this.getOffers(FilterModel.getFilterData());
 
@@ -132,15 +151,30 @@ export default class searchMapPage extends Page {
         }
     }
 
-    private async addHouseOnMap(address: string) {
-        if (this.map) {
-            const pos = await this.map.getCoords(address);
-            if (!pos) {
+    private toggleFullscreen(event: Event) {
+        event.preventDefault();
+        if (!document.fullscreenElement) {
+            if (!this.mapElement) {
                 return;
             }
-            const coords: [number, number] = [pos[0], pos[1]];
-            this.map.addHouse({coords});
+            this.mapElement.requestFullscreen().catch(err => {
+                console.error('Ошибка при переходе в полный режим:', err);
+            });
+        } else {
+            document.exitFullscreen();
         }
+    }
+
+    private backToList(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo("/searchList")
+    }
+
+    private updateFullscreenButtonText() {
+        if (!this.fullscreenButton) {
+            return null;
+        }
+        this.fullscreenButton.children[0].textContent = document.fullscreenElement ? "Выйти из полного экрана" : "Во весь экран";
     }
 
     /**
@@ -240,8 +274,6 @@ export default class searchMapPage extends Page {
                     area: offer.area.toString(),
                     address: offer.address,
                 })
-
-                console.log(props);
 
                 this.addOffer({
                     id: offer.id || 0,

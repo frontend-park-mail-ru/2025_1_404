@@ -6,6 +6,7 @@ import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
 import SubmitModal from "../../components/submitModal";
 import {deleteOffer} from "../../util/apiUtil.ts";
+import BottomNavigationBar from "../../components/bottomNavigationBar";
 
 /**
  * @class MainLayout
@@ -15,6 +16,7 @@ import {deleteOffer} from "../../util/apiUtil.ts";
 export default class MainLayout extends BaseLayout {
     private loginForm: Login | undefined;
     private header: Header | undefined;
+    private bottomNavigationBar: BottomNavigationBar | undefined;
     /**
      * @description Конструктор класса.
      */
@@ -94,6 +96,9 @@ export default class MainLayout extends BaseLayout {
                 if (this.loginForm) {
                     this.loginForm.destroy();
                 }
+                if (this.bottomNavigationBar) {
+                    this.bottomNavigationBar.destroy();
+                }
 
                 super.process(page).destroy();
             },
@@ -102,6 +107,7 @@ export default class MainLayout extends BaseLayout {
                 super.process(page).render({props, root});
 
                 this.header = new Header({layout: this, page});
+                this.bottomNavigationBar = new BottomNavigationBar({layout: this, page});
                 this.loginForm = new Login({layout: this, page, id: 'login'});
                 this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
 
