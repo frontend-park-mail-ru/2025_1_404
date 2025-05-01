@@ -12,17 +12,11 @@ export default defineConfig({
         port: 8000
     },
     build: {
+        target: "esnext",
         outDir: 'deploy/public',
-        target: 'esnext',
-        rollupOptions: {
-            input: {
-                app: 'index.html', // основной HTML
-                csat: 'csat.html', // второй HTML
-            }
-        }
     },
     esbuild: {
-        target: 'esnext',
+        target: "esnext",
         supported: {
             'top-level-await': true
         },

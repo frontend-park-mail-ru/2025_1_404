@@ -5,7 +5,8 @@ import User from "../models/user.ts";
 const ApiType = {
     AUTH: import.meta.env.VITE_BACKEND_AUTH_URL,
     OFFER: import.meta.env.VITE_BACKEND_OFFER_URL,
-    ZHK: import.meta.env.VITE_BACKEND_ZHK_URL
+    ZHK: import.meta.env.VITE_BACKEND_ZHK_URL,
+    AI: import.meta.env.VITE_BACKEND_AI_URL
 }
 
 let csrfToken: string | null = null;
@@ -533,4 +534,43 @@ export const favourite = async(offerId: number) => {
         return {'status': false};
     }
     return OfferMock.toggleFavorite(userData.id, offerId);
+}
+
+interface EvaluateOfferInterface {
+    offerType: string;
+    metroStation?: string;
+    rentType?: string;
+    purchaseType: string;
+    propertyType: string;
+    renovation: string;
+    address: string;
+    complex?: string;
+    area: number;
+    floor: number;
+    totalFloors: number;
+    rooms: number;
+    ceilingHeight: number;
+}
+
+export const evaluateOffer = (offer: EvaluateOfferInterface)=> {
+    return makeAPIRequest({
+        apiUrl: ApiType.AI,
+        endpoint: '/evaluateOffer',
+        method: 'POST',
+        body: {
+            offer_type: offer.offerType,
+            metro_station: offer.metroStation || "",
+            rent_type: offer.rentType || "",
+            purchase_type: offer.purchaseType,
+            property_type: offer.propertyType,
+            renovation: offer.renovation,
+            address: offer.address,
+            complex: offer.complex || "",
+            area: offer.area,
+            floor: offer.floor,
+            total_floors: offer.totalFloors,
+            rooms: offer.rooms,
+            ceiling_height: offer.ceilingHeight,
+        }
+    });
 }
