@@ -136,8 +136,8 @@ export default class Offer {
             return;
         }
         const sellDetails = OfferMock.getSellDetails(this.id);
-        this.sellDetails.views = sellDetails.views;
-        this.sellDetails.likes = sellDetails.likes;
+        this.sellDetails.views = json.offer_data.offer_stat.views;
+        this.sellDetails.likes = json.offer_data.offer_stat.likes_stat.amount;
         this.sellDetails.favorites = sellDetails.favorites;
 
         const userData = User.getData();

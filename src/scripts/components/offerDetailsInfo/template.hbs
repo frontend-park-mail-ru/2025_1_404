@@ -1,6 +1,9 @@
-<h2 class="offerDetails__right-price">
-    {{price}}
-</h2>
+<div class="offerDetails__right-title">
+    <h2 class="offerDetails__right-price">
+        {{price}}
+    </h2>
+    {{> LikeButton liked=liked offerId=offerId}}
+</div>
 <div class="offerDetails__right-info">
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-door-open" label="Комнат" content=rooms}}
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-layer-group" label="Площадь" content=area}}

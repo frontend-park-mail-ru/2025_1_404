@@ -11,6 +11,13 @@
   flex-direction: column;
   gap: 25px;
 
+  &-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
   @media (max-width: 1000px) {
     position: initial;
     width: 100%;

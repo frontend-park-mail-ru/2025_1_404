@@ -89,6 +89,7 @@ export default class OfferCreateAddressPage extends OfferPage {
     initListeners() {
         this.initListener('offerCreateAddressForm', 'input', this.offerDataChange);
         this.initListener('input-address__input', 'input', this.offerDataChange);
+        this.initListener('input-floorLeft__input', 'input', this.offerDataChange);
     }
 
     /**
@@ -124,6 +125,10 @@ export default class OfferCreateAddressPage extends OfferPage {
         if (response.result) {
             if (response.input.id === 'input-address__input') {
                 this.changeMap(response.input);
+            }
+            if (response.input.id === 'input-floorRight__input') {
+                const event = new Event('input');
+                document.getElementById('input-floorLeft__input')?.dispatchEvent(event);
             }
         }
         return response;
