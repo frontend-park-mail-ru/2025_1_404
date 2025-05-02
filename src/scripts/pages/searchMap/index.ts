@@ -265,11 +265,11 @@ export default class searchMapPage extends Page {
                 if (offer.images.length > 0 && typeof offer.images[0] === 'string') {
                     image = offer.images[0];
                 }
-                const coords = await this.map?.getCoords(offer.address);
-                if (!coords) {
-                    continue;
-                }
-                points.push(coords);
+                // const coords = await this.map?.getCoords(offer.address);
+                // if (!coords) {
+                //     continue;
+                // }
+                points.push([offer.logitude, offer.latitude]);
                 props.push({
                     id: offer.id?.toString() || '0',
                     img: image,

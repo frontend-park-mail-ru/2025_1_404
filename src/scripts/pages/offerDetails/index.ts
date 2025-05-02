@@ -75,15 +75,9 @@ export default class OfferDetailsPage extends Page {
                 count: data.offer_data.offer_stat.likes_stat.amount
             })
 
-            let coords: [number, number] = [37.313484, 55.557729];
+            let coords: [number, number] = [offer.logitude, offer.latitude];
             this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
-            this.map.geoCode(offer.address).then(() => {
-                if (this.map) {
-                    coords = this.map.getCenter();
-                    this.map.removeAllHouses();
-                    this.map.addHouse({coords});
-                }
-            });
+            this.map.addHouse({coords});
 
             const offerSellerBtns = document.getElementById("offerDetailsSellerBtns") as HTMLElement;
             const offerUserBtns = document.getElementById("offerDetailsUserBtns") as HTMLElement;
