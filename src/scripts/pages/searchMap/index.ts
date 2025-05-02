@@ -228,7 +228,6 @@ export default class searchMapPage extends Page {
         }
         const {offerTypeId, propertyTypeId} = this.getFilterIds(filterData);
         await searchOffers({
-            'offer_status_id': '1',
             'min_area': filterData.filterSquareLeft__input,
             'max_area': filterData.filterSquareRight__input,
             'min_price': filterData.filterPriceLeft__input,
