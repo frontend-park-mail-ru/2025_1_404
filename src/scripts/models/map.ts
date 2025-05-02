@@ -1,6 +1,5 @@
 import MapUtil from "../util/mapUtil.ts";
 import {YMap, YMapListener, YMapMarker, YMapClusterer as YMapClustererType} from "../lib/ymaps.ts";
-import HouseMarker from "../components/houseMarker";
 import {DomEventHandler, LngLat} from "@yandex/ymaps3-types";
 import {Feature} from "@yandex/ymaps3-clusterer";
 
@@ -148,7 +147,6 @@ export default class Map {
         if (!this.map) {
             return null;
         }
-
         return MapUtil.addPlacemark({coords, map: this.map});
     }
 

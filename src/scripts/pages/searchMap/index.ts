@@ -15,6 +15,7 @@ import mapUtil from "../../util/mapUtil.ts";
 import {LngLat} from "@yandex/ymaps3-types";
 import primaryButtonTemplate from "../../components/primaryButton/template.precompiled.js";
 import PrimaryButton from "../../components/primaryButton";
+import Paginator from "../../components/paginator";
 
 interface AddOfferInterface {
     /**
@@ -82,6 +83,7 @@ export default class searchMapPage extends Page {
     private filter: Filter | undefined;
     private layout: BaseLayout | undefined;
     private offerList: Element | null | undefined;
+    private paginator: Paginator | undefined;
     private fullscreenButton: Element | null | undefined;
     private listHrefButton: Element | null | undefined;
     /**
@@ -101,6 +103,8 @@ export default class searchMapPage extends Page {
         this.offerList = document.getElementById("searchMapResults")
         let coords: [number, number] = [37.313484, 55.557729];
         this.map = new Map({center: coords, id: 'searchMapResultsMap', zoom: 5});
+
+        this.paginator = new Paginator({page: this, layout, pageCount: 10});
 
         document.addEventListener("fullscreenchange", () => this.updateFullscreenButtonText());
 
@@ -295,6 +299,20 @@ export default class searchMapPage extends Page {
         }).catch((error) => {
             this.layout?.addPopup('Ошибка сервера', error.message);
         })
+
+        // document.querySelectorAll('.card__link').forEach(card => {
+        //     if (!this.mapElement) {
+        //         return;
+        //     }
+        //     const id = card.getAttribute('data-id');
+        //
+        //     console.log(markerElement);
+        //     if (!markerElement) {
+        //         return;
+        //     }
+        //     card.addEventListener('mouseenter', () => this.toggleMarkerHighlight(markerElement));
+        //     card.addEventListener('mouseleave', () => this.toggleMarkerHighlight(markerElement));
+        // });
     }
 
     /**
@@ -325,4 +343,26 @@ export default class searchMapPage extends Page {
 
         return { offerTypeId, propertyTypeId };
     }
+
+    private toggleMarkerHighlight(markerElement: Element) {
+        markerElement.classList.toggle('highlight');
+    }
+
+    // destroy() {
+    //     super.destroy();
+    //
+    //     document.querySelectorAll('.search__card').forEach(card => {
+    //         if (!this.mapElement) {
+    //             return;
+    //         }
+    //         const id = card.getAttribute('data-id');
+    //         const markerElement = this.mapElement.querySelector(`[data-id="${id}"]`);
+    //         console.log(markerElement);
+    //         if (!markerElement) {
+    //             return;
+    //         }
+    //         card.removeEventListener('mouseenter', () => this.toggleMarkerHighlight(markerElement));
+    //         card.removeEventListener('mouseleave', () => this.toggleMarkerHighlight(markerElement));
+    //     });
+    // }
 }

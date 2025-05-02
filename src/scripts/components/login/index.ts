@@ -61,7 +61,7 @@ export default class Login extends BaseModal {
     /**
      * @function setShowModal
      * @description Метод установки состояния окна авторизации.
-     * @param {boolean} isShow - состояние окна авторизации.c
+     * @param {boolean} isShow - состояние окна авторизации.
      */
     setShowModal(isShow: boolean) {
         if (isShow && this.passwordInput) {

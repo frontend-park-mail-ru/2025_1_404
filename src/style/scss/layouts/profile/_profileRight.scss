@@ -1,10 +1,17 @@
 @use "../../abstracts/variables" as *;
 .profile__right {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 20px;
   width: 100%;
   height: 100%;
+
+  &.show {
+    display: flex;
+    @media (max-width: 1000px)  {
+      width: 100%;
+    }
+  }
 
   &-blocks {
     display: flex;

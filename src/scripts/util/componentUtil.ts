@@ -59,6 +59,8 @@ import Balloon from "../components/balloon/template.precompiled.js";
 import OfferDetailsGraph from "../components/offerDetailsGraph/template.precompiled.js";
 import LikeButton from "../components/likeButton/template.precompiled.js";
 import OfferDetailsGraphPopup from "../components/offerDetailsGraphPopup/template.precompiled.js";
+import ProfileSideButton from "../components/profileSideButton/template.precompiled.js";
+import Paginator from "../components/paginator/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -125,7 +127,9 @@ export default function registerComponents() {
         [Cluster, 'Cluster'],
         [Balloon, 'Balloon'],
         [OfferDetailsGraph, 'OfferDetailsGraph'],
-        [OfferDetailsGraphPopup, 'OfferDetailsGraphPopup']
+        [OfferDetailsGraphPopup, 'OfferDetailsGraphPopup'],
+        [ProfileSideButton, 'ProfileSideButton'],
+        [Paginator, 'Paginator'],
     ];
 
     components.forEach(([component, name]) => {

@@ -6,9 +6,18 @@
   gap: 20px;
   border-right: 1px solid $grey;
   padding-right: 10px;
+  transition: transform 0.3s ease;
 
   @media (max-width: 1000px)  {
-    display: none;
+    transform: translateX(-100vw);
+    position: absolute;
+  }
+
+  &.show {
+    transform: translateX(0);
+    position: initial;
+    width: 100%;
+    border-right: 0;
   }
 
   &-info {

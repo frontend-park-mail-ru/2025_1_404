@@ -17,7 +17,7 @@
 
   @media (max-width: 500px) {
     font-size: 18px;
-    width: 35px;
+    width: 70px;
     height: 35px;
   }
 
@@ -27,7 +27,7 @@
   }
 
   &.active {
-    color: $red;
+    color: $blue;
   }
 
   &.disabled {
