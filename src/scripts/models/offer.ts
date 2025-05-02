@@ -85,6 +85,8 @@ export default class Offer {
     renovation: string = '';
     complexId?: number;
     images: Array<File|string> = [];
+    logitude: number = 0;
+    latitude: number = 0;
 
     /**
      * @function parseOfferData
@@ -172,6 +174,9 @@ export default class Offer {
         for (const image of json.offer_data.offer_images) {
             this.images.push(image.image);
         }
+
+        this.logitude = json.offer.logitude
+        this.latitude = json.offer.latitude;
     }
 
     /**

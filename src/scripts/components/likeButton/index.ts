@@ -2,6 +2,7 @@
 import {BaseComponent} from "../baseComponent.ts";
 import template from './template.precompiled.js';
 import {likeOfer} from "../../util/apiUtil.ts";
+import User from "../../models/user.ts";
 
 /**
  * @class LikeButton
@@ -44,6 +45,10 @@ export default class LikeButton extends BaseComponent {
            target = target.parentElement as HTMLElement;
         }
         if (!target || target.id !== 'like' || target.dataset.id === undefined || target.classList.contains('disabled')) {
+            return;
+        }
+        if (!User.isAuthenticated()) {
+            this.layout?.emit('showLogin');
             return;
         }
         target.classList.add('disabled');
