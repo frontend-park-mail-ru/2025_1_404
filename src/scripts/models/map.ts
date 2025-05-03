@@ -54,6 +54,7 @@ export default class Map {
     private map: YMap | null;
     private clusterer: InstanceType<typeof YMapClustererType> | null;
     private houses: YMapMarker[] = [];
+    private clusterMarkers: HTMLElement[] = [];
     /**
      * @description Конструктор класса карты.
      * @param {string} id id карты.
@@ -72,7 +73,13 @@ export default class Map {
         if (!this.map) {
             return;
         }
-        this.clusterer = MapUtil.createClusterer(this.map);
+        this.clusterer = MapUtil.createClusterer(this.map, (marker) => {
+            this.clusterMarkers.push(marker);
+        });
+    }
+
+    getAllMarkerElements(): HTMLElement[] {
+        return this.clusterMarkers;
     }
 
     addClustererMarkers(coords: LngLat[], props: Record<string, string>[]) {

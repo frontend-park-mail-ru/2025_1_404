@@ -113,7 +113,7 @@ class MapUtil {
         return map;
     }
 
-    createClusterer(map: YMap) {
+    createClusterer(map: YMap, saveMarker?: (marker: HTMLElement) => void) {
         const COMMON_LOCATION_PARAMS: Partial<YMapLocationRequest> = {easing: 'ease-in-out', duration: 1000};
 
         const cluster = (coordinates: LngLat, features: Feature[]) =>
@@ -147,6 +147,7 @@ class MapUtil {
             } as Record<string, string>;
 
             const [markerElement, balloonElement] = this.houseMarker(markerData, true);
+            if (saveMarker) saveMarker(markerElement);
 
             this.createBalloon(map, balloonElement, feature.geometry.coordinates);
 

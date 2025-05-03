@@ -300,19 +300,23 @@ export default class searchMapPage extends Page {
             this.layout?.addPopup('Ошибка сервера', error.message);
         })
 
-        // document.querySelectorAll('.card__link').forEach(card => {
-        //     if (!this.mapElement) {
-        //         return;
-        //     }
-        //     const id = card.getAttribute('data-id');
-        //
-        //     console.log(markerElement);
-        //     if (!markerElement) {
-        //         return;
-        //     }
-        //     card.addEventListener('mouseenter', () => this.toggleMarkerHighlight(markerElement));
-        //     card.addEventListener('mouseleave', () => this.toggleMarkerHighlight(markerElement));
-        // });
+        document.querySelectorAll('.card__link').forEach(card => {
+            if (!this.mapElement) {
+                return;
+            }
+            const id = card.getAttribute('data-id');
+            const markerElements = this.map?.getAllMarkerElements()
+            if (!markerElements) {
+                return;
+            }
+            console.log(markerElements);
+            const markerElement = markerElements.find(el => el.dataset.id === id);
+            if (!markerElement) {
+                return;
+            }
+            card.addEventListener('mouseenter', () => this.toggleMarkerHighlight(markerElement));
+            card.addEventListener('mouseleave', () => this.toggleMarkerHighlight(markerElement));
+        });
     }
 
     /**
