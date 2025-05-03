@@ -117,7 +117,6 @@ export default class RegisterPage extends Page {
      */
     private redirectJoinHandler(event: Event) {
         event.preventDefault();
-        console.log("AAA");
         RouteManager.navigateTo('/login');
     }
 
