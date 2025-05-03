@@ -1,10 +1,7 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import offerDetailsGraphPopupTemplate from  "../../components/offerDetailsGraphPopup/template.precompiled.js"
-
-interface PriceData {
-    date: string;
-    price: number;
-}
+import {OfferDetailsPriceHistoryInterface} from "../offerDetailsLeft";
+import {PriceHistory} from "../../models/offer.ts";
 
 interface Config {
     PADDING: number;
@@ -17,14 +14,14 @@ interface Config {
 export default class OfferDetailsGraph extends BaseComponent {
     private canvas: HTMLCanvasElement | null;
     private config: Config | undefined;
-    private data: PriceData[] | undefined;
+    private data: PriceHistory[] | undefined;
     private prices: number[] = [];
     private context: CanvasRenderingContext2D | null;
     private popup: HTMLElement | null = null;
     private hoveredPointIndex: number | null = null;
     private hoveredChart = false;
 
-    constructor({page, layout}: BaseComponentInterface) {
+    constructor({page, layout, priceHistory}: OfferDetailsPriceHistoryInterface) {
         super({page, layout});
 
         this.canvas = document.getElementById('offerDetailsCanvas') as HTMLCanvasElement;
@@ -43,11 +40,18 @@ export default class OfferDetailsGraph extends BaseComponent {
         }
         this.context.scale(dpr, dpr);
 
-        this.data = [
-            { date: '1 апреля', price: 600000 },
-            { date: '5 апреля', price: 650000 },
-            { date: '12 апреля', price: 570000 },
-        ];
+        this.data = priceHistory;
+
+        // this.data = [
+        //     { date: '1 апреля', price: 600000 },
+        //     { date: '5 апреля', price: 650000 },
+        //     { date: '12 апреля', price: 570000 },
+        // ];
+
+        if (!this.data) {
+            return;
+        }
+        this.data = this.data.sort((a, b) => a.date.getTime() - b.date.getTime());
 
         this.prices = this.data.map(p => p.price);
         this.config = this.createConfig(cssWidth, cssHeight);
@@ -107,7 +111,7 @@ export default class OfferDetailsGraph extends BaseComponent {
         if (!this.data) {
             return;
         }
-        const PADDING = 60;
+        const PADDING = 80;
         const CHART_HEIGHT = height - PADDING * 2;
         const CHART_WIDTH = width - PADDING * 2;
         const STEP_X = this.data.length > 1 ? CHART_WIDTH / (this.data.length - 1) : 0;
@@ -188,7 +192,7 @@ export default class OfferDetailsGraph extends BaseComponent {
                 return;
             }
             const x = this.config.PADDING + i * this.config.STEP_X;
-            this.context.fillText(point.date, x, this.canvas.offsetHeight - this.config.PADDING + 20);
+            this.context.fillText(point.date.toLocaleDateString('ru-RU'), x, this.canvas.offsetHeight - this.config.PADDING + 20);
         });
     }
 

@@ -2,6 +2,15 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import PicturesCarouselPreviews from "../picturesCarouselPreviews";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import OfferDetailsGraph from "../offerDetailsGraph";
+import {Page} from "../../pages/page.ts";
+import {BaseLayout} from "../../layouts/baseLayout.ts";
+import {PriceHistory} from "../../models/offer.ts";
+
+export interface OfferDetailsPriceHistoryInterface {
+    page?: Page;
+    layout?: BaseLayout;
+    priceHistory?: PriceHistory[];
+}
 
 /**
  * @class OfferDetailsLeft
@@ -16,10 +25,10 @@ export default class OfferDetailsLeft extends BaseComponent {
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
      */
-    constructor({page, layout}: BaseComponentInterface) {
+    constructor({page, layout, priceHistory}: OfferDetailsPriceHistoryInterface) {
         super({page, layout});
         this.carousel = new PicturesCarouselPreviews({page, layout});
-        this.graph = new OfferDetailsGraph({page, layout});
+        this.graph = new OfferDetailsGraph({page, layout, priceHistory});
     }
 
     /**

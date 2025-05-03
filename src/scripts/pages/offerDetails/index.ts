@@ -47,6 +47,7 @@ export default class OfferDetailsPage extends Page {
         this.getOfferById(props.id)
             // eslint-disable-next-line max-statements
         .then ((data) => {
+            console.log(data);
             const offer = new Offer();
             this.offerId = offer.id;
             offer.parseJSON(data);
@@ -67,7 +68,7 @@ export default class OfferDetailsPage extends Page {
 
             super.render({layout, root});
 
-            this.offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
+            this.offerDetailsLeft = new OfferDetailsLeft({page: this, layout, priceHistory: offer.priceHistory});
             this.offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
 
             this.offerDetailsInfo?.likeButton.updateDetails({

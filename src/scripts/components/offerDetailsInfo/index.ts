@@ -30,7 +30,7 @@ export default class OfferDetailsInfo extends BaseComponent {
 
     /**
      * @function offerDetailsSellerBtnsHandler
-     * @description Метод обработки клика по ссылкем на кнопки в блоке информации о продавце
+     * @description Метод обработки клика по ссылке на кнопки в блоке информации о продавце
      * @param {Event} event событие
      */
     private offerDetailsSellerBtnsHandler(event: Event) {
