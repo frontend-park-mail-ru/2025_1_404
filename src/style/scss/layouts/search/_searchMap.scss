@@ -58,14 +58,7 @@
       justify-content: space-between;
       row-gap: 20px;
       align-self: flex-start;
-
-      @media (max-width: 900px) {
-        width: 35%;
-      }
-
-      @media (max-width: 600px) {
-        display: none;
-      }
+      width: 100%;
 
       &-wrapper {
         display: flex;
@@ -73,6 +66,14 @@
         flex-direction: column;
         gap: 25px;
         padding-bottom: 3.5em;
+
+        @media (max-width: 900px) {
+          width: 35%;
+        }
+
+        @media (max-width: 600px) {
+          display: none;
+        }
       }
     }
 

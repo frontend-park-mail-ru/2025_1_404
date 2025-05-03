@@ -83,7 +83,7 @@ export default class searchMapPage extends Page {
     private filter: Filter | undefined;
     private layout: BaseLayout | undefined;
     private offerList: Element | null | undefined;
-    private paginator: Paginator | undefined;
+    // private paginator: Paginator | undefined;
     private fullscreenButton: Element | null | undefined;
     private listHrefButton: Element | null | undefined;
     /**
@@ -104,7 +104,7 @@ export default class searchMapPage extends Page {
         let coords: [number, number] = [37.313484, 55.557729];
         this.map = new Map({center: coords, id: 'searchMapResultsMap', zoom: 5});
 
-        this.paginator = new Paginator({page: this, layout, pageCount: 10});
+        //this.paginator = new Paginator({page: this, layout, pageCount: 10});
 
         document.addEventListener("fullscreenchange", () => this.updateFullscreenButtonText());
 
@@ -300,16 +300,18 @@ export default class searchMapPage extends Page {
         })
 
         document.querySelectorAll('.card__link').forEach(card => {
+
             if (!this.mapElement) {
                 return;
             }
             const id = card.getAttribute('data-id');
             const markerElements = this.map?.getAllMarkerElements()
+
             if (!markerElements) {
                 return;
             }
-            console.log(markerElements);
             const markerElement = markerElements.find(el => el.dataset.id === id);
+
             if (!markerElement) {
                 return;
             }
@@ -351,21 +353,27 @@ export default class searchMapPage extends Page {
         markerElement.classList.toggle('highlight');
     }
 
-    // destroy() {
-    //     super.destroy();
-    //
-    //     document.querySelectorAll('.search__card').forEach(card => {
-    //         if (!this.mapElement) {
-    //             return;
-    //         }
-    //         const id = card.getAttribute('data-id');
-    //         const markerElement = this.mapElement.querySelector(`[data-id="${id}"]`);
-    //         console.log(markerElement);
-    //         if (!markerElement) {
-    //             return;
-    //         }
-    //         card.removeEventListener('mouseenter', () => this.toggleMarkerHighlight(markerElement));
-    //         card.removeEventListener('mouseleave', () => this.toggleMarkerHighlight(markerElement));
-    //     });
-    // }
+    destroy() {
+        super.destroy();
+
+        document.querySelectorAll('.card__link').forEach(card => {
+
+            if (!this.mapElement) {
+                return;
+            }
+            const id = card.getAttribute('data-id');
+            const markerElements = this.map?.getAllMarkerElements()
+
+            if (!markerElements) {
+                return;
+            }
+            const markerElement = markerElements.find(el => el.dataset.id === id);
+
+            if (!markerElement) {
+                return;
+            }
+            card.removeEventListener('mouseenter', () => this.toggleMarkerHighlight(markerElement));
+            card.removeEventListener('mouseleave', () => this.toggleMarkerHighlight(markerElement));
+        });
+    }
 }

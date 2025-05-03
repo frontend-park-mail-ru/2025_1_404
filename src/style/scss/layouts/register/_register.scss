@@ -7,6 +7,14 @@
     flex: 0 0 30%;
     position: relative;
     filter: brightness(0.5);
+
+    @media (max-width: 1000px) {
+      flex: 0 0 20%;
+    }
+
+    @media (max-width: 500px) {
+      flex: 0 0 0;
+    }
   }
 
   img {
@@ -29,6 +37,16 @@
       padding: 0 8%;
     }
 
+    @media (max-width: 1000px) {
+      flex: 0 0 60%;
+    }
+
+    @media (max-width: 500px) {
+      flex: 0 0 100%;
+      padding: 0 10%;
+    }
+
+
     &-header, &-fields {
       display: flex;
       flex-direction: column;
@@ -48,6 +66,10 @@
         display: flex;
         gap: 20px;
         width: 100%;
+
+        @media (max-width: 700px) {
+          flex-direction: column;
+        }
       }
 
       &-submit {

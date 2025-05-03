@@ -303,9 +303,11 @@ export default class OfferDetailsGraph extends BaseComponent {
                 percent: percentText,
                 arrowClass,
             });
-            const rect = this.canvas.getBoundingClientRect();
-            this.popup.style.left = `${rect.left + x - 150}px`;
-            this.popup.style.top = `${rect.top + y - 355}px`;
+
+            this.popup.style.left = `${x+10}px`;
+            this.popup.style.top = `${y-10}px`;
+            this.popup.style.transform = 'translate(-50%, -100%)';
+            this.popup.style.position = 'absolute';
             this.popup.style.display = 'block';
         } else if (this.popup) {
             this.popup.style.display = 'none';

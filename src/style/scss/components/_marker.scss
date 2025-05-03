@@ -8,8 +8,7 @@
     top: -24px;
   }
 
-  &.highlight {
-    scale: 1.5;
-    color: $blue-hover;
+  &.highlight &__icon {
+    filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(4deg) brightness(95%) contrast(118%);
   }
 }

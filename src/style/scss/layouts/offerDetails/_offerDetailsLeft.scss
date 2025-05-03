@@ -62,5 +62,10 @@
       width: 100%;
       height: auto;
     }
+
+    &-popup-wrapper {
+      position: absolute;
+      transform: translate(-50%, -100%);
+    }
   }
 }
