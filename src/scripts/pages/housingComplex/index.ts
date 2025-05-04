@@ -11,6 +11,7 @@ import housingComplexSliderTemplate from "../../components/housingComplex/housin
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import PageManager from "../../managers/pageManager.ts";
+import MapUtil from "../../util/mapUtil.ts";
 
 
 /**
@@ -49,12 +50,18 @@ export default class HousingComplexPage extends Page {
                 housingComplexSlider.innerHTML = housingComplexSliderTemplate(data);
             }
             this.slider = new HousingComplexSlider({page: this, layout});
-            this.information = new HousingComplexInformation({page: this, layout});
+            console.log(data);
+            this.information = new HousingComplexInformation({page: this, layout, phone: data.contacts.phone});
             this.reviews = new HousingComplexReviews({page: this, layout});
 
-            const housePos: [number, number] = [55.557729, 37.313484];
-            this.map = new Map({center: housePos, id: 'housingComplexMap', zoom: 15})
-            this.map.addHouse({coords: housePos});
+            let coords: [number, number] = [55.557729, 37.313484];
+            this.map = new Map({center: coords, id: 'housingComplexMap', zoom: 15});
+            this.map.geoCode(data.address.address).then(() => {
+                if (this.map) {
+                    coords = this.map.getCenter();
+                    this.map.addHouse({coords});
+                }
+            });
         })
         
     }

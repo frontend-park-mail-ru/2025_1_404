@@ -134,7 +134,7 @@ export default class CsatStatsPage extends Page {
         if (!target) {
             return;
         }
-        console.log(target);
+
         const eventText = target.textContent;
         if (!eventText) {
             return
@@ -164,9 +164,9 @@ export default class CsatStatsPage extends Page {
         if (!target) {
             return;
         }
-        console.log(target);
+
         const questionId = target.dataset.id;
-        console.log(questionId);
+
         if (!questionId) {
             return
         }
@@ -197,22 +197,21 @@ export default class CsatStatsPage extends Page {
                 return;
             }
 
-            console.log(events);
             const className = "csat__event-button";
             Array.from(events).forEach((name) => {
                 if (!this.eventsList) {
                     return;
                 }
-                console.log(name);
+
                 this.eventsList.insertAdjacentHTML('beforeend', lightButtonTemplate({class: className, name}));
             });
 
             const elements = document.getElementsByClassName("csat__event-button");
-            console.log(elements);
+
             const eventsButtons = Array.from(
                 elements
             ) as HTMLButtonElement[];
-            console.log(eventsButtons);
+
             for (const event of eventsButtons) {
                 event.addEventListener('click', this.handleEventButtonClick.bind(this));
             }
@@ -239,7 +238,6 @@ export default class CsatStatsPage extends Page {
                 return;
             }
 
-            console.log(questions);
             const className = "csat__question-button";
             Array.from(questions).forEach((questionData) => {
                 if (!this.questionsList) {
@@ -251,11 +249,11 @@ export default class CsatStatsPage extends Page {
             });
 
             const elements = document.getElementsByClassName("csat__question-button");
-            console.log(elements);
+
             const questionsButtons = Array.from(
                 elements
             ) as HTMLButtonElement[];
-            console.log(questionsButtons);
+
             for (const event of questionsButtons) {
                 event.addEventListener('click', this.handleQuestionButtonClick.bind(this));
             }
@@ -271,18 +269,16 @@ export default class CsatStatsPage extends Page {
      */
     // eslint-disable-next-line max-lines-per-function
     private async getCsatAnswers(questionId: string) {
-        console.log(questionId);
+
         if (!User.isLoaded() || !this.layout) {
             return;
         }
 
         await CSATUtil.getAnswersStats(questionId).then((answers) => {
-            console.log(answers);
             if (!answers || !this.statsList) {
                 return;
             }
 
-            console.log(answers);
             const avgRating = parseFloat(answers.avg_rating).toFixed(2);
 
             const fiveStarStat = answers.five_star_stat;

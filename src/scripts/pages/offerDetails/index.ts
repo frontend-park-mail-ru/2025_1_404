@@ -47,7 +47,6 @@ export default class OfferDetailsPage extends Page {
         this.getOfferById(props.id)
             // eslint-disable-next-line max-statements
         .then ((data) => {
-            console.log(data);
             const offer = new Offer();
             this.offerId = offer.id;
             offer.parseJSON(data);
@@ -83,10 +82,15 @@ export default class OfferDetailsPage extends Page {
             const offerSellerBtns = document.getElementById("offerDetailsSellerBtns") as HTMLElement;
             const offerUserBtns = document.getElementById("offerDetailsUserBtns") as HTMLElement;
 
+            const offerLike = document.getElementById("offerDetailsLike") as HTMLElement;
+            // const offerStats = document.getElementById("offerDetailsStats") as HTMLElement;
+
             if (User.getData()?.id === offer.seller.id) {
                 offerSellerBtns.classList.add("active");
+                // offerStats.classList.add("active");
             } else {
                 offerUserBtns.classList.add("active");
+                offerLike.classList.add("active");
             }
         });
     }

@@ -61,6 +61,7 @@ import LikeButton from "../components/likeButton/template.precompiled.js";
 import OfferDetailsGraphPopup from "../components/offerDetailsGraphPopup/template.precompiled.js";
 import ProfileSideButton from "../components/profileSideButton/template.precompiled.js";
 import Paginator from "../components/paginator/template.precompiled.js";
+import OfferStats from "../components/offerStats/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -130,6 +131,7 @@ export default function registerComponents() {
         [OfferDetailsGraphPopup, 'OfferDetailsGraphPopup'],
         [ProfileSideButton, 'ProfileSideButton'],
         [Paginator, 'Paginator'],
+        [OfferStats, 'OfferStats']
     ];
 
     components.forEach(([component, name]) => {

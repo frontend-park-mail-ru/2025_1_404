@@ -76,7 +76,6 @@ export default class Paginator extends BaseComponent {
             this.eventListeners.push({element: liElement, handler});
             ulElement.appendChild(liElement);
         }
-        console.log(this.eventListeners);
 
         paginatorElement.appendChild(ulElement);
     }

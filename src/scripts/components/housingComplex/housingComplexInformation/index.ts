@@ -1,7 +1,15 @@
 import {BaseComponent, BaseComponentInterface} from "../../baseComponent.ts";
-import {getZhkLine, getZhkPhone} from "../../../util/apiUtil.ts";
+import {getZhkLine} from "../../../util/apiUtil.ts";
 import getMetroColorByLineName from "../../../util/metroUtil";
 import metroStationTemplate from "../../metroStation/template.precompiled.js";
+import {Page} from "../../../pages/page.ts";
+import {BaseLayout} from "../../../layouts/baseLayout.ts";
+
+export interface HousingComplexInformationComponentInterface {
+    page?: Page;
+    layout?: BaseLayout;
+    phone: string
+}
 
 /**
  * @class HousingComplexInformation
@@ -10,15 +18,16 @@ import metroStationTemplate from "../../metroStation/template.precompiled.js";
  */
 export default class HousingComplexInformation extends BaseComponent {
     private phoneButton: HTMLButtonElement | null;
+    private phone: string;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
      */
-    constructor({page, layout} : BaseComponentInterface) {
+    constructor({page, layout, phone} : HousingComplexInformationComponentInterface) {
         super({page, layout});
         this.phoneButton = document.getElementById('asideDeveloperPhone') as HTMLButtonElement;
-        
+        this.phone = phone;
         this.addSubway();
     }
 
@@ -27,7 +36,7 @@ export default class HousingComplexInformation extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('asideDeveloperPhone', 'click', this.getPhone);
+        this.initListener('asideDeveloperPhone', 'click', () => this.getPhone(this.phone));
     }
 
     /**
@@ -48,14 +57,11 @@ export default class HousingComplexInformation extends BaseComponent {
      * @description Метод получения телефона застройщика.
      * @private
      */
-    private getPhone() {
-        getZhkPhone()
-        .then((data) => {
-            if (!this.phoneButton) {
-                return;
-            }
-            this.phoneButton.textContent = data.phone;
-            this.phoneButton.disabled=true;
-        })
+    private getPhone(phone: string) {
+        if (!this.phoneButton) {
+            return;
+        }
+        this.phoneButton.textContent = phone;
+        this.phoneButton.disabled=true;
     }
 }

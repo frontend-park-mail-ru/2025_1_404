@@ -271,13 +271,6 @@ export const removeAvatar = async () => await makeAPIRequest({
 });
 
 /**
- * @function getZhkPhone
- * @description Функция для получения телефона застройщика.
- * @returns {Promise<{phone: string}>} Ответ от сервера
- */
-export const getZhkPhone = async () => await ({"phone": '+7(123)456-78-90'})
-
-/**
  * @function getZhkLine
  * @description Функция для получения линии метро.
  * @returns {Promise<{metroLine: string}>} Ответ от сервера

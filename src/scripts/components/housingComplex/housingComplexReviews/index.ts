@@ -17,7 +17,7 @@ export default class HousingComplexReviews extends BaseComponent {
      */
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this.setupReviews();
+        // this.setupReviews();
     }
 
     /**

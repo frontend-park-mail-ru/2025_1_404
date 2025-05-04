@@ -44,6 +44,14 @@
     }
   }
 
+  &-like, &-stats {
+    display: none;
+
+    &.active {
+      display: flex;
+    }
+  }
+
   &-info {
     display: grid;
     row-gap: 15px;

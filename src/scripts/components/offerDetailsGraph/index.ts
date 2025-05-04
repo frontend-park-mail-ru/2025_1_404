@@ -111,7 +111,8 @@ export default class OfferDetailsGraph extends BaseComponent {
         if (!this.data) {
             return;
         }
-        const PADDING = 80;
+
+        const PADDING = width > 500 ? 90 : 60;
         const CHART_HEIGHT = height - PADDING * 2;
         const CHART_WIDTH = width - PADDING * 2;
         const STEP_X = this.data.length > 1 ? CHART_WIDTH / (this.data.length - 1) : 0;
@@ -146,7 +147,7 @@ export default class OfferDetailsGraph extends BaseComponent {
         }
 
         this.context.clearRect(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight);
-        this.context.font = '14px sans-serif';
+        this.context.font = this.canvas.offsetWidth > 500 ? '14px sans-serif' : '8px sans-serif';
 
         this.drawAxes();
 

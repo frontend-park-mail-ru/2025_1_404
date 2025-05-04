@@ -71,7 +71,7 @@ export default class MainLayout extends BaseLayout {
                     denyButtonClass: 'light',
                     onSubmit: () => {
                         this.makeRequest(deleteOffer, id).then(() => {
-                            RouteManager.navigateTo('/');
+                            RouteManager.navigateTo('/profile/offers');
                         }).catch((e: Error) => {
                             this?.addPopup('Ошибка сервера', e.message);
                         })
