@@ -129,6 +129,7 @@ class RouteManager {
         this.updateHistory(pathStr);
         const {route, params} = this.processRoute(preparedPathStr);
         if (route !== null) {
+            window.scrollTo(0, 0);
             route.process(params);
             return;
         }

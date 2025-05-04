@@ -17,7 +17,8 @@
 
   &__list {
     display: flex;
-    gap: 1.6em;
+    justify-content: space-between;
+    row-gap: 1.6em;
     flex-wrap: wrap;
   }
 }

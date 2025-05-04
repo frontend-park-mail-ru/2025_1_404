@@ -12,10 +12,6 @@
       position: relative;
       overflow: hidden;
       width: 100%;
-
-      @media (max-width: 1000px) {
-        width: 80%;
-      }
     }
 
     &-image {
