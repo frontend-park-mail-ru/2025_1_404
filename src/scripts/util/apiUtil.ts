@@ -271,13 +271,6 @@ export const removeAvatar = async () => await makeAPIRequest({
 });
 
 /**
- * @function getZhkLine
- * @description Функция для получения линии метро.
- * @returns {Promise<{metroLine: string}>} Ответ от сервера
- */
-export const getZhkLine = async () => await ({"metroLine": 'Некрасовская'})
-
-/**
  * @function getOfferById
  * @description Функция для получения объявления по id.
  * @param {number} id ID объявления

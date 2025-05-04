@@ -12,6 +12,7 @@ import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import PageManager from "../../managers/pageManager.ts";
 import MapUtil from "../../util/mapUtil.ts";
+import getMetroColorByLineName from "../../util/metroUtil.ts";
 
 
 /**
@@ -41,6 +42,7 @@ export default class HousingComplexPage extends Page {
         super.render({root});
         this.getInformation(props.id)
         .then ((data) => {
+            data.address.metro.line_color = '#' + data.address.metro.line_color
             const housingComplexInformation = document.getElementById('housingComplexInformation');
             if (housingComplexInformation !== null) {
                 housingComplexInformation.innerHTML = housingComplexInformationTemplate(data);

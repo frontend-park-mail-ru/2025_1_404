@@ -8,7 +8,7 @@
                 <span>{{address.address}}</span>
             </div>
             <div class="housingComplex__info-block-metro">
-                
+                {{> MetroStation metroColor=address.metro.line_color metroLine=address.metro.line metroStation=address.metro.station }}
             </div>
         </div>
         <div class="housingComplex__info-block">

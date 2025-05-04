@@ -1,7 +1,4 @@
 import {BaseComponent, BaseComponentInterface} from "../../baseComponent.ts";
-import {getZhkLine} from "../../../util/apiUtil.ts";
-import getMetroColorByLineName from "../../../util/metroUtil";
-import metroStationTemplate from "../../metroStation/template.precompiled.js";
 import {Page} from "../../../pages/page.ts";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
 
@@ -28,7 +25,6 @@ export default class HousingComplexInformation extends BaseComponent {
         super({page, layout});
         this.phoneButton = document.getElementById('asideDeveloperPhone') as HTMLButtonElement;
         this.phone = phone;
-        this.addSubway();
     }
 
     /**
@@ -37,19 +33,6 @@ export default class HousingComplexInformation extends BaseComponent {
      */
     initListeners() {
         this.initListener('asideDeveloperPhone', 'click', () => this.getPhone(this.phone));
-    }
-
-    /**
-     * @function addSubway
-     * @description Метод добавления информации о метро.
-     * @private
-     */
-    private addSubway() {
-        const station = document.querySelector('.housingComplex__info-block-metro') as HTMLElement;
-        getZhkLine()
-        .then ((data) => {
-            station.innerHTML = metroStationTemplate({metroColor: getMetroColorByLineName(data.metroLine), metroStation: data.metroLine});
-        })
     }
 
     /**
