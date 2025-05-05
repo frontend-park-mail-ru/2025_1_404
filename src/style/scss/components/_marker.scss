@@ -1,10 +1,10 @@
 @use "../abstracts/variables" as *;
 
 .marker {
-  position: absolute;
+  position: relative;
   &__icon {
     height: 50px;
-    position: relative;
+    position: absolute;
     left: -29px;
     top: -47px;
   }
