@@ -1,5 +1,7 @@
 import {createOffer, publishOffer, updateOffer, uploadOfferImage} from "../util/apiUtil.ts";
 import {ImageData} from "./offerCreate.ts";
+import OfferMock from "./offerMock.ts";
+import User from "./user.ts";
 
 const offerTypes: Record<number, string> = {
     1: 'Продажа',
@@ -39,6 +41,18 @@ interface Seller {
     createdAt: Date;
 }
 
+export interface SellDetails {
+    views: number;
+    favorites: number;
+    likes: number;
+}
+
+export interface PriceHistory {
+    date: Date;
+    price: number;
+    percent: number;
+}
+
 /**
  * @class Offer
  * @description Класс объявления
@@ -52,12 +66,19 @@ export default class Offer {
         avatar: '',
         createdAt: new Date(),
     };
+    sellDetails: SellDetails = {
+        views: 0,
+        favorites: 0,
+        likes: 0
+    };
+    priceHistory: PriceHistory[] = [];
+    favorite: boolean = false;
     status: number = 1;
     price: number = 0;
     description: string = '';
     floor: number = 1;
     totalFloors: number = 1;
-    rooms: number = 1;
+    rooms: string = '1';
     address: string = '';
     flat: number = 1;
     area: number = 1;
@@ -71,6 +92,8 @@ export default class Offer {
     renovation: string = '';
     complexId?: number;
     images: Array<File|string> = [];
+    logitude: number = 0;
+    latitude: number = 0;
 
     /**
      * @function parseOfferData
@@ -84,11 +107,11 @@ export default class Offer {
         this.status = 1;
         this.price = Number(createOfferData.price['input-price']);
         this.description = createOfferData.description['input-description'];
-        this.floor = Number(createOfferData.address['input-floor']);
-        this.totalFloors = Number(createOfferData.address['input-total-floors']);
-        this.rooms = Number(createOfferData.params['input-rooms']);
-        this.address = createOfferData.address['input-address'];
-        this.flat = Number(createOfferData.address['input-flat']);
+        this.floor = Number(createOfferData.address['input-floorLeft__input']);
+        this.totalFloors = Number(createOfferData.address['input-floorRight__input']);
+        this.rooms = createOfferData.params['input-rooms'];
+        this.address = createOfferData.address['input-address__input'];
+        this.flat = 1;
         this.area = Number(createOfferData.params['input-square']);
         this.ceilingHeight = Number(createOfferData.params['input-ceiling-height']);
         this.offerType = createOfferData.type['input-offer-type'];
@@ -118,12 +141,36 @@ export default class Offer {
         this.seller.lastName = json.offer_data.seller.seller_last_name;
         this.seller.avatar = json.offer_data.seller.avatar;
         this.seller.createdAt = new Date(json.offer_data.seller.created_at);
+        if (this.id === null || this.id === undefined) {
+            return;
+        }
+        const sellDetails = OfferMock.getSellDetails(this.id);
+        this.sellDetails.views = json.offer_data.offer_stat.views;
+        this.sellDetails.likes = json.offer_data.offer_stat.likes_stat.amount;
+        this.sellDetails.favorites = sellDetails.favorites;
+
+        if (json.offer_data.offer_prices !== null) {
+            for (const priceElement of json.offer_data.offer_prices) {
+                this.priceHistory.push({price: priceElement.price,
+                    percent: priceElement.percent,
+                    date: new Date(priceElement.date)});
+            }
+        }
+
+        const userData = User.getData();
+        if (userData && userData.id !== null && userData.id !== undefined) {
+            this.favorite = OfferMock.isOfferFavoritedByUser(userData.id, this.id);
+        }
+
         this.status = json.offer.status_id;
         this.price = json.offer.price;
         this.description = json.offer.description;
         this.floor = json.offer.floor;
         this.totalFloors = json.offer.total_floors;
-        this.rooms = json.offer.rooms;
+        this.rooms = json.offer.rooms.toString();
+        if (this.rooms === '4') {
+            this.rooms = 'много'
+        }
         this.address = json.offer.address;
         this.flat = json.offer.flat;
         this.area = json.offer.area;
@@ -142,6 +189,9 @@ export default class Offer {
         for (const image of json.offer_data.offer_images) {
             this.images.push(image.image);
         }
+
+        this.logitude = json.offer.logitude
+        this.latitude = json.offer.latitude;
     }
 
     /**
@@ -150,12 +200,16 @@ export default class Offer {
      * @returns {Promise<number>} id объявления
      */
     async create() {
+        let rooms = this.rooms;
+        if (rooms === 'много') {
+            rooms = '4';
+        }
         const response = await createOffer({
             price: this.price,
             description: this.description,
             floor: this.floor,
             totalFloors: this.totalFloors,
-            rooms: this.rooms,
+            rooms: parseInt(rooms, 10),
             address: this.address,
             flat: this.flat,
             area: this.area,
@@ -199,7 +253,7 @@ export default class Offer {
             description: this.description,
             floor: this.floor,
             totalFloors: this.totalFloors,
-            rooms: this.rooms,
+            rooms: parseInt(this.rooms, 10),
             address: this.address,
             flat: this.flat,
             area: this.area,

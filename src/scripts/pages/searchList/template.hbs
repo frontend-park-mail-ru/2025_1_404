@@ -1,0 +1,19 @@
+{{#> MainLayout grey=true}}
+<div class="searchList">
+    <div class="container">
+        <div class="searchList__inner">
+            {{> Filter }}
+            <div id="searchListResults" class="searchList__results">
+                <h2 class="searchList__results-title" id="searchList-result-title">
+                   Найдено - объявлений
+                </h2>
+                <div class="searchList__results-list">
+                    <div id="searchListResultsEmpty" class="searchList__results-empty">
+                        К сожалению, по текущим параметрам подходящих объявлений не нашлось( Попробуйте изменить параметры фильтра!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/MainLayout}}

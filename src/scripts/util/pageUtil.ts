@@ -17,7 +17,8 @@ import ProfileLayout from "../layouts/profile/index.ts";
 import ProfileMainPage from "../pages/profile/main/index.ts";
 import ProfileMyOffersPage from "../pages/profile/offers/index.ts";
 import RegisterPage from "../pages/register/index.ts";
-import SearchPage from "../pages/search/index.ts";
+import SearchListPage from "../pages/searchList/index.ts";
+import SearchMapPage from "../pages/searchMap/index.ts"
 import UnknownPage from "../pages/404/index.ts";
 import OfferEditTypePage from "../pages/offerEdit/type";
 import OfferEditAddressPage from "../pages/offerEdit/address";
@@ -25,6 +26,9 @@ import OfferEditParamsPage from "../pages/offerEdit/params";
 import OfferEditPricePage from "../pages/offerEdit/price";
 import OfferEditPhotosPage from "../pages/offerEdit/photos";
 import OfferEditDescriptionPage from "../pages/offerEdit/description";
+import ProfileFavoritesPage from "../pages/profile/favorites";
+import CSATPage from "../pages/csatStars";
+import CsatStatsPage from "../pages/csatStats";
 
 /**
  * @function registerPages
@@ -41,16 +45,17 @@ export default function registerPages() {
 
     PageManager.registerPage('main', ProfileLayout.process(new ProfileMainPage()));
     PageManager.registerPage('offers', ProfileLayout.process(new ProfileMyOffersPage()));
+    PageManager.registerPage('favorites', ProfileLayout.process(new ProfileFavoritesPage()));
 
     PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type", 4)));
-    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 4)));
+    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 3)));
     PageManager.registerPage('params', OfferCreateLayout.process(new OfferCreateParamsPage("params", 4)));
     PageManager.registerPage('price', OfferCreateLayout.process(new OfferCreatePricePage("price", 1)));
     PageManager.registerPage('photos', OfferCreateLayout.process(new OfferCreatePhotosPage("photos")));
     PageManager.registerPage('description', OfferCreateLayout.process(new OfferCreateDescriptionPage("description", 1)));
 
     PageManager.registerPage('edit_type', OfferEditLayout.process(new OfferEditTypePage("type", 4)));
-    PageManager.registerPage('edit_address', OfferEditLayout.process(new OfferEditAddressPage("address", 4)));
+    PageManager.registerPage('edit_address', OfferEditLayout.process(new OfferEditAddressPage("address", 3)));
     PageManager.registerPage('edit_params', OfferEditLayout.process(new OfferEditParamsPage("params", 4)));
     PageManager.registerPage('edit_price', OfferEditLayout.process(new OfferEditPricePage("price", 1)));
     PageManager.registerPage('edit_photos', OfferEditLayout.process(new OfferEditPhotosPage("photos")));
@@ -60,5 +65,8 @@ export default function registerPages() {
 
     PageManager.registerPage('offerDetails', mainLayout.process(new OfferDetailsPage()));
 
-    PageManager.registerPage('search', mainLayout.process(new SearchPage()));
+    PageManager.registerPage('searchList', mainLayout.process(new SearchListPage()));
+    PageManager.registerPage('searchMap', mainLayout.process(new SearchMapPage()));
+
+    PageManager.registerPage('csatStats', mainLayout.process(new CsatStatsPage()));
 }

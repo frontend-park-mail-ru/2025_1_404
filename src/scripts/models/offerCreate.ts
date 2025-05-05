@@ -11,7 +11,7 @@ export interface ImageData {
  * @description Модель создания объявления.
  */
 class OfferCreate {
-    private _offerData: Record<string, Record<string, string>> = {
+    private offerData: Record<string, Record<string, string>> = {
         'type': {},
         'address': {},
         'params': {},
@@ -19,20 +19,13 @@ class OfferCreate {
         'photos': {},
         'description': {},
     };
-    private _uploadedImages: Record<string, ImageData> = {}
-    private _filledPages: Record<string, boolean> = {};
+    private uploadedImages: Record<string, ImageData> = {}
+    private filledPages: Record<string, boolean> = {};
     /**
      * @description Конструктор класса.
      */
     constructor() {
-        this._filledPages = {
-            'type': true,
-            'address': false,
-            'params': false,
-            'price': false,
-            'photos': false,
-            'description': false,
-        };
+        this.reset();
     }
 
     /**
@@ -41,7 +34,7 @@ class OfferCreate {
      * @returns {*|{}} Данные объявления.
      */
     getOfferData() {
-        return this._offerData;
+        return this.offerData;
     }
 
     /**
@@ -50,7 +43,7 @@ class OfferCreate {
      * @returns {Record<string, ImageData>} Данные фото.
      */
     getImages() {
-        return this._uploadedImages;
+        return this.uploadedImages;
     }
 
     /**
@@ -60,7 +53,7 @@ class OfferCreate {
      * @param {object} data данные страницы.
      */
     setData(pageName: string, data: Record<string, string>) {
-        this._offerData[pageName] = data;
+        this.offerData[pageName] = data;
     }
 
     /**
@@ -69,7 +62,7 @@ class OfferCreate {
      * @param {Record<string, ImageData>} images данные фото.
      */
     setImages(images: Record<string, ImageData>) {
-        this._uploadedImages = images;
+        this.uploadedImages = images;
     }
 
     /**
@@ -79,7 +72,7 @@ class OfferCreate {
      * @param {boolean} isFilled статус заполненности страницы.
      */
     setPageFilled(pageName: string, isFilled: boolean) {
-        this._filledPages[pageName] = isFilled;
+        this.filledPages[pageName] = isFilled;
     }
 
     /**
@@ -88,7 +81,7 @@ class OfferCreate {
      * @param {string} pageName имя страницы.
      * @returns {boolean} статус заполненности страницы.
      */
-    isPageFilled(pageName: string) {return this._filledPages[pageName];}
+    isPageFilled(pageName: string) {return this.filledPages[pageName];}
 
     /**
      * @function isPreviousPageFilled
@@ -97,13 +90,13 @@ class OfferCreate {
      * @returns {boolean} статус заполненности предыдущей страницы.
      */
     isPreviousPageFilled(pageName: string) {
-        const pageNames = Object.keys(this._filledPages);
+        const pageNames = Object.keys(this.filledPages);
         const currentPageIndex = pageNames.indexOf(pageName);
         if (currentPageIndex === 0) {
             return true;
         }
         const previousPageName = pageNames[currentPageIndex - 1];
-        return this._filledPages[previousPageName];
+        return this.filledPages[previousPageName];
     }
 
     /**
@@ -112,7 +105,7 @@ class OfferCreate {
      * @returns {string} имя страницы.
      */
     getLastFilledPage() {
-        return Object.keys(this._filledPages).reverse().find((pageName) => this._filledPages[pageName]) || 'type';
+        return Object.keys(this.filledPages).reverse().find((pageName) => this.filledPages[pageName]) || 'type';
     }
 
 
@@ -123,7 +116,7 @@ class OfferCreate {
      */
     async create() {
         const offer = new Offer();
-        offer.parseOfferData(this._offerData, this._uploadedImages);
+        offer.parseOfferData(this.offerData, this.uploadedImages);
         return await offer.create();
     }
 
@@ -135,7 +128,7 @@ class OfferCreate {
      */
     async save(offerId: number) {
         const offer = new Offer();
-        offer.parseOfferData(this._offerData, this._uploadedImages);
+        offer.parseOfferData(this.offerData, this.uploadedImages);
         offer.id = offerId
         return await offer.save();
     }
@@ -185,12 +178,12 @@ class OfferCreate {
             offerId,
             image: file
         }).then((response) => {
-            this._uploadedImages[localId] = {
+            this.uploadedImages[localId] = {
                 id: response.id,
                 file
             };
         }).catch((err) => {
-            console.log(err)
+            console.error(err)
         })
     }
 
@@ -199,7 +192,7 @@ class OfferCreate {
      * @description Метод сброса данных объявления.
      */
     reset() {
-        this._filledPages = {
+        this.filledPages = {
             'type': true,
             'address': false,
             'params': false,
@@ -207,15 +200,20 @@ class OfferCreate {
             'photos': false,
             'description': false,
         };
-
-        this._offerData = {
-            'type': {},
+        this.offerData = {
+            'type': {
+                'input-offer-type': 'Аренда',
+                'input-rent-type': 'Долгосрок',
+                'input-purchase-type': 'Новостройка',
+                'input-property-type': 'Апартаменты'
+            },
             'address': {},
             'params': {},
             'price': {},
             'photos': {},
             'description': {},
         };
+        this.uploadedImages = {};
     }
 
     /**
@@ -225,13 +223,13 @@ class OfferCreate {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async parseJSON(data: any) {
-        await this._parseBasicData(data);
-        await this._parseTypeData(data);
-        await this._parseAddressData(data);
-        await this._parseParamsData(data);
-        await this._parsePhotos(data);
+        await this.parseBasicData(data);
+        await this.parseTypeData(data);
+        await this.parseAddressData(data);
+        await this.parseParamsData(data);
+        await this.parsePhotos(data);
 
-        this._filledPages = {
+        this.filledPages = {
             'type': true,
             'address': true,
             'params': true,
@@ -242,25 +240,25 @@ class OfferCreate {
     }
 
     /**
-     * @function _parseBasicData
+     * @function parseBasicData
      * @description Метод парсинга базовых данных объявления.
      * @param {any} data данные объявления.
      * @private
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    _parseBasicData(data: any) {
-        this._offerData.price['input-price'] = data.offer.price.toString();
-        this._offerData.description['input-description'] = data.offer.description;
+    private parseBasicData(data: any) {
+        this.offerData.price['input-price'] = data.offer.price.toString();
+        this.offerData.description['input-description'] = data.offer.description;
     }
 
     /**
-     * @function _parseTypeData
+     * @function parseTypeData
      * @description Метод парсинга данных типа объявления.
      * @param {any} data данные объявления.
      * @private
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    _parseTypeData(data: any) {
+    private parseTypeData(data: any) {
         const offerTypes: Record<number, string> = {
             1: 'Продажа', 2: 'Аренда'
         };
@@ -274,55 +272,56 @@ class OfferCreate {
             1: 'Посуточно', 2: 'Долгосрок'
         };
 
-        this._offerData.type['input-offer-type'] = offerTypes[data.offer.offer_type_id];
-        this._offerData.type['input-rent-type'] = rentTypes[data.offer.rent_type_id];
-        this._offerData.type['input-purchase-type'] = purchaseTypes[data.offer.purchase_type_id];
-        this._offerData.type['input-property-type'] = propertyTypes[data.offer.property_type_id];
+        this.offerData.type['input-offer-type'] = offerTypes[data.offer.offer_type_id];
+        this.offerData.type['input-rent-type'] = rentTypes[data.offer.rent_type_id];
+        this.offerData.type['input-purchase-type'] = purchaseTypes[data.offer.purchase_type_id];
+        this.offerData.type['input-property-type'] = propertyTypes[data.offer.property_type_id];
     }
 
     /**
-     * @function _parseAddressData
+     * @function parseAddressData
      * @description Метод парсинга данных адреса объявления.
      * @param {any} data данные объявления.
      * @private
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    _parseAddressData(data: any) {
-        this._offerData.address['input-floor'] = data.offer.floor.toString();
-        this._offerData.address['input-total-floors'] = data.offer.total_floors.toString();
-        this._offerData.address['input-address'] = data.offer.address;
-        this._offerData.address['input-flat'] = data.offer.flat.toString();
+    private parseAddressData(data: any) {
+        this.offerData.address['input-floorLeft__input'] = data.offer.floor.toString();
+        this.offerData.address['input-floorRight__input'] = data.offer.total_floors.toString();
+        this.offerData.address['input-address__input'] = data.offer.address;
+        this.offerData.address['input-flat'] = '1';
     }
 
     /**
-     * @function _parseParamsData
+     * @function parseParamsData
      * @description Метод парсинга данных параметров объявления.
      * @param {any} data данные объявления.
      * @private
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    _parseParamsData(data: any) {
+    private parseParamsData(data: any) {
         const offerRenovations: Record<number, string> = {
             1: 'Современный ремонт', 2: 'Косметический ремонт',
             3: 'Черновая отделка', 4: 'Нужен полный ремонт',
             5: 'Нужен частичный ремонт', 6: 'Улучшенная черновая'
         };
 
-        this._offerData.params['input-rooms'] = data.offer.rooms.toString();
-        this._offerData.params['input-square'] = data.offer.area.toString();
-        this._offerData.params['input-ceiling-height'] = data.offer.ceiling_height.toString();
-        this._offerData.params['input-renovation'] = offerRenovations[data.offer.renovation_id];
+        this.offerData.params['input-rooms'] = data.offer.rooms.toString();
+        this.offerData.params['input-square'] = data.offer.area.toString();
+        this.offerData.params['input-ceiling-height'] = data.offer.ceiling_height.toString();
+        this.offerData.params['input-renovation'] = offerRenovations[data.offer.renovation_id];
     }
 
     /**
-     * @function _parsePhotos
+     * @function parsePhotos
      * @description Метод парсинга данных фотографий объявления.
      * @param {any} data данные объявления.
      * @private
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async _parsePhotos(data: any) {
-        this._uploadedImages = {};
+    private async parsePhotos(data: any) {
+        this.uploadedImages = {};
+        this.offerData.photos = {};
 
         if (!data.offer_data.offer_images) {
             return;
@@ -336,16 +335,16 @@ class OfferCreate {
                     'image/jpg'
                 );
 
-                this._uploadedImages[i.toString()] = {
+                this.uploadedImages[i.toString()] = {
                     id: data.offer_data.offer_images[i].id,
                     file
                 };
 
                 // eslint-disable-next-line no-await-in-loop
                 const result = await this.fileToString(file);
-                this._offerData.photos[i.toString()] = result;
+                this.offerData.photos[i.toString()] = result;
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         }
     }

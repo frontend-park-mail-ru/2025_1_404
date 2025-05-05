@@ -1,17 +1,31 @@
-<h2 class="offerDetails__right-price">
-    {{price}}
-</h2>
+<div class="offerDetails__right-title">
+    <h2 class="offerDetails__right-price">
+        {{price}}
+    </h2>
+    <div id="offerDetailsLike" class="offerDetails__right-like">
+        {{> LikeButton liked=liked offerId=offerId}}
+    </div>
+<!--    <div id="offerDetailsStats" class="offerDetails__right-stats">-->
+<!--        {{> OfferStats views=views likes=likes favorites=favorites }}-->
+<!--    </div>-->
+</div>
 <div class="offerDetails__right-info">
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-door-open" label="Комнат" content=rooms}}
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-layer-group" label="Площадь" content=area}}
-    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-stairs" label="Этаж" content=floor}}
+    {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-up-down" label="Высота" content=ceilingHeight}}
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-key" label="Тип сделки" content=offerType}}
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-paint-roller" label="Ремонт" content=renovation}}
     {{> Characteristic class="offerDetails__right-characteristic" icon-class="fa-solid fa-house" label="Тип жилья" content=propertyType}}
 </div>
 <div class="offerDetails__right-btns">
-    {{> PrimaryButton class="offerDetails__right-btn" name="Позвонить"}}
-    {{> LightButton class="offerDetails__right-btn" name="Написать"}}
+    <div id="offerDetailsSellerBtns" class="offerDetails__right-btns-wrapper" data-id="{{offerId}}">
+        {{> PrimaryButton id="offerDetailsChangeButton" class="offerDetails__right-btn" name="Изменить"}}
+        {{> RedButton id="offerDetailsDeleteButton" class="offerDetails__right-btn" name="Удалить"}}
+    </div>
+    <div id="offerDetailsUserBtns" class="offerDetails__right-btns-wrapper">
+        {{> PrimaryButton class="offerDetails__right-btn" name="Позвонить"}}
+        {{> LightButton class="offerDetails__right-btn" name="Написать"}}
+    </div>
 </div>
 <div class="offerDetails__right-seller">
     {{> UserAvatar class="offerDetails__right-seller-avatar" avatar=sellerAvatar }}

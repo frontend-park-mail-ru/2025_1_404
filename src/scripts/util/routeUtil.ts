@@ -15,13 +15,16 @@ import {ProfileMainRoute} from "../routes/profile/profileMainRoute.ts";
 import {ProfileOffersRoute} from "../routes/profile/profileOffersRoute.ts";
 import {RegisterRoute} from "../routes/registerRoute.ts";
 import RouteManager from "../managers/routeManager/routeManager.ts";
-import {SearchRoute} from "../routes/searchRoute.ts";
+import {SearchListRoute} from "../routes/searchListRoute.ts";
 import {OfferEditTypeRoute} from "../routes/offer/edit/offerEditTypeRoute.ts";
 import {OfferEditAddressRoute} from "../routes/offer/edit/offerEditAddressRoute.ts";
 import {OfferEditParamsRoute} from "../routes/offer/edit/offerEditParamsRoute.ts";
 import {OfferEditPriceRoute} from "../routes/offer/edit/offerEditPriceRoute.ts";
 import {OfferEditPhotosRoute} from "../routes/offer/edit/offerEditPhotosRoute.ts";
 import {OfferEditDescriptionRoute} from "../routes/offer/edit/offerEditDescriptionRoute.ts";
+import {ProfileFavoritesRoute} from "../routes/profile/profileFavoritesRoute.ts";
+import {CsatStatsRoute} from "../routes/csatStatsRouse.ts";
+import {SearchMapRoute} from "../routes/searchMap.ts";
 /**
  * @function registerRoutes
  * @description Регистрация маршрутов
@@ -36,6 +39,7 @@ export default function registerRoutes() {
 
     RouteManager.registerRoute('profile', authMiddleware.check(new ProfileMainRoute()));
     RouteManager.registerRoute('profile/offers', authMiddleware.check(new ProfileOffersRoute()));
+    RouteManager.registerRoute('profile/favorites', authMiddleware.check(new ProfileFavoritesRoute()));
 
     RouteManager.registerRoute('offer/create/type', OfferCreateMiddleware.check(new OfferCreateTypeRoute()));
     RouteManager.registerRoute('offer/create/address', OfferCreateMiddleware.check(new OfferCreateAddressRoute()));
@@ -55,5 +59,8 @@ export default function registerRoutes() {
 
     RouteManager.registerRoute('offer/details/:id', new OfferDetailsRoute());
 
-    RouteManager.registerRoute('search', new SearchRoute());
+    RouteManager.registerRoute('searchList', new SearchListRoute());
+    RouteManager.registerRoute('searchMap', new SearchMapRoute());
+
+    RouteManager.registerRoute('csatStars/stats', new CsatStatsRoute());
 }

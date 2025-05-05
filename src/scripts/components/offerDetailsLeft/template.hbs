@@ -1,12 +1,24 @@
-<div class="offerDetails__left-slider">
-    {{> PicturesCarouselPreviews images=images }}
+{{#if isMobile}}
+{{ else }}
+    <div class="offerDetails__left-slider">
+        {{> PicturesCarouselPreviews images=images }}
+    </div>
+{{/if}}
+<div class="offerDetails__left-block">
+    {{> LightButton id="offerDetailsHousingComplex" class="offerDetails__left-block-href" name="Жилой комплекс"}}
 </div>
-<div class="offerDetails__left-description">
-    <h3 class="offerDetails__left-description-title">
+<div class="offerDetails__left-block">
+    <h3 class="offerDetails__left-block-title">
         Описание
     </h3>
-    <span class="offerDetails__left-description-text">
-        {{breakLines description}}
-    </span>
+    <div class="offerDetails__left-block-text">
+        {{ breakLines description }}
+    </div>
 </div>
 <div id="offerDetailsMap" class="offerDetails__left-map"></div>
+<div class="offerDetails__left-block">
+    <h3 class="offerDetails__left-block-title">
+        История цены
+    </h3>
+    {{> OfferDetailsGraph }}
+</div>

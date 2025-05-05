@@ -1,0 +1,46 @@
+@use "../../abstracts/variables" as *;
+.searchList {
+  height: 100%;
+  background-color: $grey3;
+  //height: calc(100vh - 4.375em);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 1.25em;
+    padding-bottom: 3.5em;
+
+    @media (max-width: 730px) {
+      padding-bottom: 5em;
+    }
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &-title, &-empty {
+      font-size: 28px;
+      font-weight: 600;
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
+
+    &-empty {
+      margin-top: 5%;
+      text-align: center;
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+}

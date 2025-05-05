@@ -2,7 +2,9 @@
 @forward "housingComplex/housingComplex";
 @forward "block-404";
 @forward "index/indexFilter";
-@forward "login";
+@forward "modal/modal";
+@forward "modal/login";
+@forward "modal/submitModal";
 @forward "register/register";
 @forward "index/cards";
 @forward "profile/profile";
@@ -22,4 +24,6 @@
 @forward "housingComplex/housingComplexSlider";
 @forward "housingComplex/housingComplexInformation";
 @forward "housingComplex/housingComplexReviews";
-@forward "search";
+@forward "search/searchList";
+@forward "search/searchMap";
+@forward "csatStats";

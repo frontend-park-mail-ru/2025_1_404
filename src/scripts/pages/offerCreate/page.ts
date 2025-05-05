@@ -13,11 +13,11 @@ export interface OfferDataChangeInterface {
  * @augments Page
  */
 export default class OfferPage extends Page {
-    _pageName: string;
-    _inputs: number;
-    protected _offerData: Record<string, string> = {};
-    protected _uploadedImages: Record<string, ImageData> = {};
-    private _layout: BaseLayout | undefined;
+    public pageName: string;
+    private inputs: number;
+    protected offerData: Record<string, string> = {};
+    protected uploadedImages: Record<string, ImageData> = {};
+    protected layout: BaseLayout | undefined;
     /**
      * @description Конструктор класса.
      * @param {string} propertyName имя свойства в модели
@@ -25,8 +25,8 @@ export default class OfferPage extends Page {
      */
     constructor(propertyName: string, inputs: number = 0) {
         super();
-        this._pageName = propertyName;
-        this._inputs = inputs;
+        this.pageName = propertyName;
+        this.inputs = inputs;
     }
 
     /**
@@ -38,92 +38,89 @@ export default class OfferPage extends Page {
     render({layout, root}: PageRenderInterface) {
         super.render({layout, root});
 
-        this._offerData = {};
-        this._layout = layout;
+        this.offerData = {};
+        this.layout = layout;
 
-        this._getDataFromModel();
+        this.getDataFromModel();
     }
 
     /**
-     * @function _getDataFromModel
+     * @function getDataFromModel
      * @description Метод получения данных из модели.
-     * @private
+     * @protected
      */
-    _getDataFromModel() {
-        if (OfferCreate.getOfferData()[this._pageName]) {
-            this._offerData = OfferCreate.getOfferData()[this._pageName];
+    protected getDataFromModel() {
+        if (OfferCreate.getOfferData()[this.pageName]) {
+            this.offerData = OfferCreate.getOfferData()[this.pageName];
         }
     }
 
     /**
-     * @function _setDataFromModel
+     * @function setDataFromModel
      * @description Метод установки данных из модели в инпуты.
      * @private
      */
-    _setDataFromModel() {
+    protected setDataFromModel() {
         throw new Error('Method is not implemented');
     }
 
     /**
-     * @function _markAsFullfilled
+     * @function markAsFullfilled
      * @description Метод установки статуса страницы.
      * @param {boolean} isFilled статус страницы
-     * @private
+     * @protected
      */
-    _markAsFullfilled(isFilled: boolean) {
-        OfferCreate.setPageFilled(this._pageName, isFilled);
-        if (this._layout) {
-            this._layout.emit('pageFilled', isFilled);
+    protected markAsFullfilled(isFilled: boolean) {
+        OfferCreate.setPageFilled(this.pageName, isFilled);
+        if (this.layout) {
+            this.layout.emit('pageFilled', isFilled);
         }
     }
 
     /**
-     * @function _isInputsFilled
+     * @function isInputsFilled
      * @description Метод проверки заполненности инпутов.
      * @returns {boolean} true, если все инпуты заполнены, иначе false
      * @private
      */
-    _isInputsFilled() {
+    protected isInputsFilled() {
         let isFilled = true;
-        if (Object.keys(this._offerData).length < this._inputs) {
+        if (Object.keys(this.offerData).length < this.inputs) {
             return false;
         }
-        for (const key in this._offerData) {
-            if (this._offerData[key] === '') {isFilled = false; return isFilled;}
+        for (const key in this.offerData) {
+            if (this.offerData[key] === '') {isFilled = false; return isFilled;}
         }
         return isFilled;
     }
 
     /**
-     * @function _offerDataChange
+     * @function offerDataChange
      * @description Метод обработки события изменения данных объявления.
      * @param {Event} event событие
      * @returns {OfferDataChangeInterface} объект с результатом и инпутом
      * @private
      */
-    _offerDataChange(event: Event): OfferDataChangeInterface {
+    protected offerDataChange(event: Event): OfferDataChangeInterface {
         event.preventDefault();
         const input = event.target as HTMLInputElement;
 
         let result = true;
         if (input.type === 'text' || input.type === 'tel') {
-            this._offerData[input.id] = '';
+            this.offerData[input.id] = '';
             result = this.formInputHandler(event);
             if (result) {
-                this._offerData[input.id] = input.value;
+                this.offerData[input.id] = input.value;
             }
-            OfferCreate.setData(this._pageName, this._offerData);
-        }
-        this._markAsFullfilled(this._isInputsFilled());
-        return {result, input};
-    }
 
-    /**
-     * @function getOfferData
-     * @description Метод получения данных предложения, которые были установлены на странице.
-     * @returns {Record<string, string>} данные предложения
-     */
-    getOfferData() {
-        return this._offerData;
+            if (input.id === 'input-address__input' && input.dataset.filled === 'false') {
+                this.offerData[input.id] = '';
+                result = false;
+            }
+
+            OfferCreate.setData(this.pageName, this.offerData);
+        }
+        this.markAsFullfilled(this.isInputsFilled());
+        return {result, input};
     }
 }

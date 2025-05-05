@@ -5,6 +5,7 @@
     display: flex;
     transition: transform 0.5s ease-in-out;
     height: 100%;
+    align-items: center;
 
     &-wrapper {
       flex-basis: auto;
@@ -26,12 +27,16 @@
     }
 
     &-controls {
+      display: none;
       width: 100%;
       position: absolute;
       top: 50%;
-      display: flex;
       justify-content: space-between;
       transform: translateY(-50%);
+
+      &.active {
+        display: flex;
+      }
     }
 
   }
@@ -46,9 +51,17 @@
     &-wrapper {
       overflow: hidden;
       position: relative;
-      display: flex;
+      display: none;
       justify-content: center;
       width: 100%;
+
+      &.active {
+        display: flex;
+
+        @media (max-width: 730px) {
+          display: none;
+        }
+      }
     }
 
     &-preview {
@@ -56,6 +69,10 @@
       min-width: 100px;
       min-height: 80px;
       transition: scale 0.5s ease-in-out;
+
+      @media (max-width: 730px) {
+        min-width: 80px;
+      }
 
       &:hover img {
         border: 1.5px solid $blue;

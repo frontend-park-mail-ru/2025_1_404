@@ -1,8 +1,8 @@
-{{#> OfferEditLayout }}
+{{#> OfferEditLayout grey=true}}
 <div id="offerCreateParams" class="offerCreate__params">
     <div class="offerCreate__params-row">
         <div class="offerCreate__params-rooms">
-            {{> ChoiceButtons label="Количество комнат" name="input-rooms" choices=(split '1;2;3;4')}}
+            {{> ChoiceButtons label="Количество комнат" name="input-rooms" choices=(split '1;2;3;4+')}}
         </div>
         <div class="offerCreate__params-square">
             <div class="offerCreate__input">

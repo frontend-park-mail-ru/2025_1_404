@@ -1,9 +1,10 @@
 {{#> MainLayout}}
     <div class="profile">
         <div class="container">
+            {{> ProfileSideButton }}
             <div class="profile__inner">
                 {{> ProfileLeft }}
-                <div class="profile__right">
+                <div id="profileRight" class="profile__right show">
                     {{> @partial-block }}
                 </div>
             </div>

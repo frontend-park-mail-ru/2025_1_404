@@ -1,0 +1,22 @@
+@use "../abstracts/variables" as *;
+
+.popup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+    height: 100px;
+    background-color: $milk;
+    //border: 1px solid $red-darker;
+    border-radius: 6px;
+    box-shadow: 0 0 4px $red-darker;
+    padding: 10px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        //font-size: 20px;
+        font-weight: 600;
+    }
+}

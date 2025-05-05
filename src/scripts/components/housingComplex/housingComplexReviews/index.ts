@@ -7,9 +7,9 @@ import {BaseComponent, BaseComponentInterface} from "../../baseComponent.ts";
  * @augments BaseComponent
  */
 export default class HousingComplexReviews extends BaseComponent {
-    private _reviews: NodeListOf<Element> | undefined;
-    private _loadReviewsButton: HTMLElement | null | undefined;
-    private _visibleReviews: number = 0;
+    private reviews: NodeListOf<Element> | undefined;
+    private loadReviewsButton: HTMLElement | null | undefined;
+    private visibleReviews: number = 0;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -17,7 +17,7 @@ export default class HousingComplexReviews extends BaseComponent {
      */
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this._setupReviews();
+        // this.setupReviews();
     }
 
     /**
@@ -25,49 +25,49 @@ export default class HousingComplexReviews extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('loadReviews', 'click', this._showMoreReviews);
+        this.initListener('loadReviews', 'click', this.showMoreReviews);
     }
 
     /**
-     * @function _setupReviews
+     * @function setupReviews
      * @description Метод инициализации отзывов.
      * @private
      */
-    _setupReviews() {
-        this._reviews = document.querySelectorAll('.housingComplex__review');
-        this._loadReviewsButton = document.getElementById('loadReviews') as HTMLElement;
-        this._visibleReviews = 0;
+    private setupReviews() {
+        this.reviews = document.querySelectorAll('.housingComplex__review');
+        this.loadReviewsButton = document.getElementById('loadReviews') as HTMLElement;
+        this.visibleReviews = 0;
 
-        this._showMoreReviews();
+        this.showMoreReviews();
 
-        if (this._reviews.length <= this._visibleReviews) {
-            this._loadReviewsButton.classList.add('hidden');
+        if (this.reviews.length <= this.visibleReviews) {
+            this.loadReviewsButton.classList.add('hidden');
         }
     }
 
     /**
-     * @function _showMoreReviews
+     * @function showMoreReviews
      * @description Метод показа большего количества отзывов.
      * @private
      */
-    _showMoreReviews() {
+    private showMoreReviews() {
         const reviewsPerClick = 3;
-        if (!this._reviews) {
+        if (!this.reviews) {
             return;
         }
-        for (let it = this._visibleReviews; it < this._visibleReviews + reviewsPerClick; it++) {
-            if (this._reviews[it]) {
-                const element = this._reviews[it] as HTMLElement;
+        for (let it = this.visibleReviews; it < this.visibleReviews + reviewsPerClick; it++) {
+            if (this.reviews[it]) {
+                const element = this.reviews[it] as HTMLElement;
                 element.style.display = 'flex';
             }
         }
-        this._visibleReviews += reviewsPerClick;
+        this.visibleReviews += reviewsPerClick;
 
-        if (this._visibleReviews >= this._reviews.length) {
-            if (!this._loadReviewsButton) {
+        if (this.visibleReviews >= this.reviews.length) {
+            if (!this.loadReviewsButton) {
                 return;
             }
-            this._loadReviewsButton.classList.add('hidden');
+            this.loadReviewsButton.classList.add('hidden');
         }
     }
 }

@@ -35,14 +35,33 @@ import OfferDetailsLeft from "../components/offerDetailsLeft/template.precompile
 import PicturesCarousel from '../components/picturesCarousel/template.precompiled.js';
 import PrimaryButton from '../components/primaryButton/template.precompiled.js';
 import ProfileDataInput from "../components/profileDataInput/template.precompiled.js";
+import ProfileFavorite from "../components/profileFavorite/template.precompiled.js";
 import ProfileLeft from '../components/profileLeft/template.precompiled.js';
 import ProfileOffer from "../components/profileOffer/template.precompiled.js";
 import ProfilePreview from "../components/profilePreview/template.precompiled.js";
 import ProgressBar from "../components/progressBar/template.precompiled.js";
 import RedButton from "../components/redButton/template.precompiled.js";
-import SearchOffer from "../components/searchOffer/template.precompiled.js";
+import SearchListOffer from "../components/searchListOffer/template.precompiled.js";
 import UserAvatar from "../components/userAvatar/template.precompiled.js";
 import PicturesCarouselPreviews from "../components/picturesCarouselPreviews/template.precompiled.js";
+import BaseModal from "../components/baseModal/template.precompiled.js";
+import SubmitModal from "../components/submitModal/template.precompiled.js";
+import PasswordInput from "../components/passwordInput/template.precompiled.js";
+import ClearInput from "../components/clearInput/template.precompiled.js";
+import AddressInput from "../components/addressInput/template.precompiled.js";
+import Popup from "../components/popup/template.precompiled.js";
+import Popups from "../components/popups/template.precompiled.js";
+import BottomNavigationBar from "../components/bottomNavigationBar/template.precompiled.js";
+import Csat from "../components/csat/template.precompiled.js"
+import CsatStatsAvg from "../components/csatStatsAvg/template.precompiled.js";
+import Cluster from "../components/cluster/template.precompiled.js";
+import Balloon from "../components/balloon/template.precompiled.js";
+import OfferDetailsGraph from "../components/offerDetailsGraph/template.precompiled.js";
+import LikeButton from "../components/likeButton/template.precompiled.js";
+import OfferDetailsGraphPopup from "../components/offerDetailsGraphPopup/template.precompiled.js";
+import ProfileSideButton from "../components/profileSideButton/template.precompiled.js";
+import Paginator from "../components/paginator/template.precompiled.js";
+import OfferStats from "../components/offerStats/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -51,12 +70,15 @@ import PicturesCarouselPreviews from "../components/picturesCarouselPreviews/tem
 // eslint-disable-next-line max-lines-per-function
 export default function registerComponents() {
     const components: [Handlebars.TemplateDelegate, string][] = [
+        [AddressInput, 'AddressInput'],
         [BackgroundlessButton, 'BackgroundlessButton'],
+        [BaseModal, 'BaseModal'],
         [Card, 'Card'],
         [Characteristic, 'Characteristic'],
         [ChevronLeft, 'ChevronLeft'],
         [ChevronRight, 'ChevronRight'],
         [ChoiceButtons, 'ChoiceButtons'],
+        [ClearInput, 'ClearInput'],
         [Filter, 'Filter'],
         [FilterCheckList, 'FilterCheckList'],
         [FilterCheckListSelect, 'FilterCheckListSelect'],
@@ -74,6 +96,7 @@ export default function registerComponents() {
         [Loader, 'Loader'],
         [Login, 'Login'],
         [Logo, 'Logo'],
+        [LikeButton, 'LikeButton'],
         [MetroStation, 'MetroStation'],
         [OfferCreateBtns, 'OfferCreateBtns'],
         [OfferCreateNav, 'OfferCreateNav'],
@@ -83,17 +106,32 @@ export default function registerComponents() {
         [OfferDetailsHeader, 'OfferDetailsHeader'],
         [OfferDetailsInfo, 'OfferDetailsInfo'],
         [OfferDetailsLeft, 'OfferDetailsLeft'],
+        [PasswordInput, 'PasswordInput'],
         [PicturesCarousel, 'PicturesCarousel'],
+        [PicturesCarouselPreviews, 'PicturesCarouselPreviews'],
+        [Popup, 'Popup'],
+        [Popups, 'Popups'],
         [PrimaryButton, 'PrimaryButton'],
         [ProfileDataInput, 'ProfileDataInput'],
+        [ProfileFavorite, 'ProfileFavorite'],
         [ProfileLeft, 'ProfileLeft'],
         [ProfileOffer, 'ProfileOffer'],
         [ProfilePreview, 'ProfilePreview'],
         [ProgressBar, 'ProgressBar'],
         [RedButton, 'RedButton'],
-        [SearchOffer, 'SearchOffer'],
+        [SearchListOffer, 'SearchListOffer'],
+        [SubmitModal, 'SubmitModal'],
         [UserAvatar, 'UserAvatar'],
-        [PicturesCarouselPreviews, 'PicturesCarouselPreviews'],
+        [BottomNavigationBar, 'BottomNavigationBar'],
+        [Csat, 'Csat'],
+        [CsatStatsAvg, 'CsatStatsAvg'],
+        [Cluster, 'Cluster'],
+        [Balloon, 'Balloon'],
+        [OfferDetailsGraph, 'OfferDetailsGraph'],
+        [OfferDetailsGraphPopup, 'OfferDetailsGraphPopup'],
+        [ProfileSideButton, 'ProfileSideButton'],
+        [Paginator, 'Paginator'],
+        [OfferStats, 'OfferStats']
     ];
 
     components.forEach(([component, name]) => {

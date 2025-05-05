@@ -1,0 +1,16 @@
+@use "../abstracts/variables" as *;
+
+.offer__stats {
+  display: flex;
+  flex-direction: column;
+  font-size: 22px;
+  gap: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  &.profile__offer-stats {
+    @media (max-width: 730px) {
+      display: none;
+    }
+  }
+}

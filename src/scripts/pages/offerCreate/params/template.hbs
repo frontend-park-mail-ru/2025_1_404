@@ -1,8 +1,8 @@
-{{#> OfferCreateLayout }}
+{{#> OfferCreateLayout grey=true}}
 <div id="offerCreateParams" class="offerCreate__params">
     <div class="offerCreate__params-row">
         <div class="offerCreate__params-rooms">
-            {{> ChoiceButtons label="Количество комнат" name="input-rooms" choices=(split '1;2;3;4')}}
+            {{> ChoiceButtons label="Количество комнат" name="input-rooms" choices=(split '1;2;3;4+')}}
         </div>
         <div class="offerCreate__params-square">
             <div class="offerCreate__input">
@@ -12,7 +12,7 @@
         </div>
         <div class="offerCreate__params-square">
             <div class="offerCreate__input">
-                <label for="input-ceiling-height" class="offerCreate__input-label">Высота потолков</label>
+                <label for="input-ceiling-height" class="offerCreate__input-label">Высота потолков, м</label>
                 {{> Input id="input-ceiling-height" name="offer_ceiling_height" type="text"}}
             </div>
         </div>

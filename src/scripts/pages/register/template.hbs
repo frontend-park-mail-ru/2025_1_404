@@ -18,11 +18,11 @@
                 {{> Input id="registerSecondName" type="text" name="last_name" placeholder="Фамилия" maxlength="16"}}
             </div>
             {{> Input id="registerEmail" type="email" name="email" placeholder="Email" maxlength="32"}}
-            {{> Input id="registerPassword" type="password" name="password" placeholder="Пароль" maxlength="32"}}
-            {{> Input id="registerConfirmPassword" type="password" name="confirm_password" placeholder="Подтвердите пароль" maxlength="32"}}
+            {{> PasswordInput id="registerPassword" type="password" name="password" placeholder="Пароль" maxlength="32"}}
+            {{> PasswordInput id="registerConfirmPassword" type="password" name="confirm_password" placeholder="Повторите пароль" maxlength="32"}}
 
             {{> PrimaryButton name="Зарегистрироваться" class="register__form-fields-submit" id="registerSubmitButton"}}
-            {{> BackgroundlessButton name="Уже есть аккаунт?" id="redirectJoinButton" }}
+            {{> BackgroundlessButton name="Уже есть аккаунт?" id="redirectJoinButton"}}
         </form>
         <div id="api-error" class="error"></div>
     </div>

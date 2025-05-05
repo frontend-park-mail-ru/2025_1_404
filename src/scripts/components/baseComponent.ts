@@ -3,8 +3,8 @@ import {BaseLayout} from "../layouts/baseLayout.ts";
 import {Page} from "../pages/page.ts";
 
 export interface BaseComponentInterface {
-    page: Page;
-    layout: BaseLayout | undefined;
+    page?: Page;
+    layout?: BaseLayout;
 }
 
 interface HandlerInterface {
@@ -13,12 +13,19 @@ interface HandlerInterface {
     type: string;
 }
 
+interface InitListenerFromElementInterface {
+    root: string;
+    elementId: string;
+    type: string;
+    handler: (event: Event) => void;
+}
+
 /**
  * @class BaseComponent
  * @description Базовый класс компонента.
  */
 export class BaseComponent {
-    protected page: Page;
+    protected page?: Page;
     protected layout: BaseLayout | undefined;
     private handlers: HandlerInterface[];
     /**
@@ -57,6 +64,27 @@ export class BaseComponent {
      */
     initListener(elementId: string, type: string, handler: (event: Event) => void) {
         const element = document.getElementById(elementId);
+        if (element) {
+            const boundedHandler = handler.bind(this);
+            element.addEventListener(type, boundedHandler);
+            this.handlers.push({element, handler: boundedHandler, type});
+        }
+    }
+
+    /**
+     * @function initListenerFromElement
+     * @description Метод инициализации слушателя события для элемента из корневого элемента.
+     * @param {string} root id корневого элемента.
+     * @param {string} elementId id элемента.
+     * @param {string} type тип события.
+     * @param {Function} handler обработчик события.
+     */
+    initListenerFromElement({root, elementId, type, handler}: InitListenerFromElementInterface) {
+        const rootElement = document.getElementById(root) as HTMLElement;
+        if (!rootElement) {
+            return;
+        }
+        const element = rootElement.querySelector(`#${elementId}`);
         if (element) {
             const boundedHandler = handler.bind(this);
             element.addEventListener(type, boundedHandler);

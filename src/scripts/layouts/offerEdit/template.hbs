@@ -1,18 +1,16 @@
-{{#> BaseLayout}}
-    {{#> MainLayout}}
-    <div class="offerCreate">
-        <div class="container">
-            <div class="offerCreate__inner">
-                {{> OfferCreateTitle edit=true }}
-                <div class="offerCreate__main">
-                    {{> @partial-block }}
-                    <div id="offerCreateBtns" class="offerCreate__btns">
-                    {{> OfferCreateBtns edit=true }}
-                    </div>
+{{#> MainLayout}}
+<div class="offerCreate">
+    <div class="container">
+        <div class="offerCreate__inner">
+            {{> OfferCreateTitle edit=true }}
+            <div class="offerCreate__main">
+                {{> @partial-block }}
+                <div id="offerCreateBtns" class="offerCreate__btns">
+                {{> OfferCreateBtns edit=true }}
                 </div>
-                {{> OfferCreateNav edit=true }}
             </div>
+            {{> OfferCreateNav edit=true }}
         </div>
     </div>
-    {{/MainLayout}}
-{{/BaseLayout}}
+</div>
+{{/MainLayout}}

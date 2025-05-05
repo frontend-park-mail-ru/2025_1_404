@@ -1,0 +1,29 @@
+@use "../abstracts/variables" as *;
+
+.paginator {
+  display: flex;
+  justify-content: center;
+
+  &__list {
+    display: flex;
+    gap: 15px;
+
+    &-button {
+      font-size: 18px;
+      color: $darker-blue;
+      border: 1px solid $darker-blue;
+      border-radius: 6px;
+      padding: 7px 11px;
+
+      &:hover {
+        background-color: $bluish;
+        color: $darker-blue;
+      }
+
+      &.current {
+        color: $black-text;
+        pointer-events: none;
+      }
+    }
+  }
+}

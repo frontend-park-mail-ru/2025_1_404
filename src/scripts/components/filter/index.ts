@@ -1,63 +1,99 @@
 import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
 import FilterModel from "../../models/filterModel"
 import RouteManager from "../../managers/routeManager/routeManager.ts";
-import {Page} from "../../pages/page.ts";
+import ClearInput from "../clearInput";
+import AddressInput from "../addressInput";
 /**
  * @class Filter
  * @description Компонент фильтра.
  * @augments BaseComponent
  */
 export default class Filter extends BaseComponent {
-    private _openPopupButton: HTMLButtonElement | null;
-    private _defaultFields: Record<string, string>;
-    private _filterCheckLists: string[];
-    private _filterData: Record<string, string>;
-    private _filterValid: Record<string, boolean>;
-    private _isValid: boolean;
-    private _submitButton: HTMLElement | null;
-    private _page: Page
+    private openPopupButton: HTMLButtonElement | null;
+    private defaultFields: Record<string, string>;
+    private filterCheckLists: string[];
+    private filterData: Record<string, string>;
+    private filterValid: Record<string, boolean>;
+    private submitButton: HTMLElement | null;
+    private addressInput: AddressInput | null = null;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
      */
+    // eslint-disable-next-line max-lines-per-function
     constructor({page, layout}: BaseComponentInterface) {
         super({page, layout});
-        this._page = page;
-        this._openPopupButton = null;
-        this._submitButton = document.getElementById("filterSubmitButton");
-        this._isValid = true;
-        this._defaultFields = {
+        if (page) {
+            this.page = page;
+        }
+        this.openPopupButton = null;
+        this.submitButton = document.getElementById("filterListSubmitButton");
+        this.defaultFields = {
             "filterOfferType": "Тип сделки",
             "filterPropertyType": "Тип недвижимости",
             "filterPrice": "Цена",
             "filterSquare": "Площадь",
         };
-        this._filterCheckLists = ["filterOfferType", "filterPropertyType"];
-        this._filterData = {
+        this.filterCheckLists = ["filterOfferType", "filterPropertyType"];
+        this.filterData = {
             "filterOfferType": '',
             "filterPropertyType": '',
-            "filterPriceLeft": '',
-            "filterPriceRight": '',
-            "filterSquareLeft": '',
-            "filterSquareRight": '',
-            "filterInputAddress": '',
+            "filterPriceLeft__input": '',
+            "filterPriceRight__input": '',
+            "filterSquareLeft__input": '',
+            "filterSquareRight__input": '',
+            "filterInputAddress__input": '',
         }
-        this._filterValid = {
+        this.filterValid = {
             "offer_price": true,
             "offer_square": true,
         }
 
         document.onclick = (event) => {
-            if (!event.target || !this._openPopupButton || !this._openPopupButton.nextElementSibling) {
+            if (!event.target || !this.openPopupButton || !this.openPopupButton.nextElementSibling) {
                 return;
             }
             const target = event.target as HTMLElement;
-            if (!this._openPopupButton.nextElementSibling.contains(target)) {
-                this._filterSelectClosePopup(this._openPopupButton);
-                this._openPopupButton = null;
+            if (!this.openPopupButton.nextElementSibling.contains(target)) {
+                this.filterSelectClosePopup(this.openPopupButton);
+                this.openPopupButton = null;
             }
         }
+
+        if (!this.page) {
+            return;
+        }
+
+        this.addressInput = new AddressInput({
+            page: this.page,
+            layout,
+            id: 'filterInputAddress',
+        });
+
+        new ClearInput({
+            page: this.page,
+            layout,
+            id: 'filterPriceLeft',
+        });
+
+         new ClearInput({
+            page: this.page,
+            layout,
+            id: 'filterPriceRight',
+        });
+
+        new ClearInput({
+            page: this.page,
+            layout,
+            id: 'filterSquareLeft',
+        })
+
+        new ClearInput({
+            page: this.page,
+            layout,
+            id: 'filterSquareRight',
+        })
     }
 
     /**
@@ -65,59 +101,105 @@ export default class Filter extends BaseComponent {
      * @description Метод инициализации слушателей событий для компонента фильтра.
      */
     initListeners() {
-        this.initListenerForClass('filter__select-button', 'click', this._filterSelectOpenPopup);
-        this.initListenerForClass('filter__check-elem', 'click', this._filterCheckListElem);
-        this.initListener('filterPriceLeft', 'input', this._filterInputChange);
-        this.initListener('filterPriceRight', 'input', this._filterInputChange);
-        this.initListener('filterSquareLeft', 'input', this._filterInputChange);
-        this.initListener('filterSquareRight', 'input', this._filterInputChange);
-        this.initListener('filterInputAddress', 'input', this._filterInputChange);
-        this.initListener('filterSubmitButton', 'click', this._filterSubmit);
+        this.initListenerForClass('filter__select-button', 'click', this.filterSelectOpenPopup);
+        this.initListenerForClass('filter__check-elem', 'click', this.filterCheckListElem);
+        this.initListener('filterPriceLeft__input', 'input', this.filterInputChange);
+        this.initListener('filterPriceRight__input', 'input', this.filterInputChange);
+        this.initListener('filterSquareLeft__input', 'input', this.filterInputChange);
+        this.initListener('filterSquareRight__input', 'input', this.filterInputChange);
+        this.initListener('filterInputAddress__input', 'input', this.filterInputChange);
+        this.initListener('filterInputAddress__input', 'keyup', this.filterSubmitKey);
+        this.initListener('filterListSubmitButton', 'click', this.filterListSubmit);
+        this.initListener('filterMapSubmitButton', 'click', this.filterMapSubmit);
     }
 
     /**
-     * @function _filterSubmit
-     * @description Метод обработки отправки формы фильтра.
+     * @function destroy
+     * @description Метод уничтожения компонента фильтра.
+     */
+    destroy() {
+        super.destroy();
+        if (this.addressInput) {
+            this.addressInput.destroy();
+        }
+    }
+
+    /**
+     * @function filterSubmitKey
+     * @description Метод обработки нажатия клавиши Enter в поле ввода фильтра.
+     * @param {Event} event событие нажатия клавиши.
+     */
+    private filterSubmitKey(event: Event) {
+        event.preventDefault();
+        if (event instanceof KeyboardEvent && event.key === 'Enter') {
+            this.filterListSubmit(event);
+        }
+    }
+
+    /**
+     * @function filterListSubmit
+     * @description Метод обработки отправки формы фильтра и навигации на страницу со списком.
      * @param {Event} event событие отправки формы.
      * @private
      */
-    _filterSubmit(event: Event) {
+    private filterListSubmit(event: Event) {
         event.preventDefault();
         event.stopPropagation();
 
-        for (const [key, value] of Object.entries(this._filterData)) {
+        for (const [key, value] of Object.entries(this.filterData)) {
             FilterModel.setData(key, value);
         }
-        RouteManager.navigateTo('/search');
+        RouteManager.navigateTo('/searchList');
     }
 
     /**
-     * @function _filterInputChange
+     * @function filterMapSubmit
+     * @description Метод обработки отправки формы фильтра и навигации на страницу с картой.
+     * @param {Event} event событие отправки формы.
+     * @private
+     */
+    private filterMapSubmit(event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        for (const [key, value] of Object.entries(this.filterData)) {
+            FilterModel.setData(key, value);
+        }
+        RouteManager.navigateTo('/searchMap');
+    }
+
+    /**
+     * @function filterInputChange
      * @description Метод обработки изменения значения в полях ввода фильтра.
      * @param {Event} event событие изменения значения в поле ввода.
      * @private
      */
-    _filterInputChange(event: Event) {
+    private filterInputChange(event: Event) {
         event.preventDefault();
-
-        if (!event.currentTarget) {
+        if (!event.currentTarget || !this.page) {
             return;
         }
         const currentTarget = event.currentTarget as HTMLInputElement;
-        this._filterValid[currentTarget.name] = this._page.formInputHandler(event, false)
+        this.filterValid[currentTarget.name] = this.page.formInputHandler(event, false)
 
-        if (typeof this._filterData[currentTarget.id] === 'string') {
-            this._filterData[currentTarget.id] = currentTarget.value;
+        const button = document.getElementsByName(currentTarget.name)[0] as HTMLButtonElement;
+        if (button !== null) {
+            this.checkValidation(button);
         }
+
+        if (typeof this.filterData[currentTarget.id] === 'string') {
+            this.filterData[currentTarget.id] = currentTarget.value;
+        }
+
     }
 
     /**
-     * @function _filterCheckListElem
+     * @function filterCheckListElem
      * @description Метод обработки клика по элементу списка чекбоксов фильтра.
      * @param {Event} event событие клика по элементу списка чекбоксов.
      * @private
      */
-    _filterCheckListElem(event: Event) {
+    private filterCheckListElem(event: Event) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -136,9 +218,9 @@ export default class Filter extends BaseComponent {
                 if (checked) {
                     checked.classList.toggle('checked');
                 }
-                this._filterData[elem.parentElement.id] = elem.children[1].textContent;
+                this.filterData[elem.parentElement.id] = elem.children[1].textContent;
             } else {
-                this._filterData[elem.parentElement.id] = '';
+                this.filterData[elem.parentElement.id] = '';
             }
         }
         const checked = elem.parentElement.querySelector('.checked');
@@ -146,33 +228,20 @@ export default class Filter extends BaseComponent {
         if (checked) {
             selectButton.innerHTML = `${checked.children[1].textContent}`;
         } else {
-            selectButton.innerHTML = this._defaultFields[elem.parentElement.id];
+            selectButton.innerHTML = this.defaultFields[elem.parentElement.id];
         }
     }
 
     /**
-     * @function _filterSelectClosePopup
+     * @function filterSelectClosePopup
      * @description Закрывает всплывающее окно селекта фильтра.
      * @param {HTMLElement} button кнопка, которая открыла всплывающее окно селекта.
      * @private
      */
-    _filterSelectClosePopup(button: HTMLButtonElement) {
+    private filterSelectClosePopup(button: HTMLButtonElement) {
         button.classList.remove('active');
 
-        if (Object.hasOwn(this._filterValid, button.name)) {
-            if (!this._submitButton) {
-                return;
-            }
-            if (this._filterValid[button.name]) {
-                button.classList.remove('red');
-                this._isValid = true;
-                this._submitButton.removeAttribute('disabled');
-            } else {
-                button.classList.add('red');
-                this._isValid = false;
-                this._submitButton.setAttribute('disabled', 'disabled');
-            }
-        }
+        this.checkValidation(button);
 
         if (!button.nextElementSibling) {
             return;
@@ -181,42 +250,43 @@ export default class Filter extends BaseComponent {
     }
 
     /**
-     * @function _filterSelectOpenPopup
+     * @function filterSelectOpenPopup
      * @description Открывает всплывающее окно селекта фильтра.
      * @param {Event} event событие клика по кнопке селекта.
      * @private
      */
-    _filterSelectOpenPopup(event: Event) {
+    private filterSelectOpenPopup(event: Event) {
         event.preventDefault();
         event.stopPropagation();
-        if (this._openPopupButton && this._openPopupButton !== event.target) {
+        if (this.openPopupButton && this.openPopupButton !== event.target) {
             event.stopPropagation();
-            this._filterSelectClosePopup(this._openPopupButton);
+            this.filterSelectClosePopup(this.openPopupButton);
         }
-        this._openPopupButton = event.target as HTMLButtonElement;
-        this._openPopupButton.classList.toggle('active');
-        if (this._openPopupButton.nextElementSibling) {
-            this._openPopupButton.nextElementSibling.classList.toggle('active');
+        this.openPopupButton = event.target as HTMLButtonElement;
+        this.openPopupButton.classList.toggle('active');
+
+        if (this.openPopupButton.nextElementSibling) {
+            this.openPopupButton.nextElementSibling.classList.toggle('active');
         }
     }
 
     /**
-     * @function _filterSetData
+     * @function filterSetData
      * @description Перемещает данные фильтра из модели на ui компонент.
      * @private
      */
-    _filterSetData() {
-        this._filterData = FilterModel.getFilterData();
+    filterSetData() {
+        this.filterData = FilterModel.getFilterData();
         const filterInputs = document.getElementById('filterInputs');
         if (filterInputs === null) {
             return;
         }
         const inputs = filterInputs.querySelectorAll('input');
         inputs.forEach(input => {
-            input.value = <string>this._filterData[input.id];
+            input.value = <string>this.filterData[input.id];
         })
 
-        this._filterCheckLists.forEach(id => {
+        this.filterCheckLists.forEach(id => {
             const ul = document.getElementById(id);
             if (ul === null) {
                 return;
@@ -228,7 +298,7 @@ export default class Filter extends BaseComponent {
                     return;
                 }
                 const spanText = li.children[1].textContent as string;
-                if (this._filterData[id] === spanText) {
+                if (this.filterData[id] === spanText) {
                     li.classList.add('checked');
                 }
             });
@@ -241,9 +311,32 @@ export default class Filter extends BaseComponent {
             if (checked) {
                 selectButton.innerHTML = `${checked.children[1].textContent}`
             } else {
-                selectButton.innerHTML = this._defaultFields[id];
+                selectButton.innerHTML = this.defaultFields[id];
             }
         });
 
+    }
+
+    /**
+     * @function checkValidation
+     * @description Метод проверки валидности полей фильтра.
+     * @param {HTMLButtonElement} button кнопка, которая открыла всплывающее окно селекта.
+     */
+    private checkValidation(button: HTMLButtonElement) {
+
+        if (Object.hasOwn(this.filterValid, button.name)) {
+            if (!this.submitButton) {
+                return;
+            }
+            if (this.filterValid[button.name] && (this.addressInput?.isFilled() || this.addressInput?.isEmpty())) {
+                button.classList.remove('red');
+                if (!Object.values(this.filterValid).includes(false)) {
+                    this.submitButton.removeAttribute('disabled');
+                }
+            } else {
+                button.classList.add('red');
+                this.submitButton.setAttribute('disabled', 'disabled');
+            }
+        }
     }
 }

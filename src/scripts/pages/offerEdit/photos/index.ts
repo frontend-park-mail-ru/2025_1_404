@@ -12,10 +12,10 @@ import {deleteOfferImage, uploadOfferImage} from "../../../util/apiUtil.ts";
  * @augments OfferPage
  */
 export default class OfferEditPhotosPage extends OfferPage {
-    private _photosPreviewsCounter: number = -1;
-    private _dropArea: HTMLElement | null | undefined;
-    private _photosPreviewsList: HTMLElement | null | undefined;
-    private _offerId: number = 0;
+    private photosPreviewsCounter: number = -1;
+    private dropArea: HTMLElement | null | undefined;
+    private photosPreviewsList: HTMLElement | null | undefined;
+    private offerId: number = 0;
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -29,14 +29,14 @@ export default class OfferEditPhotosPage extends OfferPage {
         }
 
         root.innerHTML = template();
-        this._offerId = props.id;
-        this._photosPreviewsCounter = -1;
-        this._dropArea = document.getElementById('offerCreatePhotosInputBlock');
-        this._photosPreviewsList = document.getElementById('offerCreatePhotosPreviews');
+        this.offerId = props.id;
+        this.photosPreviewsCounter = -1;
+        this.dropArea = document.getElementById('offerCreatePhotosInputBlock');
+        this.photosPreviewsList = document.getElementById('offerCreatePhotosPreviews');
 
         super.render({layout, root});
-        if (Object.keys(this._offerData).length !== 0) {
-            this._setDataFromModel();
+        if (Object.keys(this.offerData).length !== 0) {
+            this.setDataFromModel();
         }
 
     }
@@ -46,80 +46,86 @@ export default class OfferEditPhotosPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreatePhotosInputBlock', 'dragenter', this._dragAddClassHandler);
-        this.initListener('offerCreatePhotosInputBlock', 'dragover', this._dragAddClassHandler);
-        this.initListener('offerCreatePhotosInputBlock', 'dragleave', this._dragRemoveClassHandler);
-        this.initListener('offerCreatePhotosInputBlock', 'drop', this._dragDropHandler);
-        this.initListener('offerCreatePhotosButton', 'click', this._chooseFilesButtonClickHandler);
-        this.initListener('offerCreatePhotosInput', 'change', this._getFilesAfterChooseClickHandler);
-        this.initListener('offerCreatePhotosPreviews', 'click', this._photoPreviewClickHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'dragenter', this.dragAddClassHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'dragover', this.dragAddClassHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'dragleave', this.dragRemoveClassHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'drop', this.dragDropHandler);
+        this.initListener('offerCreatePhotosButton', 'click', this.chooseFilesButtonClickHandler);
+        this.initListener('offerCreatePhotosInput', 'change', this.getFilesAfterChooseClickHandler);
+        this.initListener('offerCreatePhotosPreviews', 'click', this.photoPreviewClickHandler);
     }
 
     /**
-     * @function _addPhotoPreview
+     * @function addPhotoPreview
      * @description Метод добавления превью фото в список
      * @param {File} file адрес фото
      * @param {string} source объект FileReader
+     * @param {number | undefined} id id фото
      * @private
      */
-    _addPhotoPreview(file: File, source: string) {
-        if (typeof this._photosPreviewsCounter !== 'number' || !this._photosPreviewsList) {
+    private addPhotoPreview(file: File, source: string, id: number | null) {
+        if (typeof this.photosPreviewsCounter !== 'number' || !this.photosPreviewsList) {
             return;
         }
-        this._photosPreviewsCounter += 1;
-        this._offerData[this._photosPreviewsCounter] = source;
-        this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));
+        if (id === null) {
+            this.photosPreviewsCounter += 1;
+        }
+        else {
+            this.photosPreviewsCounter = id;
+        }
+        this.offerData[this.photosPreviewsCounter] = source;
+        this.photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this.photosPreviewsCounter, src: source}));
     }
 
     /**
-     * @function _dragAddClassHandler
+     * @function dragAddClassHandler
      * @description Метод добавления класса при перетаскивании файла
      * @param {Event} event событие перетаскивания
      * @private
      */
-    _dragAddClassHandler(event: Event) {
+    private dragAddClassHandler(event: Event) {
         event.preventDefault();
-        if (this._dropArea) {
-            this._dropArea.classList.add('offerCreate__photos-hover');
+        if (this.dropArea) {
+            this.dropArea.classList.add('offerCreate__photos-hover');
         }
     }
 
     /**
-     * @function _dragRemoveClassHandler
+     * @function dragRemoveClassHandler
      * @description Метод удаления класса при перетаскивании файла
      * @param {Event} event событие перетаскивания
      * @private
      */
-    _dragRemoveClassHandler(event: Event) {
+    private dragRemoveClassHandler(event: Event) {
         event.preventDefault();
-        if (this._dropArea) {
-            this._dropArea.classList.remove('offerCreate__photos-hover');
+        if (this.dropArea) {
+            this.dropArea.classList.remove('offerCreate__photos-hover');
         }
     }
 
     /**
-     * @function _dragDropHandler
+     * @function dragDropHandler
      * @description Метод обработки события перетаскивания файла
      * @param {Event} event событие перетаскивания
      * @private
      */
-    _dragDropHandler(event: DragEvent) {
+    private dragDropHandler(event: DragEvent) {
         event.preventDefault();
-        if (this._dropArea) {
-            this._dropArea.classList.remove('offerCreate__photos-hover');
+        if (this.dropArea) {
+            this.dropArea.classList.remove('offerCreate__photos-hover');
         }
         if (event.dataTransfer) {
             const files = Array.from(event.dataTransfer.files)
-            this._uploadFiles(files);
+            this.uploadFiles(files);
         }
     }
 
     /**
-     * @function _uploadFiles
+     * @function uploadFiles
      * @param {Array} files массив файлов
      * @private
      */
-    _uploadFiles(files: Array<File>) {
+    private uploadFiles(files: Array<File>) {
         files.forEach((file) => {
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
@@ -129,12 +135,8 @@ export default class OfferEditPhotosPage extends OfferPage {
                     }
                     const target = event.target as FileReader;
                     if (target.result) {
-                        this._addPhotoPreview(file, target.result.toString());
-                        OfferCreate.setData(this._pageName, this._offerData);
-
-                        await this._handleAddImage(file);
-
-                        this._markAsFullfilled(Object.keys(this._offerData).length > 0);
+                        await this.handleAddImage(file, target.result.toString());
+                        this.markAsFullfilled(Object.keys(this.offerData).length > 0);
                     }
                 };
                 reader.readAsDataURL(file);
@@ -143,78 +145,82 @@ export default class OfferEditPhotosPage extends OfferPage {
     }
 
     /**
-     * @function _deleteImage
+     * @function deleteImage
      * @description Метод удаления фото
      * @param {string} localId id фото
      */
-    async _deleteImage(localId: string) {
-        if (!this._uploadedImages[localId] || !this._uploadedImages[localId].id) {
+    private async deleteImage(localId: string) {
+        if (!this.uploadedImages[localId] || !this.uploadedImages[localId].id) {
             return;
         }
-        await this._layout?.makeRequest(deleteOfferImage,
-            this._uploadedImages[localId].id
+        await this.layout?.makeRequest(deleteOfferImage,
+            this.uploadedImages[localId].id
         ).catch((err) => {
-            console.error(err);
+            this.layout?.addPopup('Ошибка сервера', err.message);
         })
     }
 
     /**
-     * @function _handleAddImage
+     * @function handleAddImage
      * @description Метод обработки события добавления фото
      * @param {File} file файл
+     * @param {string} source адрес фото
      */
-    async _handleAddImage(file: File) {
-        if (typeof this._photosPreviewsCounter !== 'number') {
+    private async handleAddImage(file: File, source: string) {
+        if (typeof this.photosPreviewsCounter !== 'number') {
             return;
         }
-        const localId = this._photosPreviewsCounter;
-        await this._layout?.makeRequest(uploadOfferImage, {
-            offerId: this._offerId,
+        await this.layout?.makeRequest(uploadOfferImage, {
+            offerId: this.offerId,
             image: file
         }).then((data) => {
             if (data) {
-                this._uploadedImages[localId] = {
+                this.addPhotoPreview(file, source, null);
+                const localId = this.photosPreviewsCounter;
+                OfferCreate.setData(this.pageName, this.offerData);
+                this.uploadedImages[localId] = {
                     file,
                     id: data.image_id,
                 }
-                OfferCreate.setImages(this._uploadedImages);
+                OfferCreate.setImages(this.uploadedImages);
             }
         }).catch((err) => {
-            console.error(err);
+            this.layout?.addPopup('Ошибка сервера', err.message);
         })
     }
 
     /**
-     * @function _chooseFilesButtonClickHandler
+     * @function chooseFilesButtonClickHandler
      * @description Метод обработки события клика на кнопку выбора файлов
      * @private
      */
-    _chooseFilesButtonClickHandler() {
+    private chooseFilesButtonClickHandler() {
         const element = document.getElementById('offerCreatePhotosInput') as HTMLInputElement;
         element.click();
     }
 
     /**
-     * @function _getFilesAfterChooseClickHandler
+     * @function getFilesAfterChooseClickHandler
      * @description Метод обработки события выбора файлов
      * @param {Event} event событие выбора файлов
      * @private
      */
-    _getFilesAfterChooseClickHandler(event: Event) {
+    private getFilesAfterChooseClickHandler(event: Event) {
         if (event.target) {
             const target = event.target as HTMLInputElement;
             const files = Array.from(target.files ?? []);
-            this._uploadFiles(files);
+            target.value = '';
+            this.uploadFiles(files);
         }
     }
 
     /**
-     * @function _photoPreviewClickHandler
+     * @function photoPreviewClickHandler
      * @description Обработчик события клика на превью фото
      * @param {Event} event событие клика
      * @private
      */
-    _photoPreviewClickHandler(event: Event,) {
+    private photoPreviewClickHandler(event: Event,) {
         if (!event.target) {
             return;
         }
@@ -232,27 +238,27 @@ export default class OfferEditPhotosPage extends OfferPage {
             event.preventDefault();
 
             const photoPreview = currentTarget.id
-            this._deleteImage(photoPreview).then(() => {
-                delete this._offerData[photoPreview];
-                delete this._uploadedImages[photoPreview];
-                OfferCreate.setData(this._pageName, this._offerData);
-                OfferCreate.setImages(this._uploadedImages);
-                this._markAsFullfilled(Object.keys(this._offerData).length > 0);
+            this.deleteImage(photoPreview).then(() => {
+                delete this.offerData[photoPreview];
+                delete this.uploadedImages[photoPreview];
+                OfferCreate.setData(this.pageName, this.offerData);
+                OfferCreate.setImages(this.uploadedImages);
+                this.markAsFullfilled(Object.keys(this.offerData).length > 0);
                 currentTarget.remove();
             })
         }
     }
 
     /**
-     * @function _setDataFromModel
+     * @function setDataFromModel
      * @description Метод установки данных из модели в инпуты.
      * @private
      */
-    _setDataFromModel() {
-        const _offerData = this._offerData;
-        this._offerData = {};
-        Object.keys(_offerData).forEach(photo => {
-            this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);
+    setDataFromModel() {
+        const offerData = this.offerData;
+        this.offerData = {};
+        Object.keys(offerData).forEach(photo => {
+            this.addPhotoPreview(this.uploadedImages[photo].file, offerData[photo], Number(photo));
         })
     }
 }

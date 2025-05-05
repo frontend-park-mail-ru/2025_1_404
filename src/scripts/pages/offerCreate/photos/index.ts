@@ -11,9 +11,9 @@ import {PageRenderInterface} from "../../page.ts";
  * @augments OfferPage
  */
 export default class OfferCreatePhotosPage extends OfferPage {
-    private _photosPreviewsCounter: number | undefined;
-    private _dropArea: HTMLElement | null | undefined;
-    private _photosPreviewsList: HTMLElement | null | undefined;
+    private photosPreviewsCounter: number | undefined;
+    private dropArea: HTMLElement | null | undefined;
+    private photosPreviewsList: HTMLElement | null | undefined;
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -23,14 +23,15 @@ export default class OfferCreatePhotosPage extends OfferPage {
     render({layout, root}: PageRenderInterface) {
         root.innerHTML = template();
 
-        this._photosPreviewsCounter = 0;
-        this._dropArea = document.getElementById('offerCreatePhotosInputBlock');
-        this._photosPreviewsList = document.getElementById('offerCreatePhotosPreviews');
+        this.photosPreviewsCounter = 0;
+        this.dropArea = document.getElementById('offerCreatePhotosInputBlock');
+        this.photosPreviewsList = document.getElementById('offerCreatePhotosPreviews');
 
         super.render({layout, root});
-        if (Object.keys(this._offerData).length !== 0) {
-            this._setDataFromModel();
+        if (Object.keys(this.offerData).length !== 0) {
+            this.setDataFromModel();
         }
+        this.uploadedImages = {}
     }
 
     /**
@@ -38,83 +39,83 @@ export default class OfferCreatePhotosPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreatePhotosInputBlock', 'dragenter', this._dragAddClassHandler);
-        this.initListener('offerCreatePhotosInputBlock', 'dragover', this._dragAddClassHandler);
-        this.initListener('offerCreatePhotosInputBlock', 'dragleave', this._dragRemoveClassHandler);
-        this.initListener('offerCreatePhotosInputBlock', 'drop', this._dragDropHandler);
-        this.initListener('offerCreatePhotosButton', 'click', this._chooseFilesButtonClickHandler);
-        this.initListener('offerCreatePhotosInput', 'change', this._getFilesAfterChooseClickHandler);
-        this.initListener('offerCreatePhotosPreviews', 'click', this._photoPreviewClickHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'dragenter', this.dragAddClassHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'dragover', this.dragAddClassHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'dragleave', this.dragRemoveClassHandler);
+        this.initListener('offerCreatePhotosInputBlock', 'drop', this.dragDropHandler);
+        this.initListener('offerCreatePhotosButton', 'click', this.chooseFilesButtonClickHandler);
+        this.initListener('offerCreatePhotosInput', 'change', this.getFilesAfterChooseClickHandler);
+        this.initListener('offerCreatePhotosPreviews', 'click', this.photoPreviewClickHandler);
     }
 
     /**
-     * @function _addPhotoPreview
+     * @function addPhotoPreview
      * @description Метод добавления превью фото в список
      * @param {File} file адрес фото
      * @param {string} source объект FileReader
      * @private
      */
-    _addPhotoPreview(file: File, source: string) {
-        if (typeof this._photosPreviewsCounter !== 'number' || !this._photosPreviewsList) {
+    private addPhotoPreview(file: File, source: string) {
+        if (typeof this.photosPreviewsCounter !== 'number' || !this.photosPreviewsList) {
             return;
         }
-        this._photosPreviewsCounter += 1;
-        this._offerData[this._photosPreviewsCounter] = source;
-        this._uploadedImages[this._photosPreviewsCounter] = {
+        this.photosPreviewsCounter += 1;
+        this.offerData[this.photosPreviewsCounter] = source;
+        this.uploadedImages[this.photosPreviewsCounter] = {
             file
         };
-        this._photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this._photosPreviewsCounter, src: source}));
+        this.photosPreviewsList.insertAdjacentHTML('beforeend', offerCreatePhotosPreviewTemplate({index: this.photosPreviewsCounter, src: source}));
     }
 
     /**
-     * @function _dragAddClassHandler
+     * @function dragAddClassHandler
      * @description Метод добавления класса при перетаскивании файла
      * @param {Event} event событие перетаскивания
      * @private
      */
-    _dragAddClassHandler(event: Event) {
+    private dragAddClassHandler(event: Event) {
         event.preventDefault();
-        if (this._dropArea) {
-            this._dropArea.classList.add('offerCreate__photos-hover');
+        if (this.dropArea) {
+            this.dropArea.classList.add('offerCreate__photos-hover');
         }
     }
 
     /**
-     * @function _dragRemoveClassHandler
+     * @function dragRemoveClassHandler
      * @description Метод удаления класса при перетаскивании файла
      * @param {Event} event событие перетаскивания
      * @private
      */
-    _dragRemoveClassHandler(event: Event) {
+    private dragRemoveClassHandler(event: Event) {
         event.preventDefault();
-        if (this._dropArea) {
-            this._dropArea.classList.remove('offerCreate__photos-hover');
+        if (this.dropArea) {
+            this.dropArea.classList.remove('offerCreate__photos-hover');
         }
     }
 
     /**
-     * @function _dragDropHandler
+     * @function dragDropHandler
      * @description Метод обработки события перетаскивания файла
      * @param {Event} event событие перетаскивания
      * @private
      */
-    _dragDropHandler(event: DragEvent) {
+    private dragDropHandler(event: DragEvent) {
         event.preventDefault();
-        if (this._dropArea) {
-            this._dropArea.classList.remove('offerCreate__photos-hover');
+        if (this.dropArea) {
+            this.dropArea.classList.remove('offerCreate__photos-hover');
         }
         if (event.dataTransfer) {
             const files = Array.from(event.dataTransfer.files)
-            this._uploadFiles(files);
+            this.uploadFiles(files);
         }
     }
 
     /**
-     * @function _uploadFiles
+     * @function uploadFiles
      * @param {Array} files массив файлов
      * @private
      */
-    _uploadFiles(files: Array<File>) {
+    private uploadFiles(files: Array<File>) {
         files.forEach((file) => {
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
@@ -124,11 +125,11 @@ export default class OfferCreatePhotosPage extends OfferPage {
                     }
                     const target = event.target as FileReader;
                     if (target.result) {
-                        this._addPhotoPreview(file, target.result.toString());
-                        OfferCreate.setData(this._pageName, this._offerData);
-                        OfferCreate.setImages(this._uploadedImages);
+                        this.addPhotoPreview(file, target.result.toString());
+                        OfferCreate.setData(this.pageName, this.offerData);
+                        OfferCreate.setImages(this.uploadedImages);
 
-                        this._markAsFullfilled(Object.keys(this._offerData).length > 0);
+                        this.markAsFullfilled(Object.keys(this.offerData).length > 0);
                     }
                 };
                 reader.readAsDataURL(file);
@@ -137,36 +138,37 @@ export default class OfferCreatePhotosPage extends OfferPage {
     }
 
     /**
-     * @function _chooseFilesButtonClickHandler
+     * @function chooseFilesButtonClickHandler
      * @description Метод обработки события клика на кнопку выбора файлов
      * @private
      */
-    _chooseFilesButtonClickHandler() {
+    private chooseFilesButtonClickHandler() {
         const element = document.getElementById('offerCreatePhotosInput') as HTMLInputElement;
         element.click();
     }
 
     /**
-     * @function _getFilesAfterChooseClickHandler
+     * @function getFilesAfterChooseClickHandler
      * @description Метод обработки события выбора файлов
      * @param {Event} event событие выбора файлов
      * @private
      */
-    _getFilesAfterChooseClickHandler(event: Event) {
+    private getFilesAfterChooseClickHandler(event: Event) {
         if (event.target) {
             const target = event.target as HTMLInputElement;
             const files = Array.from(target.files ?? []);
-            this._uploadFiles(files);
+            target.value = '';
+            this.uploadFiles(files);
         }
     }
 
     /**
-     * @function _photoPreviewClickHandler
+     * @function photoPreviewClickHandler
      * @description Обработчик события клика на превью фото
      * @param {Event} event событие клика
      * @private
      */
-    _photoPreviewClickHandler(event: Event,) {
+    private photoPreviewClickHandler(event: Event,) {
         if (!event.target) {
             return;
         }
@@ -184,26 +186,26 @@ export default class OfferCreatePhotosPage extends OfferPage {
             event.preventDefault();
 
             const photoPreview = currentTarget.id
-            delete this._offerData[photoPreview];
-            delete this._uploadedImages[photoPreview];
+            delete this.offerData[photoPreview];
+            delete this.uploadedImages[photoPreview];
 
-            OfferCreate.setData(this._pageName, this._offerData);
-            OfferCreate.setImages(this._uploadedImages);
-            this._markAsFullfilled(Object.keys(this._offerData).length > 0);
+            OfferCreate.setData(this.pageName, this.offerData);
+            OfferCreate.setImages(this.uploadedImages);
+            this.markAsFullfilled(Object.keys(this.offerData).length > 0);
             currentTarget.remove();
         }
     }
 
     /**
-     * @function _setDataFromModel
+     * @function setDataFromModel
      * @description Метод установки данных из модели в инпуты.
      * @private
      */
-    _setDataFromModel() {
-        const _offerData = this._offerData;
-        this._offerData = {};
-        Object.keys(_offerData).forEach(photo => {
-            this._addPhotoPreview(this._uploadedImages[photo].file, _offerData[photo]);
+    setDataFromModel() {
+        const offerData = this.offerData;
+        this.offerData = {};
+        Object.keys(offerData).forEach(photo => {
+            this.addPhotoPreview(this.uploadedImages[photo].file, offerData[photo]);
         })
     }
 }

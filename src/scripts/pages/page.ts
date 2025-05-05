@@ -100,12 +100,12 @@ export class Page {
      */
     showApiError(error: Error) {
         const apiError = document.getElementById('api-error') as HTMLElement;
-        apiError.textContent = error.message;
+        apiError.textContent = 'Ошибка: '.concat(error.message);
         apiError.classList.add('error__visible');
     }
 
     /**
-     * @function _validateFormFields
+     * @function validateFormFields
      * @description Метод валидации полей формы
      * @param {HTMLElement} formElement элемент формы
      * @returns {boolean} true, если форма валидна, иначе false
@@ -116,7 +116,10 @@ export class Page {
 
         inputFields.forEach((input) => {
             const errorText = validateFormInput(input, false);
-            const errorField = input.nextElementSibling;
+            let errorField = input.nextElementSibling;
+            if ((input.dataset.clearfield || input.dataset.passwordfield) && input.parentElement) {
+                errorField = input.parentElement.nextElementSibling;
+            }
 
             if (!errorField) {
                 return;
@@ -152,6 +155,7 @@ export class Page {
      * @returns {boolean} true, если поле валидно, иначе false
      * @private
      */
+    // eslint-disable-next-line max-statements
     formInputHandler(event: Event, required=true) : boolean {
         if (!event.target) {
             return false;
@@ -163,8 +167,32 @@ export class Page {
         }
 
         const errorText = validateFormInput(target, true, required);
-        const errorField = target.nextElementSibling as HTMLElement;
+        let errorField = target.nextElementSibling;
+        if ((target.dataset.clearfield || target.dataset.passwordfield) && target.parentElement) {
+            errorField = target.parentElement.nextElementSibling;
+        }
+        if (!errorField) {
+            return false;
+        }
         if (errorText === "") {
+
+            let leftField: HTMLInputElement | null = null;
+            let rightField: HTMLInputElement | null = null;
+            if (target.id.endsWith('Left__input')) {
+                leftField = target;
+                rightField = document.getElementById(target.id.replace('Left__input', 'Right__input')) as HTMLInputElement;
+            }
+            if (target.id.endsWith('Right__input')) {
+                rightField = target;
+                leftField = document.getElementById(target.id.replace('Right__input', 'Left__input')) as HTMLInputElement;
+            }
+            if (leftField && rightField && parseInt(leftField.value, 10) > parseInt(rightField.value, 10)) {
+                rightField.classList.add('input__invalid');
+                errorField.classList.add('error__visible');
+                errorField.textContent = 'Нижняя граница больше верхней границы';
+                return false;
+            }
+
             target.classList.remove('input__invalid');
             errorField.classList.remove('error__visible');
             errorField.textContent = errorText;

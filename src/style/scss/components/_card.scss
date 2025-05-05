@@ -1,12 +1,24 @@
 @use "../abstracts/variables" as *;
 .card {
-  width: calc(100% / 4 - 20px);
+  width: calc(100% / 4 - 1.6em);
   display: flex;
   flex-direction: column;
   border-radius: 12px;
   position: relative;
   border: 1px solid $light-grey;
   transition: .2s linear;
+
+  @media (max-width: 1100px) {
+    width: calc(100% / 3 - 1.6em);
+  }
+
+  @media (max-width: 760px) {
+    width: calc(100% / 2 - 1.6em);
+  }
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 
   &:hover {
     border-color: $blue-hover;
@@ -51,11 +63,30 @@
   &__price {
     font-size: 1.375em;
     font-weight: 700;
+
+    @media (max-width: 500px) {
+      font-size: 1.1em;
+    }
+
+    @media (max-width: 400px) {
+      font-size: 1em;
+    }
+
   }
 
   &__info ul {
     display: flex;
     gap: 0.35em;
+
+    @media (max-width: 500px) {
+      flex-direction: column;
+    }
+
+    li {
+      @media (max-width: 500px) {
+        font-size: 14px;
+      }
+    }
   }
 
   &__metro {
@@ -63,9 +94,25 @@
     flex-direction: row;
     align-items: center;
     gap: 5px;
+
+    @media (max-width: 500px) {
+      display: none;
+    }
   }
 
   &__address {
     color: $grey;
+
+    @media (max-width: 500px) {
+      display: none;
+    }
+  }
+}
+
+.search__card {
+  width: calc(100% / 2 - 20px);
+
+  @media (max-width: 900px) {
+    width: calc(100% - 20px);
   }
 }

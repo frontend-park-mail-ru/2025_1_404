@@ -11,6 +11,10 @@
   justify-content: space-between;
   align-items: center;
   height: 4.375em;
+
+  @media (max-width: 730px) {
+    justify-content: center;
+  }
 }
 
 
@@ -20,6 +24,10 @@
   align-items: center;
   height: 2.5em;
   gap: 1em;
+
+  @media (max-width: 730px) {
+    display: none;
+  }
 }
 
 .header__icons {

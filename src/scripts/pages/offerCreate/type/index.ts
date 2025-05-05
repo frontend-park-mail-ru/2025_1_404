@@ -20,11 +20,11 @@ export default class OfferCreateTypePage extends OfferPage {
         root.innerHTML = template();
         super.render({layout, root});
 
-        if (Object.keys(this._offerData).length !== 0) {
-            this._setDataFromModel();
+        if (Object.keys(this.offerData).length !== 0) {
+            this.setDataFromModel();
             return;
         }
-        this._initReadTypeData();
+        this.initReadTypeData();
     }
 
     /**
@@ -32,66 +32,66 @@ export default class OfferCreateTypePage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreateChoices', 'change', this._offerDataChange);
+        this.initListener('offerCreateChoices', 'change', this.offerDataChange);
     }
 
     /**
-     * @function _initReadTypeData
+     * @function initReadTypeData
      * @description Метод инициализации данных для страницы выбора типа сделки.
      * @private
      */
-    _initReadTypeData() {
+    private initReadTypeData() {
         const offerCreateChoices = document.getElementById("offerCreateChoices") as HTMLElement;
         const selects = offerCreateChoices.querySelectorAll('input:checked');
         selects.forEach(input => {
             const inputElement = input as HTMLFormElement;
-            this._offerData[inputElement.name] = inputElement.labels[0].textContent;
+            this.offerData[inputElement.name] = inputElement.labels[0].textContent;
         })
-        OfferCreate.setData(this._pageName, this._offerData);
+        OfferCreate.setData(this.pageName, this.offerData);
     }
 
     /**
-     * @function _setDataFromModel
+     * @function setDataFromModel
      * @description Метод установки данных из модели в инпуты.
      * @private
      */
-    _setDataFromModel() {
+    setDataFromModel() {
         const offerCreateChoices = document.getElementById("offerCreateChoices") as HTMLElement;
         const selects = offerCreateChoices.querySelectorAll('input') as NodeListOf<HTMLElement>;
         selects.forEach(input => {
             const inputElement = input as HTMLFormElement;
-            if (inputElement.labels[0].textContent === this._offerData[inputElement.name]) {
+            if (inputElement.labels[0].textContent === this.offerData[inputElement.name]) {
                 inputElement.checked = true;
             }
         })
     }
 
     /**
-     * @function _offerDataChange
+     * @function offerDataChange
      * @description Метод изменения данных в модели.
      * @param {Event} event событие
      * @returns {Promise<void>} промис
      * @private
      */
-    _offerDataChange(event: Event) {
-        const response = super._offerDataChange(event);
+    offerDataChange(event: Event) {
+        const response = super.offerDataChange(event);
 
         const target = event.target as HTMLInputElement;
         if (target.labels && target.labels[0].textContent) {
-            this._offerData[target.name] = target.labels[0].textContent;
-            this._handleRentType();
+            this.offerData[target.name] = target.labels[0].textContent;
+            this.handleRentType();
         }
-        OfferCreate.setData(this._pageName, this._offerData);
-        OfferCreate.setPageFilled(this._pageName, this._isInputsFilled());
+        OfferCreate.setData(this.pageName, this.offerData);
+        OfferCreate.setPageFilled(this.pageName, this.isInputsFilled());
 
         return response;
     }
 
     /**
-     * @function _handleRentType
+     * @function handleRentType
      * @description Метод обработки типа аренды.
      */
-    _handleRentType() {
+    private handleRentType() {
         const activeOffetTypeCheckbox = document.querySelector('[name="input-offer-type"]:checked') as HTMLInputElement;
         if (!activeOffetTypeCheckbox || !activeOffetTypeCheckbox.parentElement) {
             return;

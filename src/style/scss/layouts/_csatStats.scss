@@ -1,0 +1,136 @@
+@use "../abstracts/variables" as *;
+
+.csatStats {
+  height: 100%;
+  background-color: $grey3;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-top: 1.25em;
+    padding-bottom: 3.5em;
+
+    @media (max-width: 730px) {
+      padding-bottom: 5em;
+    }
+  }
+
+  &__title {
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &-block {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      min-height: 90px;
+
+      &-title {
+        font-size: 18px;
+      }
+
+      &-btns {
+        display: flex;
+        gap: 10px;
+      }
+    }
+
+    &-unactive {
+      display: none;
+    }
+
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &-title, &-empty {
+      font-size: 28px;
+      font-weight: 600;
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &-avg {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &-header {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-block {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+
+        &-title {
+          font-size: 22px;
+          font-weight: 600;
+        }
+
+        &-text {
+          font-size: 18px;
+          font-weight: 600;
+        }
+      }
+
+      &-elem {
+        display: flex;
+        gap: 25px;
+
+        &-left {
+          .fa-solid {
+            color: $orange;
+          }
+
+          .fa-star {
+            font-size: 28px;
+          }
+        }
+
+        &-right {
+          display: flex;
+          gap: 10px;
+
+          &-block {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          }
+
+          &-title {
+            font-size: 22px;
+            font-weight: 600;
+          }
+
+          &-text {
+            font-size: 18px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}

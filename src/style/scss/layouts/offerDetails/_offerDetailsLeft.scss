@@ -5,10 +5,15 @@
   flex-direction: column;
   gap: 20px;
 
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
+
   &-slider {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
 
     img {
       width: 100%;
@@ -16,7 +21,7 @@
     }
   }
 
-  &-description {
+  &-block {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -24,16 +29,44 @@
     &-title {
       font-size: 28px;
       font-weight: 600;
+
+      @media (max-width: 730px) {
+        font-size: 22px;
+      }
+    }
+
+    &-href {
+      width: 50%;
+      margin: 0 auto;
     }
 
     &-text {
       color: $grey;
       line-height: 24px;
+      overflow-wrap: break-word;
+
+      @media (max-width: 730px) {
+        font-size: 14px;
+      }
     }
   }
 
   &-map {
     width: 100%;
     height: 30em;
+  }
+
+  &-graph {
+    position: relative;
+
+    &-canvas {
+      width: 100%;
+      height: auto;
+    }
+
+    &-popup-wrapper {
+      position: absolute;
+      transform: translate(-50%, -100%);
+    }
   }
 }

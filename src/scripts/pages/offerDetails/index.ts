@@ -4,6 +4,7 @@ import {getOfferById} from "../../util/apiUtil.ts";
 import offerDetailsHeaderTemplate from "../../components/offerDetailsHeader/template.precompiled.js";
 import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template.precompiled.js";
 import offerDetailsSliderTemplate from "../../components/offerDetailsLeft/template.precompiled.js";
+import picturesCarouselPreviewsTemplate from "../../components/picturesCarouselPreviews/template.precompiled.js";
 import template from "./template.precompiled.js";
 import Map from "../../models/map";
 import OfferDetailsLeft from "../../components/offerDetailsLeft";
@@ -11,6 +12,10 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import PageManager from "../../managers/pageManager.ts";
+import User from "../../models/user.ts";
+import OfferDetailsInfo from "../../components/offerDetailsInfo";
+import OfferMock from "../../models/offerMock.ts";
+import {CSATType} from "../../components/csat";
 
 /**
  * @class offerDetailsPage
@@ -19,8 +24,10 @@ import PageManager from "../../managers/pageManager.ts";
  */
 export default class OfferDetailsPage extends Page {
     private map: Map | undefined;
-    private _offerDetailsLeft: OfferDetailsLeft | undefined;
-    private _layout: BaseLayout | undefined;
+    private offerDetailsLeft: OfferDetailsLeft | undefined;
+    private offerDetailsInfo: OfferDetailsInfo | undefined;
+    private layout: BaseLayout | undefined;
+    private offerId: number | null | undefined;
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -28,54 +35,131 @@ export default class OfferDetailsPage extends Page {
      * @param {BaseLayout} layout макет страницы
      * @param {Record<string, unknown>} props параметры страницы
      */
+    // eslint-disable-next-line max-lines-per-function
     render({layout, root, props}: PageRenderInterface) {
         if (!props || typeof props.id !== 'number') {
             return;
         }
-        this._layout = layout;
-        root.innerHTML = template();
+
+        const isMobile = window.innerWidth <= 730;
+
+        this.layout = layout;
+        root.innerHTML = template({isMobile});
         super.render({layout, root});
-        this._getOfferById(props.id)
+
+        this.getOfferById(props.id)
+            // eslint-disable-next-line max-statements
         .then ((data) => {
             const offer = new Offer();
+            this.offerId = offer.id;
             offer.parseJSON(data);
             const offerDetailsHeader = document.getElementById("offerDetailsHeader") as HTMLElement;
             const offerDetailsLeft = document.getElementById("offerDetailsLeft") as HTMLElement;
-            if (this._offerDetailsLeft !== null) {
-                offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images});
+            const offerMobilePreview = document.getElementById("offerDetailsMobilePreview") as HTMLElement;
+
+            if (this.offerDetailsLeft !== null) {
+                offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images, isMobile});
+            }
+            if (offerMobilePreview !== null) {
+                offerMobilePreview.innerHTML = picturesCarouselPreviewsTemplate({images: offer.images});
             }
 
             const offerDetailsInfo = document.getElementById("offerDetailsInfo") as HTMLElement;
-            offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
-            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms: offer.rooms, area: offer.area, floor: offer.floor, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
+            let rooms = offer.rooms;
+            if (rooms === 'много') {
+                rooms = '4+';
+            }
+            offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({propertyType: offer.propertyType.toLowerCase(), inMultipleForm: offer.propertyType.toLowerCase() === 'апартаменты', isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
+            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({offerId: offer.id, price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
 
-            this._offerDetailsLeft = new OfferDetailsLeft({page: this, layout});
+            super.render({layout, root});
 
-            let coords: [number, number] = [55.557729, 37.313484];
+            this.offerDetailsLeft = new OfferDetailsLeft({page: this, layout, priceHistory: offer.priceHistory});
+            this.offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
+
+            this.offerDetailsInfo?.likeButton.updateDetails({
+                isLiked: data.offer_data.offer_stat.likes_stat.is_liked,
+                count: data.offer_data.offer_stat.likes_stat.amount
+            })
+
+            let coords: [number, number] = [offer.logitude, offer.latitude];
             this.map = new Map({center: coords, id: 'offerDetailsMap', zoom: 15});
-            this.map.geoCode(offer.address).then(() => {
-                if (this.map) {
-                    coords = this.map.getCenter();
-                    this.map.addHouse({coords});
-                }
-            });
-        })
+            this.map.addHouse({coords});
+
+            const offerSellerBtns = document.getElementById("offerDetailsSellerBtns") as HTMLElement;
+            const offerUserBtns = document.getElementById("offerDetailsUserBtns") as HTMLElement;
+
+            const offerLike = document.getElementById("offerDetailsLike") as HTMLElement;
+            // const offerStats = document.getElementById("offerDetailsStats") as HTMLElement;
+
+            if (User.getData()?.id === offer.seller.id) {
+                offerSellerBtns.classList.add("active");
+                // offerStats.classList.add("active");
+            } else {
+                offerUserBtns.classList.add("active");
+                offerLike.classList.add("active");
+            }
+        });
     }
 
     /**
-     * @function _getOfferById
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
+    initListeners() {
+        this.initListener('offerDetailsSellerBtns', 'click', this.offerSellerBtnsHandler);
+        this.initListener('offerDetailsUserBtns', 'click', this.offerUserBtnsHandler);
+    }
+
+    /**
+     * @function offerUserBtnsHandler
+     * @description Метод обработки клика по кнопкам пользователя.
+     * @param {Event} event событие
+     */
+    private offerUserBtnsHandler(event: Event) {
+        event.preventDefault();
+        const target = event.target as HTMLElement;
+        if (!target) {
+            return;
+        }
+        if (!User.isAuthenticated()) {
+            this.layout?.emit('showLogin');
+        }
+    }
+
+    /**
+     * @function offerSellerBtnsHandler
+     * @description Метод обработки клика по кнопкам продавца.
+     * @param {Event} event событие
+     */
+    private offerSellerBtnsHandler(event: Event) {
+        event.preventDefault();
+        const target = event.target as HTMLElement;
+        if (!target) {
+            return;
+        }
+        if (!User.isAuthenticated()) {
+            this.layout?.emit('showLogin');
+        }
+    }
+
+    /**
+     * @function getOfferById
      * @description Метод получения объявления по id.
      * @param {number} id id объявления
      * @returns {Promise<null | void>} промис с данными объявления.
      * @private
      */
-    _getOfferById(id: number) {
-        if (!this._layout) {
+    private getOfferById(id: number){
+        if (!this.layout) {
             return Promise.reject(new Error('Layout is not defined'));
         }
-        return this._layout.makeRequest(getOfferById, id)
-            .then((data) => data)
+        return this.layout.makeRequest(getOfferById, id)
+            .then((data) => {
+                return data;
+            })
             .catch ((error) => {
+
                 PageManager.renderPage('404');
                 throw error;
             });

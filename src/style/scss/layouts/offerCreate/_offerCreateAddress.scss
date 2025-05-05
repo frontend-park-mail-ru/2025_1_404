@@ -6,19 +6,35 @@
   gap: 20px;
 
   &-form {
-    display: grid;
-    grid-template-columns: 45% 30% 15%;
+    display: flex;
+    gap: 20px;
     justify-content: space-between;
+
+    @media (max-width: 730px) {
+      flex-direction: column;
+    }
+  }
+
+  &-address {
+    width: 60%;
+
+    @media (max-width: 730px) {
+      width: 100%;
+    }
   }
 
   &-inputs-floor {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    width: 100%;
+    width: 60%;
     align-content: center;
     justify-content: center;
     vertical-align: center;
+
+    @media (max-width: 730px) {
+      width: 100%;
+    }
 
     span {
       font-size: 32px;
@@ -26,12 +42,11 @@
     }
   }
 
-  &-floor {
-
-  }
-
   &-map {
-    width: 100%;
-    height: 100%;
+    //width: 99%;
+    height: 250px;
+    @media (max-width: 500px) {
+      height: 350px;
+    }
   }
 }

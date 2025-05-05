@@ -1,0 +1,24 @@
+@use "../../abstracts/variables" as *;
+
+.submitModal {
+  &__title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.375em;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+  }
+}

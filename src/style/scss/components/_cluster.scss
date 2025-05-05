@@ -1,0 +1,22 @@
+@use "../abstracts/variables" as *;
+
+.cluster {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $blue;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  position: absolute;
+  left: -21px;
+  top: -24px;
+
+  &:hover {
+    background: $blue-hover;
+    cursor: pointer;
+  }
+}

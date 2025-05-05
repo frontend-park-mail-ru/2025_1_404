@@ -7,9 +7,9 @@ import {BaseComponent, BaseComponentInterface} from "../baseComponent.ts";
  */
 export default class OfferCreateNav extends BaseComponent {
 
-    _emptyStageClass = "fa-regular fa-circle"
-    _currentStageClass = "fa-regular fa-circle-dot";
-    _filledStageClass = "fa-solid fa-circle-check";
+    private emptyStageClass = "fa-regular fa-circle"
+    private currentStageClass = "fa-regular fa-circle-dot";
+    private filledStageClass = "fa-solid fa-circle-check";
 
     /**
      * @description Конструктор класса.
@@ -25,20 +25,20 @@ export default class OfferCreateNav extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('typePageButton', 'click', this._typePageButtonHandler);
-        this.initListener('addressPageButton', 'click', this._addressPageButtonHandler);
-        this.initListener('paramsPageButton', 'click', this._paramsPageButtonHandler);
-        this.initListener('pricePageButton', 'click', this._pricePageButtonHandler);
-        this.initListener('photosPageButton', 'click', this._photosPageButtonHandler);
-        this.initListener('descriptionPageButton', 'click', this._descriptionPageButtonHandler);
+        this.initListener('typePageButton', 'click', this.typePageButtonHandler);
+        this.initListener('addressPageButton', 'click', this.addressPageButtonHandler);
+        this.initListener('paramsPageButton', 'click', this.paramsPageButtonHandler);
+        this.initListener('pricePageButton', 'click', this.pricePageButtonHandler);
+        this.initListener('photosPageButton', 'click', this.photosPageButtonHandler);
+        this.initListener('descriptionPageButton', 'click', this.descriptionPageButtonHandler);
     }
 
     /**
-     * @function _typePageButtonHandler
+     * @function typePageButtonHandler
      * @description Обработчик события перехода на страницу выбора типа сделки
      * @private
      */
-    _typePageButtonHandler() {
+    private typePageButtonHandler() {
         if (!this.layout) {
             return;
         }
@@ -46,11 +46,11 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @function _addressPageButtonHandler
+     * @function addressPageButtonHandler
      * @description Обработчик события перехода на страницу выбора адреса
      * @private
      */
-    _addressPageButtonHandler() {
+    private addressPageButtonHandler() {
         if (!this.layout) {
             return;
         }
@@ -58,11 +58,11 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @function _paramsPageButtonHandler
+     * @function paramsPageButtonHandler
      * @description Обработчик события перехода на страницу выбора параметров
      * @private
      */
-    _paramsPageButtonHandler() {
+    private paramsPageButtonHandler() {
         if (!this.layout) {
             return;
         }
@@ -70,11 +70,11 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @function _pricePageButtonHandler
+     * @function pricePageButtonHandler
      * @description Обработчик события перехода на страницу выбора цены
      * @private
      */
-    _pricePageButtonHandler() {
+    private pricePageButtonHandler() {
         if (!this.layout) {
             return;
         }
@@ -82,11 +82,11 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @function _photosPageButtonHandler
+     * @function photosPageButtonHandler
      * @description Обработчик события перехода на страницу выбора фотографий
      * @private
      */
-    _photosPageButtonHandler() {
+    private photosPageButtonHandler() {
         if (!this.layout) {
             return;
         }
@@ -94,11 +94,11 @@ export default class OfferCreateNav extends BaseComponent {
     }
 
     /**
-     * @function _descriptionPageButtonHandler
+     * @function descriptionPageButtonHandler
      * @description Обработчик события перехода на страницу с полем описания
      * @private
      */
-    _descriptionPageButtonHandler() {
+    private descriptionPageButtonHandler() {
         if (!this.layout) {
             return;
         }
@@ -117,13 +117,13 @@ export default class OfferCreateNav extends BaseComponent {
         if (!stage) {
             return;
         }
-        this._emptyStageClass.split(" ").forEach(stageClass => {
+        this.emptyStageClass.split(" ").forEach(stageClass => {
             stage.classList.remove(stageClass);
         })
-        this._filledStageClass.split(" ").forEach(stageClass => {
+        this.filledStageClass.split(" ").forEach(stageClass => {
             stage.classList.remove(stageClass);
         })
-        this._currentStageClass.split(" ").forEach(stageClass => {
+        this.currentStageClass.split(" ").forEach(stageClass => {
             stage.classList.add(stageClass);
         })
     }
@@ -134,7 +134,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @param {Array} ids массив идентификаторов стадий.
      */
     addFilledStageClass(ids: Array<string>) {
-        this._fillRectangles(ids.length);
+        this.fillRectangles(ids.length);
         ids.forEach(id => {
             const buttonId = id.concat("PageButton");
             const button = document.getElementById(buttonId) as HTMLElement;
@@ -142,13 +142,13 @@ export default class OfferCreateNav extends BaseComponent {
             if (!stage) {
                 return;
             }
-            this._currentStageClass.split(" ").forEach(stageClass => {
+            this.currentStageClass.split(" ").forEach(stageClass => {
                 stage.classList.remove(stageClass);
             })
-            this._emptyStageClass.split(" ").forEach(stageClass => {
+            this.emptyStageClass.split(" ").forEach(stageClass => {
                 stage.classList.remove(stageClass);
             })
-            this._filledStageClass.split(" ").forEach(stageClass => {
+            this.filledStageClass.split(" ").forEach(stageClass => {
                 stage.classList.add(stageClass);
             })
         })
@@ -166,24 +166,24 @@ export default class OfferCreateNav extends BaseComponent {
         if (!stage) {
             return;
         }
-        this._filledStageClass.split(" ").forEach(stageClass => {
+        this.filledStageClass.split(" ").forEach(stageClass => {
             stage.classList.remove(stageClass);
         })
-        this._currentStageClass.split(" ").forEach(stageClass => {
+        this.currentStageClass.split(" ").forEach(stageClass => {
             stage.classList.remove(stageClass);
         })
-        this._emptyStageClass.split(" ").forEach(stageClass => {
+        this.emptyStageClass.split(" ").forEach(stageClass => {
             stage.classList.add(stageClass);
         })
     }
 
     /**
-     * @function _fillRectangles
+     * @function fillRectangles
      * @description Метод заполнения прямоугольников на панели навигации.
      * @param {number} amount количество заполненных прямоугольников.
      * @private
      */
-    _fillRectangles(amount: number) {
+    private fillRectangles(amount: number) {
         const minAmount = 5;
         const correctedAmount = Math.min(amount, minAmount);
         const rectangles = document.getElementsByClassName("offerCreate__nav-rect");

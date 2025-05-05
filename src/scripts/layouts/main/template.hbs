@@ -1,8 +1,8 @@
 {{#> BaseLayout}}
     {{> Header }}
     {{> HeaderAuthorized }}
-    {{> Login }}
-    <div class="main">
+    <div class="main {{#if grey}}main__grey{{/if}}">
         {{> @partial-block }}
     </div>
+    {{> BottomNavigationBar }}
 {{/BaseLayout}}

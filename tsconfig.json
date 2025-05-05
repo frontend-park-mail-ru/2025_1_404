@@ -19,8 +19,9 @@
     "lib": [
       "ESNext",
       "WebWorker",
-      "dom"
-    ]
+      "DOM"
+    ],
+    "types": ["node", "@yandex/ymaps3-types"],
   },
 
   "include": ["src/**/*.ts", "src/**/*.d.ts", "tools/**/*.ts"],

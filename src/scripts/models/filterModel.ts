@@ -4,19 +4,19 @@
  * @description Модель для хранения фильтров.
  */
 class FilterModel {
-    private _filterData: Record<string, string>;
+    private filterData: Record<string, string>;
     /**
      * @description Конструктор класса.
      */
     constructor() {
-        this._filterData = {
+        this.filterData = {
             "filterOfferType": '',
             "filterPropertyType": '',
-            "filterPriceLeft": '',
-            "filterPriceRight": '',
-            "filterSquareLeft": '',
-            "filterSquareRight": '',
-            "filterInputAddress": '',
+            "filterPriceLeft__input": '',
+            "filterPriceRight__input": '',
+            "filterSquareLeft__input": '',
+            "filterSquareRight__input": '',
+            "filterInputAddress__input": '',
         };
     }
 
@@ -26,7 +26,7 @@ class FilterModel {
      * @returns {*|{}} возвращает объект с данными фильтров.
      */
     getFilterData() {
-        return this._filterData;
+        return this.filterData;
     }
 
     /**
@@ -36,7 +36,7 @@ class FilterModel {
      * @param {*} data данные, которые нужно сохранить в фильтр.
      */
     setData(filterName: string, data: string) {
-        this._filterData[filterName] = data;
+        this.filterData[filterName] = data;
     }
 
 }

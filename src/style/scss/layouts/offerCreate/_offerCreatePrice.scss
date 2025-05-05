@@ -5,11 +5,15 @@
   gap: 25px;
 
   &-calculation {
-    background-color: $profile-bg;
+    background-color: $grey3;
     padding: 22px 25px;
     display: flex;
     flex-direction: column;
     gap: 25px;
+
+    @media (max-width: 500px) {
+      padding: 15px 20px;
+    }
 
     &-text {
       display: flex;
@@ -20,6 +24,10 @@
     &-title {
       font-size: 22px;
       font-weight: 600;
+
+      @media (max-width: 500px) {
+        font-size: 18px;
+      }
     }
 
     &-block {
@@ -27,27 +35,60 @@
       border-radius: 8px;
       padding: 15px 15px;
       display: flex;
-      gap: 225px;
+      justify-content: space-evenly;
+
+      @media (max-width: 630px) {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
     }
 
     &-info {
       display: flex;
       flex-direction: column;
       gap: 10px;
+
+      @media (max-width: 630px) {
+        align-items: center;
+      }
+
     }
 
     &-price {
       font-size: 22px;
       font-weight: 600;
+
+      @media (max-width: 500px) {
+        font-size: 18px;
+      }
     }
 
     &-label {
       display: flex;
       flex-direction: column;
+
+      @media (max-width: 630px) {
+        text-align: center;
+      }
+
+      @media (max-width: 500px) {
+        font-size: 14px;
+      }
+    }
+
+    &-descr {
+      @media (max-width: 500px) {
+        font-size: 14px;
+      }
     }
   }
 
   &-input {
     max-width: 40%;
+
+    @media (max-width: 730px) {
+      max-width: 75%;
+    }
   }
 }

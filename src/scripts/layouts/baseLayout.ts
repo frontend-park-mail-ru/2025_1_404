@@ -4,6 +4,10 @@ import ProgressBar from "../components/progressBar";
 import RouteManager from "../managers/routeManager/routeManager.ts";
 import User from "../models/user.ts";
 import {updateCSRF} from "../util/apiUtil.ts";
+import SubmitModal from "../components/baseModal";
+import Popup from "../components/popup";
+import CsatUtil from "../util/csatUtil.ts";
+import Csat, {CSATType} from "../components/csat";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EventCallback = (...args: any[]) => void;
@@ -15,8 +19,11 @@ type EventCallback = (...args: any[]) => void;
 export class BaseLayout {
     private events: Record<string, EventCallback | null>;
     private handlers: Array<{ element: HTMLElement; handler: EventListenerOrEventListenerObject; type: keyof HTMLElementEventMap | string }>;
-    private _progressBar: ProgressBar | undefined;
-    private _loader: Loader | undefined;
+    private progressBar: ProgressBar | undefined;
+    private loader: Loader | undefined;
+    private page: Page | undefined;
+    protected submitForm: SubmitModal | undefined;
+    private csat: Csat | undefined;
     /**
      * @description Конструктор класса.
      */
@@ -34,14 +41,17 @@ export class BaseLayout {
     process(page: Page) {
         return {
             destroy: () => {
+                this.csat?.destroy();
                 this.removeListeners();
                 page.destroy();
             },
             render: ({root, props}: PageRenderInterface) => {
-                this.initListeners();
-
-                this._progressBar = new ProgressBar({layout: this, page});
-                this._loader = new Loader({layout: this, page});
+                this.progressBar = new ProgressBar({layout: this, page});
+                this.loader = new Loader({layout: this, page});
+                this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
+                this.page = page;
+                this.csat = new Csat({page, layout: this});
+                this.csat.hide();
 
                 page.render({
                     layout: this,
@@ -49,6 +59,7 @@ export class BaseLayout {
                     root
                 });
 
+                this.initListeners();
                 this.loadUser();
             },
             handlers: page.handlers,
@@ -63,6 +74,31 @@ export class BaseLayout {
         }
     }
 
+    processCSAT({type, event}: {type: CSATType, event: string}) {
+        this.makeRequest(CsatUtil.getEventDetails.bind(CsatUtil), event).then((data) => {
+            if (data.length === 0) {
+                return;
+            }
+            this.csat?.show({
+                type,
+                title: data[0].text,
+                questionId: data[0].id
+            })
+
+        })
+    }
+
+    /**
+     * @function setLoaderStatus
+     * @description Метод установки статуса загрузчика.
+     * @param {boolean} status статус загрузчика.
+     */
+    setLoaderStatus(status: boolean) {
+        if (this.loader) {
+            this.loader.setLoaderStatus(status);
+        }
+    }
+
     /**
      * @function loadUser
      * @description Метод загрузки пользователя.
@@ -71,14 +107,43 @@ export class BaseLayout {
         if (User.isLoaded()) {
             return;
         }
-        if (this._loader) {
-            this._loader.setLoaderStatus(true);
+        if (this.loader) {
+            this.loader.setLoaderStatus(true);
         }
         updateCSRF().finally(() => {
             User.update().finally(() => {
                 RouteManager.navigateToPageByCurrentURL();
             });
         })
+    }
+
+    /**
+     * @function addPopup
+     * @description Метод добавления попапа.
+     * @param {string} title - заголовок попапа.
+     * @param {string} details - детали попапа.
+     */
+    addPopup(title: string, details: string) {
+        if (!this.page) {
+            return;
+        }
+        const popup = new Popup({
+            layout: this,
+            page: this.page
+        });
+        const popups = document.querySelector('.popups');
+        if (!popups) {
+            return;
+        }
+        const totalPopups = popups.querySelectorAll('.popup');
+        if (totalPopups.length >= 3) {
+            const firstPopup = totalPopups[0];
+            firstPopup.remove();
+        }
+        popups.insertAdjacentHTML('beforeend', popup.render({
+            title,
+            details
+        }));
     }
 
     /**
@@ -118,6 +183,7 @@ export class BaseLayout {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
+        this.initListener('popups', 'click', this.onPopupClickHandler);
     }
 
     /**
@@ -150,6 +216,24 @@ export class BaseLayout {
     }
 
     /**
+     * @function onPopupClickHandler
+     * @description Метод обработки клика по попапу.
+     * @param {Event} event событие.
+     */
+    onPopupClickHandler(event: Event) {
+        let target = event.target as HTMLElement;
+        while (target.parentElement && !(target.classList.contains('popup') || target.classList.contains('popup__close'))) {
+            target = target.parentElement;
+        }
+        if (target.classList.contains('popup__close')) {
+            const popup = target.closest('.popup');
+            if (popup) {
+                popup.remove();
+            }
+        }
+    }
+
+    /**
      * @function makeRequest
      * @description Метод выполнения запроса.
      * @param {Function} func функция запроса.
@@ -157,18 +241,17 @@ export class BaseLayout {
      * @returns {Promise<void>} Promise, который будет выполнен после завершения запроса.
      */
     async makeRequest<TArgs extends unknown[], TReturn>(func: (...args: TArgs) => Promise<TReturn>, ...args: TArgs) {
-        if (this._progressBar) {
-            this._progressBar.setPercentage(30);
+        if (this.progressBar) {
+            this.progressBar.setPercentage(30);
         }
         return await func(...args)
             .then((data) => data)
             .catch((err: Error) => {
                 throw err;
             }).finally(() => {
-                if (this._progressBar) {
-                    this._progressBar.setPercentage(100);
+                if (this.progressBar) {
+                    this.progressBar.setPercentage(100);
                 }
             })
     }
-
 }

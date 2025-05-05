@@ -4,6 +4,9 @@ import Login from "../../components/login";
 import {Page, PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
+import SubmitModal from "../../components/submitModal";
+import {deleteOffer} from "../../util/apiUtil.ts";
+import BottomNavigationBar from "../../components/bottomNavigationBar";
 
 /**
  * @class MainLayout
@@ -11,28 +14,71 @@ import User from "../../models/user.ts";
  * @augments BaseLayout
  */
 export default class MainLayout extends BaseLayout {
-    private _loginForm: Login | undefined;
-    private _header: Header | undefined;
+    private loginForm: Login | undefined;
+    private header: Header | undefined;
+    private bottomNavigationBar: BottomNavigationBar | undefined;
     /**
      * @description Конструктор класса.
      */
+    // eslint-disable-next-line max-lines-per-function
     constructor() {
         super();
 
         this.on('showLogin', () => {
-            if (this._loginForm) {
-                this._loginForm.setShowLogin(true);
+            if (this.loginForm) {
+                this.loginForm.setShowModal(true);
             }
-        })
+        });
 
         this.on('logout', () => {
-            this.setHeaderStatus(false);
             RouteManager.navigateTo('/');
-        })
+        });
 
         this.on('login', () => {
-            this.setHeaderStatus(true);
-        })
+            RouteManager.navigateToPageByCurrentURL();
+        });
+
+        this.on('tryExit', () => {
+            if (this.submitForm && this.submitForm instanceof SubmitModal) {
+                this.submitForm.showSubmitForm({
+                    title: 'Вы точно хотите выйти?',
+                    submitButtonName: 'Выйти',
+                    submitButtonClass: 'red',
+                    denyButtonName: 'Отмена',
+                    denyButtonClass: 'light',
+                    onSubmit: () => {
+                        this.makeRequest(User.logout.bind(User)).then(() => {
+                            this.emit('logout');
+                        }).catch((e: Error) => {
+                            this?.addPopup('Ошибка сервера', e.message);
+                        });
+                    }
+                });
+            }
+        });
+
+        this.on('editOffer', (id: number) => {
+            RouteManager.navigateTo(`/offer/edit/${id}/type`);
+        });
+
+        this.on('tryDelete', (id: number) => {
+            if (this.submitForm && this.submitForm instanceof SubmitModal) {
+                this.submitForm.showSubmitForm({
+                    title: 'Вы точно хотите удалить объявление?',
+                    submitButtonName: 'Удалить',
+                    submitButtonClass: 'red',
+                    denyButtonName: 'Отмена',
+                    denyButtonClass: 'light',
+                    onSubmit: () => {
+                        this.makeRequest(deleteOffer, id).then(() => {
+                            RouteManager.navigateTo('/profile/offers');
+                        }).catch((e: Error) => {
+                            this?.addPopup('Ошибка сервера', e.message);
+                        })
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -44,11 +90,14 @@ export default class MainLayout extends BaseLayout {
     process(page: Page) {
         return {
             destroy: () => {
-                if (this._header) {
-                    this._header.destroy();
+                if (this.header) {
+                    this.header.destroy();
                 }
-                if (this._loginForm) {
-                    this._loginForm.destroy();
+                if (this.loginForm) {
+                    this.loginForm.destroy();
+                }
+                if (this.bottomNavigationBar) {
+                    this.bottomNavigationBar.destroy();
                 }
 
                 super.process(page).destroy();
@@ -57,18 +106,17 @@ export default class MainLayout extends BaseLayout {
 
                 super.process(page).render({props, root});
 
-                this._header = new Header({layout: this, page});
-                this._loginForm = new Login({layout: this, page});
+                this.header = new Header({layout: this, page});
+                this.bottomNavigationBar = new BottomNavigationBar({layout: this, page});
+                this.loginForm = new Login({layout: this, page, id: 'login'});
+                this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
 
                 this.setHeaderStatus(User.isAuthenticated());
 
                 if (props && props.showLogin) {
-                    const passwordInput = document.querySelector('#passwordInput') as HTMLInputElement;
-                    passwordInput.value = '';
-                    const login = document.querySelector(".login") as HTMLElement;
-                    const overlay = document.querySelector(".overlay") as HTMLElement;
-                    login.classList.add('active');
-                    overlay.classList.add('active');
+                    if (this.loginForm) {
+                        this.loginForm.setShowModal(true);
+                    }
                 }
             },
             handlers: page.handlers,
@@ -89,12 +137,12 @@ export default class MainLayout extends BaseLayout {
      * @param {boolean} isAuthorized - авторизован ли пользователь
      */
     setHeaderStatus(isAuthorized: boolean) {
-        const header = document.getElementById('header');
-        const authorizedHeader = document.getElementById('header-authorized') as HTMLElement;
-        if (header && authorizedHeader) {
+        const unauthorizedHeader = document.getElementById('header-unauth') as HTMLElement;
+        const authorizedHeader = document.getElementById('header-auth') as HTMLElement;
+        if (unauthorizedHeader && authorizedHeader) {
             if (isAuthorized) {
-                header.style.display = 'none';
-                authorizedHeader.style.display = 'block';
+                unauthorizedHeader.style.display = 'none';
+                authorizedHeader.style.display = '';
                 const userData = User.getData();
                 if (!userData) {
                     return;
@@ -106,7 +154,7 @@ export default class MainLayout extends BaseLayout {
                     avatar.src = userData.avatar;
                 }
             } else {
-                header.style.display = 'block';
+                unauthorizedHeader.style.display = '';
                 authorizedHeader.style.display = 'none';
             }
         }

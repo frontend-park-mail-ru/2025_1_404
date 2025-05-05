@@ -20,29 +20,29 @@ export default class OfferEditParamsPage extends OfferPage {
         root.innerHTML = template();
         super.render({layout, root});
 
-        if (Object.keys(this._offerData).length !== 0) {
-            this._setDataFromModel();
+        if (Object.keys(this.offerData).length !== 0) {
+            this.setDataFromModel();
             return;
         }
-        this._initReadParamsData();
+        this.initReadParamsData();
     }
 
     /**
-     * @function _offerDataChange
+     * @function offerDataChange
      * @description Метод изменения данных в модели.
      * @param {Event} event событие
      * @returns {Promise<void>} промис
      * @private
      */
-    _offerDataChange(event: Event) {
-        const response = super._offerDataChange(event);
+    offerDataChange(event: Event) {
+        const response = super.offerDataChange(event);
 
         const target = event.target as HTMLInputElement;
         if (target.labels && target.labels[0].textContent) {
-            this._offerData[target.name] = target.labels[0].textContent;
+            this.offerData[target.name] = target.labels[0].textContent;
         }
-        OfferCreate.setData(this._pageName, this._offerData);
-        OfferCreate.setPageFilled(this._pageName, this._isInputsFilled());
+        OfferCreate.setData(this.pageName, this.offerData);
+        OfferCreate.setPageFilled(this.pageName, this.isInputsFilled());
 
         return response;
     }
@@ -52,55 +52,55 @@ export default class OfferEditParamsPage extends OfferPage {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('offerCreateParams', 'input', this._offerDataChange);
+        this.initListener('offerCreateParams', 'input', this.offerDataChange);
     }
 
     /**
-     * @function _initReadParamsData
+     * @function initReadParamsData
      * @description Метод инициализации данных для страницы выбора параметров.
      * @private
      */
-    _initReadParamsData() {
+    private initReadParamsData() {
         const inputSquare = document
             .getElementById('input-square') as HTMLElement
-        this._offerData[inputSquare.id] = '';
+        this.offerData[inputSquare.id] = '';
 
         const params = document.getElementById("offerCreateParams") as HTMLElement;
         const selects = params.querySelectorAll('input:checked');
         selects.forEach(input => {
             const inputElement = input as HTMLFormElement;
-            this._offerData[inputElement.name] = inputElement.labels[0].textContent;
+            this.offerData[inputElement.name] = inputElement.labels[0].textContent;
         })
-        OfferCreate.setData(this._pageName, this._offerData);
-        OfferCreate.setPageFilled(this._pageName, this._isInputsFilled());
+        OfferCreate.setData(this.pageName, this.offerData);
+        OfferCreate.setPageFilled(this.pageName, this.isInputsFilled());
     }
 
     /**
-     * @function _setDataFromModel
+     * @function setDataFromModel
      * @description Метод установки данных из модели в инпуты.
      * @private
      */
-    _setDataFromModel() {
+    setDataFromModel() {
         const params = document.getElementById("offerCreateParams") as HTMLElement;
         const selects = params.querySelectorAll('input') as NodeListOf<HTMLElement>;
         selects.forEach(input => {
             const inputElement = input as HTMLFormElement;
             if (inputElement.type === 'text') {
-                inputElement.value = this._offerData[inputElement.id] || '';
+                inputElement.value = this.offerData[inputElement.id] || '';
             }
-            if (inputElement.labels[0].textContent === this._offerData[inputElement.name]) {
+            if (inputElement.labels[0].textContent === this.offerData[inputElement.name]) {
                 inputElement.checked = true;
             }
         })
     }
 
     /**
-     * @function _offerParamsSelectsChange
+     * @function offerParamsSelectsChange
      * @description Метод обработки события изменения данных объявления.
      * @param {Event} event событие
      * @private
      */
-    _offerParamsSelectsChange(event: Event) {
+    private offerParamsSelectsChange(event: Event) {
         event.preventDefault();
 
         if (!event.target) {
@@ -108,7 +108,7 @@ export default class OfferEditParamsPage extends OfferPage {
         }
         const target = event.target as HTMLFormElement;
 
-        this._offerData[target.name] = target.labels[0].textContent;
-        OfferCreate.setData(this._pageName, this._offerData);
+        this.offerData[target.name] = target.labels[0].textContent;
+        OfferCreate.setData(this.pageName, this.offerData);
     }
 }

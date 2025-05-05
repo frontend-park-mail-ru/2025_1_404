@@ -4,15 +4,20 @@
   display: flex;
   flex-direction: column;
   gap: 25px;
-  padding-bottom: 40px;
 
   &-input {
-    background-color: $profile-bg;
+    background-color: $grey3;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    padding: 20px 25px;
+    flex-wrap: wrap;
+    gap: 25px;
+
+    @media (max-width: 1350px) {
+      flex-direction: column;
+    }
 
     input {
       display: none;
@@ -26,6 +31,7 @@
   &-previews {
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
   }
 
   &-preview {
@@ -46,5 +52,9 @@
     width: fit-content;
     height: fit-content;
 
+  }
+
+  &-button {
+    white-space: nowrap;
   }
 }

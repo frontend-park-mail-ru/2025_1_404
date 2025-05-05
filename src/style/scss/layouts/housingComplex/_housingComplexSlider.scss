@@ -5,12 +5,25 @@
     width: 100%;
     height: 500px;
 
-    &-information {
+    &-wrapper {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
         position: absolute;
-        padding: 10px;
-        bottom: 30px;
-        left: 120px;
+        bottom: 0;
+        padding: 0 120px;
 
+        @media (max-width: 900px) {
+            flex-direction: column;
+        }
+
+        @media (max-width: 500px) {
+            padding: 0 10%;
+        }
+    }
+
+    &-information {
+        padding: 10px;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -32,6 +45,14 @@
 
         &-name {
             font-size: 38px;
+
+            @media (max-width: 730px) {
+                font-size: 28px;
+            }
+
+            @media (max-width: 500px) {
+                font-size: 22px;
+            }
         }
     }
 
@@ -40,16 +61,19 @@
         padding: 10px 10px;
         color: $white;
         border-radius: 6px;
+        width: max-content;
     }
 
     &-controls {
-        position: absolute;
-        bottom: 30px;
-        right: 120px;
-
         display: flex;
         flex-direction: row;
-        gap:24px;
+        gap: 24px;
+        align-items: end;
+        padding: 10px;
+
+        @media (max-width: 500px) {
+            padding: 10px 0;
+        }
 
         &-counter {
             gap: 20px;

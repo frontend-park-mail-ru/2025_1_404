@@ -6,6 +6,7 @@ import OfferPage from "../../pages/offerCreate/page.ts";
 import {PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.precompiled.js";
+import {CSATType} from "../../components/csat";
 
 /**
  * @class OfferCreateLayout
@@ -13,12 +14,12 @@ import offerCreateBtnsTemplate from "../../components/offerCreateBtns/template.p
  * @augments MainLayout
  */
 class OfferCreateLayout extends MainLayout {
-    private _currentPage: string | undefined;
-    private _unlockedPages: string[] = [];
-    private _filledPagesId: string[] = [];
-    private _allPages: string[] = [];
-    private _offerCreateNav: OfferCreateNav | undefined;
-    private _offerCreateBtns: OfferCreateBtns | undefined;
+    private currentPage: string | undefined;
+    private unlockedPages: string[] = [];
+    private filledPagesId: string[] = [];
+    private allPages: string[] = [];
+    private offerCreateNav: OfferCreateNav | undefined;
+    private offerCreateBtns: OfferCreateBtns | undefined;
     /**
      * @description Конструктор класса.
      */
@@ -27,11 +28,11 @@ class OfferCreateLayout extends MainLayout {
 
         this.init();
 
-        this.on('goToPage', this._handlePageChange.bind(this));
-        this.on('nextPage', this._handleNextPage.bind(this));
-        this.on('prevPage', this._handlePrevPage.bind(this));
-        this.on('pageFilled', this._handlePageFilled.bind(this));
-        this.on('submitPage', this._handlePageSubmit.bind(this));
+        this.on('goToPage', this.handlePageChange.bind(this));
+        this.on('nextPage', this.handleNextPage.bind(this));
+        this.on('prevPage', this.handlePrevPage.bind(this));
+        this.on('pageFilled', this.handlePageFilled.bind(this));
+        this.on('submitPage', this.handlePageSubmit.bind(this));
     }
 
     /**
@@ -43,11 +44,11 @@ class OfferCreateLayout extends MainLayout {
     process(page: OfferPage) {
         return {
             destroy: () => {
-                if (this._offerCreateNav) {
-                    this._offerCreateNav.destroy();
+                if (this.offerCreateNav) {
+                    this.offerCreateNav.destroy();
                 }
-                if (this._offerCreateBtns) {
-                    this._offerCreateBtns.destroy();
+                if (this.offerCreateBtns) {
+                    this.offerCreateBtns.destroy();
                 }
                 super.process(page).destroy();
             },
@@ -55,15 +56,15 @@ class OfferCreateLayout extends MainLayout {
                 super.process(page).render({props, root});
 
                 const offerCreateBtns = document.getElementById("offerCreateBtns") as HTMLElement;
-                offerCreateBtns.innerHTML = offerCreateBtnsTemplate({firstPage: page._pageName === this._allPages.at(0), lastPage: page._pageName === this._allPages.at(-1)});
+                offerCreateBtns.innerHTML = offerCreateBtnsTemplate({firstPage: page.pageName === this.allPages.at(0), lastPage: page.pageName === this.allPages.at(-1)});
 
-                this._offerCreateNav = new OfferCreateNav({layout: this, page});
-                this._offerCreateBtns = new OfferCreateBtns({layout: this, page});
-                this._currentPage = page._pageName;
-                this._updateNavClasses();
+                this.offerCreateNav = new OfferCreateNav({layout: this, page});
+                this.offerCreateBtns = new OfferCreateBtns({layout: this, page});
+                this.currentPage = page.pageName;
+                this.updateNavClasses();
 
-                this._updateOfferCreateButtons();
-                this._unlockPages();
+                this.updateOfferCreateButtons();
+                this.unlockPages();
             },
             handlers: page.handlers,
             initListeners: page.initListeners,
@@ -83,63 +84,63 @@ class OfferCreateLayout extends MainLayout {
      * @public
      */
     init() {
-        this._currentPage = "type";
-        this._unlockedPages = ["type", "address"];
-        this._filledPagesId = ["type"];
-        this._allPages = ["type", "address", "params", "price", "photos", "description"];
+        this.currentPage = "type";
+        this.unlockedPages = ["type", "address"];
+        this.filledPagesId = ["type"];
+        this.allPages = ["type", "address", "params", "price", "photos", "description"];
     }
 
     /**
-     * @function _updateOfferCreateButtons
+     * @function updateOfferCreateButtons
      * @description Метод обновления состояния кнопок создания объявления.
      * @private
      */
-    _updateOfferCreateButtons() {
-        if (!this._currentPage || !this._offerCreateBtns) {
+    private updateOfferCreateButtons() {
+        if (!this.currentPage || !this.offerCreateBtns) {
             return;
         }
-        if (OfferCreate.isPageFilled(this._currentPage)) {
-            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
-                this._offerCreateBtns.enableSubmitButton();
+        if (OfferCreate.isPageFilled(this.currentPage)) {
+            if (this.currentPage === this.allPages[this.allPages.length - 1]) {
+                this.offerCreateBtns.enableSubmitButton();
                 return;
             }
-            this._offerCreateBtns.enableNextButton();
+            this.offerCreateBtns.enableNextButton();
         } else {
-            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
-                this._offerCreateBtns.disableSubmitButton();
+            if (this.currentPage === this.allPages[this.allPages.length - 1]) {
+                this.offerCreateBtns.disableSubmitButton();
                 return;
             }
-            this._offerCreateBtns.disableNextButton();
+            this.offerCreateBtns.disableNextButton();
         }
     }
 
     /**
-     * @function _handlePageChange
+     * @function handlePageChange
      * @description Обработчик события перехода на страницу.
      * @param {string} page идентификатор страницы.
      * @private
      */
-    _handlePageChange(page: string) {
-        if (!this._currentPage || page === this._currentPage) {
+    private handlePageChange(page: string) {
+        if (!this.currentPage || page === this.currentPage) {
             return;
         }
 
-        if (this._allPages.indexOf(page) < this._allPages.indexOf(this._currentPage) || this._isAllPagesBeforeFilled(page)) {
-            this._goToPage(page);
-            this._updateNavClasses(this._currentPage);
+        if (this.allPages.indexOf(page) < this.allPages.indexOf(this.currentPage) || this.isAllPagesBeforeFilled(page)) {
+            this.goToPage(page);
+            this.updateNavClasses(this.currentPage);
         }
     }
 
     /**
-     * @function _isAllPagesBeforeFilled
+     * @function isAllPagesBeforeFilled
      * @description Метод проверки, заполнены ли все страницы перед текущей.
      * @param {string} page идентификатор страницы.
      * @returns {boolean} true, если все страницы перед текущей заполнены, иначе false.
      * @private
      */
-    _isAllPagesBeforeFilled(page: string) {
-        for (let i = 0; i < this._allPages.indexOf(page); i++) {
-            if (!OfferCreate.isPageFilled(this._allPages[i])) {
+    private isAllPagesBeforeFilled(page: string) {
+        for (let i = 0; i < this.allPages.indexOf(page); i++) {
+            if (!OfferCreate.isPageFilled(this.allPages[i])) {
                 return false;
             }
         }
@@ -147,204 +148,214 @@ class OfferCreateLayout extends MainLayout {
     }
 
     /**
-     * @function _handleNextPage
+     * @function handleNextPage
      * @description Обработчик события перехода на следующую страницу.
      * @private
      */
-    _handleNextPage() {
-        this._nextPage();
-        this._updateNavClasses();
+    private handleNextPage() {
+        this.nextPage();
+        this.updateNavClasses();
     }
 
     /**
-     * @function _handlePrevPage
+     * @function handlePrevPage
      * @description Обработчик события перехода на предыдущую страницу.
      * @private
      */
-    _handlePrevPage() {
-        this._prevPage();
-        this._updateNavClasses(this._currentPage);
+    private handlePrevPage() {
+        this.prevPage();
+        this.updateNavClasses(this.currentPage);
     }
 
     /**
-     * @function _handlePageFilled
+     * @function handlePageFilled
      * @description Обработчик события заполнения страницы.
      * @param {boolean} isFilled true, если страница заполнена, иначе false.
      * @private
      */
     // eslint-disable-next-line max-statements
-    _handlePageFilled(isFilled: boolean) {
-        const nextPage = this._getNextPage();
-        if (!this._currentPage || !this._offerCreateBtns) {
+    private handlePageFilled(isFilled: boolean) {
+        const nextPage = this.getNextPage();
+        if (!this.currentPage || !this.offerCreateBtns) {
             return;
         }
         if (isFilled) {
-            if (this._filledPagesId.includes(this._currentPage)) {
+            if (this.filledPagesId.includes(this.currentPage)) {
                 return;
             }
-            this._filledPagesId.push(this._currentPage);
-            if (this._currentPage !== this._allPages[this._allPages.length - 1]) {
-                this._unlockPage(nextPage);
+            this.filledPagesId.push(this.currentPage);
+            if (this.currentPage !== this.allPages[this.allPages.length - 1]) {
+                this.unlockPage(nextPage);
             }
-            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
-                this._offerCreateBtns.enableSubmitButton();
+            if (this.currentPage === this.allPages[this.allPages.length - 1]) {
+                this.offerCreateBtns.enableSubmitButton();
                 return;
             }
-            this._offerCreateBtns.enableNextButton();
+            this.offerCreateBtns.enableNextButton();
         } else {
-            if (!this._filledPagesId.includes(this._currentPage)) {
+            if (!this.filledPagesId.includes(this.currentPage)) {
                 return;
                 }
-            this._filledPagesId = this._filledPagesId.filter((id) => id !== this._currentPage);
-            this._lockPage(this._getNextPage());
-            if (this._currentPage === this._allPages[this._allPages.length - 1]) {
-                this._offerCreateBtns.disableSubmitButton();
+            this.filledPagesId = this.filledPagesId.filter((id) => id !== this.currentPage);
+            this.lockPage(this.getNextPage());
+            if (this.currentPage === this.allPages[this.allPages.length - 1]) {
+                this.offerCreateBtns.disableSubmitButton();
                 return;
             }
-            this._offerCreateBtns.disableNextButton();
+            this.offerCreateBtns.disableNextButton();
         }
     }
 
     /**
-     * @function _handlePageSubmit
+     * @function handlePageSubmit
      * @description Обработчик события отправки страницы.
      */
-    async _handlePageSubmit() {
-        if (!this._currentPage) {
+    private async handlePageSubmit() {
+        if (!this.currentPage) {
             return;
         }
+        this.offerCreateBtns?.disableSubmitButton();
         await this.makeRequest(OfferCreate.create.bind(OfferCreate)).then((offerId) => {
             if (typeof offerId === 'number') {
                 RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
+                this.processCSAT({
+                    type: CSATType.STARS,
+                    event: 'create_offer'
+                });
             }
+        }).catch((e: Error) => {
+            this?.addPopup('Ошибка сервера', e.message);
+        })
+        .finally(() => {
+            this.offerCreateBtns?.enableSubmitButton();
         });
     }
 
     /**
-     * @function _updateNavClasses
+     * @function updateNavClasses
      * @description Метод обновления классов навигации.
      * @param {string} prevStageId идентификатор предыдущей стадии.
      * @private
      */
-    _updateNavClasses(prevStageId: string = "") {
-        if (!this._offerCreateNav || !this._currentPage) {
+    private updateNavClasses(prevStageId: string = "") {
+        if (!this.offerCreateNav || !this.currentPage) {
             return;
         }
         if (prevStageId.length > 0) {
-            this._offerCreateNav.addEmptyStageClass(prevStageId);
+            this.offerCreateNav.addEmptyStageClass(prevStageId);
         }
-        this._offerCreateNav.addFilledStageClass(this._filledPagesId);
-        this._offerCreateNav.addCurrentStageClass(this._currentPage);
+        this.offerCreateNav.addFilledStageClass(this.filledPagesId);
+        this.offerCreateNav.addCurrentStageClass(this.currentPage);
     }
 
     /**
-     * @function _nextPage
+     * @function nextPage
      * @description Метод перехода на следующую страницу.
      * @private
      */
-    _nextPage() {
-        const nextPage = this._getNextPage();
+    private nextPage() {
+        const nextPage = this.getNextPage();
         if (nextPage) {
-            this._goToPage(nextPage);
+            this.goToPage(nextPage);
         }
     }
 
     /**
-     * @function _prevPage
+     * @function prevPage
      * @description Метод перехода на предыдущую страницу.
      * @private
      */
-    _prevPage() {
-        const prevPage = this._getPrevPage();
+    private prevPage() {
+        const prevPage = this.getPrevPage();
         if (prevPage) {
-            this._goToPage(prevPage);
+            this.goToPage(prevPage);
         }
     }
 
     /**
-     * @function _goToPage
+     * @function goToPage
      * @description Метод перехода на страницу.
      * @param {string} page идентификатор страницы.
      * @private
      */
-    _goToPage(page: string) {
-        if (this._unlockedPages.includes(page)) {
-            this._navigateToPage(page);
+    private goToPage(page: string) {
+        if (this.unlockedPages.includes(page)) {
+            this.navigateToPage(page);
         }
     }
 
     /**
-     * @function _navigateToPage
+     * @function navigateToPage
      * @description Метод навигации на страницу.
      * @param {string} page идентификатор страницы.
      * @private
      */
-    _navigateToPage(page: string) {
+    private navigateToPage(page: string) {
         RouteManager.navigateTo("/offer/create/".concat(page));
-        this._currentPage = page;
+        this.currentPage = page;
     }
 
     /**
-     * @function _lockPage
+     * @function lockPage
      * @description Метод блокировки страницы.
      * @param {string} page идентификатор страницы.
      * @private
      */
-    _lockPage(page: string) {
-        if (this._unlockedPages.includes(page)) {
-            this._unlockedPages = this._unlockedPages.filter((unlockedPage) => unlockedPage !== page);
-            this._unlockPages();
+    private lockPage(page: string) {
+        if (this.unlockedPages.includes(page)) {
+            this.unlockedPages = this.unlockedPages.filter((unlockedPage) => unlockedPage !== page);
+            this.unlockPages();
         }
     }
 
     /**
-     * @function _unlockPage
+     * @function unlockPage
      * @description Метод разблокировки страницы.
      * @param {string} page идентификатор страницы.
      * @private
      */
-    _unlockPage(page: string) {
-        if (!this._unlockedPages.includes(page)) {
-            this._unlockedPages.push(page);
-            this._unlockPages();
+    private unlockPage(page: string) {
+        if (!this.unlockedPages.includes(page)) {
+            this.unlockedPages.push(page);
+            this.unlockPages();
         }
     }
 
     /**
-     * @function _getNextPage
+     * @function getNextPage
      * @description Метод получения следующей страницы.
      * @returns {*} следующая страница.
      * @private
      */
-    _getNextPage() {
-        if (!this._currentPage) {
-            return this._allPages[0];
+    private getNextPage() {
+        if (!this.currentPage) {
+            return this.allPages[0];
         }
-        const currentIndex = this._allPages.indexOf(this._currentPage);
-        return this._allPages[currentIndex + 1];
+        const currentIndex = this.allPages.indexOf(this.currentPage);
+        return this.allPages[currentIndex + 1];
     }
 
     /**
-     * @function _getPrevPage
+     * @function getPrevPage
      * @description Метод получения предыдущей страницы.
      * @returns {*} предыдущая страница.
      * @private
      */
-    _getPrevPage() {
-        if (!this._currentPage) {
-            return this._allPages[0];
+    private getPrevPage() {
+        if (!this.currentPage) {
+            return this.allPages[0];
         }
-        const currentIndex = this._allPages.indexOf(this._currentPage);
-        return this._allPages[currentIndex - 1];
+        const currentIndex = this.allPages.indexOf(this.currentPage);
+        return this.allPages[currentIndex - 1];
     }
 
     /**
-     * @function _unlockPages
+     * @function unlockPages
      * @description Метод разблокировки страниц.
      * @private
      */
-    _unlockPages() {
-        this._unlockedPages.forEach((page) => {
+    private unlockPages() {
+        this.unlockedPages.forEach((page) => {
             const pageButton = document.getElementById(page.concat("PageButton")) as HTMLElement;
             const pageTitle = document.getElementById(page.concat("PageTitle")) as HTMLElement;
             pageButton.classList.remove("offerCreate__nav-stage-point-disabled");

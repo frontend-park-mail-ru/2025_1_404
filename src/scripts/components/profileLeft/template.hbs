@@ -1,4 +1,4 @@
-<div class="profile__left">
+<div id="profileLeft" class="profile__left">
     <div class="profile__left-info">
         <div class="profile__avatar-wrapper">
             {{> UserAvatar id="profileAvatar" class="profile__avatar" class="profile__avatar" avatar="/img/userAvatar/unknown.svg" enableUpload=true }}
@@ -25,9 +25,10 @@
     </div>
     <div class="profile__left-nav">
         <button class="profile__left-nav-btn" id="profileMainButton">Профиль</button>
-        <button class="profile__left-nav-btn">Избранное</button>
+        <button class="profile__left-nav-btn" id="profileFavoritesButton">Избранное</button>
         <button class="profile__left-nav-btn" id="offerCreateButton">Создать объявление</button>
         <button class="profile__left-nav-btn" id="profileMyOffersButton">Мои объявления</button>
+<!--        <button class="profile__left-nav-btn" id="profileCsatStatsButton">Статистика CSAT</button>-->
     </div>
     <button class="profile__left-nav-btn profile__left-nav-logout" id="profileLogoutButton">Выйти</button>
 </div>

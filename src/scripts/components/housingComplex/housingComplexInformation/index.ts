@@ -1,7 +1,12 @@
 import {BaseComponent, BaseComponentInterface} from "../../baseComponent.ts";
-import {getZhkLine, getZhkPhone} from "../../../util/apiUtil.ts";
-import getMetroColorByLineName from "../../../util/metroUtil";
-import metroStationTemplate from "../../metroStation/template.precompiled.js";
+import {Page} from "../../../pages/page.ts";
+import {BaseLayout} from "../../../layouts/baseLayout.ts";
+
+export interface HousingComplexInformationComponentInterface {
+    page?: Page;
+    layout?: BaseLayout;
+    phone: string
+}
 
 /**
  * @class HousingComplexInformation
@@ -9,17 +14,17 @@ import metroStationTemplate from "../../metroStation/template.precompiled.js";
  * @augments BaseComponent
  */
 export default class HousingComplexInformation extends BaseComponent {
-    private _phoneButton: HTMLButtonElement | null;
+    private phoneButton: HTMLButtonElement | null;
+    private phone: string;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
      */
-    constructor({page, layout} : BaseComponentInterface) {
+    constructor({page, layout, phone} : HousingComplexInformationComponentInterface) {
         super({page, layout});
-        this._phoneButton = document.getElementById('asideDeveloperPhone') as HTMLButtonElement;
-        
-        this._addSubway();
+        this.phoneButton = document.getElementById('asideDeveloperPhone') as HTMLButtonElement;
+        this.phone = phone;
     }
 
     /**
@@ -27,35 +32,19 @@ export default class HousingComplexInformation extends BaseComponent {
      * @description Метод инициализации слушателей событий.
      */
     initListeners() {
-        this.initListener('asideDeveloperPhone', 'click', this._getPhone);
+        this.initListener('asideDeveloperPhone', 'click', () => this.getPhone(this.phone));
     }
 
     /**
-     * @function _addSubway
-     * @description Метод добавления информации о метро.
-     * @private
-     */
-    _addSubway() {
-        const station = document.querySelector('.housingComplex__info-block-metro') as HTMLElement;
-        getZhkLine()
-        .then ((data) => {
-            station.innerHTML = metroStationTemplate({metroColor: getMetroColorByLineName(data.metroLine), metroStation: data.metroLine});
-        })
-    }
-
-    /**
-     * @function _getPhone
+     * @function getPhone
      * @description Метод получения телефона застройщика.
      * @private
      */
-    _getPhone() {
-        getZhkPhone()
-        .then((data) => {
-            if (!this._phoneButton) {
-                return;
-            }
-            this._phoneButton.textContent = data.phone;
-            this._phoneButton.disabled=true;
-        })
+    private getPhone(phone: string) {
+        if (!this.phoneButton) {
+            return;
+        }
+        this.phoneButton.textContent = phone;
+        this.phoneButton.disabled=true;
     }
 }

@@ -34,7 +34,10 @@ const validateNickname = function(name: string) {
  * @returns {string} Результат валидации
  */
 const validateName = function(value: string, fieldName: string): string {
-    return validateNickname(value) ? '' : `Неправильно введено ${fieldName === 'first_name' ? 'имя' : 'фамилия'}`;
+    if (validateNickname(value)) {
+        return '';
+    }
+    return fieldName === 'first_name' ? 'Неправильно введено имя' : 'Неправильно введена фамилия';
 }
 
 /**
@@ -45,11 +48,11 @@ const validateName = function(value: string, fieldName: string): string {
  * @returns {string} Результат валидации
  */
 const validatePassword = function(password: string, additionalChecks=false) {
-    if (password.length < MIN_PASSWORD_LENGTH) {
-        return 'Пароль должен быть не меньше 8 символов';
+    if (additionalChecks && !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/u.test(password)) {
+        return 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
     }
-    if (additionalChecks) {
-        return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/u.test(password) ? '' : 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
+    if (additionalChecks && password.length < MIN_PASSWORD_LENGTH) {
+        return 'Пароль должен быть не меньше 8 символов';
     }
     return String(password).length > EMPTY_LENGTH ? '' : 'Пароль не может быть пустым';
 }
@@ -61,7 +64,7 @@ const validatePassword = function(password: string, additionalChecks=false) {
  * @returns {string} Результат валидации
  */
 const validateDoubleNumeric = function(number: string) {
-    const num = parseInt(number, 10);
+    const num = Number(number);
     return !isNaN(num) && num >= 1 && num <= 99 ? '' : 'От 1 до 99';
 }
 
@@ -72,7 +75,7 @@ const validateDoubleNumeric = function(number: string) {
  * @returns {string} Результат валидации
  */
 const validateTripleNumeric = function(number: string) {
-    const num = parseInt(number, 10);
+    const num = Number(number);
     return !isNaN(num) && num >= 1 && num <= 999 ? '' : 'От 1 до 999';
 }
 
@@ -87,24 +90,17 @@ const validateFlat = function(flatNumber: string) {
 }
 
 /**
- * @function validateAddress
- * @description Функция для валидации адреса.
- * @param {string} address Адрес
- * @returns {string} Результат валидации
- */
-const validateAddress = function(address: string) {
-    return /^(?<city>[А-Яа-яЁё\s-]+)[,\s]+(?<street>(?:ул\.?|улица|пр\.?|проспект|бульвар|пер\.?|переулок|проезд|шоссе|набережная|аллея|площадь)\s+[А-Яа-яЁё\s-]+)[,\s]+(?<houseNumber>(?:д\.?|дом)?\s*\d+(?:\s*[А-Яа-яЁё]?)(?:\/\d+)?)$/iu.test(address) ? '' : 'Неправильный формат адреса';
-}
-
-/**
  * @function validateNumeric
  * @description Функция для валидации чисел.
  * @param {string} number Число
  * @returns {string} Результат валидации
  */
 const validateNumeric = function(number: string) {
-    const num = parseInt(number, 10);
-    return isNaN(num) ? 'Неправильно введена цена' : '';
+    const num = Number(number);
+    if (isNaN(num) || num < 1) {
+        return 'Неправильно введена цена';
+    }
+    return num > 2000000000 ? 'Цена слишком большая' : '';
 }
 
 /**
@@ -138,7 +134,7 @@ export const validateFormInput = function ({value, name:valueName}: ValidateForm
         return required ? 'Это поле обязательное' : '';
     }
     let password = '';
-    const passwordDocument = document.getElementById('registerPassword') as HTMLInputElement | null;
+    const passwordDocument = document.getElementById('registerPassword__input') as HTMLInputElement | null;
     if (passwordDocument) {
         password = passwordDocument.value;
     }
@@ -167,7 +163,7 @@ const getValidatorForField = function ({fieldName, password}: ValidatorIntarface
         'offer_floor': (value) => validateDoubleNumeric(value),
         'offer_total_floors': (value) => validateDoubleNumeric(value),
         'offer_flat': (value) => validateFlat(value),
-        'offer_address': (value) => validateAddress(value),
+        // 'offer_address': (value) => validateAddress(value),
         'offer_ceiling_height': (value) => validateDoubleNumeric(value),
         'offer_square': (value) => validateTripleNumeric(value),
         'offer_price': (value) => validateNumeric(value),

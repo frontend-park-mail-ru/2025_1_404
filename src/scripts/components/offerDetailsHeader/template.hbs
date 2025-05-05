@@ -1,10 +1,18 @@
 <h2 class="offerDetails__header-title">
     {{#if isRent}}
-        Сдаётся
+        {{#if inMultipleForm }}
+            Сдаются
+        {{else}}
+            Сдаётся
+        {{/if}}
     {{else}}
-        Продаётся
+        {{#if inMultipleForm }}
+            Продаются
+        {{else}}
+            Продаётся
+        {{/if}}
     {{/if}}
-    {{rooms}}-комн. квартира, {{area}} м²
+    {{rooms}}-комн. {{propertyType}}, {{area}} м²
 </h2>
 <div class="offerDetails__header-info">
     <ul>

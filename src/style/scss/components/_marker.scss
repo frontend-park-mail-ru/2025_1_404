@@ -1,0 +1,15 @@
+@use "../abstracts/variables" as *;
+
+.marker {
+  position: relative;
+  &__icon {
+    height: 50px;
+    position: absolute;
+    left: -29px;
+    top: -47px;
+  }
+
+  &.highlight &__icon {
+    filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(4deg) brightness(95%) contrast(118%);
+  }
+}

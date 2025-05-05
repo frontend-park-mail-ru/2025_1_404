@@ -5,10 +5,21 @@
 
   &-row {
     display: flex;
-    gap: 75px;
+    column-gap: 75px;
+    row-gap: 20px;
+    flex-wrap: wrap;
+
+    @media (max-width: 630px) {
+      flex-direction: column;
+      width: 100%
+    }
   }
 
   &-square {
     max-width: 30%;
+
+    @media (max-width: 630px) {
+      max-width: 75%;
+    }
   }
 }

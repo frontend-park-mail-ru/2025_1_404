@@ -5,9 +5,14 @@
                 <div id="offerDetailsHeader" class="offerDetails__header">
                     {{> OfferDetailsHeader data=data }}
                 </div>
+                {{#if isMobile}}
+                    <div class="offerDetails__left-slider" id="offerDetailsMobilePreview">
+                        {{> PicturesCarouselPreviews images=data }}
+                    </div>
+                {{/if}}
                 <div class="offerDetails__main">
                     <div id="offerDetailsLeft" class="offerDetails__left">
-                        {{> OfferDetailsLeft data=data }}
+                        {{> OfferDetailsLeft data=data renderPhoto=isMobile }}
                     </div>
                     <div id="offerDetailsInfo" class="offerDetails__right">
                         {{> OfferDetailsInfo data=data }}
