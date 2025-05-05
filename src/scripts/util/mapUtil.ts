@@ -104,7 +104,7 @@ class MapUtil {
                 center,
                 zoom,
             },
-            // margin: MARGIN,
+            margin: MARGIN,
         }, [
             new YMapDefaultSchemeLayer({}),
             new YMapDefaultFeaturesLayer({}),
