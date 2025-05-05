@@ -17,7 +17,8 @@
 
   &__list {
     display: flex;
-    justify-content: space-between;
+    //justify-content: space-between;
+    gap: 1.6em;
     row-gap: 1.6em;
     flex-wrap: wrap;
   }

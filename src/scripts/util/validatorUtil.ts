@@ -51,7 +51,7 @@ const validatePassword = function(password: string, additionalChecks=false) {
     if (additionalChecks && !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/u.test(password)) {
         return 'Пароль должен включать хотя бы одну букву каждого регистра и цифру';
     }
-    if (password.length < MIN_PASSWORD_LENGTH) {
+    if (additionalChecks && password.length < MIN_PASSWORD_LENGTH) {
         return 'Пароль должен быть не меньше 8 символов';
     }
     return String(password).length > EMPTY_LENGTH ? '' : 'Пароль не может быть пустым';

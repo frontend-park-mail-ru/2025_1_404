@@ -3,9 +3,10 @@
 .marker {
   position: absolute;
   &__icon {
+    height: 50px;
     position: relative;
-    left: -21px;
-    top: -24px;
+    left: -29px;
+    top: -47px;
   }
 
   &.highlight &__icon {

@@ -1,6 +1,9 @@
-<div class="offerDetails__left-slider">
-    {{> PicturesCarouselPreviews images=images }}
-</div>
+{{#if isMobile}}
+{{ else }}
+    <div class="offerDetails__left-slider">
+        {{> PicturesCarouselPreviews images=images }}
+    </div>
+{{/if}}
 <div class="offerDetails__left-block">
     {{> LightButton id="offerDetailsHousingComplex" class="offerDetails__left-block-href" name="Жилой комплекс"}}
 </div>

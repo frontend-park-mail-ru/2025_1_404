@@ -149,10 +149,12 @@ export default class Offer {
         this.sellDetails.likes = json.offer_data.offer_stat.likes_stat.amount;
         this.sellDetails.favorites = sellDetails.favorites;
 
-        for (const priceElement of json.offer_data.offer_prices) {
-            this.priceHistory.push({price: priceElement.price,
-                percent: priceElement.percent,
-                date: new Date(priceElement.date)});
+        if (json.offer_data.offer_prices !== null) {
+            for (const priceElement of json.offer_data.offer_prices) {
+                this.priceHistory.push({price: priceElement.price,
+                    percent: priceElement.percent,
+                    date: new Date(priceElement.date)});
+            }
         }
 
         const userData = User.getData();

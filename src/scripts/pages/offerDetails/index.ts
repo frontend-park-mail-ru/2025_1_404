@@ -4,6 +4,7 @@ import {getOfferById} from "../../util/apiUtil.ts";
 import offerDetailsHeaderTemplate from "../../components/offerDetailsHeader/template.precompiled.js";
 import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template.precompiled.js";
 import offerDetailsSliderTemplate from "../../components/offerDetailsLeft/template.precompiled.js";
+import picturesCarouselPreviewsTemplate from "../../components/picturesCarouselPreviews/template.precompiled.js";
 import template from "./template.precompiled.js";
 import Map from "../../models/map";
 import OfferDetailsLeft from "../../components/offerDetailsLeft";
@@ -40,8 +41,10 @@ export default class OfferDetailsPage extends Page {
             return;
         }
 
+        const isMobile = window.innerWidth <= 730;
+
         this.layout = layout;
-        root.innerHTML = template();
+        root.innerHTML = template({isMobile});
         super.render({layout, root});
 
         this.getOfferById(props.id)
@@ -52,9 +55,13 @@ export default class OfferDetailsPage extends Page {
             offer.parseJSON(data);
             const offerDetailsHeader = document.getElementById("offerDetailsHeader") as HTMLElement;
             const offerDetailsLeft = document.getElementById("offerDetailsLeft") as HTMLElement;
+            const offerMobilePreview = document.getElementById("offerDetailsMobilePreview") as HTMLElement;
 
             if (this.offerDetailsLeft !== null) {
-                offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images});
+                offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images, isMobile});
+            }
+            if (offerMobilePreview !== null) {
+                offerMobilePreview.innerHTML = picturesCarouselPreviewsTemplate({images: offer.images});
             }
 
             const offerDetailsInfo = document.getElementById("offerDetailsInfo") as HTMLElement;
