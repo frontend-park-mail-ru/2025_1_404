@@ -214,6 +214,7 @@ class OfferCreateLayout extends MainLayout {
         if (!this.currentPage) {
             return;
         }
+        this.offerCreateBtns?.disableSubmitButton();
         await this.makeRequest(OfferCreate.create.bind(OfferCreate)).then((offerId) => {
             if (typeof offerId === 'number') {
                 RouteManager.navigateTo("/offer/details/".concat(offerId.toString()));
@@ -224,6 +225,9 @@ class OfferCreateLayout extends MainLayout {
             }
         }).catch((e: Error) => {
             this?.addPopup('Ошибка сервера', e.message);
+        })
+        .finally(() => {
+            this.offerCreateBtns?.enableSubmitButton();
         });
     }
 
