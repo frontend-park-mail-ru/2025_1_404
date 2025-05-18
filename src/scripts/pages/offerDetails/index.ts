@@ -5,7 +5,7 @@ import offerDetailsHeaderTemplate from "../../components/offerDetailsHeader/temp
 import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template.precompiled.js";
 import offerDetailsSliderTemplate from "../../components/offerDetailsLeft/template.precompiled.js";
 import template from "./template.precompiled.js";
-import Map from "../../models/map";
+// import Map from "../../models/map";
 import OfferDetailsLeft from "../../components/offerDetailsLeft";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import Offer from "../../models/offer.ts";

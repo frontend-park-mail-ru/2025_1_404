@@ -1,21 +1,22 @@
 import BaseModal, {BaseModalInterface} from "../baseModal";
 
-export interface SubmitFormInterface {
+export interface PromotionFormInterface {
     title: string;
     submitButtonName: string;
     submitButtonClass: string;
     denyButtonName: string;
     denyButtonClass: string;
+    promotionChoices: Record<string, string>;
     onSubmit?: () => void;
     onDeny?: () => void;
 }
 
 /**
- * @class SubmitModal
- * @description Компонент модального окна под.
+ * @class PromotionModal
+ * @description Компонент модального окна продвижения объявления.
  * @augments BaseModal
  */
-export default class SubmitModal extends BaseModal {
+export default class PromotionModal extends BaseModal {
     private onSubmitButtonHandler: (() => void) | undefined;
     private onDenyButtonHandler: (() => void) | undefined;
 
@@ -37,13 +38,13 @@ export default class SubmitModal extends BaseModal {
         super.initListeners();
         this.initListenerFromElement({
             root: this.id,
-            elementId: 'submitModal-denyButton',
+            elementId: 'promotionModal-denyButton',
             type: 'click',
             handler: this.submitCancelButtonHandler
         });
         this.initListenerFromElement({
             root: this.id,
-            elementId: 'submitModal-submitButton',
+            elementId: 'promotionModal-submitButton',
             type: 'click',
             handler: this.submitButtonHandler
         });
@@ -74,33 +75,45 @@ export default class SubmitModal extends BaseModal {
     /**
      * @function setShowModal
      * @description Метод установки состояния окна авторизации.
-     * @param {boolean} isShow - состояние окна авторизации.c
+     * @param {boolean} isShow - состояние окна авторизации
      */
     setShowModal(isShow: boolean) {
         super.setShowModal(isShow);
     }
 
     /**
-     * @function showSubmitForm
-     * @description Метод отображения формы отправки.
+     * @function showPromotionForm
+     * @description Метод отображения формы продвижения объявления.
      * @param {SubmitFormInterface} options - параметры формы отправки.
      */
-    showSubmitForm(options: SubmitFormInterface) {
-        const submitModal = document.getElementById('submitModal') as HTMLElement;
-        const title = submitModal.querySelector('#submitModal-title') as HTMLElement;
+    showPromotionForm(options: PromotionFormInterface) {
+        const promotionModal = document.getElementById('promotionModal') as HTMLElement;
+        const title = promotionModal.querySelector('#promotionModal-title') as HTMLElement;
         if (title) {
             title.textContent = options.title;
         }
-        const submitButton = submitModal.querySelector('#submitModal-submitButton') as HTMLButtonElement;
+        const submitButton = promotionModal.querySelector('#promotionModal-submitButton') as HTMLButtonElement;
         if (submitButton) {
             submitButton.className = `${options.submitButtonClass}-btn`;
             submitButton.textContent = options.submitButtonName;
         }
-        const denyButton = submitModal.querySelector('#submitModal-denyButton') as HTMLButtonElement;
+        const denyButton = promotionModal.querySelector('#promotionModal-denyButton') as HTMLButtonElement;
         if (denyButton) {
             denyButton.className = `${options.denyButtonClass}-btn`;
             denyButton.textContent = options.denyButtonName;
         }
+        const choiceLabels = promotionModal.querySelectorAll<HTMLElement>('.choice-label');
+        choiceLabels.forEach((el) => {
+            const forAttr = el.getAttribute('for');
+            if (!forAttr) {
+                return null;
+            }
+            const index = forAttr.split('-').pop();
+            if (!index) {
+                return null;
+            }
+            el.textContent = options.promotionChoices[index];
+        })
         this.onSubmitButtonHandler = options.onSubmit;
         this.onDenyButtonHandler = options.onDeny;
         this.setShowModal(true);

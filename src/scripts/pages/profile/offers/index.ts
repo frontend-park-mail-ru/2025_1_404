@@ -67,6 +67,9 @@ export default class ProfileMyOffersPage extends Page {
         if (target.classList.contains('profile__offer-link')) {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
+        if (target.classList.contains("primary-btn")) {
+            this.layout?.emit('showPromotion', offerId);
+        }
         if (target.classList.contains("light-btn")) {
             OfferEditLayout.reset();
             this.layout?.emit('editOffer', offerId);

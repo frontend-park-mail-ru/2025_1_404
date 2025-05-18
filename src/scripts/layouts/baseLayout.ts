@@ -8,6 +8,7 @@ import SubmitModal from "../components/baseModal";
 import Popup from "../components/popup";
 import CsatUtil from "../util/csatUtil.ts";
 import Csat, {CSATType} from "../components/csat";
+import PromotionModal from "../components/promotionModal";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EventCallback = (...args: any[]) => void;
@@ -23,6 +24,7 @@ export class BaseLayout {
     private loader: Loader | undefined;
     private page: Page | undefined;
     protected submitForm: SubmitModal | undefined;
+    protected promotionForm: PromotionModal | undefined;
     private csat: Csat | undefined;
     /**
      * @description Конструктор класса.
@@ -49,6 +51,7 @@ export class BaseLayout {
                 this.progressBar = new ProgressBar({layout: this, page});
                 this.loader = new Loader({layout: this, page});
                 this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
+                this.promotionForm = new PromotionModal({layout: this, page, id: 'promotionModal'});
                 this.page = page;
                 this.csat = new Csat({page, layout: this});
                 this.csat.hide();

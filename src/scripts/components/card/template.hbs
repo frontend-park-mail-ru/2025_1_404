@@ -8,7 +8,15 @@
             <img class="card__photo-img" src="{{image}}" alt="">
         </div>
         <div class="card__content">
-            <h3 class="card__price">{{cardTitle}}</h3>
+            <div class="card__content-title">
+                <h3 class="card__price">
+                    {{cardTitle}}
+                </h3>
+                <div class="card__content-title-icons">
+                    {{> PromotionIcon }}
+                    {{> ConfirmedIcon }}
+                </div>
+            </div>
             <div class="card__info">
                 <ul>
                     <li>{{rooms}}-комн. кв.</li>

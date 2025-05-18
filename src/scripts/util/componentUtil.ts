@@ -62,6 +62,10 @@ import OfferDetailsGraphPopup from "../components/offerDetailsGraphPopup/templat
 import ProfileSideButton from "../components/profileSideButton/template.precompiled.js";
 import Paginator from "../components/paginator/template.precompiled.js";
 import OfferStats from "../components/offerStats/template.precompiled.js";
+import PromotionModal from "../components/promotionModal/template.precompiled.js";
+import ChoiceButton from "../components/choiceButton/template.precompiled.js";
+import ConfirmedIcon from "../components/confirmedIcon/template.precompiled.js";
+import PromotionIcon from "../components/promotionIcon/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -131,7 +135,11 @@ export default function registerComponents() {
         [OfferDetailsGraphPopup, 'OfferDetailsGraphPopup'],
         [ProfileSideButton, 'ProfileSideButton'],
         [Paginator, 'Paginator'],
-        [OfferStats, 'OfferStats']
+        [OfferStats, 'OfferStats'],
+        [PromotionModal, 'PromotionModal'],
+        [ChoiceButton, 'ChoiceButton'],
+        [PromotionIcon, 'PromotionIcon'],
+        [ConfirmedIcon, 'ConfirmedIcon']
     ];
 
     components.forEach(([component, name]) => {

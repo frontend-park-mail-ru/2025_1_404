@@ -2,7 +2,7 @@
 import HousingComplexInformation from "../../components/housingComplex/housingComplexInformation";
 import HousingComplexReviews from "../../components/housingComplex/housingComplexReviews";
 import HousingComplexSlider from "../../components/housingComplex/housingComplexSlider";
-import Map from "../../models/map";
+// import Map from "../../models/map";
 import {Page, PageRenderInterface} from "../page.ts";
 import {getHousingComplex} from "../../util/apiUtil.ts";
 import housingComplexInformationTemplate
@@ -11,8 +11,6 @@ import housingComplexSliderTemplate from "../../components/housingComplex/housin
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import PageManager from "../../managers/pageManager.ts";
-import MapUtil from "../../util/mapUtil.ts";
-import getMetroColorByLineName from "../../util/metroUtil.ts";
 
 
 /**

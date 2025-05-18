@@ -1,12 +1,12 @@
-import Map from "../../../models/map";
+// import Map from "../../../models/map";
 import OfferPage from "../page.ts";
 import template from "./template.precompiled.js";
 import {PageRenderInterface} from "../../page.ts";
 import AddressInput from "../../../components/addressInput";
 // import {YMapMarker} from "../../../lib/ymaps.ts";
 import {DomEvent, DomEventHandlerObject} from "@yandex/ymaps3-types/imperative/YMapListener";
-import MapUtil from "../../../util/mapUtil.ts";
-import {YMapMarker} from "@yandex/ymaps3-types";
+// import MapUtil from "../../../util/mapUtil.ts";
+// import {YMapMarker} from "@yandex/ymaps3-types";
 
 /**
  * @class OfferCreateAddressPage

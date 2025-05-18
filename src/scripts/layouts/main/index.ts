@@ -7,6 +7,7 @@ import User from "../../models/user.ts";
 import SubmitModal from "../../components/submitModal";
 import {deleteOffer} from "../../util/apiUtil.ts";
 import BottomNavigationBar from "../../components/bottomNavigationBar";
+import PromotionModal from "../../components/promotionModal";
 
 /**
  * @class MainLayout
@@ -79,6 +80,30 @@ export default class MainLayout extends BaseLayout {
                 });
             }
         });
+
+        this.on('showPromotion', (id: number) => {
+            if (this.promotionForm) {
+                this.promotionForm.showPromotionForm({
+                    title: 'Выберите тариф для продвижения:',
+                    submitButtonName: 'К оплате',
+                    submitButtonClass: 'primary',
+                    denyButtonName: 'Отменить',
+                    denyButtonClass: 'red',
+                    promotionChoices: {
+                        '0': "490 рублей / 3 дня",
+                        '1': "2990 рублей / 7 дней",
+                        '2': "9990 рублей / 30 дней"
+                    },
+                    onSubmit: () => {
+                        this.makeRequest(deleteOffer, id).then(() => {
+                            RouteManager.navigateTo('/profile/offers');
+                        }).catch((e: Error) => {
+                            this?.addPopup('Ошибка сервера', e.message);
+                        })
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -110,6 +135,7 @@ export default class MainLayout extends BaseLayout {
                 this.bottomNavigationBar = new BottomNavigationBar({layout: this, page});
                 this.loginForm = new Login({layout: this, page, id: 'login'});
                 this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
+                this.promotionForm = new PromotionModal({layout: this, page, id: 'promotionModal'});
 
                 this.setHeaderStatus(User.isAuthenticated());
 

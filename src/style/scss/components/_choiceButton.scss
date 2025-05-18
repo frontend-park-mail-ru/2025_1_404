@@ -2,6 +2,12 @@
 .choice {
   &-button {
     display: none;
+
+    &-wrapper {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
   }
 
   &-label {
@@ -11,6 +17,8 @@
     border: 1px solid $light-grey;
     border-radius: 6px;
     user-select: none;
+    text-align: center;
+    width: 100%;
   }
 
   &-button:checked + &-label {

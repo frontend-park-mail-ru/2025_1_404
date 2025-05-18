@@ -38,6 +38,7 @@ export default class ProfileMainPage extends Page {
         this.initListener('profileMyOffersPreviews', 'click', this.handlePreviewClick);
         this.initListener('profileBlockCreateOfferButton', 'click', this.handleCreateOfferButton);
         this.initListener('profileBlockMyOffersButton', 'click', this.handleMyOffersButton);
+        this.initListener('profileRightPromotionButton', 'click', this.handleMyOffersButton);
     }
 
     /**
