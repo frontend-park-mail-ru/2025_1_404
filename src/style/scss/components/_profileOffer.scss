@@ -58,6 +58,23 @@
       justify-content: space-between;
       gap: 15px;
     }
+
+    &-title {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      &-text {
+        display: inline;
+      }
+
+      &-icons {
+        display: inline-flex;
+        flex-direction: row;
+        gap: 5px;
+      }
+    }
   }
 
   &-link {

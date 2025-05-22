@@ -94,6 +94,8 @@ export default class Offer {
     images: Array<File|string> = [];
     logitude: number = 0;
     latitude: number = 0;
+    promoted: boolean = false;
+    promotedUntil?: Date;
 
     /**
      * @function parseOfferData
@@ -192,6 +194,11 @@ export default class Offer {
 
         this.logitude = json.offer.logitude
         this.latitude = json.offer.latitude;
+
+        if (json.offer_data.offer_promotion) {
+            this.promoted = json.offer_data.offer_promotion.is_promoted;
+            this.promotedUntil = json.offer_data.offer_promotion.promoted_until;
+        }
     }
 
     /**

@@ -138,7 +138,8 @@ export default class ProfileMyOffersPage extends Page {
                     image: offer.images[0],
                     views: offer.sellDetails.views,
                     favorites: offer.sellDetails.favorites,
-                    likes: offer.sellDetails.likes
+                    likes: offer.sellDetails.likes,
+                    promoted: offer.promoted
                 });
             });
         }).catch((error) => {
