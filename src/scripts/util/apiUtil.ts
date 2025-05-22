@@ -561,6 +561,25 @@ export const evaluateOffer = (offer: EvaluateOfferInterface)=> {
     });
 }
 
+export const promoteOffer = (offerId: number, type: number) => {
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/${offerId}/promote`,
+        method: 'POST',
+        body: {
+            type: type
+        }
+    })
+}
+
+export const checkPayment = (offerId: number, paymentId: number) => {
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/${offerId}/promote/check/${paymentId}`,
+        method: 'GET',
+    })
+}
+
 export const likeOfer = (offerId: number) => {
     return makeAPIRequest({
         apiUrl: ApiType.OFFER,

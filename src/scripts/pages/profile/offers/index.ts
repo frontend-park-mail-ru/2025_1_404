@@ -125,6 +125,10 @@ export default class ProfileMyOffersPage extends Page {
                 else {
                     cardTitle = 'Продажа: ' + cardTitle;
                 }
+                let promoteText = 'Продвигается еще ';
+                if (offer.promoted && offer.promotedUntil) {
+                    promoteText += `${Math.floor((Date.parse(offer.promotedUntil) - Date.now()) / 86400000)} дней`;
+                }
                 offerList.innerHTML += profileOfferTemplate({
                     id: offer.id,
                     title: cardTitle,
@@ -139,7 +143,8 @@ export default class ProfileMyOffersPage extends Page {
                     views: offer.sellDetails.views,
                     favorites: offer.sellDetails.favorites,
                     likes: offer.sellDetails.likes,
-                    promoted: offer.promoted
+                    promoted: offer.promoted,
+                    promoteText: promoteText
                 });
             });
         }).catch((error) => {

@@ -66,6 +66,7 @@ import PromotionModal from "../components/promotionModal/template.precompiled.js
 import ChoiceButton from "../components/choiceButton/template.precompiled.js";
 import ConfirmedIcon from "../components/confirmedIcon/template.precompiled.js";
 import PromotionIcon from "../components/promotionIcon/template.precompiled.js";
+import PromoteInformation from "../components/promoteInformation/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -139,7 +140,8 @@ export default function registerComponents() {
         [PromotionModal, 'PromotionModal'],
         [ChoiceButton, 'ChoiceButton'],
         [PromotionIcon, 'PromotionIcon'],
-        [ConfirmedIcon, 'ConfirmedIcon']
+        [ConfirmedIcon, 'ConfirmedIcon'],
+        [PromoteInformation, 'PromoteInformation']
     ];
 
     components.forEach(([component, name]) => {

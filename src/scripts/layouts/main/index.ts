@@ -5,7 +5,7 @@ import {Page, PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
 import SubmitModal from "../../components/submitModal";
-import {deleteOffer} from "../../util/apiUtil.ts";
+import {deleteOffer, promoteOffer} from "../../util/apiUtil.ts";
 import BottomNavigationBar from "../../components/bottomNavigationBar";
 import PromotionModal from "../../components/promotionModal";
 
@@ -90,15 +90,23 @@ export default class MainLayout extends BaseLayout {
                     denyButtonName: 'Отменить',
                     denyButtonClass: 'red',
                     promotionChoices: {
-                        '0': "490 рублей / 3 дня",
-                        '1': "2990 рублей / 7 дней",
-                        '2': "9990 рублей / 30 дней"
+                        '1': "490 рублей / 3 дня",
+                        '2': "2990 рублей / 7 дней",
+                        '3': "9990 рублей / 30 дней"
                     },
                     onSubmit: () => {
-                        this.makeRequest(deleteOffer, id).then(() => {
-                            RouteManager.navigateTo('/profile/offers');
+                        const choiceLabel = document.querySelector('.choice-button:checked') as HTMLElement;
+                        if (!choiceLabel || !choiceLabel.dataset.id) {
+                            return;
+                        }
+                        const type = Number.parseInt(choiceLabel.dataset.id);
+                        this.setLoaderStatus(true);
+                        this.makeRequest(promoteOffer, id, type).then((data) => {
+                            window.location.href = data.payment_uri;
                         }).catch((e: Error) => {
                             this?.addPopup('Ошибка сервера', e.message);
+                        }).finally(() => {
+                            this.setLoaderStatus(false);
                         })
                     }
                 });

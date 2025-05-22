@@ -95,7 +95,7 @@ export default class Offer {
     logitude: number = 0;
     latitude: number = 0;
     promoted: boolean = false;
-    promotedUntil?: Date;
+    promotedUntil?: string;
 
     /**
      * @function parseOfferData
