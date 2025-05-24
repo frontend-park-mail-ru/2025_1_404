@@ -76,6 +76,10 @@ interface AddOfferInterface {
      * @property {string} propertyType Тип недвижимости (например, "квартира", "дом")
      */
     propertyType: string;
+    /**
+     * @property {boolean} favorite Отмечено как избранное
+     */
+    favorite: boolean;
 }
 
 /**
@@ -174,8 +178,9 @@ export default class searchListPage extends Page {
      * @param {string} description Описание
      * @param {string} firstName Имя продавца
      * @param {string} lastName Фамилия продавца
+     * @param {boolean} favorite Отмечено как избранное
      */
-     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName}: AddOfferInterface) {
+     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName, favorite}: AddOfferInterface) {
          if (!this.offerList) {
              return;
          }
@@ -196,7 +201,7 @@ export default class searchListPage extends Page {
              }
              title = prefix + title;
         }
-        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName}));
+        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName, favorite}));
     }
 
     /**
@@ -261,7 +266,8 @@ export default class searchListPage extends Page {
                     seller_last_name: offer.seller.lastName,
                     seller_name: offer.seller.firstName,
                     description: offer.description,
-                    propertyType: offer.propertyType
+                    propertyType: offer.propertyType,
+                    favorite: offer.favorite
                 });
             });
         }).catch((error) => {

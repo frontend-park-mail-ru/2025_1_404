@@ -3,6 +3,7 @@ import {Page, PageRenderInterface} from '../page';
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import {checkPayment as checkPaymentAPI} from "../../util/apiUtil.ts";
+import RouteManager from "../../managers/routeManager/routeManager.ts";
 
 /**
  * @class CheckPaymentPage
@@ -12,6 +13,7 @@ import {checkPayment as checkPaymentAPI} from "../../util/apiUtil.ts";
 export default class CheckPaymentPage extends Page {
     private layout: BaseLayout | undefined;
     private title: HTMLElement | undefined;
+    private profileButton: HTMLElement | undefined;
 
     /**
      * @function render
@@ -29,19 +31,39 @@ export default class CheckPaymentPage extends Page {
 
         this.layout = layout;
         this.title = document.getElementById('title') as HTMLElement;
+        this.profileButton = document.getElementById('checkPaymentProfile') as HTMLElement;
 
         this.checkPayment(props.id, props.paymentId);
 
         super.render({root});
     }
 
+    /**
+     * @function initListeners
+     * @description Метод инициализации слушателей событий.
+     */
+    initListeners() {
+        this.initListener('checkPaymentProfile', 'click', this.handleProfileButton);
+    }
+
+    /**
+     * @function handleProfileButton
+     * @description Метод обработки клика по кнопке возвращения в профиль.
+     * @param {Event} event событие
+     */
+    handleProfileButton(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/profile');
+    }
+
     checkPayment(offerId: number, paymentId: number) {
         this.layout?.makeRequest(checkPaymentAPI, offerId, paymentId).then((data) => {
-            if (!this.title) {
+            if (!this.title || !this.profileButton) {
                 return;
             }
             if (data.is_active && data.is_paid) {
                 this.title.textContent = 'Спасибо за покупку!';
+                this.profileButton.classList.add('active');
                 return;
             }
             this.title.textContent = 'Транкзация истекла.';

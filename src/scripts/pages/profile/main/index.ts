@@ -37,8 +37,11 @@ export default class ProfileMainPage extends Page {
      */
     initListeners() {
         this.initListener('profileMyOffersPreviews', 'click', this.handlePreviewClick);
+        this.initListener('profileFavoritesPreviews', 'click', this.handlePreviewClick);
         this.initListener('profileBlockCreateOfferButton', 'click', this.handleCreateOfferButton);
         this.initListener('profileBlockMyOffersButton', 'click', this.handleMyOffersButton);
+        this.initListener('profileBlockFindOfferButton', 'click', this.handleFindOfferButton);
+        this.initListener('profileBlockFavoritesButton', 'click', this.handleFavoritesButton);
         this.initListener('profileRightPromotionButton', 'click', this.handleMyOffersButton);
     }
 
@@ -53,6 +56,16 @@ export default class ProfileMainPage extends Page {
     }
 
     /**
+     * @function handleFavoritesButton
+     * @description Метод обработки клика по кнопке "Избранное".
+     * @param {Event} event событие
+     */
+    private handleFavoritesButton(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/profile/favorites');
+    }
+
+    /**
      * @function handleCreateOfferButton
      * @description Метод обработки клика по кнопке создания объявления.
      * @param {Event} event событие
@@ -61,6 +74,16 @@ export default class ProfileMainPage extends Page {
         event.preventDefault();
         OfferCreateLayout.init();
         RouteManager.navigateTo('/offer/create/type');
+    }
+
+    /**
+     * @function handleFindOfferButton
+     * @description Метод обработки клика по кнопке найти объявление.
+     * @param {Event} event событие
+     */
+    private handleFindOfferButton(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/searchList');
     }
 
 
@@ -143,6 +166,7 @@ export default class ProfileMainPage extends Page {
     private updateMyFavorites() {
         const favoritesList = document.getElementById('profileFavoritesPreviews') as HTMLElement;
         const favoritesButton = document.getElementById('profileBlockFavoritesButton') as HTMLElement;
+        const findOfferButton = document.getElementById('profileBlockFindOfferButton') as HTMLElement;
         if (!favoritesList || !this.layout) {
             return;
         }
@@ -170,7 +194,7 @@ export default class ProfileMainPage extends Page {
                 }
             });
             if (favoritesCnt === 0) {
-                favoritesButton.classList.add('active');
+                findOfferButton.classList.add('active');
             }
         }).catch((error) => {
             this.layout?.addPopup('Ошибка сервера', error.message);
