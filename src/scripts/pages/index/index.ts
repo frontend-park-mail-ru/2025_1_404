@@ -133,7 +133,7 @@ export default class IndexPage extends Page {
                 return;
             }
             this.layout?.makeRequest(favourite, Number(parentElement.dataset.id)).then((data) => {
-                const status = data.status;
+                const status = data.is_favorited;
                 heart.classList.remove('active');
                 if (status) {
                     heart.classList.add('active');

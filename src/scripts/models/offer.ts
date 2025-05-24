@@ -137,6 +137,7 @@ export default class Offer {
      */
     // eslint-disable-next-line max-statements, @typescript-eslint/no-explicit-any
     parseJSON(json: any) {
+        console.log(json);
         this.id = json.offer.id;
         this.seller.id = json.offer.seller_id;
         this.seller.firstName = json.offer_data.seller.seller_name;
@@ -149,7 +150,8 @@ export default class Offer {
         const sellDetails = OfferMock.getSellDetails(this.id);
         this.sellDetails.views = json.offer_data.offer_stat.views;
         this.sellDetails.likes = json.offer_data.offer_stat.likes_stat.amount;
-        this.sellDetails.favorites = sellDetails.favorites;
+        if (json.offer_data.offer_stat.favourite_stat !== null)
+            this.sellDetails.favorites = json.offer_data.offer_stat.favorites_stat.amount;
 
         if (json.offer_data.offer_prices !== null) {
             for (const priceElement of json.offer_data.offer_prices) {
@@ -161,7 +163,7 @@ export default class Offer {
 
         const userData = User.getData();
         if (userData && userData.id !== null && userData.id !== undefined) {
-            this.favorite = OfferMock.isOfferFavoritedByUser(userData.id, this.id);
+            this.favorite = json.offer_data.offer_stat.likes_stat.is_favorited;
         }
 
         this.status = json.offer.status_id;

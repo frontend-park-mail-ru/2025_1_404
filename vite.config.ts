@@ -1,9 +1,16 @@
 import { defineConfig } from 'vite'
 import legacy from '@vitejs/plugin-legacy'
+import compression from 'vite-plugin-compression'
+import { imagetools } from 'vite-imagetools'
 
 export default defineConfig({
     plugins: [
-        legacy()
+        legacy(),
+
+        compression({ algorithm: 'gzip' }),
+        compression({ algorithm: 'brotliCompress', ext: '.br' }),
+
+        imagetools()
     ],
     server: {
         port: 8000

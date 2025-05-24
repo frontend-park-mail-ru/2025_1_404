@@ -4,7 +4,7 @@ import {Page, PageRenderInterface} from "../page.ts";
 import template from './template.precompiled.js';
 import User from "../../models/user.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
-import {searchOffers} from "../../util/apiUtil.ts";
+import {favourite, searchOffers} from "../../util/apiUtil.ts";
 import searchOfferTemplate from "../../components/searchListOffer/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import FilterModel from "../../models/filterModel.ts";
@@ -124,7 +124,11 @@ export default class searchListPage extends Page {
             return;
         }
         let parent = target;
+        let heart = target;
         while (parent && parent.parentElement && !parent.classList.contains('searchList__results-offer')) {
+            if (parent.classList.contains('heart')) {
+                heart = parent;
+            }
             parent = parent.parentElement;
         }
         const offerId = parent.dataset.id;
@@ -132,6 +136,20 @@ export default class searchListPage extends Page {
             return;
         }
         event.preventDefault()
+        if (heart.classList.contains('heart')) {
+            if (!User.isAuthenticated()) {
+                this.layout?.emit('showLogin');
+                return;
+            }
+            this.layout?.makeRequest(favourite, Number(parent.dataset.id)).then((data) => {
+                const status = data.is_favorited;
+                heart.classList.remove('active');
+                if (status) {
+                    heart.classList.add('active');
+                }
+            });
+            return;
+        }
         if (target.id === 'searchList-link') {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }

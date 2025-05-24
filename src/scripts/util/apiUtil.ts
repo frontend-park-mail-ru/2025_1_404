@@ -512,15 +512,26 @@ export const logout = async () => await makeAPIRequest({
 });
 
 export const favourite = async(offerId: number) => {
-    if (!User.isAuthenticated()) {
-        return {'status': false};
-    }
-    const userData = User.getData();
-    if (!userData || userData.id === undefined || userData.id === null) {
-        return {'status': false};
-    }
-    return OfferMock.toggleFavorite(userData.id, offerId);
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/favorite`,
+        method: 'POST',
+        body: {
+            offer_id: offerId,
+        }
+    });
 }
+
+/**
+ * @function getFavoritesOffers
+ * @description Функция для получения списка любимых объявления.
+ * @returns {Promise<*>} Ответ от сервера
+ */
+export const getFavoritesOffers = async () => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
+    endpoint: '/offers/favorites',
+    method: 'GET',
+})
 
 interface EvaluateOfferInterface {
     offerType: string;
