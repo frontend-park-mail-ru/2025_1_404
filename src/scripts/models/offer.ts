@@ -137,7 +137,7 @@ export default class Offer {
      */
     // eslint-disable-next-line max-statements, @typescript-eslint/no-explicit-any
     parseJSON(json: any) {
-        console.log(json);
+        // console.log(json);
         this.id = json.offer.id;
         this.seller.id = json.offer.seller_id;
         this.seller.firstName = json.offer_data.seller.seller_name;
