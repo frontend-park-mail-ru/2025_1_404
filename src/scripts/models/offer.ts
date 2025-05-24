@@ -147,11 +147,9 @@ export default class Offer {
         if (this.id === null || this.id === undefined) {
             return;
         }
-        const sellDetails = OfferMock.getSellDetails(this.id);
         this.sellDetails.views = json.offer_data.offer_stat.views;
         this.sellDetails.likes = json.offer_data.offer_stat.likes_stat.amount;
-        if (json.offer_data.offer_stat.favourite_stat !== null)
-            this.sellDetails.favorites = json.offer_data.offer_stat.favorites_stat.amount;
+        this.sellDetails.favorites = json.offer_data.offer_stat.favorite_stat.amount;
 
         if (json.offer_data.offer_prices !== null) {
             for (const priceElement of json.offer_data.offer_prices) {
@@ -163,7 +161,7 @@ export default class Offer {
 
         const userData = User.getData();
         if (userData && userData.id !== null && userData.id !== undefined) {
-            this.favorite = json.offer_data.offer_stat.likes_stat.is_favorited;
+            this.favorite = json.offer_data.offer_stat.favorite_stat.is_favorited;
         }
 
         this.status = json.offer.status_id;

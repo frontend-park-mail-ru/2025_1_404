@@ -2,7 +2,7 @@
 import HousingComplexInformation from "../../components/housingComplex/housingComplexInformation";
 import HousingComplexReviews from "../../components/housingComplex/housingComplexReviews";
 import HousingComplexSlider from "../../components/housingComplex/housingComplexSlider";
-// import Map from "../../models/map";
+import Map from "../../models/map";
 import {Page, PageRenderInterface} from "../page.ts";
 import {getHousingComplex} from "../../util/apiUtil.ts";
 import housingComplexInformationTemplate

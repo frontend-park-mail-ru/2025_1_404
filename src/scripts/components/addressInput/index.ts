@@ -2,7 +2,7 @@ import {Page} from "../../pages/page.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import ClearInput from "../clearInput";
 import AddressButton from "../addressButton";
-// import MapUtil from "../../util/mapUtil.ts";
+import MapUtil from "../../util/mapUtil.ts";
 
 /**
  * @class AddressInput
