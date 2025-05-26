@@ -1,6 +1,8 @@
 import {HttpMethod, createRequestOptions, makeRequest} from "./httpUtil.ts";
 import OfferMock from "../models/offerMock.ts";
 import User from "../models/user.ts";
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
 
 const ApiType = {
     AUTH: import.meta.env.VITE_BACKEND_AUTH_URL,
@@ -527,10 +529,13 @@ export const favourite = async(offerId: number) => {
  * @description Функция для получения списка любимых объявления.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const getFavoritesOffers = async () => await makeAPIRequest({
+export const getFavoritesOffers = async (offerTypeId?: string) => await makeAPIRequest({
     apiUrl: ApiType.OFFER,
     endpoint: '/offers/favorites',
     method: 'GET',
+    query: {
+        offer_type_id: offerTypeId ? offerTypeId.toString() : ''
+    }
 })
 
 interface EvaluateOfferInterface {
