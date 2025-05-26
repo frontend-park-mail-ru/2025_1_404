@@ -11,8 +11,6 @@ import housingComplexSliderTemplate from "../../components/housingComplex/housin
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import PageManager from "../../managers/pageManager.ts";
-import MapUtil from "../../util/mapUtil.ts";
-import getMetroColorByLineName from "../../util/metroUtil.ts";
 
 
 /**
@@ -52,7 +50,7 @@ export default class HousingComplexPage extends Page {
                 housingComplexSlider.innerHTML = housingComplexSliderTemplate(data);
             }
             this.slider = new HousingComplexSlider({page: this, layout});
-            console.log(data);
+            // console.log(data);
             this.information = new HousingComplexInformation({page: this, layout, phone: data.contacts.phone});
             this.reviews = new HousingComplexReviews({page: this, layout});
 

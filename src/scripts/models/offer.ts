@@ -94,6 +94,8 @@ export default class Offer {
     images: Array<File|string> = [];
     logitude: number = 0;
     latitude: number = 0;
+    promoted: boolean = false;
+    promotedUntil?: string;
 
     /**
      * @function parseOfferData
@@ -135,6 +137,7 @@ export default class Offer {
      */
     // eslint-disable-next-line max-statements, @typescript-eslint/no-explicit-any
     parseJSON(json: any) {
+        // console.log(json);
         this.id = json.offer.id;
         this.seller.id = json.offer.seller_id;
         this.seller.firstName = json.offer_data.seller.seller_name;
@@ -144,10 +147,9 @@ export default class Offer {
         if (this.id === null || this.id === undefined) {
             return;
         }
-        const sellDetails = OfferMock.getSellDetails(this.id);
         this.sellDetails.views = json.offer_data.offer_stat.views;
         this.sellDetails.likes = json.offer_data.offer_stat.likes_stat.amount;
-        this.sellDetails.favorites = sellDetails.favorites;
+        this.sellDetails.favorites = json.offer_data.offer_stat.favorite_stat.amount;
 
         if (json.offer_data.offer_prices !== null) {
             for (const priceElement of json.offer_data.offer_prices) {
@@ -159,7 +161,7 @@ export default class Offer {
 
         const userData = User.getData();
         if (userData && userData.id !== null && userData.id !== undefined) {
-            this.favorite = OfferMock.isOfferFavoritedByUser(userData.id, this.id);
+            this.favorite = json.offer_data.offer_stat.favorite_stat.is_favorited;
         }
 
         this.status = json.offer.status_id;
@@ -192,6 +194,11 @@ export default class Offer {
 
         this.logitude = json.offer.logitude
         this.latitude = json.offer.latitude;
+
+        if (json.offer_data.offer_promotion) {
+            this.promoted = json.offer_data.offer_promotion.is_promoted;
+            this.promotedUntil = json.offer_data.offer_promotion.promoted_until;
+        }
     }
 
     /**

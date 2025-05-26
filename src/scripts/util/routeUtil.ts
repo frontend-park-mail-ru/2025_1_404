@@ -25,6 +25,7 @@ import {OfferEditDescriptionRoute} from "../routes/offer/edit/offerEditDescripti
 import {ProfileFavoritesRoute} from "../routes/profile/profileFavoritesRoute.ts";
 import {CsatStatsRoute} from "../routes/csatStatsRouse.ts";
 import {SearchMapRoute} from "../routes/searchMap.ts";
+import {CheckPaymentRoute} from "../routes/offer/checkPayment.ts";
 /**
  * @function registerRoutes
  * @description Регистрация маршрутов
@@ -58,6 +59,8 @@ export default function registerRoutes() {
     RouteManager.registerRoute('zhk/:id', new HousingComplexRoute());
 
     RouteManager.registerRoute('offer/details/:id', new OfferDetailsRoute());
+
+    RouteManager.registerRoute('offer/:id/check/:paymentId', authMiddleware.check(new CheckPaymentRoute()));
 
     RouteManager.registerRoute('searchList', new SearchListRoute());
     RouteManager.registerRoute('searchMap', new SearchMapRoute());

@@ -58,6 +58,17 @@
     display: flex;
     flex-direction: column;
     gap: 0.35em;
+
+    &-title {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+
+      &-icons {
+        display: inline-flex;
+        gap: 5px;
+      }
+    }
   }
 
   &__price {

@@ -512,15 +512,26 @@ export const logout = async () => await makeAPIRequest({
 });
 
 export const favourite = async(offerId: number) => {
-    if (!User.isAuthenticated()) {
-        return {'status': false};
-    }
-    const userData = User.getData();
-    if (!userData || userData.id === undefined || userData.id === null) {
-        return {'status': false};
-    }
-    return OfferMock.toggleFavorite(userData.id, offerId);
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/favorite`,
+        method: 'POST',
+        body: {
+            offer_id: offerId,
+        }
+    });
 }
+
+/**
+ * @function getFavoritesOffers
+ * @description Функция для получения списка любимых объявления.
+ * @returns {Promise<*>} Ответ от сервера
+ */
+export const getFavoritesOffers = async () => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
+    endpoint: '/offers/favorites',
+    method: 'GET',
+})
 
 interface EvaluateOfferInterface {
     offerType: string;
@@ -559,6 +570,25 @@ export const evaluateOffer = (offer: EvaluateOfferInterface)=> {
             ceiling_height: offer.ceilingHeight,
         }
     });
+}
+
+export const promoteOffer = (offerId: number, type: number) => {
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/${offerId}/promote`,
+        method: 'POST',
+        body: {
+            type: type
+        }
+    })
+}
+
+export const checkPayment = (offerId: number, paymentId: number) => {
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/${offerId}/promote/check/${paymentId}`,
+        method: 'GET',
+    })
 }
 
 export const likeOfer = (offerId: number) => {

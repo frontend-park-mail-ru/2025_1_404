@@ -2,11 +2,11 @@ import {BaseComponent} from "../baseComponent.ts";
 import template from './template.precompiled.js';
 
 /**
- * @class ProfileFavorite
- * @description Компонент объявления из избранного в профиле.
+ * @class ChoiceButton
+ * @description Компонент кнопки выбора.
  * @augments BaseComponent
  */
-export default class ProfileFavorite extends BaseComponent {
+export default class ChoiceButton extends BaseComponent {
     /**
      * @function render
      * @description Метод рендеринга компонента.

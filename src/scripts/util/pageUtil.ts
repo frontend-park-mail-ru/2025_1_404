@@ -29,6 +29,7 @@ import OfferEditDescriptionPage from "../pages/offerEdit/description";
 import ProfileFavoritesPage from "../pages/profile/favorites";
 import CSATPage from "../pages/csatStars";
 import CsatStatsPage from "../pages/csatStats";
+import CheckPaymentPage from "../pages/checkPayment";
 
 /**
  * @function registerPages
@@ -64,6 +65,7 @@ export default function registerPages() {
     PageManager.registerPage('zhk', mainLayout.process(new HousingComplexPage()));
 
     PageManager.registerPage('offerDetails', mainLayout.process(new OfferDetailsPage()));
+    PageManager.registerPage('checkPayment', mainLayout.process(new CheckPaymentPage()));
 
     PageManager.registerPage('searchList', mainLayout.process(new SearchListPage()));
     PageManager.registerPage('searchMap', mainLayout.process(new SearchMapPage()));

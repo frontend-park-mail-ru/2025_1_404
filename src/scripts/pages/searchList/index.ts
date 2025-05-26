@@ -4,7 +4,7 @@ import {Page, PageRenderInterface} from "../page.ts";
 import template from './template.precompiled.js';
 import User from "../../models/user.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
-import {searchOffers} from "../../util/apiUtil.ts";
+import {favourite, searchOffers} from "../../util/apiUtil.ts";
 import searchOfferTemplate from "../../components/searchListOffer/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import FilterModel from "../../models/filterModel.ts";
@@ -76,6 +76,10 @@ interface AddOfferInterface {
      * @property {string} propertyType Тип недвижимости (например, "квартира", "дом")
      */
     propertyType: string;
+    /**
+     * @property {boolean} favorite Отмечено как избранное
+     */
+    favorite: boolean;
 }
 
 /**
@@ -124,7 +128,11 @@ export default class searchListPage extends Page {
             return;
         }
         let parent = target;
+        let heart = target;
         while (parent && parent.parentElement && !parent.classList.contains('searchList__results-offer')) {
+            if (parent.classList.contains('heart')) {
+                heart = parent;
+            }
             parent = parent.parentElement;
         }
         const offerId = parent.dataset.id;
@@ -132,6 +140,20 @@ export default class searchListPage extends Page {
             return;
         }
         event.preventDefault()
+        if (heart.classList.contains('heart')) {
+            if (!User.isAuthenticated()) {
+                this.layout?.emit('showLogin');
+                return;
+            }
+            this.layout?.makeRequest(favourite, Number(parent.dataset.id)).then((data) => {
+                const status = data.is_favorited;
+                heart.classList.remove('active');
+                if (status) {
+                    heart.classList.add('active');
+                }
+            });
+            return;
+        }
         if (target.id === 'searchList-link') {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
@@ -156,8 +178,9 @@ export default class searchListPage extends Page {
      * @param {string} description Описание
      * @param {string} firstName Имя продавца
      * @param {string} lastName Фамилия продавца
+     * @param {boolean} favorite Отмечено как избранное
      */
-     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName}: AddOfferInterface) {
+     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName, favorite}: AddOfferInterface) {
          if (!this.offerList) {
              return;
          }
@@ -178,7 +201,7 @@ export default class searchListPage extends Page {
              }
              title = prefix + title;
         }
-        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName}));
+        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName, favorite}));
     }
 
     /**
@@ -243,7 +266,8 @@ export default class searchListPage extends Page {
                     seller_last_name: offer.seller.lastName,
                     seller_name: offer.seller.firstName,
                     description: offer.description,
-                    propertyType: offer.propertyType
+                    propertyType: offer.propertyType,
+                    favorite: offer.favorite
                 });
             });
         }).catch((error) => {

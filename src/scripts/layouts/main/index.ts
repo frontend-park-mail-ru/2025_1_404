@@ -5,8 +5,9 @@ import {Page, PageRenderInterface} from "../../pages/page.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
 import User from "../../models/user.ts";
 import SubmitModal from "../../components/submitModal";
-import {deleteOffer} from "../../util/apiUtil.ts";
+import {deleteOffer, promoteOffer} from "../../util/apiUtil.ts";
 import BottomNavigationBar from "../../components/bottomNavigationBar";
+import PromotionModal from "../../components/promotionModal";
 
 /**
  * @class MainLayout
@@ -79,6 +80,38 @@ export default class MainLayout extends BaseLayout {
                 });
             }
         });
+
+        this.on('showPromotion', (id: number) => {
+            if (this.promotionForm) {
+                this.promotionForm.showPromotionForm({
+                    title: 'Выберите тариф для продвижения:',
+                    submitButtonName: 'К оплате',
+                    submitButtonClass: 'primary',
+                    denyButtonName: 'Отменить',
+                    denyButtonClass: 'red',
+                    promotionChoices: {
+                        '1': "490 рублей / 3 дня",
+                        '2': "2990 рублей / 7 дней",
+                        '3': "9990 рублей / 30 дней"
+                    },
+                    onSubmit: () => {
+                        const choiceLabel = document.querySelector('.choice-button:checked') as HTMLElement;
+                        if (!choiceLabel || !choiceLabel.dataset.id) {
+                            return;
+                        }
+                        const type = Number.parseInt(choiceLabel.dataset.id);
+                        this.setLoaderStatus(true);
+                        this.makeRequest(promoteOffer, id, type).then((data) => {
+                            window.location.href = data.payment_uri;
+                        }).catch((e: Error) => {
+                            this?.addPopup('Ошибка сервера', e.message);
+                        }).finally(() => {
+                            this.setLoaderStatus(false);
+                        })
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -110,6 +143,7 @@ export default class MainLayout extends BaseLayout {
                 this.bottomNavigationBar = new BottomNavigationBar({layout: this, page});
                 this.loginForm = new Login({layout: this, page, id: 'login'});
                 this.submitForm = new SubmitModal({layout: this, page, id: 'submitModal'});
+                this.promotionForm = new PromotionModal({layout: this, page, id: 'promotionModal'});
 
                 this.setHeaderStatus(User.isAuthenticated());
 

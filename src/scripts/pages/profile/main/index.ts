@@ -2,7 +2,7 @@
 import {Page, PageRenderInterface} from '../../page';
 import template from "./template.precompiled.js";
 import User from "../../../models/user.ts";
-import {searchOffers} from "../../../util/apiUtil.ts";
+import {getFavoritesOffers, searchOffers} from "../../../util/apiUtil.ts";
 import Offer from "../../../models/offer.ts";
 import profilePreviewTemplate from "../../../components/profilePreview/template.precompiled.js";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
@@ -28,6 +28,7 @@ export default class ProfileMainPage extends Page {
         super.render({layout, root});
 
         this.updateMyOffers();
+        this.updateMyFavorites();
     }
 
     /**
@@ -36,8 +37,12 @@ export default class ProfileMainPage extends Page {
      */
     initListeners() {
         this.initListener('profileMyOffersPreviews', 'click', this.handlePreviewClick);
+        this.initListener('profileFavoritesPreviews', 'click', this.handlePreviewClick);
         this.initListener('profileBlockCreateOfferButton', 'click', this.handleCreateOfferButton);
         this.initListener('profileBlockMyOffersButton', 'click', this.handleMyOffersButton);
+        this.initListener('profileBlockFindOfferButton', 'click', this.handleFindOfferButton);
+        this.initListener('profileBlockFavoritesButton', 'click', this.handleFavoritesButton);
+        this.initListener('profileRightPromotionButton', 'click', this.handleMyOffersButton);
     }
 
     /**
@@ -51,6 +56,16 @@ export default class ProfileMainPage extends Page {
     }
 
     /**
+     * @function handleFavoritesButton
+     * @description Метод обработки клика по кнопке "Избранное".
+     * @param {Event} event событие
+     */
+    private handleFavoritesButton(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/profile/favorites');
+    }
+
+    /**
      * @function handleCreateOfferButton
      * @description Метод обработки клика по кнопке создания объявления.
      * @param {Event} event событие
@@ -59,6 +74,16 @@ export default class ProfileMainPage extends Page {
         event.preventDefault();
         OfferCreateLayout.init();
         RouteManager.navigateTo('/offer/create/type');
+    }
+
+    /**
+     * @function handleFindOfferButton
+     * @description Метод обработки клика по кнопке найти объявление.
+     * @param {Event} event событие
+     */
+    private handleFindOfferButton(event: Event) {
+        event.preventDefault();
+        RouteManager.navigateTo('/searchList');
     }
 
 
@@ -91,8 +116,8 @@ export default class ProfileMainPage extends Page {
     }
 
     /**
-     * @function initListeners
-     * @description Метод инициализации слушателей событий.
+     * @function updateMyOffers
+     * @description Метод отображения "мои объявления".
      */
     private updateMyOffers() {
         const myOffersList = document.getElementById('profileMyOffersPreviews') as HTMLElement;
@@ -128,6 +153,48 @@ export default class ProfileMainPage extends Page {
             });
             if (myOffersCnt === 0) {
                 createOfferButton.classList.add('active');
+            }
+        }).catch((error) => {
+            this.layout?.addPopup('Ошибка сервера', error.message);
+        })
+    }
+
+    /**
+     * @function updateMyFavorites
+     * @description Метод отображения списка избранного.
+     */
+    private updateMyFavorites() {
+        const favoritesList = document.getElementById('profileFavoritesPreviews') as HTMLElement;
+        const favoritesButton = document.getElementById('profileBlockFavoritesButton') as HTMLElement;
+        const findOfferButton = document.getElementById('profileBlockFindOfferButton') as HTMLElement;
+        if (!favoritesList || !this.layout) {
+            return;
+        }
+        favoritesList.innerHTML = '';
+        const user = User.getData();
+        if (!user || typeof user.id !== 'number') {
+            return;
+        }
+        this.layout.makeRequest(getFavoritesOffers).then((response) => {
+            let favoritesCnt = 0;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            response.forEach((offerData: any) => {
+                const offer = new Offer();
+                offer.parseJSON(offerData);
+                favoritesCnt++;
+                if (favoritesCnt > 3) {
+                    favoritesButton.classList.add('active');
+                } else {
+                    favoritesList.innerHTML += profilePreviewTemplate({
+                        id: offer.id,
+                        title: `${offer.offerType === 'Продажа' ? 'Продажа' : 'Сдача'} ${offer.rooms}-комн. ${offer.propertyType.toLowerCase()}, ${offer.area} м²`,
+                        address: offer.address,
+                        image: offer.images[0]
+                    });
+                }
+            });
+            if (favoritesCnt === 0) {
+                findOfferButton.classList.add('active');
             }
         }).catch((error) => {
             this.layout?.addPopup('Ошибка сервера', error.message);

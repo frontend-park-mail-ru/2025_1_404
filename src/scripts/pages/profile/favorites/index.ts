@@ -2,7 +2,7 @@
 import {Page, PageRenderInterface} from '../../page';
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
-import {searchOffers} from "../../../util/apiUtil.ts";
+import {getFavoritesOffers, searchOffers} from "../../../util/apiUtil.ts";
 import profileFavoriteTemplate from "../../../components/profileFavorite/template.precompiled.js"
 import Offer from "../../../models/offer.ts";
 import getMetroColorByLineName from "../../../util/metroUtil.ts";
@@ -97,10 +97,10 @@ export default class ProfileFavoritesPage extends Page {
         if (!user || typeof user.id !== 'number') {
             return;
         }
-        this.layout.makeRequest(searchOffers, {
-            'me': 'true',
-            'offer_type_id': offerType,
-        }).then((response) => {
+        // {
+        //     'offer_type_id': offerType,
+        // }
+        this.layout.makeRequest(getFavoritesOffers).then((response) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             response.forEach((offerData: any) => {
                 const offer = new Offer();

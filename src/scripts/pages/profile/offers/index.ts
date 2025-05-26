@@ -67,6 +67,9 @@ export default class ProfileMyOffersPage extends Page {
         if (target.classList.contains('profile__offer-link')) {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
+        if (target.classList.contains("primary-btn")) {
+            this.layout?.emit('showPromotion', offerId);
+        }
         if (target.classList.contains("light-btn")) {
             OfferEditLayout.reset();
             this.layout?.emit('editOffer', offerId);
@@ -122,6 +125,10 @@ export default class ProfileMyOffersPage extends Page {
                 else {
                     cardTitle = 'Продажа: ' + cardTitle;
                 }
+                let promoteText = 'Продвигается еще ';
+                if (offer.promoted && offer.promotedUntil) {
+                    promoteText += `${Math.floor((Date.parse(offer.promotedUntil) - Date.now()) / 86400000)} дней`;
+                }
                 offerList.innerHTML += profileOfferTemplate({
                     id: offer.id,
                     title: cardTitle,
@@ -135,7 +142,9 @@ export default class ProfileMyOffersPage extends Page {
                     image: offer.images[0],
                     views: offer.sellDetails.views,
                     favorites: offer.sellDetails.favorites,
-                    likes: offer.sellDetails.likes
+                    likes: offer.sellDetails.likes,
+                    promoted: offer.promoted,
+                    promoteText: promoteText
                 });
             });
         }).catch((error) => {

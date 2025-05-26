@@ -4,7 +4,7 @@ import {Page, PageRenderInterface} from "../page.ts";
 import template from './template.precompiled.js';
 import User from "../../models/user.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
-import {searchOffers} from "../../util/apiUtil.ts";
+import {favourite, searchOffers} from "../../util/apiUtil.ts";
 import cardTemplate from "../../components/card/template.precompiled.js";
 import getMetroColorByLineName from "../../util/metroUtil.ts";
 import FilterModel from "../../models/filterModel.ts";
@@ -70,6 +70,10 @@ interface AddOfferInterface {
      * @property {string} propertyType Тип недвижимости (например, "квартира", "дом")
      */
     propertyType: string;
+    /**
+     * @property {boolean} favorite Отмечено как избранное
+     */
+    favorite: boolean;
 }
 
 /**
@@ -142,7 +146,11 @@ export default class searchMapPage extends Page {
             return;
         }
         let parent = target;
-        while (parent && parent.parentElement && !parent.classList.contains('searchMap__results-offer')) {
+        let heart = target;
+        while (parent && parent.parentElement && !parent.classList.contains('card__link')) {
+            if (parent.classList.contains('heart')) {
+                heart = parent;
+            }
             parent = parent.parentElement;
         }
         const offerId = parent.dataset.id;
@@ -150,6 +158,20 @@ export default class searchMapPage extends Page {
             return;
         }
         event.preventDefault()
+        if (heart.classList.contains('heart')) {
+            if (!User.isAuthenticated()) {
+                this.layout?.emit('showLogin');
+                return;
+            }
+            this.layout?.makeRequest(favourite, Number(parent.dataset.id)).then((data) => {
+                const status = data.is_favorited;
+                heart.classList.remove('active');
+                if (status) {
+                    heart.classList.add('active');
+                }
+            });
+            return;
+        }
         if (target.id === 'searchMap-link') {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
@@ -197,8 +219,9 @@ export default class searchMapPage extends Page {
      * @param {string} image URL изображение недвижимости
      * @param {string} offerType Тип предложения (например, "аренда" или "продажа")
      * @param {string} rentType Тип аренды (например, "долгосрок" или "сутки"), используется только для аренды
+     * @param {boolean} favorite Отмечено как избранное
      */
-    private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType}: AddOfferInterface) {
+    private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, favorite}: AddOfferInterface) {
         if (!this.offerList) {
             return;
         }
@@ -212,7 +235,7 @@ export default class searchMapPage extends Page {
         }
 
         const className = "search__card"
-        this.offerList.insertAdjacentHTML('beforeend', cardTemplate({id, address, cardTitle, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation: metroStation || "Нет", rooms, square, totalFloors, class: className}));
+        this.offerList.insertAdjacentHTML('beforeend', cardTemplate({id, address, cardTitle, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation: metroStation || "Нет", rooms, square, totalFloors, class: className, favorite}));
     }
 
     /**
@@ -291,7 +314,8 @@ export default class searchMapPage extends Page {
                     rent_type: offer.rentType,
                     rooms: offer.rooms,
                     total_floors: offer.totalFloors,
-                    propertyType: offer.propertyType
+                    propertyType: offer.propertyType,
+                    favorite: offer.favorite
                 });
             }
             this.map?.addClustererMarkers(points, props);

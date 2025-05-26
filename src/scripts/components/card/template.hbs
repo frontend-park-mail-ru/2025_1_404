@@ -1,14 +1,22 @@
 <div class="card {{class}}">
     <a class="card__link" href="/offer/details/{{id}}" data-id="{{id}}">
         <div class="card__heart">
-            {{> HeartButton }}
+            {{> HeartButton favorite=favorite}}
         </div>
 
         <div class="card__photo">
             <img class="card__photo-img" src="{{image}}" alt="">
         </div>
         <div class="card__content">
-            <h3 class="card__price">{{cardTitle}}</h3>
+            <div class="card__content-title">
+                <h3 class="card__price">
+                    {{cardTitle}}
+                </h3>
+                <div class="card__content-title-icons">
+<!--                    {{> PromotionIcon }}-->
+<!--                    {{> ConfirmedIcon }}-->
+                </div>
+            </div>
             <div class="card__info">
                 <ul>
                     <li>{{rooms}}-комн. кв.</li>

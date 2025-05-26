@@ -25,7 +25,7 @@ export default class LikeButton extends BaseComponent {
     }
 
     public updateDetails({isLiked, count}: {isLiked: boolean, count: number}) {
-        console.log('updateDetails', isLiked, count);
+        // console.log('updateDetails', isLiked, count);
         const likeContainer = document.getElementById('like') as HTMLElement;
         const likeCount = document.getElementById('like__count') as HTMLElement;
         if (!likeContainer || !likeCount) {
