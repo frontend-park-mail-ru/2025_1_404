@@ -172,7 +172,7 @@ export default class searchMapPage extends Page {
             });
             return;
         }
-        if (target.id === 'searchMap-link') {
+        if (parent.className === 'card__link') {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
     }
