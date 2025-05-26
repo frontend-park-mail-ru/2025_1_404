@@ -85,6 +85,7 @@ export default class OfferPage extends Page {
      */
     protected isInputsFilled() {
         let isFilled = true;
+        console.log(this.offerData)
         if (Object.keys(this.offerData).length < this.inputs) {
             return false;
         }
@@ -113,7 +114,7 @@ export default class OfferPage extends Page {
                 this.offerData[input.id] = input.value;
             }
 
-            if (input.id === 'input-address__input' && input.dataset.filled === 'false') {
+            if ((input.id === 'input-address__input' || input.id === 'input-metro__input') && input.dataset.filled === 'false') {
                 this.offerData[input.id] = '';
                 result = false;
             }

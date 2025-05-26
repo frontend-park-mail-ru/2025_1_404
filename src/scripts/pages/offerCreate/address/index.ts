@@ -6,6 +6,9 @@ import AddressInput from "../../../components/addressInput";
 import {YMapMarker} from "../../../lib/ymaps.ts";
 import {DomEvent, DomEventHandlerObject} from "@yandex/ymaps3-types/imperative/YMapListener";
 import MapUtil from "../../../util/mapUtil.ts";
+import SelectInput from "../../../components/selectInput";
+import {getStations} from "../../../util/apiUtil.ts";
+import User from "../../../models/user.ts";
 
 /**
  * @class OfferCreateAddressPage
@@ -16,6 +19,11 @@ export default class OfferCreateAddressPage extends OfferPage {
     private map?: Map;
     private house?: YMapMarker;
     private addressInput?: AddressInput;
+    private metroInput?: SelectInput;
+    private zhkInput?: SelectInput;
+
+    private stations: {station_id: number, color: string, station: string}[] = [];
+
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -37,11 +45,33 @@ export default class OfferCreateAddressPage extends OfferPage {
             this.setDataFromModel();
         }
 
+        if (User.isLoaded()) {
+            this.layout?.setLoaderStatus(true);
+            this.layout?.makeRequest(getStations).then((data) => {
+                this.stations = data;
+                this.metroInput = new SelectInput({
+                    page: this,
+                    layout,
+                    id: 'input-metro',
+                    variants: this.stations.map(({station_id: id, station: name}) => ({id, name}))
+                });
+            }).catch((err) => {
+                this.layout?.addPopup('Ошибка сервера', err);
+            }).finally(() => {
+                this.layout?.setLoaderStatus(false);
+            })
+        }
         this.addressInput = new AddressInput({
             page: this,
             layout,
             id: 'input-address'
         });
+
+        // this.zhkInput = new SelectInput({
+        //     page: this,
+        //     layout,
+        //     id: 'input-zhk'
+        // });
     }
 
     /**

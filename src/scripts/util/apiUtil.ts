@@ -606,3 +606,19 @@ export const likeOfer = (offerId: number) => {
         }
     });
 }
+
+export const getStations = () => {
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: '/offers/stations',
+        method: 'GET'
+    });
+}
+
+export const getHousingComplexes = () => {
+    return makeAPIRequest({
+        apiUrl: ApiType.ZHK,
+        endpoint: '/zhks',
+        method: 'GET'
+    });
+}

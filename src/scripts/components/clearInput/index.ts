@@ -51,7 +51,8 @@ export default class ClearInput extends BaseComponent {
             return;
         }
         this.initListener(this.clearButton.id, 'click', this.clearButtonClickHandler);
-        this.initListener(this.input.id, 'keyup', this.inputKeyUpHandler);
+        this.initListener(this.input.id, 'keyup', this.inputKeyUpHandler)
+        this.initListener(this.input.id, 'input', this.inputKeyUpHandler);
     }
 
     /**

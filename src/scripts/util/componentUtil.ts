@@ -67,6 +67,7 @@ import ChoiceButton from "../components/choiceButton/template.precompiled.js";
 import ConfirmedIcon from "../components/confirmedIcon/template.precompiled.js";
 import PromotionIcon from "../components/promotionIcon/template.precompiled.js";
 import PromoteInformation from "../components/promoteInformation/template.precompiled.js";
+import SelectInput from "../components/selectInput/template.precompiled.js";
 
 /**
  * @function registerComponents
@@ -141,7 +142,8 @@ export default function registerComponents() {
         [ChoiceButton, 'ChoiceButton'],
         [PromotionIcon, 'PromotionIcon'],
         [ConfirmedIcon, 'ConfirmedIcon'],
-        [PromoteInformation, 'PromoteInformation']
+        [PromoteInformation, 'PromoteInformation'],
+        [SelectInput, 'SelectInput']
     ];
 
     components.forEach(([component, name]) => {
