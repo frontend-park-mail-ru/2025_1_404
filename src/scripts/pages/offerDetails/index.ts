@@ -58,7 +58,12 @@ export default class OfferDetailsPage extends Page {
             const offerMobilePreview = document.getElementById("offerDetailsMobilePreview") as HTMLElement;
 
             if (this.offerDetailsLeft !== null) {
-                offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images, isMobile});
+                if (offer.housingComplex) {
+                    offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images, isMobile, complexId: offer.housingComplex.id, complexName: offer.housingComplex.name});
+                }
+                else {
+                    offerDetailsLeft.innerHTML = offerDetailsSliderTemplate({description: offer.description, images: offer.images, isMobile});
+                }
             }
             if (offerMobilePreview !== null) {
                 offerMobilePreview.innerHTML = picturesCarouselPreviewsTemplate({images: offer.images});
@@ -69,12 +74,12 @@ export default class OfferDetailsPage extends Page {
             if (rooms === 'много') {
                 rooms = '4+';
             }
-            offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({propertyType: offer.propertyType.toLowerCase(), inMultipleForm: offer.propertyType.toLowerCase() === 'апартаменты', isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: getMetroColorByLineName(offer.metroLine), address: offer.address});
+            offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({propertyType: offer.propertyType.toLowerCase(), inMultipleForm: offer.propertyType.toLowerCase() === 'апартаменты', isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: offer.metroColor || '999999', address: offer.address});
             offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({offerId: offer.id, price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
 
             super.render({layout, root});
 
-            this.offerDetailsLeft = new OfferDetailsLeft({page: this, layout, priceHistory: offer.priceHistory});
+            this.offerDetailsLeft = new OfferDetailsLeft({page: this, layout, priceHistory: offer.priceHistory, complex: offer.housingComplex});
             this.offerDetailsInfo = new OfferDetailsInfo({page: this, layout});
 
             this.offerDetailsInfo?.likeButton.updateDetails({

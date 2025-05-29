@@ -5,7 +5,9 @@
     </div>
 {{/if}}
 <div class="offerDetails__left-block">
-    {{> LightButton id="offerDetailsHousingComplex" class="offerDetails__left-block-href" name="Жилой комплекс"}}
+    {{#if complexName}}
+        {{> LightButton id="offerDetailsHousingComplex" class="offerDetails__left-block-href" name="Жилой комплекс"}}
+    {{/if}}
 </div>
 <div class="offerDetails__left-block">
     <h3 class="offerDetails__left-block-title">

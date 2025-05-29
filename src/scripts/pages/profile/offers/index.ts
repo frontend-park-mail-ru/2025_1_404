@@ -138,7 +138,7 @@ export default class ProfileMyOffersPage extends Page {
                     square: offer.area,
                     floor: offer.floor,
                     totalFloors: offer.totalFloors,
-                    metroColor: getMetroColorByLineName(offer.metroLine),
+                    metroColor: offer.metroColor || '999999',
                     image: offer.images[0],
                     views: offer.sellDetails.views,
                     favorites: offer.sellDetails.favorites,

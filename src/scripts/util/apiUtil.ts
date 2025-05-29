@@ -399,11 +399,8 @@ export const createOffer = async ({...args}: CreateOfferInterface) => {
     });
 }
 
-export const updateOffer = async ({...args}: CreateOfferInterface) => await makeAPIRequest({
-    apiUrl: ApiType.OFFER,
-    endpoint: `/offers/${args.id}`,
-    method: 'PUT',
-    body: {
+export const updateOffer = async ({...args}: CreateOfferInterface) => {
+    const body: Record<string, string|number> = {
         price: args.price,
         description: args.description,
         floor: args.floor,
@@ -417,9 +414,21 @@ export const updateOffer = async ({...args}: CreateOfferInterface) => await make
         rent_type_id: args.rentType,
         purchase_type_id: args.purchaseType,
         property_type_id: args.propertyType,
-        renovation_id: args.renovation
+        renovation_id: args.renovation,
+    };
+    if (args.metroStationId !== undefined) {
+        body.metro_station_id = args.metroStationId;
     }
-})
+    if (args.housingComplexId !== undefined) {
+        body.complex_id = args.housingComplexId;
+    }
+    await makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/${args.id}`,
+        method: 'PUT',
+        body
+    });
+}
 
 export const deleteOffer = async (id: number) => await makeAPIRequest({
     apiUrl: ApiType.OFFER,

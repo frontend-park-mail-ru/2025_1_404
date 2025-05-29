@@ -49,9 +49,9 @@ interface AddOfferInterface {
      */
     metro_station: string;
     /**
-     * @property {string} metro_line Ветка метро
+     * @property {string} metro_color цвет ветки
      */
-    metro_line: string;
+    metro_color: string;
     /**
      * @property {string} description Описание
      */
@@ -171,7 +171,7 @@ export default class searchListPage extends Page {
      * @param {number} totalFloors Максимальное количество этажей в здании
      * @param {number} square Площадь объекта недвижимости
      * @param {string} metroStation Станция метро
-     * @param {string} metroLine Ветка метро
+     * @param {string} metroColor Цвет ветки
      * @param {string} image URL изображение недвижимости
      * @param {string} offerType Тип предложения (например, "аренда" или "продажа")
      * @param {string} rentType Тип аренды (например, "долгосрок" или "сутки"), используется только для аренды
@@ -180,7 +180,7 @@ export default class searchListPage extends Page {
      * @param {string} lastName Фамилия продавца
      * @param {boolean} favorite Отмечено как избранное
      */
-     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName, favorite}: AddOfferInterface) {
+     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_color: metroColor, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName, favorite}: AddOfferInterface) {
          if (!this.offerList) {
              return;
          }
@@ -201,7 +201,7 @@ export default class searchListPage extends Page {
              }
              title = prefix + title;
         }
-        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation, rooms, square, totalFloors, description, firstName, lastName, favorite}));
+        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: metroColor || '999999', metroStation, rooms, square, totalFloors, description, firstName, lastName, favorite}));
     }
 
     /**
@@ -256,7 +256,7 @@ export default class searchListPage extends Page {
                     address: offer.address,
                     area: offer.area,
                     floor: offer.floor,
-                    metro_line: offer.metroLine,
+                    metro_color: offer.metroColor,
                     metro_station: offer.metroStation || 'Нет',
                     offer_type: offer.offerType,
                     image,

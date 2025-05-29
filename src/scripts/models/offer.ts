@@ -88,8 +88,10 @@ export default class Offer {
     purchaseType: string = '';
     propertyType: string = '';
     metroStation: string = '';
+    metroColor: string = '999999'
     metroStationId?: number = undefined;
     housingComplexId?: number = undefined;
+    housingComplex?: {id: number, name: string};
     metroLine: string = '';
     renovation: string = '';
     complexId?: number;
@@ -190,7 +192,9 @@ export default class Offer {
         this.purchaseType = purchaseTypes[json.offer.purchase_type_id];
         this.propertyType = propertyTypes[json.offer.property_type_id];
         this.metroStation = json.offer_data.metro.station;
+        this.metroColor = json.offer_data.metro.color;
         this.metroLine = json.offer_data.metro.line;
+        this.housingComplex = json.offer_data.housing_complex;
         this.renovation = offerRenovations[json.offer.renovation_id];
         if (!json.offer_data.offer_images) {
             this.images.push('/img/card/undefined.webp');
@@ -279,6 +283,8 @@ export default class Offer {
             propertyType: Number(Object.keys(propertyTypes).find((key) => propertyTypes[Number(key)] === this.propertyType)),
             renovation: Number(Object.keys(offerRenovations).find((key) => offerRenovations[Number(key)] === this.renovation)),
             complexId: Number(this.complexId),
+            metroStationId: this.metroStationId,
+            housingComplexId: this.housingComplexId,
             images: this.images.filter(image => typeof image !== 'string'),
         });
         return this.id;
