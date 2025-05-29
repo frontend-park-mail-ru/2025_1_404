@@ -50,7 +50,7 @@ export default class HousingComplexPage extends Page {
                 housingComplexSlider.innerHTML = housingComplexSliderTemplate(data);
             }
             this.slider = new HousingComplexSlider({page: this, layout});
-            console.log(data);
+            // console.log(data);
             this.information = new HousingComplexInformation({page: this, layout, phone: data.contacts.phone});
             this.reviews = new HousingComplexReviews({page: this, layout});
 

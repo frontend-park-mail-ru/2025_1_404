@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import legacy from '@vitejs/plugin-legacy'
 import compression from 'vite-plugin-compression'
-import { imagetools } from 'vite-imagetools'
+import {ViteImageOptimizer} from 'vite-plugin-image-optimizer';
 
 export default defineConfig({
     plugins: [
@@ -9,8 +9,7 @@ export default defineConfig({
 
         compression({ algorithm: 'gzip' }),
         compression({ algorithm: 'brotliCompress', ext: '.br' }),
-
-        imagetools()
+        ViteImageOptimizer()
     ],
     server: {
         port: 8000
@@ -27,5 +26,8 @@ export default defineConfig({
         supported: {
             'top-level-await': true
         },
+    },
+    css: {
+        postcss: './postcss.config.cjs'
     }
 })

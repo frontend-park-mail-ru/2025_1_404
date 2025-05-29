@@ -4,6 +4,7 @@ import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import {checkPayment as checkPaymentAPI} from "../../util/apiUtil.ts";
 import RouteManager from "../../managers/routeManager/routeManager.ts";
+import User from "../../models/user.ts";
 
 /**
  * @class CheckPaymentPage
@@ -57,6 +58,9 @@ export default class CheckPaymentPage extends Page {
     }
 
     checkPayment(offerId: number, paymentId: number) {
+        if (!User.isLoaded()) {
+            return;
+        }
         this.layout?.makeRequest(checkPaymentAPI, offerId, paymentId).then((data) => {
             if (!this.title || !this.profileButton) {
                 return;
