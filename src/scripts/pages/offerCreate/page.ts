@@ -85,11 +85,13 @@ export default class OfferPage extends Page {
      */
     protected isInputsFilled() {
         let isFilled = true;
-        console.log(this.offerData)
         if (Object.keys(this.offerData).length < this.inputs) {
             return false;
         }
         for (const key in this.offerData) {
+            if (key === 'input-metro__input' || key === 'input-zhk__input') {
+                continue;
+            }
             if (this.offerData[key] === '') {isFilled = false; return isFilled;}
         }
         return isFilled;
@@ -109,14 +111,28 @@ export default class OfferPage extends Page {
         let result = true;
         if (input.type === 'text' || input.type === 'tel') {
             this.offerData[input.id] = '';
-            result = this.formInputHandler(event);
+            let required = true;
+            if (input.dataset.optional) {
+                required = !input.dataset.optional;
+            }
+            result = this.formInputHandler(event, required);
             if (result) {
                 this.offerData[input.id] = input.value;
             }
 
-            if ((input.id === 'input-address__input' || input.id === 'input-metro__input') && input.dataset.filled === 'false') {
-                this.offerData[input.id] = '';
-                result = false;
+            if ((input.id === 'input-address__input' || input.id === 'input-metro__input' || input.id === 'input-zhk__input')) {
+                if (input.dataset.filled === 'false') {
+                    if (input.id === 'input-address__input') {
+                        result = false;
+                    }
+                    else {
+                        result = true;
+                    }
+                    this.offerData[input.id] = '';
+                }
+                if ((input.id === 'input-metro__input' || input.id === 'input-zhk__input') && input.dataset.id) {
+                    this.offerData[input.id] = input.dataset.id;
+                }
             }
 
             OfferCreate.setData(this.pageName, this.offerData);

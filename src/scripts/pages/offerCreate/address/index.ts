@@ -7,8 +7,9 @@ import {YMapMarker} from "../../../lib/ymaps.ts";
 import {DomEvent, DomEventHandlerObject} from "@yandex/ymaps3-types/imperative/YMapListener";
 import MapUtil from "../../../util/mapUtil.ts";
 import SelectInput from "../../../components/selectInput";
-import {getStations} from "../../../util/apiUtil.ts";
+import {getHousingComplexes, getStations} from "../../../util/apiUtil.ts";
 import User from "../../../models/user.ts";
+import MetroSelectInput from "../../../components/metroSelectInput";
 
 /**
  * @class OfferCreateAddressPage
@@ -19,10 +20,11 @@ export default class OfferCreateAddressPage extends OfferPage {
     private map?: Map;
     private house?: YMapMarker;
     private addressInput?: AddressInput;
-    private metroInput?: SelectInput;
+    private metroInput?: MetroSelectInput;
     private zhkInput?: SelectInput;
 
     private stations: {station_id: number, color: string, station: string}[] = [];
+    private housingComplexes: {id: number, header: {name: string}}[] = [];
 
     /**
      * @function render
@@ -49,17 +51,40 @@ export default class OfferCreateAddressPage extends OfferPage {
             this.layout?.setLoaderStatus(true);
             this.layout?.makeRequest(getStations).then((data) => {
                 this.stations = data;
-                this.metroInput = new SelectInput({
+                this.metroInput = new MetroSelectInput({
                     page: this,
                     layout,
                     id: 'input-metro',
-                    variants: this.stations.map(({station_id: id, station: name}) => ({id, name}))
+                    variants: this.stations.map(({station_id: id, station: name, color}) => ({id, name, color}))
                 });
+                this.metroInput.init();
+                if (this.offerData['input-metro__input'].length > 0) {
+                    (document.getElementById('input-metro__input') as HTMLInputElement).value = <string>this.stations.find(item => item.station_id === Number.parseInt(this.offerData['input-metro__input']))?.station;
+                }
             }).catch((err) => {
                 this.layout?.addPopup('Ошибка сервера', err);
             }).finally(() => {
                 this.layout?.setLoaderStatus(false);
-            })
+            });
+
+            this.layout?.setLoaderStatus(true);
+            this.layout?.makeRequest(getHousingComplexes).then((data) => {
+                this.housingComplexes = data;
+                this.zhkInput = new SelectInput({
+                    page: this,
+                    layout,
+                    id: 'input-zhk',
+                    variants: this.housingComplexes.map(({id: id, header: {name}}) => ({id, name}))
+                });
+                this.zhkInput.init();
+                if (this.offerData['input-zhk__input'].length > 0) {
+                    (document.getElementById('input-zhk__input') as HTMLInputElement).value = <string>this.housingComplexes.find(item => item.id === Number.parseInt(this.offerData['input-zhk__input']))?.header.name;
+                }
+            }).catch((err) => {
+                this.layout?.addPopup('Ошибка сервера', err);
+            }).finally(() => {
+                this.layout?.setLoaderStatus(false);
+            });
         }
         this.addressInput = new AddressInput({
             page: this,
@@ -119,6 +144,8 @@ export default class OfferCreateAddressPage extends OfferPage {
         this.initListener('offerCreateAddressForm', 'input', this.offerDataChange);
         this.initListener('input-address__input', 'input', this.offerDataChange);
         this.initListener('input-floorLeft__input', 'input', this.offerDataChange);
+        this.initListener('input-metro__input', 'input', this.offerDataChange);
+        this.initListener('input-zhk__input', 'input', this.offerDataChange);
     }
 
     /**
@@ -133,6 +160,9 @@ export default class OfferCreateAddressPage extends OfferPage {
         }
         const inputs = offerCreateAddressInputs.querySelectorAll('input');
         inputs.forEach(input => {
+            if (input.id === 'input-metro__input' || input.id === 'input-zhk__input') {
+                return;
+            }
             input.value = this.offerData[input.id] || '';
 
             if (input.id === 'input-address__input') {

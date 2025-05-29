@@ -88,6 +88,8 @@ export default class Offer {
     purchaseType: string = '';
     propertyType: string = '';
     metroStation: string = '';
+    metroStationId?: number = undefined;
+    housingComplexId?: number = undefined;
     metroLine: string = '';
     renovation: string = '';
     complexId?: number;
@@ -111,6 +113,12 @@ export default class Offer {
         this.description = createOfferData.description['input-description'];
         this.floor = Number(createOfferData.address['input-floorLeft__input']);
         this.totalFloors = Number(createOfferData.address['input-floorRight__input']);
+        if (createOfferData.address['input-metro__input'].length > 0) {
+            this.metroStationId = Number.parseInt(createOfferData.address['input-metro__input']);
+        }
+        if (createOfferData.address['input-zhk__input'].length > 0) {
+            this.housingComplexId = Number.parseInt(createOfferData.address['input-zhk__input']);
+        }
         this.rooms = createOfferData.params['input-rooms'];
         this.address = createOfferData.address['input-address__input'];
         this.flat = 1;
@@ -225,8 +233,8 @@ export default class Offer {
             rentType: Number(Object.keys(rentTypes).find((key) => rentTypes[Number(key)] === this.rentType)),
             purchaseType: Number(Object.keys(purchaseTypes).find((key) => purchaseTypes[Number(key)] === this.purchaseType)),
             propertyType: Number(Object.keys(propertyTypes).find((key) => propertyTypes[Number(key)] === this.propertyType)),
-            metroStation: this.metroStation,
-            metroLine: this.metroLine,
+            metroStationId: this.metroStationId,
+            housingComplexId: this.housingComplexId,
             renovation: Number(Object.keys(offerRenovations).find((key) => offerRenovations[Number(key)] === this.renovation)),
             complexId: Number(this.complexId),
             images: this.images.filter(image => typeof image !== 'string'),
@@ -269,8 +277,6 @@ export default class Offer {
             rentType: Number(Object.keys(rentTypes).find((key) => rentTypes[Number(key)] === this.rentType)),
             purchaseType: Number(Object.keys(purchaseTypes).find((key) => purchaseTypes[Number(key)] === this.purchaseType)),
             propertyType: Number(Object.keys(propertyTypes).find((key) => propertyTypes[Number(key)] === this.propertyType)),
-            metroStation: this.metroStation,
-            metroLine: this.metroLine,
             renovation: Number(Object.keys(offerRenovations).find((key) => offerRenovations[Number(key)] === this.renovation)),
             complexId: Number(this.complexId),
             images: this.images.filter(image => typeof image !== 'string'),

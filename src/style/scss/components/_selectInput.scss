@@ -25,5 +25,10 @@
       text-overflow: ellipsis;
       text-align: left;
     }
+
+    &-wrapper {
+      display: flex;
+      gap: 10px;
+    }
   }
 }

@@ -3,6 +3,7 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
 import ClearInput from "../clearInput";
 import AddressButton from "../addressButton";
 import MapUtil from "../../util/mapUtil.ts";
+import {Document} from "postcss";
 
 export interface SelectInputInterface {
     id: string;
@@ -18,7 +19,7 @@ export interface SelectInputInterface {
  */
 export default class SelectInput extends ClearInput {
     private variants: {id: number, name: string}[];
-    private selectList: HTMLElement | null = null;
+    protected selectList: HTMLElement | null = null;
     private isInputFocused = false;
 
     /**
@@ -32,6 +33,9 @@ export default class SelectInput extends ClearInput {
         super({layout, page, id});
         this.selectList = document.getElementById(`${id}__select__list`);
         this.variants = variants;
+    }
+
+    init() {
         this.initListeners();
         this.showVariantsByFilter();
     }
@@ -39,18 +43,20 @@ export default class SelectInput extends ClearInput {
     showVariantsByFilter() {
         this.clearSelectList();
         let found = false;
+        let id = '';
         if (this.input.value.length === 0) {
             found = true;
         }
         this.variants.forEach((variant, index) => {
             if (variant.name.toLowerCase().includes(this.input.value.toLowerCase())) {
                 if (variant.name === this.input.value) {
+                    id = variant.id.toString();
                     found = true;
                 }
                 this.addSelectButton(variant.name, index);
             }
         });
-        console.log(found)
+        this.input.dataset.id = id;
         this.input.dataset.filled = found ? 'true' : 'false';
     }
 
@@ -118,7 +124,7 @@ export default class SelectInput extends ClearInput {
         while (relatedTarget && relatedTarget.parentElement && !relatedTarget.classList.contains('select__container')) {
             relatedTarget = relatedTarget.parentElement;
         }
-        if (relatedTarget && relatedTarget.classList.contains('select__container')) {
+        if (relatedTarget && relatedTarget.classList.contains('select__container') && relatedTarget.querySelector(`#${this.id}__container`) !== null) {
             target.focus();
             return;
         }
@@ -134,7 +140,7 @@ export default class SelectInput extends ClearInput {
     setVariant(variant: string) {
         if (this.input) {
             this.input.value = variant;
-            this.input.dataset.filled = 'true';
+            this.showVariantsByFilter();
             this.input.dispatchEvent(new Event('input'));
         }
     }
@@ -184,7 +190,7 @@ export default class SelectInput extends ClearInput {
             this.initListener(this.input.id, 'focus', this.onInputFocus);
             this.initListener(this.input.id, 'blur', this.onInputBlur);
             this.initListener(this.selectList.id, 'click', this.onAddressClick);
-            this.initListener(this.input.id, 'keyup', this.onKeyUp);
+            this.initListener(this.input.id, 'input', this.onKeyUp);
         }
     }
 }

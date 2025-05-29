@@ -13,7 +13,10 @@ export interface ImageData {
 class OfferCreate {
     private offerData: Record<string, Record<string, string>> = {
         'type': {},
-        'address': {},
+        'address': {
+            'input-metro__input': '',
+            'input-zhk__input': ''
+        },
         'params': {},
         'price': {},
         'photos': {},
@@ -207,7 +210,10 @@ class OfferCreate {
                 'input-purchase-type': 'Новостройка',
                 'input-property-type': 'Апартаменты'
             },
-            'address': {},
+            'address': {
+                'input-metro__input': '',
+                'input-zhk__input': ''
+            },
             'params': {},
             'price': {},
             'photos': {},
