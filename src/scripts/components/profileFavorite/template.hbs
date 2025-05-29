@@ -35,6 +35,12 @@
                     </div>
                 </div>
             </div>
+            {{# if isModerator }}
+                <div class="profile__offer-moderator-btns">
+                    {{> PrimaryButton name="Посмотреть" class="profile__offer-moderator-btn"}}
+                    {{> RedButton name="Отклонить" class="profile__offer-moderator-btn"}}
+                </div>
+            {{/if}}
         </div>
     </div>
 </div>

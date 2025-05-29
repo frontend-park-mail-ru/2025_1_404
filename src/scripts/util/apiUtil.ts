@@ -64,6 +64,10 @@ export interface UserResponseInterface {
      * @property {string} image Аватар пользователя.
      */
     image: string;
+    /**
+     * @property {string} role Роль пользователя.
+     */
+    role: string;
 }
 
 export const updateCSRF = async () => {
@@ -417,18 +421,18 @@ export const deleteOffer = async (id: number) => await makeAPIRequest({
 });
 
 /**
- * @interface UploadOfferImageInterface
- * @description Интерфейс для загрузки изображения.
+ * @interface UploadOfferFileInterface
+ * @description Интерфейс для загрузки файла.
  */
-interface UploadOfferImageInterface {
+interface UploadOfferFileInterface {
     /**
      * @property {number} offerId ID объявления
      */
     offerId: number;
     /**
-     * @property {File} image Файл изображения
+     * @property {File} file Файл
      */
-    image: File;
+    file: File;
 }
 
 /**
@@ -438,18 +442,40 @@ interface UploadOfferImageInterface {
  * @param {File} image Файл изображения
  * @returns {Promise<*>} Ответ от сервера
  */
-export const uploadOfferImage = async({offerId, image}: UploadOfferImageInterface) => await makeAPIRequest({
+export const uploadOfferImage = async({offerId, file}: UploadOfferFileInterface) => await makeAPIRequest({
     apiUrl: ApiType.OFFER,
     endpoint: `/offers/${offerId}/image`,
     method: 'POST',
     files: {
-        image
+        file
+    }
+});
+
+/**
+ * @function uploadOfferDoc
+ * @description Функция для загрузки документа.
+ * @param {number} offerId ID объявления
+ * @param {File} image Файл документа
+ * @returns {Promise<*>} Ответ от сервера
+ */
+export const uploadOfferDoc = async({offerId, file}: UploadOfferFileInterface) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
+    endpoint: `/offers/${offerId}/doc`,
+    method: 'POST',
+    files: {
+        file
     }
 });
 
 export const deleteOfferImage = async (imageId: number) => await makeAPIRequest({
     apiUrl: ApiType.OFFER,
     endpoint: `/images/${imageId}`,
+    method: 'DELETE'
+})
+
+export const deleteOfferDoc = async (docId: number) => await makeAPIRequest({
+    apiUrl: ApiType.OFFER,
+    endpoint: `/docs/${docId}`,
     method: 'DELETE'
 })
 

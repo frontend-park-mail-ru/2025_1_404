@@ -1,5 +1,5 @@
 import {createOffer, publishOffer, updateOffer, uploadOfferImage} from "../util/apiUtil.ts";
-import {ImageData} from "./offerCreate.ts";
+import {FileData} from "./offerCreate.ts";
 import OfferMock from "./offerMock.ts";
 import User from "./user.ts";
 
@@ -92,6 +92,7 @@ export default class Offer {
     renovation: string = '';
     complexId?: number;
     images: Array<File|string> = [];
+    docs: Array<File|string> = [];
     logitude: number = 0;
     latitude: number = 0;
     promoted: boolean = false;
@@ -101,10 +102,11 @@ export default class Offer {
      * @function parseOfferData
      * @description Метод парсинга данных объявления.
      * @param {Record<string, Record<string, string>>} createOfferData данные объявления
-     * @param {Record<string, ImageData>} images изображения объявления
+     * @param {Record<string, FileData>} images изображения объявления
+     * @param {Record<string, FileData>} docs документы объявления
      */
     // eslint-disable-next-line max-statements
-    parseOfferData(createOfferData: Record<string, Record<string, string>>, images: Record<string, ImageData>) {
+    parseOfferData(createOfferData: Record<string, Record<string, string>>, images: Record<string, FileData>, docs: Record<string, FileData>) {
         this.id = null;
         this.status = 1;
         this.price = Number(createOfferData.price['input-price']);
@@ -126,6 +128,12 @@ export default class Offer {
         for (const key in images) {
             if (Object.hasOwn(images, key)) {
                 this.images.push(images[key].file);
+            }
+        }
+        this.docs = [];
+        for (const key in docs) {
+            if (Object.hasOwn(docs, key)) {
+                this.docs.push(docs[key].file);
             }
         }
     }
@@ -237,7 +245,7 @@ export default class Offer {
                 // eslint-disable-next-line no-await-in-loop
                 await uploadOfferImage({
                     offerId,
-                    image
+                    file: image
                 })
             }
         }

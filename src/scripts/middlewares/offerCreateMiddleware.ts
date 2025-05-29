@@ -19,9 +19,9 @@ class OfferCreateMiddleware extends AuthMiddleware {
         return {
             process: (params?: unknown) => {
                 const currentStep = route.pageName;
-
+                console.log("curStep", currentStep);
                 if (!OfferCreate.isPreviousPageFilled(currentStep)) {
-
+                    console.log('/offer/create/'.concat(OfferCreate.getLastFilledPage()))
                     return RouteManager.navigateTo('/offer/create/'.concat(OfferCreate.getLastFilledPage()));
                 }
 

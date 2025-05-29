@@ -31,6 +31,7 @@ export default class OfferCreateNav extends BaseComponent {
         this.initListener('pricePageButton', 'click', this.pricePageButtonHandler);
         this.initListener('photosPageButton', 'click', this.photosPageButtonHandler);
         this.initListener('descriptionPageButton', 'click', this.descriptionPageButtonHandler);
+        this.initListener('docsPageButton', 'click', this.docsPageButtonHandler);
     }
 
     /**
@@ -103,6 +104,18 @@ export default class OfferCreateNav extends BaseComponent {
             return;
         }
         this.layout.emit('goToPage', 'description');
+    }
+
+    /**
+     * @function docsPageButtonHandler
+     * @description Обработчик события перехода на страницу с загрузкой документов
+     * @private
+     */
+    private docsPageButtonHandler() {
+        if (!this.layout) {
+            return;
+        }
+        this.layout.emit('goToPage', 'docs');
     }
 
     /**
@@ -184,7 +197,7 @@ export default class OfferCreateNav extends BaseComponent {
      * @private
      */
     private fillRectangles(amount: number) {
-        const minAmount = 5;
+        const minAmount = 6;
         const correctedAmount = Math.min(amount, minAmount);
         const rectangles = document.getElementsByClassName("offerCreate__nav-rect");
         for (let i = 0; i < correctedAmount; i++) {

@@ -19,7 +19,7 @@ import {CSATType} from "../../components/csat";
 class OfferEditLayout extends MainLayout {
     private offerId: number | null = null;
     private currentPage: string | undefined;
-    private allPages: string[] = ["type", "address", "params", "price", "photos", "description"];
+    private allPages: string[] = ["type", "address", "params", "price", "photos", "description", "docs"];
     private unlockedPages: string[] = this.allPages;
     private filledPagesId: string[] = this.allPages;
     private offerCreateNav: OfferCreateNav | undefined;
@@ -399,7 +399,7 @@ class OfferEditLayout extends MainLayout {
     reset() {
         this.offerId = null;
         this.currentPage = "type";
-        this.allPages = ["type", "address", "params", "price", "photos", "description"];
+        this.allPages = ["type", "address", "params", "price", "photos", "description", "docs"];
         this.unlockedPages = this.allPages;
         this.filledPagesId = this.allPages;
     }

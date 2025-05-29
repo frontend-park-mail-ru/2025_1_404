@@ -36,6 +36,10 @@ export interface UserDataInterface {
      * @property {string} avatar Аватар пользователя.
      */
     avatar?: string | null;
+    /**
+     * @property {string} role Роль пользователя.
+     */
+    role?: string | null;
 }
 
 /**
@@ -54,6 +58,15 @@ class User {
     constructor() {
         this.isAuthenticatedVal = false;
         this.isLoadedVal = false;
+    }
+
+    /**
+     * @function isModerator
+     * @description Метод получения информации о роле модератора у пользователя.
+     * @returns {boolean} пользователь - модератор?
+     */
+    isModerator() {
+        return this.userData.role === "moderator";
     }
 
     /**
@@ -230,6 +243,7 @@ class User {
         this.userData.firstName = data.first_name;
         this.userData.lastName = data.last_name;
         this.userData.avatar = data.image;
+        this.userData.role = data.role;
     }
 
     /**
@@ -244,6 +258,7 @@ class User {
         this.userData.firstName = null;
         this.userData.lastName = null;
         this.userData.avatar = null;
+        this.userData.role = null;
     }
 }
 

@@ -23,7 +23,7 @@ export default class ProfileMainPage extends Page {
      * @param {BaseLayout} layout макет страницы
      */
     render({layout, root} : PageRenderInterface) {
-        root.innerHTML = template();
+        root.innerHTML = template({isModerator: User.isModerator()});
         this.layout = layout;
         super.render({layout, root});
 

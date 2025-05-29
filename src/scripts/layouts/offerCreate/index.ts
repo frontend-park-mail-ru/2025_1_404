@@ -87,7 +87,7 @@ class OfferCreateLayout extends MainLayout {
         this.currentPage = "type";
         this.unlockedPages = ["type", "address"];
         this.filledPagesId = ["type"];
-        this.allPages = ["type", "address", "params", "price", "photos", "description"];
+        this.allPages = ["type", "address", "params", "price", "photos", "description", "docs"];
     }
 
     /**

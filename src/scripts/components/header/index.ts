@@ -37,6 +37,10 @@ export default class Header extends BaseComponent {
      */
     private profileHrefHandler(event: Event) {
         event.preventDefault();
+        if (User.isLoaded() && User.isModerator()) {
+            RouteManager.navigateTo('/profile/moderator');
+            return;
+        }
         RouteManager.navigateTo('/profile');
     }
 

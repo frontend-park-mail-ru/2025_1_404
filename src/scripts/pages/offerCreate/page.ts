@@ -1,4 +1,4 @@
-import OfferCreate, {ImageData} from "../../models/offerCreate.ts";
+import OfferCreate, {FileData} from "../../models/offerCreate.ts";
 import {Page, PageRenderInterface} from "../page.ts";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 
@@ -16,7 +16,8 @@ export default class OfferPage extends Page {
     public pageName: string;
     private inputs: number;
     protected offerData: Record<string, string> = {};
-    protected uploadedImages: Record<string, ImageData> = {};
+    protected uploadedImages: Record<string, FileData> = {};
+    protected uploadedDocs: Record<string, FileData> = {};
     protected layout: BaseLayout | undefined;
     /**
      * @description Конструктор класса.

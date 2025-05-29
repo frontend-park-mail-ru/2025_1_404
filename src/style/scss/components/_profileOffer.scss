@@ -57,6 +57,7 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 15px;
+      width: 70%;
     }
 
     &-title {
@@ -144,6 +145,17 @@
       @media (max-width: 400px) {
         font-size: 18px;
       }
+    }
+  }
+
+  &-moderator {
+    &-btns {
+      display: flex;
+      gap: 12px;
+      width: 75%;
+    }
+    &-btn {
+      width: 100%;
     }
   }
 }

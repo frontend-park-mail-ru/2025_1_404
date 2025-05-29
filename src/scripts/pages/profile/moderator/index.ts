@@ -3,7 +3,7 @@ import {Page, PageRenderInterface} from '../../page';
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../../layouts/baseLayout.ts";
 import {searchOffers} from "../../../util/apiUtil.ts";
-import profileOfferTemplate from "../../../components/profileOffer/template.precompiled.js"
+import profileFavoriteTemplate from "../../../components/profileFavorite/template.precompiled.js"
 import Offer from "../../../models/offer.ts";
 import getMetroColorByLineName from "../../../util/metroUtil.ts";
 import RouteManager from "../../../managers/routeManager/routeManager.ts";
@@ -12,13 +12,13 @@ import OfferEditLayout from "../../../layouts/offerEdit";
 import OfferMock from "../../../models/offerMock.ts";
 
 /**
- * @class ProfileMyOffersPage
- * @description Страница "мои объявления" в профиле
+ * @class ProfileModeratorPage
+ * @description Страница модератора в профиле
  * @augments Page
  */
-export default class ProfileMyOffersPage extends Page {
+export default class ProfileModeratorPage extends Page {
     private layout: BaseLayout | undefined;
-    private offerStatus: string = '';
+    private offerModeratorStatus: string = '';
     /**
      * @function render
      * @description Метод рендеринга страницы.
@@ -28,9 +28,9 @@ export default class ProfileMyOffersPage extends Page {
     render({layout, root} : PageRenderInterface) {
         this.layout = layout;
         root.innerHTML = template({isModerator: User.isModerator()});
-        this.offerStatus = '';
+        this.offerModeratorStatus = '';
         super.render({layout, root});
-        this.updateContent(this.offerStatus);
+        this.updateContent(this.offerModeratorStatus);
     }
 
     /**
@@ -64,18 +64,11 @@ export default class ProfileMyOffersPage extends Page {
             return;
         }
         event.preventDefault();
-        if (target.classList.contains('profile__offer-link')) {
+        if (target.classList.contains('profile__offer-link') || target.classList.contains("primary-btn")) {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
-        if (target.classList.contains("primary-btn")) {
-            this.layout?.emit('showPromotion', offerId);
-        }
-        if (target.classList.contains("light-btn")) {
-            OfferEditLayout.reset();
-            this.layout?.emit('editOffer', offerId);
-        }
         if (target.classList.contains("red-btn")) {
-            this.layout?.emit('tryDelete', offerId);
+            this.layout?.emit('tryReject', offerId);
         }
     }
 
@@ -88,9 +81,9 @@ export default class ProfileMyOffersPage extends Page {
         const target = event.target as HTMLElement;
         if (target.classList.contains('profile__right-nav-href') && target.dataset && target.dataset.tab && target.dataset.offerstatus) {
             event.preventDefault();
-            this.offerStatus = target.dataset.offerstatus;
+            this.offerModeratorStatus = target.dataset.offerstatus;
             this.setActiveTab(parseInt(target.dataset.tab, 10));
-            this.updateContent(this.offerStatus);
+            this.updateContent(this.offerModeratorStatus);
         }
     }
 
@@ -110,8 +103,8 @@ export default class ProfileMyOffersPage extends Page {
             return;
         }
         this.layout.makeRequest(searchOffers, {
-            'me': 'true',
-            'offer_type_id': offerType,
+            // 'me': 'true',
+            // 'offer_type_id': offerType,
         }).then((response) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             response.forEach((offerData: any) => {
@@ -129,7 +122,7 @@ export default class ProfileMyOffersPage extends Page {
                 if (offer.promoted && offer.promotedUntil) {
                     promoteText += `${Math.floor((Date.parse(offer.promotedUntil) - Date.now()) / 86400000)} дней`;
                 }
-                offerList.innerHTML += profileOfferTemplate({
+                offerList.innerHTML += profileFavoriteTemplate({
                     id: offer.id,
                     title: cardTitle,
                     metroStation: offer.metroStation || 'Нет',
@@ -140,11 +133,7 @@ export default class ProfileMyOffersPage extends Page {
                     totalFloors: offer.totalFloors,
                     metroColor: getMetroColorByLineName(offer.metroLine),
                     image: offer.images[0],
-                    views: offer.sellDetails.views,
-                    favorites: offer.sellDetails.favorites,
-                    likes: offer.sellDetails.likes,
-                    promoted: offer.promoted,
-                    promoteText: promoteText
+                    isModerator: User.isModerator()
                 });
             });
         }).catch((error) => {

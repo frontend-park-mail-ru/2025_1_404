@@ -26,6 +26,29 @@ export default class OfferDetailsInfo extends BaseComponent {
      */
     initListeners() {
         this.initListener('offerDetailsSellerBtns', 'click', this.offerDetailsSellerBtnsHandler);
+        this.initListener('offerDetailsModeratorBtns', 'click', this.offerDetailsModeratorBtnsHandler)
+    }
+
+    /**
+     * @function offerDetailsModeratorBtnsHandler
+     * @description Метод обработки клика по ссылке на кнопки в блоке информации для модератора
+     * @param {Event} event событие
+     */
+    private offerDetailsModeratorBtnsHandler(event: Event) {
+        event.preventDefault();
+        const target = event.target as HTMLElement;
+        if (target && target.parentElement) {
+            const parent = target.parentElement;
+            if (!parent.dataset.id) {
+                return;
+            }
+            if (target.id === 'offerDetailsChangeButton') {
+                OfferEditLayout.reset();
+                this.layout?.emit('editOffer', parent.dataset.id)
+                return;
+            }
+            this.layout?.emit('tryDelete', parent.dataset.id);
+        }
     }
 
     /**

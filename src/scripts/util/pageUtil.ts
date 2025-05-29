@@ -30,6 +30,9 @@ import ProfileFavoritesPage from "../pages/profile/favorites";
 import CSATPage from "../pages/csatStars";
 import CsatStatsPage from "../pages/csatStats";
 import CheckPaymentPage from "../pages/checkPayment";
+import ProfileModeratorPage from "../pages/profile/moderator";
+import OfferEditDocsPage from "../pages/offerEdit/docs";
+import OfferCreateDocsPage from "../pages/offerCreate/docs";
 
 /**
  * @function registerPages
@@ -47,6 +50,7 @@ export default function registerPages() {
     PageManager.registerPage('main', ProfileLayout.process(new ProfileMainPage()));
     PageManager.registerPage('offers', ProfileLayout.process(new ProfileMyOffersPage()));
     PageManager.registerPage('favorites', ProfileLayout.process(new ProfileFavoritesPage()));
+    PageManager.registerPage('moderator', ProfileLayout.process(new ProfileModeratorPage()));
 
     PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type", 4)));
     PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 3)));
@@ -54,6 +58,7 @@ export default function registerPages() {
     PageManager.registerPage('price', OfferCreateLayout.process(new OfferCreatePricePage("price", 1)));
     PageManager.registerPage('photos', OfferCreateLayout.process(new OfferCreatePhotosPage("photos")));
     PageManager.registerPage('description', OfferCreateLayout.process(new OfferCreateDescriptionPage("description", 1)));
+    PageManager.registerPage('docs', OfferCreateLayout.process(new OfferCreateDocsPage("docs")));
 
     PageManager.registerPage('edit_type', OfferEditLayout.process(new OfferEditTypePage("type", 4)));
     PageManager.registerPage('edit_address', OfferEditLayout.process(new OfferEditAddressPage("address", 3)));
@@ -61,6 +66,7 @@ export default function registerPages() {
     PageManager.registerPage('edit_price', OfferEditLayout.process(new OfferEditPricePage("price", 1)));
     PageManager.registerPage('edit_photos', OfferEditLayout.process(new OfferEditPhotosPage("photos")));
     PageManager.registerPage('edit_description', OfferEditLayout.process(new OfferEditDescriptionPage("description", 1)));
+    PageManager.registerPage('edit_docs', OfferEditLayout.process(new OfferEditDocsPage("docs")));
 
     PageManager.registerPage('zhk', mainLayout.process(new HousingComplexPage()));
 

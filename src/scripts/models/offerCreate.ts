@@ -1,7 +1,7 @@
 import Offer from "./offer.ts";
 import {uploadOfferImage} from "../util/apiUtil.ts";
 
-export interface ImageData {
+export interface FileData {
     id?: number,
     file: File,
 }
@@ -18,8 +18,10 @@ class OfferCreate {
         'price': {},
         'photos': {},
         'description': {},
+        'docs': {},
     };
-    private uploadedImages: Record<string, ImageData> = {}
+    private uploadedImages: Record<string, FileData> = {}
+    private uploadedDocs: Record<string, FileData> = {}
     private filledPages: Record<string, boolean> = {};
     /**
      * @description Конструктор класса.
@@ -40,10 +42,19 @@ class OfferCreate {
     /**
      * @function getImages
      * @description Метод получения загруженных фото.
-     * @returns {Record<string, ImageData>} Данные фото.
+     * @returns {Record<string, FileData>} Данные фото.
      */
     getImages() {
         return this.uploadedImages;
+    }
+
+    /**
+     * @function getImages
+     * @description Метод получения загруженных документов.
+     * @returns {Record<string, FileData>} Данные документов.
+     */
+    getDocs() {
+        return this.uploadedDocs;
     }
 
     /**
@@ -59,10 +70,19 @@ class OfferCreate {
     /**
      * @function setImages
      * @description Метод установки данных фото.
-     * @param {Record<string, ImageData>} images данные фото.
+     * @param {Record<string, FileData>} images данные фото.
      */
-    setImages(images: Record<string, ImageData>) {
+    setImages(images: Record<string, FileData>) {
         this.uploadedImages = images;
+    }
+
+    /**
+     * @function setDocs
+     * @description Метод установки данных документа.
+     * @param {Record<string, FileData>} docs данные документа.
+     */
+    setDocs(docs: Record<string, FileData>) {
+        this.uploadedDocs = docs;
     }
 
     /**
@@ -116,7 +136,7 @@ class OfferCreate {
      */
     async create() {
         const offer = new Offer();
-        offer.parseOfferData(this.offerData, this.uploadedImages);
+        offer.parseOfferData(this.offerData, this.uploadedImages, this.uploadedDocs);
         return await offer.create();
     }
 
@@ -128,7 +148,7 @@ class OfferCreate {
      */
     async save(offerId: number) {
         const offer = new Offer();
-        offer.parseOfferData(this.offerData, this.uploadedImages);
+        offer.parseOfferData(this.offerData, this.uploadedImages, this.uploadedDocs);
         offer.id = offerId
         return await offer.save();
     }
@@ -176,7 +196,7 @@ class OfferCreate {
     async addImage(offerId: number, localId: string, file: File): Promise<void> {
         await uploadOfferImage({
             offerId,
-            image: file
+            file: file
         }).then((response) => {
             this.uploadedImages[localId] = {
                 id: response.id,
@@ -199,6 +219,7 @@ class OfferCreate {
             'price': false,
             'photos': false,
             'description': false,
+            'docs': false,
         };
         this.offerData = {
             'type': {
@@ -212,8 +233,10 @@ class OfferCreate {
             'price': {},
             'photos': {},
             'description': {},
+            'docs': {},
         };
         this.uploadedImages = {};
+        this.uploadedDocs = {};
     }
 
     /**
@@ -228,6 +251,7 @@ class OfferCreate {
         await this.parseAddressData(data);
         await this.parseParamsData(data);
         await this.parsePhotos(data);
+        // await this.parseDocs(data);
 
         this.filledPages = {
             'type': true,
@@ -236,6 +260,7 @@ class OfferCreate {
             'price': true,
             'photos': true,
             'description': true,
+            'docs': true,
         };
     }
 

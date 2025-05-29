@@ -25,7 +25,7 @@ export default class ProfileFavoritesPage extends Page {
      */
     render({layout, root} : PageRenderInterface) {
         this.layout = layout;
-        root.innerHTML = template();
+        root.innerHTML = template({isModerator: User.isModerator()});
         this.offerStatus = '';
         super.render({layout, root});
         this.updateContent(this.offerStatus);

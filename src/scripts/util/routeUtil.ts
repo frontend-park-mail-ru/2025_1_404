@@ -26,6 +26,9 @@ import {ProfileFavoritesRoute} from "../routes/profile/profileFavoritesRoute.ts"
 import {CsatStatsRoute} from "../routes/csatStatsRouse.ts";
 import {SearchMapRoute} from "../routes/searchMap.ts";
 import {CheckPaymentRoute} from "../routes/offer/checkPayment.ts";
+import {ProfileModeratorRoute} from "../routes/profile/profileModeratorRoute.ts";
+import {OfferEditDocsRoute} from "../routes/offer/edit/offerEditDocsRoute.ts";
+import {OfferCreateDocsRoute} from "../routes/offer/create/offerCreateDocsRoute.ts";
 /**
  * @function registerRoutes
  * @description Регистрация маршрутов
@@ -41,6 +44,7 @@ export default function registerRoutes() {
     RouteManager.registerRoute('profile', authMiddleware.check(new ProfileMainRoute()));
     RouteManager.registerRoute('profile/offers', authMiddleware.check(new ProfileOffersRoute()));
     RouteManager.registerRoute('profile/favorites', authMiddleware.check(new ProfileFavoritesRoute()));
+    RouteManager.registerRoute('profile/moderator', authMiddleware.check(new ProfileModeratorRoute()));
 
     RouteManager.registerRoute('offer/create/type', OfferCreateMiddleware.check(new OfferCreateTypeRoute()));
     RouteManager.registerRoute('offer/create/address', OfferCreateMiddleware.check(new OfferCreateAddressRoute()));
@@ -48,6 +52,7 @@ export default function registerRoutes() {
     RouteManager.registerRoute('offer/create/price', OfferCreateMiddleware.check(new OfferCreatePriceRoute()));
     RouteManager.registerRoute('offer/create/photos', OfferCreateMiddleware.check(new OfferCreatePhotosRoute()));
     RouteManager.registerRoute('offer/create/description', OfferCreateMiddleware.check(new OfferCreateDescriptionRoute()));
+    RouteManager.registerRoute('offer/create/docs', OfferCreateMiddleware.check(new OfferCreateDocsRoute()));
 
     RouteManager.registerRoute('offer/edit/:id/type', authMiddleware.check(new OfferEditTypeRoute()));
     RouteManager.registerRoute('offer/edit/:id/address', authMiddleware.check(new OfferEditAddressRoute()));
@@ -55,6 +60,7 @@ export default function registerRoutes() {
     RouteManager.registerRoute('offer/edit/:id/price', authMiddleware.check(new OfferEditPriceRoute()));
     RouteManager.registerRoute('offer/edit/:id/photos', authMiddleware.check(new OfferEditPhotosRoute()));
     RouteManager.registerRoute('offer/edit/:id/description', authMiddleware.check(new OfferEditDescriptionRoute()));
+    RouteManager.registerRoute('offer/edit/:id/docs', authMiddleware.check(new OfferEditDocsRoute()));
 
     RouteManager.registerRoute('zhk/:id', new HousingComplexRoute());
 

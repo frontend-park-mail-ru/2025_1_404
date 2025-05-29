@@ -31,6 +31,7 @@ export default class ProfileLeft extends BaseComponent {
         }
         this.previousData = User.getData();
         this.currentData = User.getData();
+
         this.fillWithUserData();
     }
 
@@ -43,7 +44,7 @@ export default class ProfileLeft extends BaseComponent {
         this.initListener('offerCreateButton', 'click', this.offerCreatePageButtonHandler);
         this.initListener('profileFavoritesButton', 'click', this.favoritesButtonHandler);
         this.initListener('profileMyOffersButton', 'click', this.myOffersButtonHandler);
-        // this.initListener('profileCsatStatsButton', 'click', this.csatStatsButtonHandler)
+        this.initListener('profileModeratorButton', 'click', this.ModeratorButtonHandler)
         this.initListener('profileLogoutButton', 'click', this.logoutButtonHandler);
         this.initListener('profileAvatarUpload', 'click', this.processAvatarHandler);
         this.initListener('profileAvatarInput', 'change', this.getAvatarAfterChooseClickHandler);
@@ -374,14 +375,14 @@ export default class ProfileLeft extends BaseComponent {
         RouteManager.navigateTo('/profile/offers');
     }
 
-    // /**
-    //  * @function csatStatsButtonHandler
-    //  * @description Обработчик события перехода на страницу статистики csatStars
-    //  * @private
-    //  */
-    // private csatStatsButtonHandler() {
-    //     RouteManager.navigateTo('/csatStars/stats');
-    // }
+    /**
+     * @function ModeratorButtonHandler
+     * @description Обработчик события перехода на страницу модератора
+     * @private
+     */
+    private ModeratorButtonHandler() {
+        RouteManager.navigateTo('/profile/moderator');
+    }
 
     /**
      * @function logoutButtonHandler
