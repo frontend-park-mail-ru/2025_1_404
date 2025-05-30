@@ -122,7 +122,8 @@ export default class ProfileFavoritesPage extends Page {
                     floor: offer.floor,
                     totalFloors: offer.totalFloors,
                     metroColor: getMetroColorByLineName(offer.metroLine),
-                    image: offer.images[0]
+                    image: offer.images[0],
+                    verified: offer.verified,
                 });
             });
         }).catch((error) => {

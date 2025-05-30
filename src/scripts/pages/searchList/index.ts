@@ -80,6 +80,10 @@ interface AddOfferInterface {
      * @property {boolean} favorite Отмечено как избранное
      */
     favorite: boolean;
+    /**
+     * @property {boolean} verified Отмечено как проверенное
+     */
+    verified: boolean;
 }
 
 /**
@@ -180,7 +184,7 @@ export default class searchListPage extends Page {
      * @param {string} lastName Фамилия продавца
      * @param {boolean} favorite Отмечено как избранное
      */
-     private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_color: metroColor, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName, favorite}: AddOfferInterface) {
+     private addOffer({id, verified, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_color: metroColor, image, offer_type: offerType, rent_type: rentType, description, seller_name: firstName, seller_last_name: lastName, favorite}: AddOfferInterface) {
          if (!this.offerList) {
              return;
          }
@@ -201,7 +205,7 @@ export default class searchListPage extends Page {
              }
              title = prefix + title;
         }
-        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, priceTitle, address, title, floor, image, metroColor: metroColor || '999999', metroStation, rooms, square, totalFloors, description, firstName, lastName, favorite}));
+        this.offerList.insertAdjacentHTML('beforeend', searchOfferTemplate({id, verified, priceTitle, address, title, floor, image, metroColor: metroColor || '999999', metroStation, rooms, square, totalFloors, description, firstName, lastName, favorite}));
     }
 
     /**
@@ -267,7 +271,8 @@ export default class searchListPage extends Page {
                     seller_name: offer.seller.firstName,
                     description: offer.description,
                     propertyType: offer.propertyType,
-                    favorite: offer.favorite
+                    favorite: offer.favorite,
+                    verified: offer.verified
                 });
             });
         }).catch((error) => {

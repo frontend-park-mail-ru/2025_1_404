@@ -7,9 +7,16 @@
         </div>
         <div class="profile__offer-right-wrapper">
             <div class="profile__offer-right">
-                <h2 class="profile__offer-title">
-                    <a class="profile__offer-link" href="/offer/details/{{id}}">{{title}}</a>
-                </h2>
+                <div class="profile__offer-right-title">
+                    <h2 class="profile__offer-right-title-text">
+                        <a class="profile__offer-link" href="/offer/details/{{id}}">{{title}}</a>
+                    </h2>
+                    <div class="profile__offer-right-title-icons">
+                        {{#if verified}}
+                            {{> ConfirmedIcon class="confirmedIcon__profile" }}
+                        {{/if}}
+                    </div>
+                </div>
                 <span class="profile__offer-address">
                     {{address}}
                 </span>

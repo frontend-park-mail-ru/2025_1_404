@@ -1,4 +1,4 @@
-<h2 class="offerDetails__header-title">
+<div class="offerDetails__header-title">
     {{#if isRent}}
         {{#if inMultipleForm }}
             Сдаются
@@ -13,7 +13,10 @@
         {{/if}}
     {{/if}}
     {{rooms}}-комн. {{propertyType}}, {{area}} м²
-</h2>
+    {{#if verified}}
+        {{> ConfirmedIcon class="confirmedIcon__details" }}
+    {{/if}}
+</div>
 <div class="offerDetails__header-info">
     <ul class="offerDetails__header-nowrap">
         <li>{{rooms}}-комн. кв.</li>

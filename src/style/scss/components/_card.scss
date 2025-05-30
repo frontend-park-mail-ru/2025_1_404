@@ -64,9 +64,8 @@
       gap: 5px;
       flex-wrap: wrap;
 
-      &-icons {
-        display: inline-flex;
-        gap: 5px;
+      &-confirmed {
+        color: $blue;
       }
     }
   }

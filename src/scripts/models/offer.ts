@@ -100,6 +100,7 @@ export default class Offer {
     latitude: number = 0;
     promoted: boolean = false;
     promotedUntil?: string;
+    verified: boolean = false;
 
     /**
      * @function parseOfferData
@@ -211,6 +212,8 @@ export default class Offer {
             this.promoted = json.offer_data.offer_promotion.is_promoted;
             this.promotedUntil = json.offer_data.offer_promotion.promoted_until;
         }
+
+        this.verified = json.offer.verified;
     }
 
     /**
