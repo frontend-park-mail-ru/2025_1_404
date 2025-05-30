@@ -49,7 +49,7 @@ export default function registerPages() {
     PageManager.registerPage('favorites', ProfileLayout.process(new ProfileFavoritesPage()));
 
     PageManager.registerPage('type', OfferCreateLayout.process(new OfferCreateTypePage("type", 4)));
-    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 3)));
+    PageManager.registerPage('address', OfferCreateLayout.process(new OfferCreateAddressPage("address", 5)));
     PageManager.registerPage('params', OfferCreateLayout.process(new OfferCreateParamsPage("params", 4)));
     PageManager.registerPage('price', OfferCreateLayout.process(new OfferCreatePricePage("price", 1)));
     PageManager.registerPage('photos', OfferCreateLayout.process(new OfferCreatePhotosPage("photos")));

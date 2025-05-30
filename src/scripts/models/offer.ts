@@ -24,7 +24,7 @@ const rentTypes: Record<number, string> = {
     2: 'Долгосрок'
 };
 
-const offerRenovations: Record<number, string> = {
+export const offerRenovations: Record<number, string> = {
     1: 'Современный ремонт',
     2: 'Косметический ремонт',
     3: 'Черновая отделка',
@@ -88,6 +88,10 @@ export default class Offer {
     purchaseType: string = '';
     propertyType: string = '';
     metroStation: string = '';
+    metroColor: string = '999999'
+    metroStationId?: number = undefined;
+    housingComplexId?: number = undefined;
+    housingComplex?: {id: number, name: string};
     metroLine: string = '';
     renovation: string = '';
     complexId?: number;
@@ -111,6 +115,12 @@ export default class Offer {
         this.description = createOfferData.description['input-description'];
         this.floor = Number(createOfferData.address['input-floorLeft__input']);
         this.totalFloors = Number(createOfferData.address['input-floorRight__input']);
+        if (createOfferData.address['input-metro__input'].length > 0) {
+            this.metroStationId = Number.parseInt(createOfferData.address['input-metro__input']);
+        }
+        if (createOfferData.address['input-zhk__input'].length > 0) {
+            this.housingComplexId = Number.parseInt(createOfferData.address['input-zhk__input']);
+        }
         this.rooms = createOfferData.params['input-rooms'];
         this.address = createOfferData.address['input-address__input'];
         this.flat = 1;
@@ -182,7 +192,9 @@ export default class Offer {
         this.purchaseType = purchaseTypes[json.offer.purchase_type_id];
         this.propertyType = propertyTypes[json.offer.property_type_id];
         this.metroStation = json.offer_data.metro.station;
+        this.metroColor = json.offer_data.metro.color;
         this.metroLine = json.offer_data.metro.line;
+        this.housingComplex = json.offer_data.housing_complex;
         this.renovation = offerRenovations[json.offer.renovation_id];
         if (!json.offer_data.offer_images) {
             this.images.push('/img/card/undefined.webp');
@@ -225,8 +237,8 @@ export default class Offer {
             rentType: Number(Object.keys(rentTypes).find((key) => rentTypes[Number(key)] === this.rentType)),
             purchaseType: Number(Object.keys(purchaseTypes).find((key) => purchaseTypes[Number(key)] === this.purchaseType)),
             propertyType: Number(Object.keys(propertyTypes).find((key) => propertyTypes[Number(key)] === this.propertyType)),
-            metroStation: this.metroStation,
-            metroLine: this.metroLine,
+            metroStationId: this.metroStationId,
+            housingComplexId: this.housingComplexId,
             renovation: Number(Object.keys(offerRenovations).find((key) => offerRenovations[Number(key)] === this.renovation)),
             complexId: Number(this.complexId),
             images: this.images.filter(image => typeof image !== 'string'),
@@ -269,10 +281,10 @@ export default class Offer {
             rentType: Number(Object.keys(rentTypes).find((key) => rentTypes[Number(key)] === this.rentType)),
             purchaseType: Number(Object.keys(purchaseTypes).find((key) => purchaseTypes[Number(key)] === this.purchaseType)),
             propertyType: Number(Object.keys(propertyTypes).find((key) => propertyTypes[Number(key)] === this.propertyType)),
-            metroStation: this.metroStation,
-            metroLine: this.metroLine,
             renovation: Number(Object.keys(offerRenovations).find((key) => offerRenovations[Number(key)] === this.renovation)),
             complexId: Number(this.complexId),
+            metroStationId: this.metroStationId,
+            housingComplexId: this.housingComplexId,
             images: this.images.filter(image => typeof image !== 'string'),
         });
         return this.id;

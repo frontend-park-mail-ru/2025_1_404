@@ -2,6 +2,7 @@
 .profile__preview {
   display: flex;
   border: 1px solid $light-grey;
+  border-radius: 12px;
   padding: 10px;
   gap: 10px;
   transition: 0.2s background-color ease-in-out;
@@ -12,6 +13,7 @@
   }
 
   &-img {
+    border-radius: 12px;
     &-wrapper {
       width: 76px;
       height: 60px;

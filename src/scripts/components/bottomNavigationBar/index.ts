@@ -25,6 +25,7 @@ export default class BottomNavigationBar extends BaseComponent {
     initListeners() {
         this.initListener('bottonNavProfile', 'click', this.profileHrefHandler);
         this.initListener('bottonNavFavourites', 'click', this.favoritesButtonHandler);
+        this.initListener('bottomNavOffers', 'click', this.offersButtonHandler)
     }
 
     /**
@@ -49,6 +50,15 @@ export default class BottomNavigationBar extends BaseComponent {
         e.preventDefault();
         if (User.isAuthenticated()) {
             RouteManager.navigateTo('/profile/favorites');
+            return;
+        }
+        this.layout?.emit('showLogin');
+    }
+
+    private offersButtonHandler(e: Event) {
+        e.preventDefault();
+        if (User.isAuthenticated()) {
+            RouteManager.navigateTo('/profile/offers');
             return;
         }
         this.layout?.emit('showLogin');

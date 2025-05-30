@@ -1,6 +1,6 @@
 {{#> OfferCreateLayout grey=true}}
-<div class="offerCreate__address">
-    <div id="offerCreateAddressForm" class="offerCreate__address-form">
+<div class="offerCreate__address" id="offerCreateAddressForm">
+    <div class="offerCreate__address-form">
         <div class="offerCreate__input offerCreate__address-address">
             <label for="input-address" class="offerCreate__input-label">Адрес</label>
             {{> AddressInput id="input-address" name="offer_address" type="text" placeholder="Город, улица, дом"}}
@@ -9,15 +9,18 @@
             <label for="input-floor" class="offerCreate__input-label">Этаж</label>
             <div class="offerCreate__address-inputs-floor">
                 {{> FilterDoubleInput id="input-floor" name="offer_floor" label="Этаж"}}
-<!--                {{> Input class="offerCreate__address-floor" id="input-floor" type="text" name="offer_floor"}}-->
-<!--                <span>/</span>-->
-<!--                {{> Input class="offerCreate__address-floor" id="input-total-floors" type="text" name="offer_total_floors"}}-->
             </div>
         </div>
-<!--        <div class="offerCreate__input offerCreate__address-flat">-->
-<!--            <label for="input-flat" class="offerCreate__input-label">Квартира</label>-->
-<!--            {{> Input id="input-flat" name="offer_flat" type="text"}}-->
-<!--        </div>-->
+    </div>
+    <div class="offerCreate__address-form">
+        <div class="offerCreate__input offerCreate__address-address">
+            <label for="input-zhk" class="offerCreate__input-label">Жилищный комплекс</label>
+            {{> SelectInput listId="input-zhk-list" id="input-zhk" name="offer_zhk" type="text" placeholder="Цветочные поляны" optional=true}}
+        </div>
+        <div class="offerCreate__input offerCreate__address-address">
+            <label for="input-metro" class="offerCreate__input-label">Метро</label>
+            {{> MetroSelectInput listId="input-metro-list" id="input-metro" name="offer_metro" type="text" placeholder="Бауманская" optional=true}}
+        </div>
     </div>
     <div id="offerCreateMap" class="offerCreate__address-map"></div>
 </div>

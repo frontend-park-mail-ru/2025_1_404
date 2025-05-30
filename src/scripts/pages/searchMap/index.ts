@@ -57,7 +57,7 @@ interface AddOfferInterface {
     /**
      * @property {string} metro_line Ветка метро
      */
-    metro_line: string;
+    metro_color: string;
     /**
      * @property {string} offer_type Тип предложения (например, "аренда" или "продажа")
      */
@@ -172,7 +172,7 @@ export default class searchMapPage extends Page {
             });
             return;
         }
-        if (target.id === 'searchMap-link') {
+        if (parent.className === 'card__link') {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
         }
     }
@@ -221,7 +221,7 @@ export default class searchMapPage extends Page {
      * @param {string} rentType Тип аренды (например, "долгосрок" или "сутки"), используется только для аренды
      * @param {boolean} favorite Отмечено как избранное
      */
-    private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_line: metroLine, image, offer_type: offerType, rent_type: rentType, favorite}: AddOfferInterface) {
+    private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_color: metroColor, image, offer_type: offerType, rent_type: rentType, favorite}: AddOfferInterface) {
         if (!this.offerList) {
             return;
         }
@@ -235,7 +235,7 @@ export default class searchMapPage extends Page {
         }
 
         const className = "search__card"
-        this.offerList.insertAdjacentHTML('beforeend', cardTemplate({id, address, cardTitle, floor, image, metroColor: getMetroColorByLineName(metroLine), metroStation: metroStation || "Нет", rooms, square, totalFloors, class: className, favorite}));
+        this.offerList.insertAdjacentHTML('beforeend', cardTemplate({id, address, cardTitle, floor, image, metroColor, metroStation: metroStation || "Нет", rooms, square, totalFloors, class: className, favorite}));
     }
 
     /**
@@ -307,8 +307,8 @@ export default class searchMapPage extends Page {
                     address: offer.address,
                     area: offer.area,
                     floor: offer.floor,
-                    metro_line: offer.metroLine,
                     metro_station: offer.metroStation || 'Нет',
+                    metro_color: offer.metroColor || '999999',
                     offer_type: offer.offerType,
                     image,
                     rent_type: offer.rentType,

@@ -75,7 +75,7 @@ export default class IndexPage extends Page {
             cardTitle = 'Продажа: ' + cardTitle;
         }
 
-        this.cardsList.insertAdjacentHTML('beforeend', cardTemplate({id: offer.id, address: offer.address, cardTitle, floor: offer.floor, image: offer.images[0], metroColor: getMetroColorByLineName(offer.metroLine), metroStation: offer.metroStation || "Нет", rooms: offer.rooms, square: offer.area, totalFloors: offer.totalFloors, favorite: offer.favorite}));
+        this.cardsList.insertAdjacentHTML('beforeend', cardTemplate({id: offer.id, address: offer.address, cardTitle, floor: offer.floor, image: offer.images[0], metroColor: offer.metroColor || '999999', metroStation: offer.metroStation || "Нет", rooms: offer.rooms, square: offer.area, totalFloors: offer.totalFloors, favorite: offer.favorite}));
     }
 
     /**

@@ -292,19 +292,22 @@ class MapUtil {
      * @param {string} address адрес для получения подсказок.
      * @returns {Promise<string[]>} промис с массивом подсказок по адресу.
      */
-    async suggest(address: string) {
+    async suggest(address: string, onlyHouse=true) {
         const domain = 'https://suggest-maps.yandex.ru/v1/suggest';
+        const query: Record<string, string> = {
+            'apikey': SUGGEST_TOKEN,
+            'text': address,
+            'lang': 'ru',
+            'format': 'json',
+            'print_address': '1'
+        }
+        if (onlyHouse) {
+            query['types'] = 'house'
+        }
         const data = await makeRequest({
             method: 'GET',
             url: domain,
-            query: {
-                'apikey': SUGGEST_TOKEN,
-                'text': address,
-                'lang': 'ru',
-                'format': 'json',
-                'types': 'house',
-                'print_address': '1'
-            }
+            query
         });
         const addresses = [];
         for (const suggestion of data.results) {

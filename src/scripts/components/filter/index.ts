@@ -69,6 +69,7 @@ export default class Filter extends BaseComponent {
             page: this.page,
             layout,
             id: 'filterInputAddress',
+            onlyHouses: false
         });
 
         new ClearInput({
@@ -328,7 +329,7 @@ export default class Filter extends BaseComponent {
             if (!this.submitButton) {
                 return;
             }
-            if (this.filterValid[button.name] && (this.addressInput?.isFilled() || this.addressInput?.isEmpty())) {
+            if (this.filterValid[button.name]) {
                 button.classList.remove('red');
                 if (!Object.values(this.filterValid).includes(false)) {
                     this.submitButton.removeAttribute('disabled');

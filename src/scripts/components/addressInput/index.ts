@@ -3,6 +3,8 @@ import {BaseLayout} from "../../layouts/baseLayout.ts";
 import ClearInput from "../clearInput";
 import AddressButton from "../addressButton";
 import MapUtil from "../../util/mapUtil.ts";
+import {DomEvent} from "leaflet";
+import on = DomEvent.on;
 
 /**
  * @class AddressInput
@@ -14,6 +16,7 @@ export interface AddressInputInterface {
     id: string;
     page: Page;
     layout: BaseLayout | undefined;
+    onlyHouses: boolean;
 }
 
 /**
@@ -28,6 +31,7 @@ export default class AddressInput extends ClearInput {
     private isInputInFocus: boolean = false;
     private addresses: string[] = [];
     private timeSinceLastCharacter: number = 0;
+    private onlyHouses = true;
 
     /**
      * @description Конструктор класса.
@@ -35,8 +39,11 @@ export default class AddressInput extends ClearInput {
      * @param {BaseLayout} layout - экземпляр класса Layout.
      * @param {string} id - идентификатор компонента.
      */
-    constructor({page, layout, id}: AddressInputInterface) {
+    constructor({page, layout, id, onlyHouses}: AddressInputInterface) {
         super({layout, page, id});
+        if (onlyHouses != undefined) {
+            this.onlyHouses = onlyHouses;
+        }
         if (this.addressTimeout) {
             clearInterval(this.addressTimeout);
         }
@@ -103,7 +110,7 @@ export default class AddressInput extends ClearInput {
      * @param {string} address - адрес для поиска.
      */
     findAddresses(address: string) {
-        this.layout?.makeRequest(MapUtil.suggest, address).then((addresses) => {
+        this.layout?.makeRequest(MapUtil.suggest, address, this.onlyHouses).then((addresses) => {
             this.addresses = addresses;
             if (this.isInputInFocus) {
                 this.clearAddressList();
@@ -200,7 +207,6 @@ export default class AddressInput extends ClearInput {
      */
     onKeyUp() {
         this.timeSinceLastCharacter = Date.now();
-        this.addresses = [];
         this.input.dataset.filled = 'false';
     }
 

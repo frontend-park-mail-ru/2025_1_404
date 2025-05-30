@@ -1,6 +1,8 @@
 import {HttpMethod, createRequestOptions, makeRequest} from "./httpUtil.ts";
 import OfferMock from "../models/offerMock.ts";
 import User from "../models/user.ts";
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
 
 const ApiType = {
     AUTH: import.meta.env.VITE_BACKEND_AUTH_URL,
@@ -314,11 +316,11 @@ export interface CreateOfferInterface {
     /**
      * @property {string} metroLine Линия метро
      */
-    metroLine: string;
+    metroStationId?: number;
     /**
      * @property {string} metroStation Станция метро
      */
-    metroStation: string;
+    housingComplexId?: number;
     /**
      * @property {number} floor Этаж
      */
@@ -365,11 +367,8 @@ export interface CreateOfferInterface {
     images: Array<File>;
 }
 
-export const createOffer = async ({...args}: CreateOfferInterface) => await makeAPIRequest({
-    apiUrl: ApiType.OFFER,
-    endpoint: '/offers',
-    method: 'POST',
-    body: {
+export const createOffer = async ({...args}: CreateOfferInterface) => {
+    const body: Record<string, string|number> = {
         price: args.price,
         description: args.description,
         floor: args.floor,
@@ -385,14 +384,23 @@ export const createOffer = async ({...args}: CreateOfferInterface) => await make
         property_type_id: args.propertyType,
         renovation_id: args.renovation,
         complex_id: args.complexId,
+    };
+    if (args.metroStationId !== undefined) {
+        body.metro_station_id = args.metroStationId;
     }
-});
+    if (args.housingComplexId !== undefined) {
+        body.complex_id = args.housingComplexId;
+    }
+    return await makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: '/offers',
+        method: 'POST',
+        body
+    });
+}
 
-export const updateOffer = async ({...args}: CreateOfferInterface) => await makeAPIRequest({
-    apiUrl: ApiType.OFFER,
-    endpoint: `/offers/${args.id}`,
-    method: 'PUT',
-    body: {
+export const updateOffer = async ({...args}: CreateOfferInterface) => {
+    const body: Record<string, string|number> = {
         price: args.price,
         description: args.description,
         floor: args.floor,
@@ -406,9 +414,21 @@ export const updateOffer = async ({...args}: CreateOfferInterface) => await make
         rent_type_id: args.rentType,
         purchase_type_id: args.purchaseType,
         property_type_id: args.propertyType,
-        renovation_id: args.renovation
+        renovation_id: args.renovation,
+    };
+    if (args.metroStationId !== undefined) {
+        body.metro_station_id = args.metroStationId;
     }
-})
+    if (args.housingComplexId !== undefined) {
+        body.complex_id = args.housingComplexId;
+    }
+    await makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: `/offers/${args.id}`,
+        method: 'PUT',
+        body
+    });
+}
 
 export const deleteOffer = async (id: number) => await makeAPIRequest({
     apiUrl: ApiType.OFFER,
@@ -527,10 +547,13 @@ export const favourite = async(offerId: number) => {
  * @description Функция для получения списка любимых объявления.
  * @returns {Promise<*>} Ответ от сервера
  */
-export const getFavoritesOffers = async () => await makeAPIRequest({
+export const getFavoritesOffers = async (offerTypeId?: string) => await makeAPIRequest({
     apiUrl: ApiType.OFFER,
     endpoint: '/offers/favorites',
     method: 'GET',
+    query: {
+        offer_type_id: offerTypeId ? offerTypeId.toString() : ''
+    }
 })
 
 interface EvaluateOfferInterface {
@@ -599,5 +622,21 @@ export const likeOfer = (offerId: number) => {
         body: {
             offer_id: offerId
         }
+    });
+}
+
+export const getStations = () => {
+    return makeAPIRequest({
+        apiUrl: ApiType.OFFER,
+        endpoint: '/offers/stations',
+        method: 'GET'
+    });
+}
+
+export const getHousingComplexes = () => {
+    return makeAPIRequest({
+        apiUrl: ApiType.ZHK,
+        endpoint: '/zhks',
+        method: 'GET'
     });
 }

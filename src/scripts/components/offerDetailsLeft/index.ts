@@ -10,6 +10,7 @@ export interface OfferDetailsPriceHistoryInterface {
     page?: Page;
     layout?: BaseLayout;
     priceHistory?: PriceHistory[];
+    complex?: {id: number, name: string}
 }
 
 /**
@@ -20,15 +21,19 @@ export interface OfferDetailsPriceHistoryInterface {
 export default class OfferDetailsLeft extends BaseComponent {
     private carousel: PicturesCarouselPreviews;
     private graph: OfferDetailsGraph;
+    private complex?: {id: number, name: string}
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
      * @param {BaseLayout} layout - экземпляр класса Layout.
+     * @param {PriceHistory[]} priceHistory - история изменения цены
+     * @param {{id: number, name: string}} complex - жилищный комплекс
      */
-    constructor({page, layout, priceHistory}: OfferDetailsPriceHistoryInterface) {
+    constructor({page, layout, priceHistory, complex}: OfferDetailsPriceHistoryInterface) {
         super({page, layout});
         this.carousel = new PicturesCarouselPreviews({page, layout});
         this.graph = new OfferDetailsGraph({page, layout, priceHistory});
+        this.complex = complex;
     }
 
     /**
@@ -46,7 +51,9 @@ export default class OfferDetailsLeft extends BaseComponent {
      */
     private housingComplexHrefHandler(event: Event) {
         event.preventDefault();
-        RouteManager.navigateTo('/zhk/1');
+        if (this.complex) {
+            RouteManager.navigateTo(`/zhk/${this.complex.id}`);
+        }
     }
 
     /**

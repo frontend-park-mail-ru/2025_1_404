@@ -13,7 +13,10 @@ export interface ImageData {
 class OfferCreate {
     private offerData: Record<string, Record<string, string>> = {
         'type': {},
-        'address': {},
+        'address': {
+            'input-metro__input': '',
+            'input-zhk__input': ''
+        },
         'params': {},
         'price': {},
         'photos': {},
@@ -207,7 +210,10 @@ class OfferCreate {
                 'input-purchase-type': 'Новостройка',
                 'input-property-type': 'Апартаменты'
             },
-            'address': {},
+            'address': {
+                'input-metro__input': '',
+                'input-zhk__input': ''
+            },
             'params': {},
             'price': {},
             'photos': {},
@@ -289,6 +295,12 @@ class OfferCreate {
         this.offerData.address['input-floorLeft__input'] = data.offer.floor.toString();
         this.offerData.address['input-floorRight__input'] = data.offer.total_floors.toString();
         this.offerData.address['input-address__input'] = data.offer.address;
+        if (data.offer_data.housing_complex) {
+            this.offerData.address['input-zhk__input'] = data.offer_data.housing_complex.id.toString();
+        }
+        if (data.offer_data.metro.station.length > 0) {
+            this.offerData.address['input-metro__input'] = data.offer_data.metro.station_id.toString();
+        }
         this.offerData.address['input-flat'] = '1';
     }
 

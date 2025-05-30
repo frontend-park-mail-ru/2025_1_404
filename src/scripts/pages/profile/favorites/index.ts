@@ -62,8 +62,10 @@ export default class ProfileFavoritesPage extends Page {
             return;
         }
         event.preventDefault();
-        if (target.classList.contains('profile__offer-link')) {
+        parent = target.parentElement;
+        if ((target.classList.contains('profile__offer-link')) || parent && parent.classList.contains('profile__offer-link')) {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
+            return;
         }
     }
 
@@ -97,10 +99,7 @@ export default class ProfileFavoritesPage extends Page {
         if (!user || typeof user.id !== 'number') {
             return;
         }
-        // {
-        //     'offer_type_id': offerType,
-        // }
-        this.layout.makeRequest(getFavoritesOffers).then((response) => {
+        this.layout.makeRequest(getFavoritesOffers, offerType).then((response) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             response.forEach((offerData: any) => {
                 const offer = new Offer();

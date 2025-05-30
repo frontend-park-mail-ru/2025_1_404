@@ -23,7 +23,7 @@ export interface ClearInputInterface {
 export default class ClearInput extends BaseComponent {
     private clearButton: HTMLButtonElement;
     protected input: HTMLInputElement;
-    private id: string | null = null;
+    protected id: string | null = null;
     /**
      * @description Конструктор класса.
      * @param {Page} page - экземпляр класса Page.
@@ -51,7 +51,8 @@ export default class ClearInput extends BaseComponent {
             return;
         }
         this.initListener(this.clearButton.id, 'click', this.clearButtonClickHandler);
-        this.initListener(this.input.id, 'keyup', this.inputKeyUpHandler);
+        this.initListener(this.input.id, 'keyup', this.inputKeyUpHandler)
+        this.initListener(this.input.id, 'input', this.inputKeyUpHandler);
     }
 
     /**

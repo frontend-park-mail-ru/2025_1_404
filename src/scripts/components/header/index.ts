@@ -27,6 +27,7 @@ export default class Header extends BaseComponent {
         this.initListener('registerButton', 'click', this.registerButtonHandler);
         this.initListener('loginButton', 'click', this.loginButtonHandler);
         this.initListener('favoritesButton', 'click', this.favoritesButtonHandler);
+        this.initListener('offersButton', 'click', this.offersButtonHandler);
     }
 
     /**
@@ -82,6 +83,15 @@ export default class Header extends BaseComponent {
         e.preventDefault();
         if (User.isAuthenticated()) {
             RouteManager.navigateTo('/profile/favorites');
+            return;
+        }
+        this.layout?.emit('showLogin');
+    }
+
+    private offersButtonHandler(e: Event) {
+        e.preventDefault();
+        if (User.isAuthenticated()) {
+            RouteManager.navigateTo('/profile/offers');
             return;
         }
         this.layout?.emit('showLogin');
