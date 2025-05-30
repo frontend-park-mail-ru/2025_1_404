@@ -62,8 +62,10 @@ export default class ProfileFavoritesPage extends Page {
             return;
         }
         event.preventDefault();
-        if (target.classList.contains('profile__offer-link')) {
+        parent = target.parentElement;
+        if ((target.classList.contains('profile__offer-link')) || parent && parent.classList.contains('profile__offer-link')) {
             RouteManager.navigateTo(`/offer/details/${offerId}`);
+            return;
         }
     }
 

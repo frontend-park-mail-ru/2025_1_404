@@ -44,6 +44,21 @@
     }
   }
 
+  &-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &-favorite {
+    height: 45px;
+    display: none;
+
+    &.active {
+      display: flex;
+    }
+  }
+
   &-like, &-stats {
     display: none;
 

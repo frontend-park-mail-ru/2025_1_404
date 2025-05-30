@@ -1,6 +1,6 @@
 
 import {Page, PageRenderInterface} from '../page';
-import {getOfferById} from "../../util/apiUtil.ts";
+import {favourite, getOfferById} from "../../util/apiUtil.ts";
 import offerDetailsHeaderTemplate from "../../components/offerDetailsHeader/template.precompiled.js";
 import offerDetailsInfoTemplate from "../../components/offerDetailsInfo/template.precompiled.js";
 import offerDetailsSliderTemplate from "../../components/offerDetailsLeft/template.precompiled.js";
@@ -51,8 +51,8 @@ export default class OfferDetailsPage extends Page {
             // eslint-disable-next-line max-statements
         .then ((data) => {
             const offer = new Offer();
-            this.offerId = offer.id;
             offer.parseJSON(data);
+            this.offerId = offer.id;
             const offerDetailsHeader = document.getElementById("offerDetailsHeader") as HTMLElement;
             const offerDetailsLeft = document.getElementById("offerDetailsLeft") as HTMLElement;
             const offerMobilePreview = document.getElementById("offerDetailsMobilePreview") as HTMLElement;
@@ -75,7 +75,7 @@ export default class OfferDetailsPage extends Page {
                 rooms = '4+';
             }
             offerDetailsHeader.innerHTML = offerDetailsHeaderTemplate({propertyType: offer.propertyType.toLowerCase(), inMultipleForm: offer.propertyType.toLowerCase() === 'апартаменты', isRent: offer.offerType === 'Аренда',rooms: offer.rooms, area: offer.area, price: offer.price, floor: offer.floor, totalFloors: offer.totalFloors, metroStation: offer.metroStation || 'Нет', metroColor: offer.metroColor || '999999', address: offer.address});
-            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({offerId: offer.id, price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
+            offerDetailsInfo.innerHTML = offerDetailsInfoTemplate({favorite: offer.favorite, offerId: offer.id, price: offer.price.toLocaleString('ru-RU').concat(' ₽'), rooms, area: offer.area, ceilingHeight: offer.ceilingHeight, offerType: offer.offerType, renovation: offer.renovation, propertyType: offer.propertyType, seller: `${offer.seller.firstName} ${offer.seller.lastName}`, sellerAvatar: offer.seller.avatar || '/img/userAvatar/unknown.svg', registerDate: `${offer.seller.createdAt.toLocaleString('ru-RU', {year: 'numeric', month: 'long', day: 'numeric'})}`});
 
             super.render({layout, root});
 
@@ -94,15 +94,17 @@ export default class OfferDetailsPage extends Page {
             const offerSellerBtns = document.getElementById("offerDetailsSellerBtns") as HTMLElement;
             const offerUserBtns = document.getElementById("offerDetailsUserBtns") as HTMLElement;
 
-            const offerLike = document.getElementById("offerDetailsLike") as HTMLElement;
+            const offerLike = document.getElementById("offerDetailsLike") as HTMLElement
+            const offerFavorite = document.getElementById("offerDetailsFavorite") as HTMLElement;
             // const offerStats = document.getElementById("offerDetailsStats") as HTMLElement;
+
 
             if (User.getData()?.id === offer.seller.id) {
                 offerSellerBtns.classList.add("active");
-                // offerStats.classList.add("active");
             } else {
                 offerUserBtns.classList.add("active");
                 offerLike.classList.add("active");
+                offerFavorite.classList.add("active");
             }
         });
     }
@@ -114,6 +116,26 @@ export default class OfferDetailsPage extends Page {
     initListeners() {
         this.initListener('offerDetailsSellerBtns', 'click', this.offerSellerBtnsHandler);
         this.initListener('offerDetailsUserBtns', 'click', this.offerUserBtnsHandler);
+        this.initListener('offerDetailsFavorite', 'click', this.offerFavoriteHandler);
+    }
+
+    private offerFavoriteHandler(event: Event) {
+        event.preventDefault();
+        if (!User.isAuthenticated()) {
+            this.layout?.emit('showLogin');
+            return;
+        }
+        const heart = document.getElementsByClassName('heart')[0] as HTMLElement;
+        if (!heart) {
+            return;
+        }
+        this.layout?.makeRequest(favourite, Number(this.offerId)).then((data) => {
+            const status = data.is_favorited;
+            heart.classList.remove('active');
+            if (status) {
+                heart.classList.add('active');
+            }
+        });
     }
 
     /**

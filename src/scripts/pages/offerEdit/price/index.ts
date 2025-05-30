@@ -79,7 +79,7 @@ export default class OfferEditPricePage extends OfferPage {
                 return;
             }
             marketPrice.innerText = `${Math.floor(response.market_price.total).toLocaleString('ru-RU')} ₽`;
-            marketSquarePrice.innerText = `${Math.floor(response.market_price.per_square_meter).toLocaleString('ru-RU')} ₽/м²`;
+            // marketSquarePrice.innerText = `${Math.floor(response.market_price.per_square_meter).toLocaleString('ru-RU')} ₽/м²`;
             priceRange.innerText = `${Math.floor(response.possible_cost_range.min).toLocaleString('ru-RU')} - ${Math.floor(response.possible_cost_range.max).toLocaleString('ru-RU')} ₽`;
         }).finally(() => {
             this.layout?.setLoaderStatus(false);

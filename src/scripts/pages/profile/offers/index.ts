@@ -64,9 +64,6 @@ export default class ProfileMyOffersPage extends Page {
             return;
         }
         event.preventDefault();
-        if (target.classList.contains('profile__offer-link')) {
-            RouteManager.navigateTo(`/offer/details/${offerId}`);
-        }
         if (target.classList.contains("primary-btn")) {
             this.layout?.emit('showPromotion', offerId);
         }
@@ -76,6 +73,12 @@ export default class ProfileMyOffersPage extends Page {
         }
         if (target.classList.contains("red-btn")) {
             this.layout?.emit('tryDelete', offerId);
+        }
+        parent = target.parentElement;
+        console.log(parent, target);
+        if ((target.classList.contains('profile__offer-link')) || parent && parent.classList.contains('profile__offer-link')) {
+            RouteManager.navigateTo(`/offer/details/${offerId}`);
+            return;
         }
     }
 
