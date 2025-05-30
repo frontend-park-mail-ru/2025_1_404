@@ -12,10 +12,11 @@
                 <h3 class="card__price">
                     {{cardTitle}}
                 </h3>
-                <div class="card__content-title-icons">
-<!--                    {{> PromotionIcon }}-->
-<!--                    {{> ConfirmedIcon }}-->
-                </div>
+                {{#if verified}}
+                    <div class="card__content-title-confirmed">
+                        Проверено квартирумом
+                    </div>
+                {{/if}}
             </div>
             <div class="card__info">
                 <ul>

@@ -144,7 +144,8 @@ export default class ProfileMyOffersPage extends Page {
                     favorites: offer.sellDetails.favorites,
                     likes: offer.sellDetails.likes,
                     promoted: offer.promoted,
-                    promoteText: promoteText
+                    promoteText: promoteText,
+                    verified: offer.verified,
                 });
             });
         }).catch((error) => {

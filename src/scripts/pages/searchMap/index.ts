@@ -74,6 +74,10 @@ interface AddOfferInterface {
      * @property {boolean} favorite Отмечено как избранное
      */
     favorite: boolean;
+    /**
+     * @property {boolean} verified Отмечено как проверенное
+     */
+    verified: boolean;
 }
 
 /**
@@ -221,7 +225,7 @@ export default class searchMapPage extends Page {
      * @param {string} rentType Тип аренды (например, "долгосрок" или "сутки"), используется только для аренды
      * @param {boolean} favorite Отмечено как избранное
      */
-    private addOffer({id, propertyType, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_color: metroColor, image, offer_type: offerType, rent_type: rentType, favorite}: AddOfferInterface) {
+    private addOffer({id, propertyType, verified, price, address, rooms, floor, total_floors: totalFloors, area: square, metro_station: metroStation, metro_color: metroColor, image, offer_type: offerType, rent_type: rentType, favorite}: AddOfferInterface) {
         if (!this.offerList) {
             return;
         }
@@ -235,7 +239,7 @@ export default class searchMapPage extends Page {
         }
 
         const className = "search__card"
-        this.offerList.insertAdjacentHTML('beforeend', cardTemplate({id, address, cardTitle, floor, image, metroColor, metroStation: metroStation || "Нет", rooms, square, totalFloors, class: className, favorite}));
+        this.offerList.insertAdjacentHTML('beforeend', cardTemplate({id, verified, address, cardTitle, floor, image, metroColor, metroStation: metroStation || "Нет", rooms, square, totalFloors, class: className, favorite}));
     }
 
     /**
@@ -315,7 +319,8 @@ export default class searchMapPage extends Page {
                     rooms: offer.rooms,
                     total_floors: offer.totalFloors,
                     propertyType: offer.propertyType,
-                    favorite: offer.favorite
+                    favorite: offer.favorite,
+                    verified: offer.verified,
                 });
             }
             this.map?.addClustererMarkers(points, props);

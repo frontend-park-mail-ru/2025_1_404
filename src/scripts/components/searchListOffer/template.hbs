@@ -7,11 +7,14 @@
     </div>
     <div class="searchList__results-offer-left">
         <div class="searchList__results-offer-titles">
-            <h2 class="searchList__results-offer-title">
+            <div class="searchList__results-offer-title">
                 <a href="/offer/details/{{id}}" id="searchList-link">
                     {{title}}
                 </a>
-            </h2>
+                {{#if verified}}
+                    {{> ConfirmedIcon class="confirmedIcon__details" }}
+                {{/if}}
+            </div>
             <span class="searchList__results-offer-price">
                 {{priceTitle}}
             </span>

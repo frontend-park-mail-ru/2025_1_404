@@ -6,3 +6,19 @@
   display: flex;
   align-items: center;
 }
+
+.confirmedIcon {
+  &__profile {
+
+  }
+
+  &__details {
+    font-size: 30px;
+    margin-top: 5px;
+    display: inline-block;
+    @media (max-width: 1100px) {
+      margin-top: 3px;
+      font-size: 22px;
+    }
+  }
+}
