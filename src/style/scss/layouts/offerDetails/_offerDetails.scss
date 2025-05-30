@@ -20,6 +20,10 @@
     flex-direction: column;
     gap: 20px;
 
+    &-nowrap {
+      white-space: nowrap;
+    }
+
     &-title {
       font-size: 38px;
       font-weight: 600;
