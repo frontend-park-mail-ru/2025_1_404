@@ -153,13 +153,14 @@ export default class SelectInput extends ClearInput {
     onAddressClick(event: Event) {
         event.preventDefault();
         const target = event.target as HTMLElement;
-        if (!target) {
+        const parent = target.parentElement;
+        if (!target || !parent) {
             return;
         }
-        if (!target.dataset.index) {
+        if (!target.dataset.index && !parent.dataset.index) {
             return;
         }
-        const index = Number(target.dataset.index);
+        const index = Number(target.dataset.index || parent.dataset.index);
         const variant = this.variants[index].name;
         this.setVariant(variant);
         this.setSelectListVisible(false);

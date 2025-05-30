@@ -2,8 +2,13 @@
     <h2 class="offerDetails__right-price">
         {{price}}
     </h2>
-    <div id="offerDetailsLike" class="offerDetails__right-like">
-        {{> LikeButton liked=liked offerId=offerId}}
+    <div class="offerDetails__right-buttons">
+        <div id="offerDetailsLike" class="offerDetails__right-like">
+            {{> LikeButton liked=liked offerId=offerId}}
+        </div>
+        <div id="offerDetailsFavorite" class="offerDetails__right-favorite">
+            {{> HeartButton favorite=favorite}}
+        </div>
     </div>
 <!--    <div id="offerDetailsStats" class="offerDetails__right-stats">-->
 <!--        {{> OfferStats views=views likes=likes favorites=favorites }}-->

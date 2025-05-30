@@ -24,7 +24,7 @@ const rentTypes: Record<number, string> = {
     2: 'Долгосрок'
 };
 
-const offerRenovations: Record<number, string> = {
+export const offerRenovations: Record<number, string> = {
     1: 'Современный ремонт',
     2: 'Косметический ремонт',
     3: 'Черновая отделка',

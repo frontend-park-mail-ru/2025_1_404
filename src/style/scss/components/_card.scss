@@ -112,6 +112,7 @@
 
   &__address {
     color: $grey;
+    line-height: 22px;
 
     @media (max-width: 500px) {
       display: none;

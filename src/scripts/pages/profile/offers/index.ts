@@ -64,9 +64,6 @@ export default class ProfileMyOffersPage extends Page {
             return;
         }
         event.preventDefault();
-        if (target.classList.contains('profile__offer-link')) {
-            RouteManager.navigateTo(`/offer/details/${offerId}`);
-        }
         if (target.classList.contains("primary-btn")) {
             this.layout?.emit('showPromotion', offerId);
         }
@@ -76,6 +73,12 @@ export default class ProfileMyOffersPage extends Page {
         }
         if (target.classList.contains("red-btn")) {
             this.layout?.emit('tryDelete', offerId);
+        }
+        parent = target.parentElement;
+        console.log(parent, target);
+        if ((target.classList.contains('profile__offer-link')) || parent && parent.classList.contains('profile__offer-link')) {
+            RouteManager.navigateTo(`/offer/details/${offerId}`);
+            return;
         }
     }
 
@@ -127,7 +130,14 @@ export default class ProfileMyOffersPage extends Page {
                 }
                 let promoteText = 'Продвигается еще ';
                 if (offer.promoted && offer.promotedUntil) {
-                    promoteText += `${Math.floor((Date.parse(offer.promotedUntil) - Date.now()) / 86400000)} дней`;
+                    const remainingTime = Date.parse(offer.promotedUntil) - Date.now();
+                    if (remainingTime < 86400000) {
+                        const hours = Math.floor(remainingTime / 3600000);
+                        const minutes = Math.floor((remainingTime % 3600000) / 60000);
+                        promoteText += `${hours} ч ${minutes} мин`;
+                    } else {
+                        promoteText += `${Math.ceil(remainingTime / 86400000)} дн`;
+                    }
                 }
                 offerList.innerHTML += profileOfferTemplate({
                     id: offer.id,

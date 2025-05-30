@@ -22,44 +22,44 @@
                 <!--                                {{characteristics.square.highest_square}}-->
                 <!--                                м²-->
 
-                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-door-open" label="Площадь" content=characteristics.square.lowest_square}}
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-door-open" label="Площадь" content=characteristics.square.highest_square}}
                 {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-star" label="Класс" content=characteristics.class}}
 
 <!--                {{characteristics.floors.lowest_floor}}-->
 <!--                --->
 <!--                {{characteristics.floors.highest_floor}}-->
 
-                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-stairs" label="Количество этажей" content=characteristics.floors.lowest_floor}}
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-stairs" label="Количество этажей" content=characteristics.floors.highest_floor}}
 
 <!--                {{characteristics.ceiling_height.lowest_height}}-->
 <!--                --->
 <!--                {{characteristics.ceiling_height.highest_height}}-->
 <!--                м-->
 
-                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-arrows-up-down" label="Высота потолков" content=characteristics.ceiling_height.lowest_height}}
+                {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-arrows-up-down" label="Высота потолков" content=characteristics.ceiling_height.highest_height}}
                 {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-paint-roller" label="Виды отделок" content=(join characteristics.decoration) }}
                 {{> Characteristic class="housingComplex__info-characteristic" icon-class="fa-solid fa-building" label="Количество корпусов" content='-'}}
             </div>
         </div>
-        <div class="housingComplex__info-block">
-            <div class="housingComplex__info-block-header">
-                <span>Квартиры от застройщика</span>
-            </div>
-            <div class="housingComplex__info-apartments">
-                {{#each apartments.items}}
-                    <div class="housingComplex__info-apartment">
-                        <div class="housingComplex__info-apartment-info">
-                            <span class="housingComplex__info-apartment-square">{{rooms}}-комн. от {{minSquare}} м²</span>
-                            <span class="housingComplex__info-apartment-price">от {{lowestPrice}} до {{highestPrice}} ₽</span>
-                        </div>
-                        <div class="housingComplex__info-apartment-offers">
-                            <span>Предложений: {{offers}}</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </div>
-                    </div>
-                {{/each}}
-            </div>
-        </div>
+<!--        <div class="housingComplex__info-block">-->
+<!--            <div class="housingComplex__info-block-header">-->
+<!--                <span>Квартиры от застройщика</span>-->
+<!--            </div>-->
+<!--            <div class="housingComplex__info-apartments">-->
+<!--                {{#each apartments.items}}-->
+<!--                    <div class="housingComplex__info-apartment">-->
+<!--                        <div class="housingComplex__info-apartment-info">-->
+<!--                            <span class="housingComplex__info-apartment-square">{{rooms}}-комн. от {{minSquare}} м²</span>-->
+<!--                            <span class="housingComplex__info-apartment-price">от {{lowestPrice}} до {{highestPrice}} ₽</span>-->
+<!--                        </div>-->
+<!--                        <div class="housingComplex__info-apartment-offers">-->
+<!--                            <span>Предложений: {{offers}}</span>-->
+<!--                            <i class="fa-solid fa-arrow-right"></i>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                {{/each}}-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="housingComplex__info-block">
             <div class="housingComplex__info-block-header">

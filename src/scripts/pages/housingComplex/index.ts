@@ -11,6 +11,7 @@ import housingComplexSliderTemplate from "../../components/housingComplex/housin
 import template from "./template.precompiled.js";
 import {BaseLayout} from "../../layouts/baseLayout.ts";
 import PageManager from "../../managers/pageManager.ts";
+import {offerRenovations} from "../../models/offer.ts";
 
 
 /**
@@ -40,8 +41,12 @@ export default class HousingComplexPage extends Page {
         super.render({root});
         this.getInformation(props.id)
         .then ((data) => {
-            data.address.metro.line_color = '#' + data.address.metro.line_color
             const housingComplexInformation = document.getElementById('housingComplexInformation');
+            let decorations = [];
+            for (let decorationId of data.characteristics.decoration) {
+                decorations.push(offerRenovations[decorationId]);
+            }
+            data.characteristics.decoration = decorations;
             if (housingComplexInformation !== null) {
                 housingComplexInformation.innerHTML = housingComplexInformationTemplate(data);
             }
